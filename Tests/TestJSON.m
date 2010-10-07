@@ -41,16 +41,16 @@
     expected = (i + 1) * 3;
     
     latestServices = [JSON_Helper latestServices:expected];
-    failureMessage = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.", 
-                      [latestServices count], expected];
-    STAssertEquals(expected, [latestServices count], failureMessage);
+    message = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.",
+               [latestServices count], expected];
+    STAssertEquals(expected, [latestServices count], message);
     
   }
   // should return the default number of services per page
   latestServices = [JSON_Helper latestServices:0]; 
-  failureMessage = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.", 
-                    [latestServices count], ServicesPerPage];
-  STAssertEquals(ServicesPerPage, [latestServices count], failureMessage);
+  message = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.",
+             [latestServices count], ServicesPerPage];
+  STAssertEquals(ServicesPerPage, [latestServices count], message);
 }
 
 @end

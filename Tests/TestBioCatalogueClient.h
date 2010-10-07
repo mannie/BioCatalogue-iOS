@@ -14,12 +14,16 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
-//#import "application_headers" as required
+
+#import "BioCatalogueClient.h"
 
 
 @interface TestBioCatalogueClient : SenTestCase {
-
+  NSString *message;
 }
 
+-(void) testBaseURL;
+-(void) testURLForPathWithRepresentation;
+-(void) testPerformSearchWithRepresentation;
 
 @end

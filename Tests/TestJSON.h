@@ -19,8 +19,7 @@
 
 
 @interface TestJSON : SenTestCase {
-  NSString *failureMessage;
-  NSString *successMessage;
+  NSString *message;
 }
 
 -(void) testGETdocumentAtPath;

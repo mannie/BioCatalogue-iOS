@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "JSON+Helper.h"
 #import "AppConstants.h"
 
 
@@ -17,5 +18,7 @@
 
 +(NSURL *) baseURL;
 +(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
+
++(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format;
 
 @end
