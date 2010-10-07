@@ -34,7 +34,7 @@
   }
   
   NSDictionary *document = [JSON_Helper documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i", limit]];
-  return [document objectForKey:@"results"];
+  return [document objectForKey:ResultsKey];
 } // latestServices
 
 @end

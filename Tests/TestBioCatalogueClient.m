@@ -55,11 +55,11 @@
 
   search = [BioCatalogueClient performSearch:@"blast" withRepresentation:JSONFormat];
   STAssertNotNil(search, @"nil JSON document returned for 'blast'");
-  STAssertTrue([[search objectForKey:@"results"] count] > 3, @"Incorrect results count yeiled.");
+  STAssertTrue([[search objectForKey:ResultsKey] count] > 3, @"Incorrect results count yeiled.");
 
   search = [BioCatalogueClient performSearch:@"blast" withRepresentation:XMLFormat];
   STAssertNotNil(search, @"nil XML document returned for 'blast'");
-  STAssertTrue([[search objectForKey:@"results"] count] > 3, @"Incorrect results count yeiled.");
+  STAssertTrue([[search objectForKey:ResultsKey] count] > 3, @"Incorrect results count yeiled.");
 }
 
 @end

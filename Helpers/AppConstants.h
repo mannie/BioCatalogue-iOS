@@ -9,12 +9,24 @@
 #import <Foundation/Foundation.h>
 
 
+extern NSInteger const ServiceNameTag;
+extern NSInteger const ServiceDescriptionTag;
+
+extern NSUInteger const LatestServices;
 extern NSUInteger const ServicesPerPage;
 
 extern NSString *const BioCatalogueHostname;
 
 extern NSString *const JSONFormat;
 extern NSString *const XMLFormat;
+
+extern NSString *const JSONNull;
+
+extern NSString *const ResultsKey;
+extern NSString *const NameKey;
+extern NSString *const DescriptionKey;
+extern NSString *const ResourceKey;
+extern NSString *const SubmitterKey;
 
 
 @interface AppConstants : NSObject {
