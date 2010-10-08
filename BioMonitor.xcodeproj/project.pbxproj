@@ -148,6 +148,7 @@
 		3634453A125E860C006F3295 /* 97-puzzle.png in Resources */ = {isa = PBXBuildFile; fileRef = 363444B8125E860C006F3295 /* 97-puzzle.png */; };
 		3634453B125E860C006F3295 /* 98-palette.png in Resources */ = {isa = PBXBuildFile; fileRef = 363444B9125E860C006F3295 /* 98-palette.png */; };
 		3634453C125E860C006F3295 /* 99-umbrella.png in Resources */ = {isa = PBXBuildFile; fileRef = 363444BA125E860C006F3295 /* 99-umbrella.png */; };
+		3634462D125E9FA6006F3295 /* BioMonitor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3634462C125E9FA6006F3295 /* BioMonitor.tiff */; };
 		36403C09125D51E100025672 /* LatestServicesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */; };
 		36403C0A125D51E100025672 /* LatestServicesViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36403C08125D51E100025672 /* LatestServicesViewController_iPhone.xib */; };
 		36403C9A125D5E0000025672 /* ServiceCell_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36403C99125D5E0000025672 /* ServiceCell_iPhone.xib */; };
@@ -321,6 +322,7 @@
 		363444B8125E860C006F3295 /* 97-puzzle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "97-puzzle.png"; sourceTree = "<group>"; };
 		363444B9125E860C006F3295 /* 98-palette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "98-palette.png"; sourceTree = "<group>"; };
 		363444BA125E860C006F3295 /* 99-umbrella.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "99-umbrella.png"; sourceTree = "<group>"; };
+		3634462C125E9FA6006F3295 /* BioMonitor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = BioMonitor.tiff; sourceTree = "<group>"; };
 		36403C06125D51E100025672 /* LatestServicesViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatestServicesViewController_iPhone.h; sourceTree = "<group>"; };
 		36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatestServicesViewController_iPhone.m; sourceTree = "<group>"; };
 		36403C08125D51E100025672 /* LatestServicesViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LatestServicesViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -409,8 +411,8 @@
 				2819307C112F81BE00ECF9B4 /* BioMonitor.xcdatamodeld */,
 				28EEC0491118E28000187D67 /* AppDelegate_Shared.h */,
 				28EEC04A1118E28000187D67 /* AppDelegate_Shared.m */,
-				36344438125E860C006F3295 /* Icons */,
 				8D1107310486CEB800E47090 /* BioMonitor-Info.plist */,
+				36344438125E860C006F3295 /* Icons */,
 				3698EE76125BB43300BCE301 /* Helpers */,
 				365C6985125BCC420099CE38 /* BioCatalogueClient.h */,
 				365C6986125BCC420099CE38 /* BioCatalogueClient.m */,
@@ -467,6 +469,7 @@
 		36344438125E860C006F3295 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				3634462C125E9FA6006F3295 /* BioMonitor.tiff */,
 				36344439125E860C006F3295 /* 01-refresh.png */,
 				3634443A125E860C006F3295 /* 02-redo.png */,
 				3634443B125E860C006F3295 /* 03-loopback.png */,
@@ -853,6 +856,7 @@
 				3634453A125E860C006F3295 /* 97-puzzle.png in Resources */,
 				3634453B125E860C006F3295 /* 98-palette.png in Resources */,
 				3634453C125E860C006F3295 /* 99-umbrella.png in Resources */,
+				3634462D125E9FA6006F3295 /* BioMonitor.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

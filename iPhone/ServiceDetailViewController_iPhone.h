@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "AppConstants.h"
+#import "JSON+Helper.h"
 
 
 @interface ServiceDetailViewController_iPhone : UIViewController {

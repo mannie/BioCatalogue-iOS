@@ -30,7 +30,9 @@
 
 -(void) updateWithProperties:(NSDictionary *)properties {
   name.text = [properties objectForKey:NameKey];
-  description.text = [NSString stringWithFormat:@"%@", properties];
+  
+  NSDictionary *doc = [JSON_Helper documentAtPath:[[NSURL URLWithString:[properties objectForKey:ResourceKey]] path]];
+  description.text = [NSString stringWithFormat:@"%@\n\n\n%@", properties, doc];
 }
 
 /*
