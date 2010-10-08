@@ -11,7 +11,7 @@
 
 @implementation LatestServicesViewController_iPhone
 
-@synthesize serviceCell;
+@synthesize serviceCell, detailViewController, navigationController;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -20,10 +20,10 @@
   [super viewDidLoad];
   
   latestServices = [[JSON_Helper latestServices:LatestServices] copy];
-  
- // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+
+  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
- }
+}
 
 
 /*
@@ -143,16 +143,20 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  // Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-   // ...
-   // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+  [detailViewController loadView];
+  [detailViewController updateWithProperties:[latestServices objectAtIndex:indexPath.row]];
+  
+  // Pass the selected object to the new view controller.
+  [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
+
+#pragma mark -
+#pragma mark Search bar delegate
+
+-(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+  NSLog(@"%@", [BioCatalogueClient performSearch:searchBar.text withRepresentation:JSONFormat]);
+}
 
 #pragma mark -
 #pragma mark Memory management
@@ -173,6 +177,8 @@
 - (void)dealloc {
   [latestServices dealloc];
   [serviceCell dealloc];
+  
+  [detailViewController release];
   
   [super dealloc];
 }
