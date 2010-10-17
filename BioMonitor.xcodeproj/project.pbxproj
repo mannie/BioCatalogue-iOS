@@ -20,6 +20,19 @@
 		28EEC04B1118E28000187D67 /* AppDelegate_Shared.m in Sources */ = {isa = PBXBuildFile; fileRef = 28EEC04A1118E28000187D67 /* AppDelegate_Shared.m */; };
 		3611BE6A1268E3770076404E /* UserDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */; };
 		3611BE6B1268E3770076404E /* UserDetailViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611BE691268E3770076404E /* UserDetailViewController_iPhone.xib */; };
+		3611C01A126B2DEE0076404E /* ProviderDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */; };
+		3611C01B126B2DEE0076404E /* ProviderDetailViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611C019126B2DEE0076404E /* ProviderDetailViewController_iPhone.xib */; };
+		3611C0B0126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C0AE126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m */; };
+		3611C268126B5CC00076404E /* cross-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C260126B5CC00076404E /* cross-sphere-50.png */; };
+		3611C269126B5CC00076404E /* pling-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C261126B5CC00076404E /* pling-sphere-50.png */; };
+		3611C26A126B5CC00076404E /* query-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C262126B5CC00076404E /* query-sphere-50.png */; };
+		3611C26B126B5CC00076404E /* small-cross-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C263126B5CC00076404E /* small-cross-sphere-50.png */; };
+		3611C26C126B5CC00076404E /* small-pling-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C264126B5CC00076404E /* small-pling-sphere-50.png */; };
+		3611C26D126B5CC00076404E /* small-query-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C265126B5CC00076404E /* small-query-sphere-50.png */; };
+		3611C26E126B5CC00076404E /* small-tick-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C266126B5CC00076404E /* small-tick-sphere-50.png */; };
+		3611C26F126B5CC00076404E /* tick-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C267126B5CC00076404E /* tick-sphere-50.png */; };
+		3611C2B5126B60F00076404E /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C2B4126B60F00076404E /* info.png */; };
+		3611C30E126B6C5C0076404E /* DescriptionViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */; };
 		363444BB125E860C006F3295 /* 01-refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 36344439125E860C006F3295 /* 01-refresh.png */; };
 		363444BC125E860C006F3295 /* 02-redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3634443A125E860C006F3295 /* 02-redo.png */; };
 		363444BD125E860C006F3295 /* 03-loopback.png in Resources */ = {isa = PBXBuildFile; fileRef = 3634443B125E860C006F3295 /* 03-loopback.png */; };
@@ -156,6 +169,7 @@
 		36403C09125D51E100025672 /* LatestServicesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */; };
 		36403C0A125D51E100025672 /* LatestServicesViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36403C08125D51E100025672 /* LatestServicesViewController_iPhone.xib */; };
 		36403C9A125D5E0000025672 /* ServiceCell_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36403C99125D5E0000025672 /* ServiceCell_iPhone.xib */; };
+		36414F5A126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36414F59126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib */; };
 		365C68E7125BC6230099CE38 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */; };
 		365C68E8125BC6230099CE38 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E0125BC6230099CE38 /* NSString+SBJSON.m */; };
 		365C68E9125BC6230099CE38 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E2125BC6230099CE38 /* SBJsonBase.m */; };
@@ -197,6 +211,22 @@
 		3611BE671268E3770076404E /* UserDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailViewController_iPhone.h; sourceTree = "<group>"; };
 		3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailViewController_iPhone.m; sourceTree = "<group>"; };
 		3611BE691268E3770076404E /* UserDetailViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailViewController_iPhone.xib; sourceTree = "<group>"; };
+		3611C017126B2DEE0076404E /* ProviderDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviderDetailViewController_iPhone.h; sourceTree = "<group>"; };
+		3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviderDetailViewController_iPhone.m; sourceTree = "<group>"; };
+		3611C019126B2DEE0076404E /* ProviderDetailViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProviderDetailViewController_iPhone.xib; sourceTree = "<group>"; };
+		3611C0AD126B386A0076404E /* MonitoringStatusTableViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoringStatusTableViewController_iPhone.h; sourceTree = "<group>"; };
+		3611C0AE126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitoringStatusTableViewController_iPhone.m; sourceTree = "<group>"; };
+		3611C260126B5CC00076404E /* cross-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-sphere-50.png"; sourceTree = "<group>"; };
+		3611C261126B5CC00076404E /* pling-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pling-sphere-50.png"; sourceTree = "<group>"; };
+		3611C262126B5CC00076404E /* query-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "query-sphere-50.png"; sourceTree = "<group>"; };
+		3611C263126B5CC00076404E /* small-cross-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-cross-sphere-50.png"; sourceTree = "<group>"; };
+		3611C264126B5CC00076404E /* small-pling-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-pling-sphere-50.png"; sourceTree = "<group>"; };
+		3611C265126B5CC00076404E /* small-query-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-query-sphere-50.png"; sourceTree = "<group>"; };
+		3611C266126B5CC00076404E /* small-tick-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-tick-sphere-50.png"; sourceTree = "<group>"; };
+		3611C267126B5CC00076404E /* tick-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tick-sphere-50.png"; sourceTree = "<group>"; };
+		3611C2B4126B60F00076404E /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
+		3611C30B126B6C5C0076404E /* DescriptionViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionViewController_iPhone.h; sourceTree = "<group>"; };
+		3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionViewController_iPhone.m; sourceTree = "<group>"; };
 		36344439125E860C006F3295 /* 01-refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01-refresh.png"; sourceTree = "<group>"; };
 		3634443A125E860C006F3295 /* 02-redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "02-redo.png"; sourceTree = "<group>"; };
 		3634443B125E860C006F3295 /* 03-loopback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "03-loopback.png"; sourceTree = "<group>"; };
@@ -335,6 +365,7 @@
 		36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatestServicesViewController_iPhone.m; sourceTree = "<group>"; };
 		36403C08125D51E100025672 /* LatestServicesViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LatestServicesViewController_iPhone.xib; sourceTree = "<group>"; };
 		36403C99125D5E0000025672 /* ServiceCell_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServiceCell_iPhone.xib; sourceTree = "<group>"; };
+		36414F59126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DescriptionViewController_iPhone.xib; sourceTree = "<group>"; };
 		365C68DC125BC6230099CE38 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		365C68DD125BC6230099CE38 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -409,6 +440,14 @@
 				3611BE671268E3770076404E /* UserDetailViewController_iPhone.h */,
 				3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */,
 				3611BE691268E3770076404E /* UserDetailViewController_iPhone.xib */,
+				3611C017126B2DEE0076404E /* ProviderDetailViewController_iPhone.h */,
+				3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */,
+				3611C019126B2DEE0076404E /* ProviderDetailViewController_iPhone.xib */,
+				3611C0AD126B386A0076404E /* MonitoringStatusTableViewController_iPhone.h */,
+				3611C0AE126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m */,
+				3611C30B126B6C5C0076404E /* DescriptionViewController_iPhone.h */,
+				3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */,
+				36414F59126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib */,
 			);
 			path = iPhone;
 			sourceTree = "<group>";
@@ -474,9 +513,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3611C22A126B5BB10076404E /* Monitoring */ = {
+			isa = PBXGroup;
+			children = (
+				3611C2B4126B60F00076404E /* info.png */,
+				3611C260126B5CC00076404E /* cross-sphere-50.png */,
+				3611C261126B5CC00076404E /* pling-sphere-50.png */,
+				3611C262126B5CC00076404E /* query-sphere-50.png */,
+				3611C263126B5CC00076404E /* small-cross-sphere-50.png */,
+				3611C264126B5CC00076404E /* small-pling-sphere-50.png */,
+				3611C265126B5CC00076404E /* small-query-sphere-50.png */,
+				3611C266126B5CC00076404E /* small-tick-sphere-50.png */,
+				3611C267126B5CC00076404E /* tick-sphere-50.png */,
+			);
+			name = Monitoring;
+			sourceTree = "<group>";
+		};
 		36344438125E860C006F3295 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				3611C22A126B5BB10076404E /* Monitoring */,
 				3634462C125E9FA6006F3295 /* BioMonitor.tiff */,
 				36344439125E860C006F3295 /* 01-refresh.png */,
 				3634443A125E860C006F3295 /* 02-redo.png */,
@@ -866,6 +922,17 @@
 				3634462D125E9FA6006F3295 /* BioMonitor.tiff in Resources */,
 				3634473D125FCED1006F3295 /* ServiceDetailViewController_iPhone.xib in Resources */,
 				3611BE6B1268E3770076404E /* UserDetailViewController_iPhone.xib in Resources */,
+				3611C01B126B2DEE0076404E /* ProviderDetailViewController_iPhone.xib in Resources */,
+				3611C268126B5CC00076404E /* cross-sphere-50.png in Resources */,
+				3611C269126B5CC00076404E /* pling-sphere-50.png in Resources */,
+				3611C26A126B5CC00076404E /* query-sphere-50.png in Resources */,
+				3611C26B126B5CC00076404E /* small-cross-sphere-50.png in Resources */,
+				3611C26C126B5CC00076404E /* small-pling-sphere-50.png in Resources */,
+				3611C26D126B5CC00076404E /* small-query-sphere-50.png in Resources */,
+				3611C26E126B5CC00076404E /* small-tick-sphere-50.png in Resources */,
+				3611C26F126B5CC00076404E /* tick-sphere-50.png in Resources */,
+				3611C2B5126B60F00076404E /* info.png in Resources */,
+				36414F5A126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,6 +982,9 @@
 				36403C09125D51E100025672 /* LatestServicesViewController_iPhone.m in Sources */,
 				3634473C125FCED1006F3295 /* ServiceDetailViewController_iPhone.m in Sources */,
 				3611BE6A1268E3770076404E /* UserDetailViewController_iPhone.m in Sources */,
+				3611C01A126B2DEE0076404E /* ProviderDetailViewController_iPhone.m in Sources */,
+				3611C0B0126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m in Sources */,
+				3611C30E126B6C5C0076404E /* DescriptionViewController_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

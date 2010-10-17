@@ -1,24 +1,24 @@
 //
-//  UserDetailViewController_iPhone.m
+//  ProviderDetailViewController_iPhone.m
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 15/10/2010.
+//  Created by Mannie Tagarira on 17/10/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "UserDetailViewController_iPhone.h"
+#import "ProviderDetailViewController_iPhone.h"
 
 
-@implementation UserDetailViewController_iPhone
+@implementation ProviderDetailViewController_iPhone
 
 #pragma mark -
 #pragma mark Helpers
 
--(void) updateWithProperties:(NSDictionary *)properties {
+-(void) updateWithProperties:(NSDictionary *)properties {  
   textView.text = [NSString stringWithFormat:@"%@", properties];
   
-  [userProperties release];
-  userProperties = [properties copy];
+  [providerProperties release];
+  providerProperties = [properties copy];
 }
 
 
@@ -35,12 +35,12 @@
 }
 */
 
+/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-  [super viewDidLoad];
-  
-  
+    [super viewDidLoad];
 }
+*/
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -69,7 +69,7 @@
 
 
 - (void)dealloc {
-  [userProperties release];
+  [providerProperties release];
   
   [super dealloc];
 }

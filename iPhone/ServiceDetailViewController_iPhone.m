@@ -11,19 +11,34 @@
 
 @implementation ServiceDetailViewController_iPhone
 
-@synthesize name, userDetailViewController;
+@synthesize userDetailViewController, providerDetailViewController;
+@synthesize monitoringStatusViewController, descriptionViewController;
 
+
+#pragma mark -
+#pragma mark Helpers
 
 -(void) updateWithProperties:(NSDictionary *)properties {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
+  // capture all the instances that need to be released
+  // tableView:cellForRowAtIndexPath: needs the ...Properties dictionaries
+  // this section is made to avoid the callback making calls to a released var
+  NSDictionary *serviceListingPropertiesToRelease = serviceListingProperties;
+  NSDictionary *servicePropertiesToRelease = serviceProperties;
+  NSDictionary *submitterPropertiesToRelease = submitterProperties;
+  
+  // fetch the latest properties
   self.view.userInteractionEnabled = NO;
   
   serviceListingProperties = [properties copy];
 
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
-//  serviceMonitoringProperties = [JSON_Helper documentAtPath:[[resourceURL path] stringByAppendingPathComponent:@"monitoring"]];
+
+  NSString *lastChecked = [NSString stringWithFormat:@"%@", 
+                           [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
+  monitoringStatusInformationAvailable = ![lastChecked isEqualToString:JSONNull];
 
   NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
   submitterProperties = [[[JSON_Helper helper] documentAtPath:[submitterURL path]] copy];
@@ -33,6 +48,11 @@
   [[self tableView] reloadData];
   self.view.userInteractionEnabled = YES;
   
+  // now release the var
+  [serviceListingPropertiesToRelease release];
+  [servicePropertiesToRelease release];
+  [submitterPropertiesToRelease release];
+  
   [autoreleasePool drain];
 } // updateWithProperties
 
@@ -40,10 +60,12 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-
 - (void)viewDidLoad {
- [super viewDidLoad];
- 
+  [super viewDidLoad];
+  
+  monitoringStatusInformationAvailable = NO;
+  descriptionAvailable = NO;
+  
  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -83,14 +105,14 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   // Return the number of sections.
-  return 3;
+  return 4;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   // Return the number of rows in the section.
   if (section == 2) {
-    return 3;
+    return 2;
   } else {
     return 1;
   }
@@ -104,7 +126,7 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
@@ -112,40 +134,55 @@
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   
   if (indexPath.section == 0) {
-    cell.textLabel.text = @"About";
+    cell.imageView.image = [UIImage imageNamed:@"info"];
+    cell.detailTextLabel.text = @"Description";
+
     value = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
-    if ([value isEqualToString:JSONNull]) {
-      cell.detailTextLabel.text = @"No description";
-      cell.accessoryType = UITableViewCellAccessoryNone;
+    descriptionAvailable = ![value isEqualToString:JSONNull];
+    
+    if (descriptionAvailable) {
+      cell.textLabel.text = value;
     } else {
-      cell.detailTextLabel.text = value;
+      cell.textLabel.text = @"No description";
+      cell.accessoryType = UITableViewCellAccessoryNone;
     }
   } else if (indexPath.section == 1) {
-    cell.textLabel.text = @"Monitoring";
-    cell.detailTextLabel.text = [[serviceListingProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLabelElement];
-  } else {
+    id monitoringElement = [serviceListingProperties objectForKey:JSONLatestMonitoringStatusElement];
+    id image = [NSURL URLWithString:[monitoringElement objectForKey:JSONSmallSymbolElement]];
+    cell.imageView.image = [UIImage imageNamed:[[image lastPathComponent] stringByDeletingPathExtension]];
+    
+    cell.detailTextLabel.text = @"Monitoring";
+    cell.textLabel.text = [monitoringElement objectForKey:JSONLabelElement];
+
+    if (!monitoringStatusInformationAvailable) {
+      cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+  } else if (indexPath.section == 2) {
     if (indexPath.row == 0) {
-      cell.textLabel.text = @"Provider";
+      cell.imageView.image = [UIImage imageNamed:@"112-group"];
+      cell.detailTextLabel.text = @"Service Provider";
       
       id provider = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject]
                       objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-      cell.detailTextLabel.text = provider;
-    } else if (indexPath.row == 1) {
-      cell.textLabel.text = @"Submitter";
-      cell.detailTextLabel.text = [submitterProperties objectForKey:JSONNameElement];
+      cell.textLabel.text = provider;
     } else {
-      cell.textLabel.text = @"Location";
+      cell.imageView.image = [UIImage imageNamed:@"59-flag"];
+      cell.detailTextLabel.text = @"Location";
       id country = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
                      objectForKey:JSONLocationElement] objectForKey:JSONCountryElement];
-
+      
       if ([[NSString stringWithFormat:@"%@", country] isEqualToString:JSONNull]) {
-        cell.detailTextLabel.text = @"Unknown";
+        cell.textLabel.text = @"Unknown";
       } else {
-        cell.detailTextLabel.text = country;
+        cell.textLabel.text = country;
       }
-
+      
       cell.accessoryType = UITableViewCellAccessoryNone;
     }
+  } else {
+    cell.imageView.image = [UIImage imageNamed:@"111-user"];
+    cell.detailTextLabel.text = @"Submitter";
+    cell.textLabel.text = [submitterProperties objectForKey:JSONNameElement];
   }
     
   return cell;
@@ -198,19 +235,48 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 0) {
     // descriptions
+    if (descriptionAvailable) {
+      [descriptionViewController loadView];
+      id description = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
+      descriptionViewController.descriptionTextView.text = description;
+      [self.navigationController pushViewController:descriptionViewController animated:YES];
+    } else {
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
+      descriptionViewController.descriptionTextView.text = @"";
+    }
   } else if (indexPath.section == 1) {
-    // monitoring
-  } else {
+    // monitoring statuses
+    if (monitoringStatusInformationAvailable) {
+      NSURL *serviceURL = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
+      NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
+      
+      NSThread *downloadThread = [[NSThread alloc] initWithTarget:monitoringStatusViewController 
+                                                         selector:@selector(fetchMonitoringStatusInfo:) 
+                                                           object:path];
+      [downloadThread start];
+      [downloadThread release];
+
+      [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
+    } else {
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
+  } else if (indexPath.section == 2) {
     if (indexPath.row == 0) {
-      // provider
-    } else if (indexPath.row == 1) {
-      // submitting user
-      [userDetailViewController loadView];
-      [userDetailViewController updateWithProperties:submitterProperties];
-      [self.navigationController pushViewController:userDetailViewController animated:YES];
+      // service provider
+      id properties = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] objectForKey:JSONProviderElement];
+      
+      [providerDetailViewController loadView];
+      [providerDetailViewController updateWithProperties:properties];
+      [self.navigationController pushViewController:providerDetailViewController animated:YES];
     } else {
       // location
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+  } else {
+    // submitting user
+    [userDetailViewController loadView];
+    [userDetailViewController updateWithProperties:submitterProperties];
+    [self.navigationController pushViewController:userDetailViewController animated:YES];    
   }
 }
 
@@ -230,15 +296,15 @@
   // For example: self.myOutlet = nil;
 }
 
-
-- (void)dealloc {
+- (void)dealloc {  
   [userDetailViewController release];
+  [providerDetailViewController release];
   
-  [name release];
+  [monitoringStatusViewController release];
+  [descriptionViewController release];
   
   [serviceListingProperties release];
   [serviceProperties release];
-  [serviceMonitoringProperties release];
   [submitterProperties release];
   
   [super dealloc];

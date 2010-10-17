@@ -86,7 +86,7 @@
     [[NSBundle mainBundle] loadNibNamed:@"ServiceCell_iPhone" owner:self options:nil];
     cell = serviceCell;
  */
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
@@ -97,8 +97,8 @@
     service = [searchResults objectAtIndex:indexPath.row];
   }
 
-  cell.textLabel.text = [[service objectForKey:JSONTechnologyTypesElement] lastObject];
-  cell.detailTextLabel.text = [service objectForKey:JSONNameElement];
+  cell.textLabel.text = [service objectForKey:JSONNameElement];
+  cell.detailTextLabel.text = [[service objectForKey:JSONTechnologyTypesElement] lastObject];
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
 /*
@@ -113,7 +113,10 @@
     descriptionLabel.text = [service objectForKey:JSONDescription];
   }
 */
-  
+  NSURL *imageURL = [NSURL URLWithString:
+                     [[service objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
+  cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];
+
   return cell;
 }
 
