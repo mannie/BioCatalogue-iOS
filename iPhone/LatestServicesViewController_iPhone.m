@@ -21,9 +21,9 @@
   
   [latestServices release];
   latestServices = [[[JSON_Helper helper] latestServices:LatestServices] copy];
-
+  
   // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
- // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 
@@ -82,10 +82,6 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-/*
-    [[NSBundle mainBundle] loadNibNamed:@"ServiceCell_iPhone" owner:self options:nil];
-    cell = serviceCell;
- */
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
   }
   
@@ -96,27 +92,15 @@
   } else {
     service = [searchResults objectAtIndex:indexPath.row];
   }
-
+  
   cell.textLabel.text = [service objectForKey:JSONNameElement];
   cell.detailTextLabel.text = [[service objectForKey:JSONTechnologyTypesElement] lastObject];
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-
-/*
-  UILabel *nameLabel = (UILabel *)[cell viewWithTag:ServiceNameTag];
-  nameLabel.text = [service objectForKey:JSONName];
   
-  UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:ServiceDescriptionTag];
-  NSString *description = [NSString stringWithFormat:@"%@", [service objectForKey:JSONDescription]];
-  if ([description isEqualToString:JSONNull]) {
-    descriptionLabel.text = @"-";
-  } else {
-    descriptionLabel.text = [service objectForKey:JSONDescription];
-  }
-*/
   NSURL *imageURL = [NSURL URLWithString:
                      [[service objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
   cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];
-
+  
   return cell;
 }
 
@@ -192,7 +176,7 @@
   NSDictionary *results = [[BioCatalogueClient client] performSearch:searchBar.text
                                                            withScope:ServicesSearchScope
                                                   withRepresentation:JSONFormat];
-
+  
   [searchResults release];
   if (results) {
     searchResults = [[results objectForKey:JSONResultsElement] copy];
