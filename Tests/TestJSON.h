@@ -20,6 +20,7 @@
 
 @interface TestJSON : SenTestCase {
   NSString *message;
+  JSON_Helper *jsonHelper;
 }
 
 -(void) testGETdocumentAtPath;

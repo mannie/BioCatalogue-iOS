@@ -8,18 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-#import "JSON+Helper.h"
 #import "AppConstants.h"
+#import "JSON+Helper.h"
 
 
 @interface BioCatalogueClient : NSObject {
-  
 }
 
-+(NSURL *) baseURL;
-+(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
++(BioCatalogueClient *)client;
 
-+(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format;
-+(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format;
+-(NSURL *) baseURL;
+-(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
+
+-(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format;
+-(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format;
 
 @end

@@ -11,11 +11,17 @@
 
 @implementation JSON_Helper
 
-+(NSDictionary *) documentAtPath:(NSString *)path {
++(JSON_Helper *) helper {
+  return [[[JSON_Helper alloc] init] autorelease];
+}
+
+#pragma mark -
+#pragma mark Helpers
+
+-(NSDictionary *) documentAtPath:(NSString *)path {
   NSError *error;
   
-  NSURL *url = [BioCatalogueClient URLForPath:path withRepresentation:JSONFormat];
-
+  NSURL *url = [[BioCatalogueClient client] URLForPath:path withRepresentation:JSONFormat];
   NSString *jsonResponse = [NSString stringWithContentsOfURL:url
                                                     encoding:NSUTF8StringEncoding
                                                        error:&error];
@@ -28,13 +34,21 @@
   }  
 } // documentAtPath
 
-+(NSArray *) latestServices:(NSUInteger)limit {
+-(NSArray *) latestServices:(NSUInteger)limit {
   if (limit <= 0) {
     limit = ServicesPerPage;
   }
   
-  NSDictionary *document = [JSON_Helper documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i", limit]];
-  return [document objectForKey:ResultsKey];
+  NSDictionary *document = [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i", limit]];
+  return [document objectForKey:JSONResultsElement];
 } // latestServices
+
+
+#pragma mark -
+#pragma mark NSURLConnection delegate
+
+-(void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+  NSLog(@"%@ - %@", connection, response);
+}
 
 @end

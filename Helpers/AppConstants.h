@@ -22,11 +22,31 @@ extern NSString *const XMLFormat;
 
 extern NSString *const JSONNull;
 
-extern NSString *const ResultsKey;
-extern NSString *const NameKey;
-extern NSString *const DescriptionKey;
-extern NSString *const ResourceKey;
-extern NSString *const SubmitterKey;
+extern NSString *const JSONResultsElement;
+extern NSString *const JSONNameElement;
+extern NSString *const JSONDescriptionElement;
+extern NSString *const JSONResourceElement;
+extern NSString *const JSONSubmitterElement;
+extern NSString *const JSONLatestMonitoringStatusElement;
+extern NSString *const JSONLabelElement;
+extern NSString *const JSONTechnologyTypesElement;
+extern NSString *const JSONDeploymentsElement;
+extern NSString *const JSONProviderElement;
+extern NSString *const JSONLocationElement;
+extern NSString *const JSONCityElement;
+extern NSString *const JSONCountryElement;
+extern NSString *const JSONCountryCodeElement;
+extern NSString *const JSONFlagElement;
+
+extern NSString *const UsersSearchScope;
+extern NSString *const ServicesSearchScope;
+extern NSString *const ProvidersSearchScope;
+
+extern NSString *const RESTService;
+extern NSString *const SOAPService;
+
+
+/* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
 
 
 @interface AppConstants : NSObject {

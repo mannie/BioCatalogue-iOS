@@ -11,6 +11,10 @@
 
 @implementation TestJSON
 
+-(void) setUp {
+  jsonHelper = [[JSON_Helper alloc] init];
+}
+
 -(void) testGETdocumentAtPath {  
   // ***** non empty documents *****
   NSDictionary *document;
@@ -21,14 +25,14 @@
                     @"rest_methods/90/annotations", nil];
   
   for (id path in paths) {
-    document = [JSON_Helper documentAtPath:path];
+    document = [jsonHelper documentAtPath:path];
     STAssertNotNil(document, [NSString stringWithFormat:@"Document at path '%@' should NOT be nil", path]);
   }
   
   // ***** empty documents *****
   paths = [NSArray arrayWithObjects:@"//", @"/rest_methodss/60", @"rest_methods?page=0", nil];
   for (id path in paths) {
-    document = [JSON_Helper documentAtPath:path];
+    document = [jsonHelper documentAtPath:path];
     STAssertNil(document, [NSString stringWithFormat:@"Document at path '%@' SHOULD be nil", path]);
   }
 }
@@ -40,17 +44,22 @@
   for (int i = 0; i < 5; i++) {
     expected = (i + 1) * 3;
     
-    latestServices = [JSON_Helper latestServices:expected];
+    latestServices = [jsonHelper latestServices:expected];
     message = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.",
                [latestServices count], expected];
     STAssertEquals(expected, [latestServices count], message);
     
   }
   // should return the default number of services per page
-  latestServices = [JSON_Helper latestServices:0]; 
+  latestServices = [jsonHelper latestServices:0]; 
   message = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.",
              [latestServices count], ServicesPerPage];
   STAssertEquals(ServicesPerPage, [latestServices count], message);
 }
 
+-(void) tearDown {
+  [jsonHelper release];
+}
+
 @end
+

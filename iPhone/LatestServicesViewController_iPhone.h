@@ -11,14 +11,17 @@
 #import "JSON+Helper.h"
 #import "ServiceDetailViewController_iPhone.h"
 
-@interface LatestServicesViewController_iPhone : UITableViewController <UISearchBarDelegate> {
+@interface LatestServicesViewController_iPhone : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate> {
   NSArray *latestServices;
-
+  NSArray *searchResults;
+  
   UITableViewCell *serviceCell;
   
   ServiceDetailViewController_iPhone *detailViewController;
 
   UINavigationController *navigationController;
+  
+  NSThread *updateDetailViewControllerThread;
 }
 
 @property (nonatomic, retain) IBOutlet UITableViewCell *serviceCell;

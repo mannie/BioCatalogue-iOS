@@ -20,10 +20,12 @@
 
 @interface TestBioCatalogueClient : SenTestCase {
   NSString *message;
+  BioCatalogueClient *client;
 }
 
 -(void) testBaseURL;
 -(void) testURLForPathWithRepresentation;
 -(void) testPerformSearchWithRepresentation;
+-(void) testPerformSearchWithScopeAndRepresentation;
 
 @end

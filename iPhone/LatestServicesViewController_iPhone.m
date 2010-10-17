@@ -19,7 +19,8 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  latestServices = [[JSON_Helper latestServices:LatestServices] copy];
+  [latestServices release];
+  latestServices = [[[JSON_Helper helper] latestServices:LatestServices] copy];
 
   // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -66,7 +67,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   // Return the number of rows in the section.
-  return [latestServices count];
+  if (tableView == self.tableView) {
+    return [latestServices count];
+  } else {
+    return [searchResults count];
+  }
 }
 
 
@@ -77,23 +82,37 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
+/*
     [[NSBundle mainBundle] loadNibNamed:@"ServiceCell_iPhone" owner:self options:nil];
     cell = serviceCell;
+ */
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue2 reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
-  id service = [latestServices objectAtIndex:indexPath.row];
-  
+  id service;
+  if (tableView == self.tableView) {
+    service = [latestServices objectAtIndex:indexPath.row];  
+  } else {
+    service = [searchResults objectAtIndex:indexPath.row];
+  }
+
+  cell.textLabel.text = [[service objectForKey:JSONTechnologyTypesElement] lastObject];
+  cell.detailTextLabel.text = [service objectForKey:JSONNameElement];
+  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+/*
   UILabel *nameLabel = (UILabel *)[cell viewWithTag:ServiceNameTag];
-  nameLabel.text = [service objectForKey:NameKey];
+  nameLabel.text = [service objectForKey:JSONName];
   
   UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:ServiceDescriptionTag];
-  NSString *description = [NSString stringWithFormat:@"%@", [service objectForKey:DescriptionKey]];
+  NSString *description = [NSString stringWithFormat:@"%@", [service objectForKey:JSONDescription]];
   if ([description isEqualToString:JSONNull]) {
     descriptionLabel.text = @"-";
   } else {
-    descriptionLabel.text = [service objectForKey:DescriptionKey];
+    descriptionLabel.text = [service objectForKey:JSONDescription];
   }
+*/
   
   return cell;
 }
@@ -144,7 +163,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [detailViewController loadView];
-  [detailViewController updateWithProperties:[latestServices objectAtIndex:indexPath.row]];
+  
+  id updateProperties;
+  if (tableView == self.tableView) {
+    updateProperties = [latestServices objectAtIndex:indexPath.row];
+  } else {
+    updateProperties = [searchResults objectAtIndex:indexPath.row];
+  }
+  
+  updateDetailViewControllerThread = [[NSThread alloc] initWithTarget:detailViewController
+                                                             selector:@selector(updateWithProperties:)
+                                                               object:updateProperties];
+  [updateDetailViewControllerThread start];
+  [updateDetailViewControllerThread release];
   
   // Pass the selected object to the new view controller.
   [self.navigationController pushViewController:detailViewController animated:YES];
@@ -155,8 +186,18 @@
 #pragma mark Search bar delegate
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-  NSLog(@"%@", [BioCatalogueClient performSearch:searchBar.text withRepresentation:JSONFormat]);
+  NSDictionary *results = [[BioCatalogueClient client] performSearch:searchBar.text
+                                                           withScope:ServicesSearchScope
+                                                  withRepresentation:JSONFormat];
+
+  [searchResults release];
+  if (results) {
+    searchResults = [[results objectForKey:JSONResultsElement] copy];
+  } else {
+    searchResults = [NSArray array];
+  }
 }
+
 
 #pragma mark -
 #pragma mark Memory management
@@ -175,10 +216,13 @@
 
 
 - (void)dealloc {
-  [latestServices dealloc];
-  [serviceCell dealloc];
+  [searchResults release];
+  [latestServices release];
+  [serviceCell release];
   
   [detailViewController release];
+  
+  [updateDetailViewControllerThread release];
   
   [super dealloc];
 }

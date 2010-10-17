@@ -11,12 +11,43 @@
 
 @implementation BioCatalogueClient
 
-+(NSURL *) baseURL {
++(BioCatalogueClient *) client {
+  return [[[BioCatalogueClient alloc] init] autorelease];
+}
+
+
+#pragma mark -
+#pragma mark Private Helpers
+
+-(BOOL) validateQuery:(NSString *)query {
+  NSString *deURLizedQuery = [query stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+  deURLizedQuery = [deURLizedQuery stringByReplacingOccurrencesOfString:@" " withString:@""];
+  
+  if ([deURLizedQuery length] == 0) {
+    return NO;
+  }
+  
+  if ([[deURLizedQuery componentsSeparatedByCharactersInSet:[NSCharacterSet punctuationCharacterSet]] count] > 1) {
+    return NO;
+  }
+  
+  if ([[deURLizedQuery componentsSeparatedByCharactersInSet:[NSCharacterSet symbolCharacterSet]] count] > 1) {
+    return NO;
+  }
+  
+  return YES;
+}
+
+
+#pragma mark -
+#pragma mark Public Helpers
+
+-(NSURL *) baseURL {
   return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", BioCatalogueHostname]];
 } // baseURL
 
-+(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format {
-  NSURL *url = [NSURL URLWithString:path relativeToURL:[BioCatalogueClient baseURL]];
+-(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format {
+  NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
   
   NSString *sanitizedPath = [[url path] lowercaseString];
   sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:@".json" withString:@""];
@@ -30,33 +61,35 @@
     sanitizedPath = [NSString stringWithFormat:@"%@.%@", sanitizedPath, format];
   }
 
-  return [NSURL URLWithString:sanitizedPath relativeToURL:[BioCatalogueClient baseURL]];
+  return [NSURL URLWithString:sanitizedPath relativeToURL:[self baseURL]];
 } // URLForPath:withRepresentation
 
-+(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format {
-  if (!query || !format) {
+-(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format {  
+  if (!query || !format || ![self validateQuery:query]) {
     return nil;
   }
-  
-  NSString *deURLizedQuery = [query stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-  deURLizedQuery = [deURLizedQuery stringByReplacingOccurrencesOfString:@" " withString:@""];
-  if ([deURLizedQuery length] == 0) {
-    return nil;
-  }
-  
-  if ([[deURLizedQuery componentsSeparatedByCharactersInSet:[NSCharacterSet punctuationCharacterSet]] count] > 1) {
-    return nil;
-  }
-  
-  if ([[deURLizedQuery componentsSeparatedByCharactersInSet:[NSCharacterSet symbolCharacterSet]] count] > 1) {
-    return nil;
-  }
-  
+    
   if ([format isEqualToString:JSONFormat]) {
-    return [JSON_Helper documentAtPath:[NSString stringWithFormat:@"/search?q=%@", query]];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/search?q=%@", query]];
   } else {
     return nil;
   }
 } // performSearch:withRepresentation
+
+-(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format {
+  if (!query || !format || ![self validateQuery:query]) {
+    return nil;
+  }
+  
+  if ([scope isEqualToString:ServicesSearchScope]) {
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services?q=%@", query]];
+  } else if ([scope isEqualToString:UsersSearchScope]) {
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/users?q=%@", query]];
+  } else if ([scope isEqualToString:ProvidersSearchScope]) {
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/service_providers?q=%@", query]];
+  } else {
+    return [self performSearch:query withRepresentation:format];
+  }
+} // performSearch:withScope:withRepresentation
 
 @end

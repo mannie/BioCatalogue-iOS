@@ -22,11 +22,32 @@ NSString *const XMLFormat = @"xml";
 
 NSString *const JSONNull = @"<null>";
 
-NSString *const ResultsKey = @"results";
-NSString *const NameKey = @"name";
-NSString *const DescriptionKey = @"description";
-NSString *const ResourceKey = @"resource";
-NSString *const SubmitterKey = @"submitter";
+NSString *const JSONResultsElement = @"results";
+NSString *const JSONNameElement = @"name";
+NSString *const JSONDescriptionElement = @"description";
+NSString *const JSONResourceElement = @"resource";
+NSString *const JSONSubmitterElement = @"submitter";
+NSString *const JSONLatestMonitoringStatusElement = @"latest_monitoring_status";
+NSString *const JSONLabelElement = @"label";
+NSString *const JSONTechnologyTypesElement = @"service_technology_types";
+NSString *const JSONDeploymentsElement = @"deployments";
+NSString *const JSONProviderElement = @"provider";
+NSString *const JSONLocationElement = @"location";
+NSString *const JSONCityElement = @"city";
+NSString *const JSONCountryElement = @"country";
+NSString *const JSONCountryCodeElement = @"country_code";
+NSString *const JSONFlagElement = @"flag";
+
+NSString *const UsersSearchScope = @"users";
+NSString *const ServicesSearchScope = @"services";
+NSString *const ProvidersSearchScope = @"providers";
+
+NSString *const RESTService = @"REST";
+NSString *const SOAPService = @"SOAP";
+
+
+/* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
+
 
 @implementation AppConstants
 

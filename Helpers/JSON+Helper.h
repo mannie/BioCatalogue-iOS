@@ -10,16 +10,17 @@
 
 #import "JSON.h"
 
-#import "BioCatalogueClient.h"
 #import "AppConstants.h"
+#import "BioCatalogueClient.h"
 
 
 @interface JSON_Helper : NSObject {
-
 }
 
-+(NSDictionary *) documentAtPath:(NSString *)path;
++(JSON_Helper *) helper;
 
-+(NSArray *) latestServices:(NSUInteger)limit;
+-(NSDictionary *) documentAtPath:(NSString *)path;
+
+-(NSArray *) latestServices:(NSUInteger)limit;
 
 @end
