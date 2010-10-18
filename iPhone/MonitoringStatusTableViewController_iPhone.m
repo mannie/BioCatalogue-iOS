@@ -101,7 +101,7 @@
   }
   
   // Configure the cell...
-  id status = [[[monitoringStatuses objectAtIndex:indexPath.row] objectForKey:JSONServiceTestElement] objectForKey:JSONStatusElement];
+  id status = [[monitoringStatuses objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
   
   NSString *date = [[status objectForKey:JSONLastCheckedElement] stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
   cell.textLabel.text = [NSString stringWithFormat:@"%@ on %@", [status objectForKey:JSONLabelElement], date];

@@ -9,15 +9,26 @@
 #import "AppConstants.h"
 
 
-NSInteger const ServiceNameTag = 1;
-NSInteger const ServiceDescriptionTag = 2;
+#pragma mark -
+#pragma mark BioCatalogueClient
 
 NSUInteger const LatestServices = 10;
 NSUInteger const ServicesPerPage = 10;
 
+NSString *const UsersSearchScope = @"users";
+NSString *const ServicesSearchScope = @"services";
+NSString *const ProvidersSearchScope = @"providers";
+
+NSString *const RESTService = @"REST";
+NSString *const SOAPService = @"SOAP";
+
 NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"test.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"www.biocatalogue.org";
+
+
+#pragma mark -
+#pragma mark JSON Elements
 
 NSString *const JSONFormat = @"json";
 NSString *const XMLFormat = @"xml";
@@ -42,16 +53,18 @@ NSString *const JSONCountryCodeElement = @"country_code";
 NSString *const JSONFlagElement = @"flag";
 NSString *const JSONLastCheckedElement = @"last_checked";
 NSString *const JSONServiceTestsElement = @"service_tests";
-NSString *const JSONServiceTestElement = @"service_test";
 NSString *const JSONSmallSymbolElement = @"small_symbol";
 NSString *const JSONSymbolElement = @"symbol";
 
-NSString *const UsersSearchScope = @"users";
-NSString *const ServicesSearchScope = @"services";
-NSString *const ProvidersSearchScope = @"providers";
 
-NSString *const RESTService = @"REST";
-NSString *const SOAPService = @"SOAP";
+#pragma mark -
+#pragma mark Icon Names
+
+NSString *const DescriptionIcon = @"info";
+
+NSString *const ProviderIcon = @"112-group";
+NSString *const UserIcon = @"111-user";
+
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */

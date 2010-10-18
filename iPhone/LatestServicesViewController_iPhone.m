@@ -35,6 +35,7 @@
   [[self tableView] reloadData];
 }
 
+
 #pragma mark -
 #pragma mark View lifecycle
 
@@ -51,7 +52,7 @@
   currentPageLabel.text = [NSString stringWithFormat:@"%i", currentPage];
   
   previousPageButton.hidden = currentPage == 1;
-  nextPageBarButton.hidden = [services count] == 0;
+  nextPageBarButton.hidden = [services count] < ServicesPerPage;
   
   // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
   // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -98,11 +99,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   // Return the number of rows in the section.
-  if (tableView == self.tableView) {
-    return [services count];
-  } else {
-    return [searchResults count];
-  }
+  return [services count];
 }
 
 
@@ -117,12 +114,7 @@
   }
   
   // Configure the cell...
-  id service;
-  if (tableView == self.tableView) {
-    service = [services objectAtIndex:indexPath.row];  
-  } else {
-    service = [searchResults objectAtIndex:indexPath.row];
-  }
+  id service = [services objectAtIndex:indexPath.row];
   
   cell.textLabel.text = [service objectForKey:JSONNameElement];
   cell.detailTextLabel.text = [[service objectForKey:JSONTechnologyTypesElement] lastObject];
@@ -182,38 +174,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [detailViewController loadView];
   
-  id updateProperties;
-  if (tableView == self.tableView) {
-    updateProperties = [services objectAtIndex:indexPath.row];
-  } else {
-    updateProperties = [searchResults objectAtIndex:indexPath.row];
-  }
-  
-  updateDetailViewControllerThread = [[NSThread alloc] initWithTarget:detailViewController
-                                                             selector:@selector(updateWithProperties:)
-                                                               object:updateProperties];
-  [updateDetailViewControllerThread start];
-  [updateDetailViewControllerThread release];
+  NSThread *updateThread = [[NSThread alloc] initWithTarget:detailViewController
+                                                   selector:@selector(updateWithProperties:)
+                                                     object:[services objectAtIndex:indexPath.row]];
+  [updateThread start];
+  [updateThread release];
   
   // Pass the selected object to the new view controller.
   [self.navigationController pushViewController:detailViewController animated:YES];
-}
-
-
-#pragma mark -
-#pragma mark Search bar delegate
-
--(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-  NSDictionary *results = [[BioCatalogueClient client] performSearch:searchBar.text
-                                                           withScope:ServicesSearchScope
-                                                  withRepresentation:JSONFormat];
-  
-  [searchResults release];
-  if (results) {
-    searchResults = [[results objectForKey:JSONResultsElement] copy];
-  } else {
-    searchResults = [NSArray array];
-  }
 }
 
 
@@ -234,14 +202,10 @@
 
 
 - (void)dealloc {
-  [searchResults release];
   [services release];
-  [serviceCell release];
   
   [detailViewController release];
-  
-  [updateDetailViewControllerThread release];
-  
+    
   [super dealloc];
 }
 

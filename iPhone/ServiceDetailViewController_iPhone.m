@@ -16,6 +16,16 @@
 
 
 #pragma mark -
+#pragma mark Class Specific Helper Constants
+
+NSInteger DescriptionSection = 0;
+NSInteger MonitoringStatusSection = 1;
+NSInteger ComponentsSection = 2;
+NSInteger ProviderSection = 2;
+NSInteger SubmitterSection = 3;
+
+
+#pragma mark -
 #pragma mark Helpers
 
 -(void) updateWithProperties:(NSDictionary *)properties {
@@ -65,7 +75,7 @@
   
   monitoringStatusInformationAvailable = NO;
   descriptionAvailable = NO;
-  
+    
  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -109,9 +119,9 @@
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {  
   // Return the number of rows in the section.
-  if (section == 2) {
+  if (section == ProviderSection) {
     return 2;
   } else {
     return 1;
@@ -133,8 +143,8 @@
   NSString *value;
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   
-  if (indexPath.section == 0) {
-    cell.imageView.image = [UIImage imageNamed:@"info"];
+  if (indexPath.section == DescriptionSection) {
+    cell.imageView.image = [UIImage imageNamed:DescriptionIcon];
     cell.detailTextLabel.text = @"Description";
 
     value = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
@@ -146,7 +156,7 @@
       cell.textLabel.text = @"No description";
       cell.accessoryType = UITableViewCellAccessoryNone;
     }
-  } else if (indexPath.section == 1) {
+  } else if (indexPath.section == MonitoringStatusSection) {
     id monitoringElement = [serviceListingProperties objectForKey:JSONLatestMonitoringStatusElement];
     id image = [NSURL URLWithString:[monitoringElement objectForKey:JSONSmallSymbolElement]];
     cell.imageView.image = [UIImage imageNamed:[[image lastPathComponent] stringByDeletingPathExtension]];
@@ -157,9 +167,9 @@
     if (!monitoringStatusInformationAvailable) {
       cell.accessoryType = UITableViewCellAccessoryNone;
     }
-  } else if (indexPath.section == 2) {
+  } else if (indexPath.section == ProviderSection) {
     if (indexPath.row == 0) {
-      cell.imageView.image = [UIImage imageNamed:@"112-group"];
+      cell.imageView.image = [UIImage imageNamed:ProviderIcon];
       cell.detailTextLabel.text = @"Service Provider";
       
       id provider = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject]
@@ -180,7 +190,7 @@
       cell.accessoryType = UITableViewCellAccessoryNone;
     }
   } else {
-    cell.imageView.image = [UIImage imageNamed:@"111-user"];
+    cell.imageView.image = [UIImage imageNamed:UserIcon];
     cell.detailTextLabel.text = @"Submitter";
     cell.textLabel.text = [submitterProperties objectForKey:JSONNameElement];
   }
@@ -233,7 +243,7 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section == 0) {
+  if (indexPath.section == DescriptionSection) {
     // descriptions
     if (descriptionAvailable) {
       [descriptionViewController loadView];
@@ -244,7 +254,7 @@
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
       descriptionViewController.descriptionTextView.text = @"";
     }
-  } else if (indexPath.section == 1) {
+  } else if (indexPath.section == MonitoringStatusSection) {
     // monitoring statuses
     if (monitoringStatusInformationAvailable) {
       NSURL *serviceURL = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
@@ -260,7 +270,7 @@
     } else {
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
-  } else if (indexPath.section == 2) {
+  } else if (indexPath.section == ProviderSection) {
     if (indexPath.row == 0) {
       // service provider
       id properties = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] objectForKey:JSONProviderElement];

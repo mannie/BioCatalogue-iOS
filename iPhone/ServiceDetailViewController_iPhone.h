@@ -18,7 +18,7 @@
 
 @interface ServiceDetailViewController_iPhone : UITableViewController {
   IBOutlet UILabel *name;
-
+  
   NSDictionary *serviceListingProperties;
   NSDictionary *serviceProperties;
   NSDictionary *submitterProperties;

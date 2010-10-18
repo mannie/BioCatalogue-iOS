@@ -26,6 +26,6 @@
 -(void) testBaseURL;
 -(void) testURLForPathWithRepresentation;
 -(void) testPerformSearchWithRepresentation;
--(void) testPerformSearchWithScopeAndRepresentation;
+-(void) testPerformSearchWithScopeAndRepresentationPage;
 
 @end

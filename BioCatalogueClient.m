@@ -76,17 +76,21 @@
   }
 } // performSearch:withRepresentation
 
--(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format {
+-(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format page:(NSUInteger)pageNum {
   if (!query || !format || ![self validateQuery:query]) {
     return nil;
   }
   
+  if (pageNum < 1) {
+    pageNum = 1;
+  }
+  
   if ([scope isEqualToString:ServicesSearchScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services?q=%@", query]];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services?q=%@&page=%i", query, pageNum]];
   } else if ([scope isEqualToString:UsersSearchScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/users?q=%@", query]];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/users?q=%@&page=%i", query, pageNum]];
   } else if ([scope isEqualToString:ProvidersSearchScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/service_providers?q=%@", query]];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/service_providers?q=%@&page=%i", query, pageNum]];
   } else {
     return [self performSearch:query withRepresentation:format];
   }

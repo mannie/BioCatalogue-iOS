@@ -11,11 +11,8 @@
 #import "JSON+Helper.h"
 #import "ServiceDetailViewController_iPhone.h"
 
-@interface LatestServicesViewController_iPhone : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate> {
-  NSUInteger currentPage;
-  
+@interface LatestServicesViewController_iPhone : UITableViewController {  
   NSArray *services;
-  NSArray *searchResults;
   
   UITableViewCell *serviceCell;
   
@@ -23,11 +20,11 @@
 
   UINavigationController *navigationController;
 
+  NSUInteger currentPage;
+
   IBOutlet UIButton *previousPageButton;
   IBOutlet UIButton *nextPageBarButton;
   IBOutlet UILabel *currentPageLabel;
-  
-  NSThread *updateDetailViewControllerThread;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *detailViewController;

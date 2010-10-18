@@ -169,6 +169,8 @@
 		36403C09125D51E100025672 /* LatestServicesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */; };
 		36403C0A125D51E100025672 /* LatestServicesViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36403C08125D51E100025672 /* LatestServicesViewController_iPhone.xib */; };
 		36414F5A126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36414F59126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib */; };
+		364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */; };
+		364150F5126CE66700DD9394 /* SearchViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 364150F3126CE66700DD9394 /* SearchViewController_iPhone.xib */; };
 		365C68E7125BC6230099CE38 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */; };
 		365C68E8125BC6230099CE38 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E0125BC6230099CE38 /* NSString+SBJSON.m */; };
 		365C68E9125BC6230099CE38 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E2125BC6230099CE38 /* SBJsonBase.m */; };
@@ -364,6 +366,9 @@
 		36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatestServicesViewController_iPhone.m; sourceTree = "<group>"; };
 		36403C08125D51E100025672 /* LatestServicesViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LatestServicesViewController_iPhone.xib; sourceTree = "<group>"; };
 		36414F59126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DescriptionViewController_iPhone.xib; sourceTree = "<group>"; };
+		364150F1126CE66700DD9394 /* SearchViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController_iPhone.h; sourceTree = "<group>"; };
+		364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPhone.m; sourceTree = "<group>"; };
+		364150F3126CE66700DD9394 /* SearchViewController_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchViewController_iPhone.xib; sourceTree = "<group>"; };
 		365C68DC125BC6230099CE38 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		365C68DD125BC6230099CE38 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -445,6 +450,9 @@
 				3611C30B126B6C5C0076404E /* DescriptionViewController_iPhone.h */,
 				3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */,
 				36414F59126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib */,
+				364150F1126CE66700DD9394 /* SearchViewController_iPhone.h */,
+				364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */,
+				364150F3126CE66700DD9394 /* SearchViewController_iPhone.xib */,
 			);
 			path = iPhone;
 			sourceTree = "<group>";
@@ -929,6 +937,7 @@
 				3611C26F126B5CC00076404E /* tick-sphere-50.png in Resources */,
 				3611C2B5126B60F00076404E /* info.png in Resources */,
 				36414F5A126B7D0B00DD9394 /* DescriptionViewController_iPhone.xib in Resources */,
+				364150F5126CE66700DD9394 /* SearchViewController_iPhone.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -981,6 +990,7 @@
 				3611C01A126B2DEE0076404E /* ProviderDetailViewController_iPhone.m in Sources */,
 				3611C0B0126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m in Sources */,
 				3611C30E126B6C5C0076404E /* DescriptionViewController_iPhone.m in Sources */,
+				364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

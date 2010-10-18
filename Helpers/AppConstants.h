@@ -9,13 +9,24 @@
 #import <Foundation/Foundation.h>
 
 
-extern NSInteger const ServiceNameTag;
-extern NSInteger const ServiceDescriptionTag;
+#pragma mark -
+#pragma mark BioCatalogueClient
 
 extern NSUInteger const LatestServices;
 extern NSUInteger const ServicesPerPage;
 
+extern NSString *const UsersSearchScope;
+extern NSString *const ServicesSearchScope;
+extern NSString *const ProvidersSearchScope;
+
+extern NSString *const RESTService;
+extern NSString *const SOAPService;
+
 extern NSString *const BioCatalogueHostname;
+
+
+#pragma mark -
+#pragma mark JSON Elements
 
 extern NSString *const JSONFormat;
 extern NSString *const XMLFormat;
@@ -40,16 +51,18 @@ extern NSString *const JSONCountryCodeElement;
 extern NSString *const JSONFlagElement;
 extern NSString *const JSONLastCheckedElement;
 extern NSString *const JSONServiceTestsElement;
-extern NSString *const JSONServiceTestElement;
 extern NSString *const JSONSmallSymbolElement;
 extern NSString *const JSONSymbolElement;
 
-extern NSString *const UsersSearchScope;
-extern NSString *const ServicesSearchScope;
-extern NSString *const ProvidersSearchScope;
 
-extern NSString *const RESTService;
-extern NSString *const SOAPService;
+#pragma mark -
+#pragma mark Icon Names
+
+extern NSString *const DescriptionIcon;
+
+extern NSString *const ProviderIcon;
+extern NSString *const UserIcon;
+
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
