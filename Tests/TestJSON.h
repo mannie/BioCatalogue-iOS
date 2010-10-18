@@ -25,5 +25,6 @@
 
 -(void) testGETdocumentAtPath;
 -(void) testGETLatestServices;
+-(void) testGETServicesAtPage;
 
 @end

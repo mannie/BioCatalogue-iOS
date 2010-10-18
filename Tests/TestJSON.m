@@ -50,11 +50,37 @@
     STAssertEquals(expected, [latestServices count], message);
     
   }
+
   // should return the default number of services per page
   latestServices = [jsonHelper latestServices:0]; 
   message = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.",
              [latestServices count], ServicesPerPage];
   STAssertEquals(ServicesPerPage, [latestServices count], message);
+}
+
+-(void) testGETServicesAtPage {
+  NSUInteger limit = 5;
+  
+  NSArray *latestServices = [jsonHelper latestServices:limit];
+  NSString *latestServicesAsString = [NSString stringWithFormat:@"%@", latestServices];
+  
+  NSArray *services = [jsonHelper services:limit page:0];
+  STAssertNotNil(services, @"Services list cannot be nil when page=0");
+  STAssertTrue([services count] == limit, [NSString stringWithFormat:@"Found %i", [services count]]);
+  NSString *servicesAsString = [NSString stringWithFormat:@"%@", services];
+  STAssertTrue([servicesAsString isEqualToString:latestServicesAsString], @"Should yeild the same document.");
+  
+  services = [jsonHelper services:limit page:0];
+  STAssertNotNil(services, @"Services list cannot be nil when page=1");
+  STAssertTrue([services count] == limit, [NSString stringWithFormat:@"Found %i", [services count]]);
+  servicesAsString = [NSString stringWithFormat:@"%@", services];
+  STAssertTrue([servicesAsString isEqualToString:latestServicesAsString], @"Should yeild the same document.");
+  
+  services = [jsonHelper services:limit page:limit];
+  STAssertNotNil(services, @"Services list cannot be nil when page>0");
+  STAssertTrue([services count] == limit, [NSString stringWithFormat:@"Found %i", [services count]]);
+  servicesAsString = [NSString stringWithFormat:@"%@", services];
+  STAssertFalse([servicesAsString isEqualToString:latestServicesAsString], @"Should yeild different documents.");
 }
 
 -(void) tearDown {

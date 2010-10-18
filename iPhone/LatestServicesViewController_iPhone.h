@@ -12,7 +12,9 @@
 #import "ServiceDetailViewController_iPhone.h"
 
 @interface LatestServicesViewController_iPhone : UITableViewController <UISearchBarDelegate, UISearchDisplayDelegate> {
-  NSArray *latestServices;
+  NSUInteger currentPage;
+  
+  NSArray *services;
   NSArray *searchResults;
   
   UITableViewCell *serviceCell;
@@ -20,13 +22,18 @@
   ServiceDetailViewController_iPhone *detailViewController;
 
   UINavigationController *navigationController;
+
+  IBOutlet UIButton *previousPageButton;
+  IBOutlet UIButton *nextPageBarButton;
+  IBOutlet UILabel *currentPageLabel;
   
   NSThread *updateDetailViewControllerThread;
 }
 
-@property (nonatomic, retain) IBOutlet UITableViewCell *serviceCell;
-
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *detailViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+
+-(IBAction) loadServicesOnNextPage:(id)sender;
+-(IBAction) loadServicesOnPreviousPage:(id)sender;
 
 @end

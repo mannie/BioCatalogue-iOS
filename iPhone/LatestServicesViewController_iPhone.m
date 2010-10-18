@@ -11,7 +11,29 @@
 
 @implementation LatestServicesViewController_iPhone
 
-@synthesize serviceCell, detailViewController, navigationController;
+@synthesize detailViewController, navigationController;
+
+
+#pragma mark -
+#pragma mark IBActions
+
+-(IBAction) loadServicesOnNextPage:(id)sender {
+  if ([services count] > 0) {
+    currentPage++;
+  }
+  
+  [self viewDidLoad];
+  [[self tableView] reloadData];
+}
+
+-(IBAction) loadServicesOnPreviousPage:(id)sender {
+  if (currentPage > 1) {
+    currentPage--;
+  }
+
+  [self viewDidLoad];
+  [[self tableView] reloadData];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -19,8 +41,17 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  [latestServices release];
-  latestServices = [[[JSON_Helper helper] latestServices:LatestServices] copy];
+  [services release];
+  
+  if (currentPage < 1) {
+    currentPage = 1;
+  }
+  
+  services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
+  currentPageLabel.text = [NSString stringWithFormat:@"%i", currentPage];
+  
+  previousPageButton.hidden = currentPage == 1;
+  nextPageBarButton.hidden = [services count] == 0;
   
   // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
   // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -68,7 +99,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   // Return the number of rows in the section.
   if (tableView == self.tableView) {
-    return [latestServices count];
+    return [services count];
   } else {
     return [searchResults count];
   }
@@ -88,7 +119,7 @@
   // Configure the cell...
   id service;
   if (tableView == self.tableView) {
-    service = [latestServices objectAtIndex:indexPath.row];  
+    service = [services objectAtIndex:indexPath.row];  
   } else {
     service = [searchResults objectAtIndex:indexPath.row];
   }
@@ -153,7 +184,7 @@
   
   id updateProperties;
   if (tableView == self.tableView) {
-    updateProperties = [latestServices objectAtIndex:indexPath.row];
+    updateProperties = [services objectAtIndex:indexPath.row];
   } else {
     updateProperties = [searchResults objectAtIndex:indexPath.row];
   }
@@ -204,7 +235,7 @@
 
 - (void)dealloc {
   [searchResults release];
-  [latestServices release];
+  [services release];
   [serviceCell release];
   
   [detailViewController release];

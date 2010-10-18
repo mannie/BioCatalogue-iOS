@@ -35,13 +35,21 @@
 } // documentAtPath
 
 -(NSArray *) latestServices:(NSUInteger)limit {
+  return [self services:limit page:1];
+} // latestServices
+
+-(NSArray *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
+  if (pageNum < 1) {
+    pageNum = 1;
+  }
+
   if (limit <= 0) {
     limit = ServicesPerPage;
   }
   
-  NSDictionary *document = [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i", limit]];
+  NSDictionary *document = [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
   return [document objectForKey:JSONResultsElement];
-} // latestServices
+}
 
 
 #pragma mark -

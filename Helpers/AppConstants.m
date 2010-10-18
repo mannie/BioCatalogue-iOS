@@ -16,6 +16,8 @@ NSUInteger const LatestServices = 10;
 NSUInteger const ServicesPerPage = 10;
 
 NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
+//NSString *const BioCatalogueHostname = @"test.biocatalogue.org";
+//NSString *const BioCatalogueHostname = @"www.biocatalogue.org";
 
 NSString *const JSONFormat = @"json";
 NSString *const XMLFormat = @"xml";

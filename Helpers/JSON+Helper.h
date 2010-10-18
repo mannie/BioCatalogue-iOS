@@ -22,5 +22,6 @@
 -(NSDictionary *) documentAtPath:(NSString *)path;
 
 -(NSArray *) latestServices:(NSUInteger)limit;
+-(NSArray *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 
 @end
