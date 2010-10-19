@@ -33,6 +33,8 @@
   IBOutlet UILabel *currentPageLabel;
   
   IBOutlet UISearchBar *mySearchBar;
+  
+  BOOL performingSearch;
 }
 
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;

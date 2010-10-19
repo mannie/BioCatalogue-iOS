@@ -27,6 +27,11 @@ NSInteger ProvidersScopeIndex = 2;
 #pragma mark Helpers
 
 -(void) performSearch {
+  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+  
+  performingSearch = YES;
+  [[self tableView] reloadData];
+  
   NSDictionary *results = [[BioCatalogueClient client] performSearch:mySearchBar.text
                                                            withScope:searchScope
                                                   withRepresentation:JSONFormat
@@ -42,7 +47,10 @@ NSInteger ProvidersScopeIndex = 2;
   nextPageBarButton.hidden = [searchResults count] < ServicesPerPage;
   currentPageLabel.hidden = [searchResults count] < ServicesPerPage && currentPage == 1;
 
+  performingSearch = NO;
   [[self tableView] reloadData];
+  
+  [autoreleasePool drain];
 }
 
 
@@ -53,14 +61,14 @@ NSInteger ProvidersScopeIndex = 2;
   if ([searchResults count] > 0) {
     currentPage++;
   }
-  [self performSearch];
+  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
 }
 
 -(IBAction) loadServicesOnPreviousPage:(id)sender {
   if (currentPage > 1) {
     currentPage--;
   }
-  [self performSearch];
+  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
 }
 
 
@@ -116,10 +124,10 @@ NSInteger ProvidersScopeIndex = 2;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   // Return the number of rows in the section.
-  if ([searchResults count] > 0) {
-    return [searchResults count];
-  } else {
+  if (performingSearch || [searchResults count] == 0) {
     return 1;
+  } else {
+    return [searchResults count];
   }
 }
 
@@ -135,8 +143,13 @@ NSInteger ProvidersScopeIndex = 2;
   }
   
   // Configure the cell...
-  if ([searchResults count] == 0) {
-    cell.textLabel.text = @"No Results";
+  if (performingSearch || [searchResults count] == 0) {
+    if (performingSearch) {
+      cell.textLabel.text = @"Searching, Please Wait...";
+    } else {
+      cell.textLabel.text = @"No Results";
+    }
+    
     cell.detailTextLabel.text = nil;
     cell.imageView.image = nil;
     
@@ -213,7 +226,7 @@ NSInteger ProvidersScopeIndex = 2;
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if ([searchResults count] == 0) {
+  if (performingSearch || [searchResults count] == 0) {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     return;
   }
@@ -273,7 +286,7 @@ NSInteger ProvidersScopeIndex = 2;
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
-  [self performSearch];
+  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
   [searchBar resignFirstResponder];
 }
 
