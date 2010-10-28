@@ -32,20 +32,24 @@ NSInteger ProvidersScopeIndex = 2;
   performingSearch = YES;
   [[self tableView] reloadData];
   
-  NSDictionary *results = [[BioCatalogueClient client] performSearch:mySearchBar.text
-                                                           withScope:searchScope
-                                                  withRepresentation:JSONFormat
-                                                                page:currentPage];
+  [searchResultsDocument release];
+  searchResultsDocument = [[[BioCatalogueClient client] performSearch:mySearchBar.text 
+                                                            withScope:searchScope
+                                                   withRepresentation:JSONFormat
+                                                                 page:currentPage] copy];
 
   [searchResults release];
-  searchResults = [[results objectForKey:JSONResultsElement] copy];
+  searchResults = [[searchResultsDocument objectForKey:JSONResultsElement] copy];
+
   searchResultsScope = searchScope;
-
-  currentPageLabel.text = [NSString stringWithFormat:@"%i", currentPage];
-
+  
+  int servicesOnLastPage = [[searchResultsDocument objectForKey:JSONTotalElement] intValue] % ServicesPerPage;
+  int lastPage = [[searchResultsDocument objectForKey:JSONPagesElement] intValue];
+  currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
+  
   previousPageButton.hidden = currentPage == 1;
-  nextPageBarButton.hidden = [searchResults count] < ServicesPerPage;
-  currentPageLabel.hidden = [searchResults count] < ServicesPerPage && currentPage == 1;
+  nextPageBarButton.hidden = servicesOnLastPage < ServicesPerPage && currentPage == lastPage;
+  currentPageLabel.hidden = lastPage == 1;
 
   performingSearch = NO;
   [[self tableView] reloadData];
@@ -333,7 +337,9 @@ NSInteger ProvidersScopeIndex = 2;
   [userDetailViewController release];
   [providerDetailViewController release];
   
+  [searchResultsDocument release];
   [searchResults release];
+  
   [super dealloc];
 }
 

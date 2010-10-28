@@ -58,6 +58,8 @@ NSString *const JSONSymbolElement = @"symbol";
 NSString *const JSONTestTypeElement = @"test_type";
 NSString *const JSONURLMonitorElement = @"url_monitor";
 NSString *const JSONURLElement = @"url";
+NSString *const JSONTotalElement = @"total";
+NSString *const JSONPagesElement = @"pages";
 
 
 

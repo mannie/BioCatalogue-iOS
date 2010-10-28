@@ -56,6 +56,8 @@ extern NSString *const JSONSymbolElement;
 extern NSString *const JSONTestTypeElement;
 extern NSString *const JSONURLMonitorElement;
 extern NSString *const JSONURLElement;
+extern NSString *const JSONTotalElement;
+extern NSString *const JSONPagesElement;
 
 
 

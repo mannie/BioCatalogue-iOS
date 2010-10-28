@@ -18,6 +18,7 @@
 @interface SearchViewController_iPhone : UITableViewController <UISearchBarDelegate> {
   UINavigationController *navigationController;
   
+  NSDictionary *searchResultsDocument;
   NSArray *searchResults;
   NSString *searchScope;
   NSString *searchResultsScope;
