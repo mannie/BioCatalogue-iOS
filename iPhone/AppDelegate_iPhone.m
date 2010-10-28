@@ -15,9 +15,6 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-  
-  // Override point for customization after application launch.
-  
   [window addSubview:tabBarController.view];
   [window makeKeyAndVisible];
   
@@ -78,7 +75,6 @@
 
 
 - (void)dealloc {
-	
 	[super dealloc];
 }
 
