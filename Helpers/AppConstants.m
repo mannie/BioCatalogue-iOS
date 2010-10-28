@@ -55,6 +55,10 @@ NSString *const JSONLastCheckedElement = @"last_checked";
 NSString *const JSONServiceTestsElement = @"service_tests";
 NSString *const JSONSmallSymbolElement = @"small_symbol";
 NSString *const JSONSymbolElement = @"symbol";
+NSString *const JSONTestTypeElement = @"test_type";
+NSString *const JSONURLMonitorElement = @"url_monitor";
+NSString *const JSONURLElement = @"url";
+
 
 
 #pragma mark -

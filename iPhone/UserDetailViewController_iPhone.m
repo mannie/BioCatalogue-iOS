@@ -15,6 +15,7 @@
 #pragma mark Helpers
 
 -(void) updateWithProperties:(NSDictionary *)properties {
+  name.text = [properties objectForKey:JSONNameElement];
   textView.text = [NSString stringWithFormat:@"%@", properties];
   
   [userProperties release];
@@ -38,8 +39,6 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  
 }
 
 /*

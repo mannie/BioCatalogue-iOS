@@ -53,6 +53,10 @@ extern NSString *const JSONLastCheckedElement;
 extern NSString *const JSONServiceTestsElement;
 extern NSString *const JSONSmallSymbolElement;
 extern NSString *const JSONSymbolElement;
+extern NSString *const JSONTestTypeElement;
+extern NSString *const JSONURLMonitorElement;
+extern NSString *const JSONURLElement;
+
 
 
 #pragma mark -

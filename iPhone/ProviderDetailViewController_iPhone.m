@@ -12,13 +12,24 @@
 @implementation ProviderDetailViewController_iPhone
 
 #pragma mark -
-#pragma mark Helpers
+#pragma mark Helpers and IBActions
 
 -(void) updateWithProperties:(NSDictionary *)properties {  
-  textView.text = [NSString stringWithFormat:@"%@", properties];
+  name.text = [properties objectForKey:JSONNameElement];
   
+  NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
+  if (![description isEqualToString:JSONNull]) {
+    descriptionTextView.text = description;
+  } else {
+    descriptionTextView.text = @"(no description available)";
+  }
+
   [providerProperties release];
   providerProperties = [properties copy];
+}
+
+-(void) showServices:(id)sender {
+  
 }
 
 
@@ -35,12 +46,12 @@
 }
 */
 
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
+  
+  [self makeShowServicesButtonVisible:YES];
 }
-*/
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -49,6 +60,14 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 */
+
+-(void) makeShowServicesButtonVisible:(BOOL)visible {
+  if (visible) {
+    self.navigationItem.rightBarButtonItem = servicesButton;
+  } else {
+    self.navigationItem.rightBarButtonItem = nil;
+  }
+}
 
 
 #pragma mark -

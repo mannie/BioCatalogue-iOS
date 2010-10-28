@@ -155,14 +155,18 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  // Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-   // ...
-   // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+  id status = [monitoringStatuses objectAtIndex:indexPath.row];
+  
+  NSString *message = [NSString stringWithFormat:@"A URL monitoring test was performed on the endpoint: \n\n %@", 
+                       [[[status objectForKey:JSONTestTypeElement] objectForKey:JSONURLMonitorElement] objectForKey:JSONURLElement]];
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
+                                                  message:message
+                                                 delegate:self 
+                                        cancelButtonTitle:@"OK" 
+                                        otherButtonTitles:nil];
+  [alert show];
+  [alert release];
+  
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

@@ -188,6 +188,7 @@ NSInteger SubmitterSection = 3;
       }
       
       cell.accessoryType = UITableViewCellAccessoryNone;
+      cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
   } else {
     cell.imageView.image = [UIImage imageNamed:UserIcon];
@@ -251,6 +252,14 @@ NSInteger SubmitterSection = 3;
       descriptionViewController.descriptionTextView.text = description;
       [self.navigationController pushViewController:descriptionViewController animated:YES];
     } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Description" 
+                                                      message:@"No description is available for this service." 
+                                                     delegate:self
+                                            cancelButtonTitle:@"OK" 
+                                            otherButtonTitles:nil];
+      [alert show];
+      [alert release];
+      
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
       descriptionViewController.descriptionTextView.text = @"";
     }
@@ -268,6 +277,14 @@ NSInteger SubmitterSection = 3;
 
       [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
     } else {
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
+                                                      message:@"No monitoring information is available for this service." 
+                                                     delegate:self
+                                            cancelButtonTitle:@"OK" 
+                                            otherButtonTitles:nil];
+      [alert show];
+      [alert release];
+
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
   } else if (indexPath.section == ProviderSection) {
@@ -277,6 +294,7 @@ NSInteger SubmitterSection = 3;
       
       [providerDetailViewController loadView];
       [providerDetailViewController updateWithProperties:properties];
+      [providerDetailViewController makeShowServicesButtonVisible:NO];
       [self.navigationController pushViewController:providerDetailViewController animated:YES];
     } else {
       // location

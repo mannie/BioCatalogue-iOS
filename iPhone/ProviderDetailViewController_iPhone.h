@@ -8,13 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AppConstants.h"
+
 
 @interface ProviderDetailViewController_iPhone : UIViewController {
-  IBOutlet UITextView *textView;
-  
+  IBOutlet UILabel *name;
+  IBOutlet UITextView *descriptionTextView;
+
+  IBOutlet UIBarButtonItem *servicesButton;
+
   NSDictionary *providerProperties;
 }
 
 -(void) updateWithProperties:(NSDictionary *)properties;
+
+-(IBAction) showServices:(id)sender;
+
+-(void) makeShowServicesButtonVisible:(BOOL)visible;
 
 @end

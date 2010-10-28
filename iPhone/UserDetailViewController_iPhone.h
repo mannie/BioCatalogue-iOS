@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "AppConstants.h"
+
 
 @interface UserDetailViewController_iPhone : UIViewController {
+  IBOutlet UILabel *name;
   IBOutlet UITextView *textView;
-  
+    
   NSDictionary *userProperties;
 }
 

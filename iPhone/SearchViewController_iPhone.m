@@ -148,6 +148,7 @@ NSInteger ProvidersScopeIndex = 2;
       cell.textLabel.text = @"Searching, Please Wait...";
     } else {
       cell.textLabel.text = @"No Results";
+      cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     cell.detailTextLabel.text = nil;
@@ -253,6 +254,8 @@ NSInteger ProvidersScopeIndex = 2;
     [detailViewController updateWithProperties:[searchResults objectAtIndex:indexPath.row]];
   }
   
+  [providerDetailViewController makeShowServicesButtonVisible:YES];
+  
   [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -286,7 +289,10 @@ NSInteger ProvidersScopeIndex = 2;
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
-  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
+//  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
+  [self performSelectorOnMainThread:@selector(performSearch) withObject:nil waitUntilDone:NO];
+
+  
   [searchBar resignFirstResponder];
 }
 
