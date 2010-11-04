@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="43"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -73,6 +74,7 @@
 							<string key="NSResourceName">11-clock.png</string>
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<reference key="IBUITabBar"/>
 					</object>
 					<reference key="IBUIToolbarItems" ref="0"/>
 					<reference key="IBUIParentViewController" ref="815705717"/>
@@ -93,6 +95,7 @@
 								<string key="NSResourceName">06-magnifying-glass.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="815705717"/>
 						<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
@@ -335,7 +338,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>{{329, 88}, {1024, 768}}</string>
+					<string>{{102, 88}, {1024, 768}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>

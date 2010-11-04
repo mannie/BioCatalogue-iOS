@@ -293,9 +293,8 @@ NSInteger ProvidersScopeIndex = 2;
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
-//  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-  [self performSelectorOnMainThread:@selector(performSearch) withObject:nil waitUntilDone:NO];
-
+  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
+//  [self performSelectorOnMainThread:@selector(performSearch) withObject:nil waitUntilDone:NO];
   
   [searchBar resignFirstResponder];
 }

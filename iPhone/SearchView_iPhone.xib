@@ -197,7 +197,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			</object>
 			<object class="IBUIViewController" id="577150531">
 				<string key="IBUITitle">Provider Info</string>
-				<string key="IBUINibName">ProviderDetailViewController_iPhone</string>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="interfaceOrientation">1</int>
@@ -207,7 +206,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			</object>
 			<object class="IBUITableViewController" id="416119028">
 				<string key="IBUITitle">Service Info</string>
-				<string key="IBUINibName">ServiceDetailViewController_iPhone</string>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="interfaceOrientation">1</int>
@@ -217,7 +215,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			</object>
 			<object class="IBUIViewController" id="823200915">
 				<string key="IBUITitle">User Info</string>
-				<string key="IBUINibName">UserDetailViewController_iPhone</string>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 					<int key="interfaceOrientation">1</int>
