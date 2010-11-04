@@ -11,7 +11,7 @@
 
 @implementation AppDelegate_Shared
 
-@synthesize window, tabBarController;
+@synthesize window;
 
 
 #pragma mark -
@@ -159,7 +159,6 @@
   [managedObjectModel_ release];
   [persistentStoreCoordinator_ release];
   
-  [tabBarController release];
   [window release];
   
   [super dealloc];

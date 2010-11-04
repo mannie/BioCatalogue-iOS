@@ -171,6 +171,9 @@
 		36414F5A126B7D0B00DD9394 /* DescriptionView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36414F59126B7D0B00DD9394 /* DescriptionView_iPhone.xib */; };
 		364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */; };
 		364150F5126CE66700DD9394 /* SearchView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 364150F3126CE66700DD9394 /* SearchView_iPhone.xib */; };
+		3641566F12823D1400DD9394 /* LatestServicesViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 3641566E12823D1400DD9394 /* LatestServicesViewController_iPad.m */; };
+		3641567712823D6A00DD9394 /* ServiceDetailViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 3641567512823D6A00DD9394 /* ServiceDetailViewController_iPad.m */; };
+		3641567812823D6A00DD9394 /* ServiceDetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3641567612823D6A00DD9394 /* ServiceDetailView_iPad.xib */; };
 		365C68E7125BC6230099CE38 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */; };
 		365C68E8125BC6230099CE38 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E0125BC6230099CE38 /* NSString+SBJSON.m */; };
 		365C68E9125BC6230099CE38 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E2125BC6230099CE38 /* SBJsonBase.m */; };
@@ -369,6 +372,11 @@
 		364150F1126CE66700DD9394 /* SearchViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController_iPhone.h; sourceTree = "<group>"; };
 		364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPhone.m; sourceTree = "<group>"; };
 		364150F3126CE66700DD9394 /* SearchView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView_iPhone.xib; sourceTree = "<group>"; };
+		3641566D12823D1400DD9394 /* LatestServicesViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LatestServicesViewController_iPad.h; path = iPad/LatestServicesViewController_iPad.h; sourceTree = "<group>"; };
+		3641566E12823D1400DD9394 /* LatestServicesViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LatestServicesViewController_iPad.m; path = iPad/LatestServicesViewController_iPad.m; sourceTree = "<group>"; };
+		3641567412823D6A00DD9394 /* ServiceDetailViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceDetailViewController_iPad.h; path = iPad/ServiceDetailViewController_iPad.h; sourceTree = "<group>"; };
+		3641567512823D6A00DD9394 /* ServiceDetailViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceDetailViewController_iPad.m; path = iPad/ServiceDetailViewController_iPad.m; sourceTree = "<group>"; };
+		3641567612823D6A00DD9394 /* ServiceDetailView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ServiceDetailView_iPad.xib; path = iPad/ServiceDetailView_iPad.xib; sourceTree = "<group>"; };
 		365C68DC125BC6230099CE38 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		365C68DD125BC6230099CE38 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -503,6 +511,11 @@
 				1D3623240D0F684500981E51 /* AppDelegate_iPad.h */,
 				1D3623250D0F684500981E51 /* AppDelegate_iPad.m */,
 				28AD733E0D9D9553002E5188 /* MainWindow_iPad.xib */,
+				3641566D12823D1400DD9394 /* LatestServicesViewController_iPad.h */,
+				3641566E12823D1400DD9394 /* LatestServicesViewController_iPad.m */,
+				3641567412823D6A00DD9394 /* ServiceDetailViewController_iPad.h */,
+				3641567512823D6A00DD9394 /* ServiceDetailViewController_iPad.m */,
+				3641567612823D6A00DD9394 /* ServiceDetailView_iPad.xib */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -938,6 +951,7 @@
 				3611C2B5126B60F00076404E /* info.png in Resources */,
 				36414F5A126B7D0B00DD9394 /* DescriptionView_iPhone.xib in Resources */,
 				364150F5126CE66700DD9394 /* SearchView_iPhone.xib in Resources */,
+				3641567812823D6A00DD9394 /* ServiceDetailView_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -991,6 +1005,8 @@
 				3611C0B0126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m in Sources */,
 				3611C30E126B6C5C0076404E /* DescriptionViewController_iPhone.m in Sources */,
 				364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */,
+				3641566F12823D1400DD9394 /* LatestServicesViewController_iPad.m in Sources */,
+				3641567712823D6A00DD9394 /* ServiceDetailViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

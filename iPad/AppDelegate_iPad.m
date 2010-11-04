@@ -10,12 +10,14 @@
 
 @implementation AppDelegate_iPad
 
+@synthesize splitViewController;
+
 
 #pragma mark -
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-  [window addSubview:tabBarController.view];  
+  [window addSubview:splitViewController.view];
   [window makeKeyAndVisible];
   
   return YES;
@@ -57,6 +59,8 @@
 
 
 - (void)dealloc {
+  [splitViewController release];
+  
 	[super dealloc];
 }
 

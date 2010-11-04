@@ -10,8 +10,10 @@
 #import "AppDelegate_Shared.h"
 
 @interface AppDelegate_iPad : AppDelegate_Shared {
+  UISplitViewController *splitViewController;
 }
 
+@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 
 @end
 

@@ -10,6 +10,8 @@
 
 @implementation AppDelegate_iPhone
 
+@synthesize tabBarController;
+
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -75,6 +77,8 @@
 
 
 - (void)dealloc {
+  [tabBarController release];
+
 	[super dealloc];
 }
 
