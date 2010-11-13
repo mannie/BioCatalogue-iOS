@@ -26,10 +26,21 @@
   if (currentPage < 1) {
     currentPage = 1;
   }
+    
+  if (lastPage < 1) {
+    NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
+    services = [[servicesDocument objectForKey:JSONResultsElement] copy];
+    lastPage = [[servicesDocument objectForKey:JSONPagesElement] intValue];
+  
+    currentPageLabel.hidden = NO;
+} else {
+    services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
+  }
   
   services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
-  currentPageLabel.text = [NSString stringWithFormat:@"Page %i", currentPage];
+  currentPageLabel.text = [NSString stringWithFormat:@"Page %i of %i", currentPage, lastPage];
   
+  initializing = NO;
   [[self tableView] reloadData];
   
   [autoreleasePool drain];
@@ -63,6 +74,13 @@
   self.clearsSelectionOnViewWillAppear = NO;
   self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
 
+  initializing = YES;
+  
+  currentPageLabel.text = @"Loading, Please Wait...";
+  
+  currentPage = 0;
+  lastPage = 0;
+  
   [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 
   // Uncomment the following line to preserve selection between presentations.
@@ -104,7 +122,11 @@
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 3;
+  if (initializing) {
+    return 0;
+  } else {
+    return 3;
+  }
 }
 
 
@@ -143,21 +165,21 @@
     if (indexPath.section == PreviousPageButtonSection) {
       if (currentPage == 1) {
         cell.textLabel.text = nil;
-        cell.detailTextLabel.text = @"Previous Page...";
+        cell.detailTextLabel.text = @"Show Previous Page...";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
       } else {
         cell.detailTextLabel.text = nil;
-        cell.textLabel.text = @"Previous Page...";
+        cell.textLabel.text = @"Show Previous Page...";
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
       }
     } else {
-      if ([services count] < ServicesPerPage) { // FIXME: what if last page count == ServicesPerPage
+      if (currentPage == lastPage) {
         cell.textLabel.text = nil;
-        cell.detailTextLabel.text = @"Next Page...";
+        cell.detailTextLabel.text = @"Show Next Page...";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
       } else {
         cell.detailTextLabel.text = nil;
-        cell.textLabel.text = @"Next Page...";
+        cell.textLabel.text = @"Show Next Page...";
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
       }
     } // if else previous page button
@@ -218,7 +240,7 @@
       [self loadServicesOnPreviousPage:self];
     } 
     
-    if (indexPath.section == NextPageButtonSection && [services count] == ServicesPerPage) { // FIXME
+    if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
       [self loadServicesOnNextPage:self];
     }
     

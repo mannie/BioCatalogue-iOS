@@ -34,7 +34,6 @@
   }        
 }
 
-
 - (void)configureView {
   // Update the user interface for the detail item.
   detailDescriptionLabel.text = [detailItem description];   
@@ -47,10 +46,12 @@
 - (void)splitViewController: (UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController: (UIPopoverController*)pc {
   
   barButtonItem.title = @"Main Menu";
+  
   NSMutableArray *items = [[toolbar items] mutableCopy];
   [items insertObject:barButtonItem atIndex:0];
   [toolbar setItems:items animated:YES];
   [items release];
+  
   self.popoverController = pc;
 }
 
@@ -62,6 +63,7 @@
   [items removeObjectAtIndex:0];
   [toolbar setItems:items animated:YES];
   [items release];
+  
   self.popoverController = nil;
 }
 

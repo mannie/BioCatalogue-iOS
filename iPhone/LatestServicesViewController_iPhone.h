@@ -19,10 +19,12 @@
   UINavigationController *navigationController;
 
   NSUInteger currentPage;
+  NSUInteger lastPage;
 
   IBOutlet UIButton *previousPageButton;
   IBOutlet UIButton *nextPageBarButton;
   IBOutlet UILabel *currentPageLabel;
+  IBOutlet UILabel *loadingLabel;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *detailViewController;

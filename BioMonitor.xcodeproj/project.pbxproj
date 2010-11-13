@@ -441,29 +441,23 @@
 		2860E386111B897F00E27156 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				36834CF2128F58ED0029D92A /* XIBs */,
 				2860E387111B897F00E27156 /* AppDelegate_iPhone.h */,
 				2860E388111B897F00E27156 /* AppDelegate_iPhone.m */,
-				2860E389111B897F00E27156 /* MainWindow_iPhone.xib */,
 				36403C06125D51E100025672 /* LatestServicesViewController_iPhone.h */,
 				36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */,
-				36403C08125D51E100025672 /* LatestServicesView_iPhone.xib */,
 				36344739125FCED1006F3295 /* ServiceDetailViewController_iPhone.h */,
 				3634473A125FCED1006F3295 /* ServiceDetailViewController_iPhone.m */,
-				3634473B125FCED1006F3295 /* ServiceDetailView_iPhone.xib */,
 				3611BE671268E3770076404E /* UserDetailViewController_iPhone.h */,
 				3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */,
-				3611BE691268E3770076404E /* UserDetailView_iPhone.xib */,
 				3611C017126B2DEE0076404E /* ProviderDetailViewController_iPhone.h */,
 				3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */,
-				3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */,
 				3611C0AD126B386A0076404E /* MonitoringStatusTableViewController_iPhone.h */,
 				3611C0AE126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m */,
 				3611C30B126B6C5C0076404E /* DescriptionViewController_iPhone.h */,
 				3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */,
-				36414F59126B7D0B00DD9394 /* DescriptionView_iPhone.xib */,
 				364150F1126CE66700DD9394 /* SearchViewController_iPhone.h */,
 				364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */,
-				364150F3126CE66700DD9394 /* SearchView_iPhone.xib */,
 			);
 			path = iPhone;
 			sourceTree = "<group>";
@@ -511,14 +505,13 @@
 		29B97317FDCFA39411CA2CEA /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				36834CF3128F590B0029D92A /* XIBs */,
 				1D3623240D0F684500981E51 /* AppDelegate_iPad.h */,
 				1D3623250D0F684500981E51 /* AppDelegate_iPad.m */,
-				28AD733E0D9D9553002E5188 /* MainWindow_iPad.xib */,
 				3641566D12823D1400DD9394 /* LatestServicesViewController_iPad.h */,
 				3641566E12823D1400DD9394 /* LatestServicesViewController_iPad.m */,
 				36834B0B128F215E0029D92A /* DetailViewController_iPad.h */,
 				36834B0C128F215E0029D92A /* DetailViewController_iPad.m */,
-				36834B0D128F215E0029D92A /* DetailView_iPad.xib */,
 				36834BAC128F36110029D92A /* SearchViewController_iPad.h */,
 				36834BAD128F36110029D92A /* SearchViewController_iPad.m */,
 			);
@@ -727,6 +720,29 @@
 				365C6990125BCCA80099CE38 /* TestBioCatalogueClient.m */,
 			);
 			path = Tests;
+			sourceTree = "<group>";
+		};
+		36834CF2128F58ED0029D92A /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				2860E389111B897F00E27156 /* MainWindow_iPhone.xib */,
+				36403C08125D51E100025672 /* LatestServicesView_iPhone.xib */,
+				3634473B125FCED1006F3295 /* ServiceDetailView_iPhone.xib */,
+				3611BE691268E3770076404E /* UserDetailView_iPhone.xib */,
+				3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */,
+				36414F59126B7D0B00DD9394 /* DescriptionView_iPhone.xib */,
+				364150F3126CE66700DD9394 /* SearchView_iPhone.xib */,
+			);
+			name = XIBs;
+			sourceTree = "<group>";
+		};
+		36834CF3128F590B0029D92A /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				28AD733E0D9D9553002E5188 /* MainWindow_iPad.xib */,
+				36834B0D128F215E0029D92A /* DetailView_iPad.xib */,
+			);
+			name = XIBs;
 			sourceTree = "<group>";
 		};
 		3698EE76125BB43300BCE301 /* Helpers */ = {

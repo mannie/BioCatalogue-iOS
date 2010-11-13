@@ -26,11 +26,21 @@
     currentPage = 1;
   }
   
-  services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
-  currentPageLabel.text = [NSString stringWithFormat:@"%i", currentPage];
+  if (lastPage < 1) {
+    NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
+    services = [[servicesDocument objectForKey:JSONResultsElement] copy];
+    lastPage = [[servicesDocument objectForKey:JSONPagesElement] intValue];
+
+    [[self tableView] setTableHeaderView:nil];
+    currentPageLabel.hidden = NO;
+  } else {
+    services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
+  }
+
+  currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
   
   previousPageButton.hidden = currentPage == 1;
-  nextPageBarButton.hidden = [services count] < ServicesPerPage; // FIXME: what if last page count == ServicesPerPage
+  nextPageBarButton.hidden = currentPage == lastPage;
   
   [[self tableView] reloadData];
   
@@ -62,9 +72,12 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  currentPageLabel.text = @"Loading, Please Wait..";
+  currentPageLabel.hidden = YES;
   previousPageButton.hidden = YES;
   nextPageBarButton.hidden = YES;
+  
+  currentPage = 0;
+  lastPage = 0;
   
   [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   

@@ -18,8 +18,11 @@
   DetailViewController_iPad *detailViewController;
 
   NSUInteger currentPage;
+  NSUInteger lastPage;
 
   IBOutlet UILabel *currentPageLabel;
+  
+  BOOL initializing;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;
