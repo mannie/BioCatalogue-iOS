@@ -60,6 +60,7 @@ NSString *const JSONURLMonitorElement = @"url_monitor";
 NSString *const JSONURLElement = @"url";
 NSString *const JSONTotalElement = @"total";
 NSString *const JSONPagesElement = @"pages";
+NSString *const JSONSearchQueryElement = @"search_query";
 
 
 
@@ -68,8 +69,25 @@ NSString *const JSONPagesElement = @"pages";
 
 NSString *const DescriptionIcon = @"info";
 
+NSString *const ProviderIconFull = @"112-group.png";
 NSString *const ProviderIcon = @"112-group";
+
+NSString *const UserIconFull = @"111-user.png";
 NSString *const UserIcon = @"111-user";
+
+
+
+#pragma mark -
+#pragma mark BioCatalogue Browsing Indexes
+
+NSUInteger const ServicesSearchScopeIndex = 0;
+NSUInteger const UsersSearchScopeIndex = 1;
+NSUInteger const ProvidersSearchScopeIndex = 2;
+
+// Table view sections
+NSUInteger const PreviousPageButtonSection = 0;
+NSUInteger const MainSection = 1;
+NSUInteger const NextPageButtonSection = 2;
 
 
 

@@ -15,32 +15,10 @@
 
 
 #pragma mark -
-#pragma mark IBActions
+#pragma mark Helpers
 
--(IBAction) loadServicesOnNextPage:(id)sender {
-  if ([services count] > 0) {
-    currentPage++;
-  }
-  
-  [self viewDidLoad];
-  [[self tableView] reloadData];
-}
-
--(IBAction) loadServicesOnPreviousPage:(id)sender {
-  if (currentPage > 1) {
-    currentPage--;
-  }
-
-  [self viewDidLoad];
-  [[self tableView] reloadData];
-}
-
-
-#pragma mark -
-#pragma mark View lifecycle
-
-- (void)viewDidLoad {
-  [super viewDidLoad];
+-(void) performServiceFetch {
+  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
   [services release];
   
@@ -52,7 +30,43 @@
   currentPageLabel.text = [NSString stringWithFormat:@"%i", currentPage];
   
   previousPageButton.hidden = currentPage == 1;
-  nextPageBarButton.hidden = [services count] < ServicesPerPage;
+  nextPageBarButton.hidden = [services count] < ServicesPerPage; // FIXME: what if last page count == ServicesPerPage
+  
+  [[self tableView] reloadData];
+  
+  [autoreleasePool drain];
+}
+
+
+#pragma mark -
+#pragma mark IBActions
+
+-(IBAction) loadServicesOnNextPage:(id)sender {
+  if ([services count] > 0) {
+    currentPage++;
+  }
+  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+}
+
+-(IBAction) loadServicesOnPreviousPage:(id)sender {
+  if (currentPage > 1) {
+    currentPage--;
+  }
+  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+}
+
+
+#pragma mark -
+#pragma mark View lifecycle
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  
+  currentPageLabel.text = @"Loading, Please Wait..";
+  previousPageButton.hidden = YES;
+  nextPageBarButton.hidden = YES;
+  
+  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   
   // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
   // self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -202,7 +216,6 @@
 
 - (void)dealloc {
   [services release];
-  
   [detailViewController release];
     
   [super dealloc];

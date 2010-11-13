@@ -58,7 +58,7 @@ extern NSString *const JSONURLMonitorElement;
 extern NSString *const JSONURLElement;
 extern NSString *const JSONTotalElement;
 extern NSString *const JSONPagesElement;
-
+extern NSString *const JSONSearchQueryElement;
 
 
 #pragma mark -
@@ -66,9 +66,24 @@ extern NSString *const JSONPagesElement;
 
 extern NSString *const DescriptionIcon;
 
+extern NSString *const ProviderIconFull;
 extern NSString *const ProviderIcon;
+
+extern NSString *const UserIconFull;
 extern NSString *const UserIcon;
 
+
+#pragma mark -
+#pragma mark BioCatalogue Browsing Indexes
+
+extern NSUInteger const ServicesSearchScopeIndex;
+extern NSUInteger const UsersSearchScopeIndex;
+extern NSUInteger const ProvidersSearchScopeIndex;
+
+// Table view sections
+extern NSUInteger const PreviousPageButtonSection;
+extern NSUInteger const MainSection;
+extern NSUInteger const NextPageButtonSection;
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */

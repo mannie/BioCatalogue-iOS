@@ -1,25 +1,31 @@
 //
-//  LatestServicesViewController_iPad.h
+//  SearchViewController_iPad.h
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 04/11/2010.
+//  Created by Mannie Tagarira on 13/11/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 #import "DetailViewController_iPad.h"
-#import "JSON+Helper.h"
+#import "BioCatalogueClient.h"
 
 
-@interface LatestServicesViewController_iPad : UITableViewController {
-  NSArray *services;
-
+@interface SearchViewController_iPad : UITableViewController <UISearchBarDelegate> {
   DetailViewController_iPad *detailViewController;
 
-  NSUInteger currentPage;
+  NSDictionary *searchResultsDocument;
+  NSArray *searchResults;
+  NSString *searchScope;
+  NSString *searchResultsScope;
 
+  NSUInteger currentPage;
   IBOutlet UILabel *currentPageLabel;
+  
+  IBOutlet UISearchBar *mySearchBar;
+  
+  BOOL performingSearch;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;

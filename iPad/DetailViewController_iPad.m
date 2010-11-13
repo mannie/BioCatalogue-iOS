@@ -1,22 +1,16 @@
-    //
-//  ServiceDetailViewController_iPad.m
+//
+//  DetailViewController_iPad.m
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 04/11/2010.
+//  Created by Mannie Tagarira on 13/11/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "ServiceDetailViewController_iPad.h"
+#import "DetailViewController_iPad.h"
 #import "LatestServicesViewController_iPad.h"
 
 
-@interface ServiceDetailViewController_iPad ()
-@property (nonatomic, retain) UIPopoverController *popoverController;
-- (void)configureView;
-@end
-
-
-@implementation ServiceDetailViewController_iPad
+@implementation DetailViewController_iPad
 
 @synthesize toolbar, popoverController, detailItem, detailDescriptionLabel;
 
@@ -43,7 +37,7 @@
 
 - (void)configureView {
   // Update the user interface for the detail item.
-  detailDescriptionLabel.text = [detailItem description];
+  detailDescriptionLabel.text = [detailItem description];   
 }
 
 
@@ -70,22 +64,6 @@
   [items release];
   self.popoverController = nil;
 }
-
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-  [super viewDidLoad];  
-}
-
 
 
 #pragma mark -

@@ -172,8 +172,6 @@
 		364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */; };
 		364150F5126CE66700DD9394 /* SearchView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 364150F3126CE66700DD9394 /* SearchView_iPhone.xib */; };
 		3641566F12823D1400DD9394 /* LatestServicesViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 3641566E12823D1400DD9394 /* LatestServicesViewController_iPad.m */; };
-		3641567712823D6A00DD9394 /* ServiceDetailViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 3641567512823D6A00DD9394 /* ServiceDetailViewController_iPad.m */; };
-		3641567812823D6A00DD9394 /* ServiceDetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3641567612823D6A00DD9394 /* ServiceDetailView_iPad.xib */; };
 		365C68E7125BC6230099CE38 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */; };
 		365C68E8125BC6230099CE38 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E0125BC6230099CE38 /* NSString+SBJSON.m */; };
 		365C68E9125BC6230099CE38 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E2125BC6230099CE38 /* SBJsonBase.m */; };
@@ -193,6 +191,9 @@
 		365C6A01125BD53F0099CE38 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C698B125BCC8C0099CE38 /* AppConstants.m */; };
 		365C6A02125BD53F0099CE38 /* JSON+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68EF125BC6A20099CE38 /* JSON+Helper.m */; };
 		365C6A03125BD53F0099CE38 /* BioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C6986125BCC420099CE38 /* BioCatalogueClient.m */; };
+		36834B0E128F215E0029D92A /* DetailViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 36834B0C128F215E0029D92A /* DetailViewController_iPad.m */; };
+		36834B0F128F215E0029D92A /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36834B0D128F215E0029D92A /* DetailView_iPad.xib */; };
+		36834BAE128F36110029D92A /* SearchViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 36834BAD128F36110029D92A /* SearchViewController_iPad.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -374,9 +375,6 @@
 		364150F3126CE66700DD9394 /* SearchView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView_iPhone.xib; sourceTree = "<group>"; };
 		3641566D12823D1400DD9394 /* LatestServicesViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LatestServicesViewController_iPad.h; path = iPad/LatestServicesViewController_iPad.h; sourceTree = "<group>"; };
 		3641566E12823D1400DD9394 /* LatestServicesViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LatestServicesViewController_iPad.m; path = iPad/LatestServicesViewController_iPad.m; sourceTree = "<group>"; };
-		3641567412823D6A00DD9394 /* ServiceDetailViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServiceDetailViewController_iPad.h; path = iPad/ServiceDetailViewController_iPad.h; sourceTree = "<group>"; };
-		3641567512823D6A00DD9394 /* ServiceDetailViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServiceDetailViewController_iPad.m; path = iPad/ServiceDetailViewController_iPad.m; sourceTree = "<group>"; };
-		3641567612823D6A00DD9394 /* ServiceDetailView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = ServiceDetailView_iPad.xib; path = iPad/ServiceDetailView_iPad.xib; sourceTree = "<group>"; };
 		365C68DC125BC6230099CE38 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		365C68DD125BC6230099CE38 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
 		365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
@@ -401,6 +399,11 @@
 		365C698B125BCC8C0099CE38 /* AppConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppConstants.m; sourceTree = "<group>"; };
 		365C698F125BCCA80099CE38 /* TestBioCatalogueClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBioCatalogueClient.h; sourceTree = "<group>"; };
 		365C6990125BCCA80099CE38 /* TestBioCatalogueClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestBioCatalogueClient.m; sourceTree = "<group>"; };
+		36834B0B128F215E0029D92A /* DetailViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DetailViewController_iPad.h; path = iPad/DetailViewController_iPad.h; sourceTree = "<group>"; };
+		36834B0C128F215E0029D92A /* DetailViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DetailViewController_iPad.m; path = iPad/DetailViewController_iPad.m; sourceTree = "<group>"; };
+		36834B0D128F215E0029D92A /* DetailView_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = DetailView_iPad.xib; path = iPad/DetailView_iPad.xib; sourceTree = "<group>"; };
+		36834BAC128F36110029D92A /* SearchViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController_iPad.h; path = iPad/SearchViewController_iPad.h; sourceTree = "<group>"; };
+		36834BAD128F36110029D92A /* SearchViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController_iPad.m; path = iPad/SearchViewController_iPad.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* BioMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BioMonitor-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -513,9 +516,11 @@
 				28AD733E0D9D9553002E5188 /* MainWindow_iPad.xib */,
 				3641566D12823D1400DD9394 /* LatestServicesViewController_iPad.h */,
 				3641566E12823D1400DD9394 /* LatestServicesViewController_iPad.m */,
-				3641567412823D6A00DD9394 /* ServiceDetailViewController_iPad.h */,
-				3641567512823D6A00DD9394 /* ServiceDetailViewController_iPad.m */,
-				3641567612823D6A00DD9394 /* ServiceDetailView_iPad.xib */,
+				36834B0B128F215E0029D92A /* DetailViewController_iPad.h */,
+				36834B0C128F215E0029D92A /* DetailViewController_iPad.m */,
+				36834B0D128F215E0029D92A /* DetailView_iPad.xib */,
+				36834BAC128F36110029D92A /* SearchViewController_iPad.h */,
+				36834BAD128F36110029D92A /* SearchViewController_iPad.m */,
 			);
 			name = iPad;
 			sourceTree = "<group>";
@@ -951,7 +956,7 @@
 				3611C2B5126B60F00076404E /* info.png in Resources */,
 				36414F5A126B7D0B00DD9394 /* DescriptionView_iPhone.xib in Resources */,
 				364150F5126CE66700DD9394 /* SearchView_iPhone.xib in Resources */,
-				3641567812823D6A00DD9394 /* ServiceDetailView_iPad.xib in Resources */,
+				36834B0F128F215E0029D92A /* DetailView_iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1006,7 +1011,8 @@
 				3611C30E126B6C5C0076404E /* DescriptionViewController_iPhone.m in Sources */,
 				364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */,
 				3641566F12823D1400DD9394 /* LatestServicesViewController_iPad.m in Sources */,
-				3641567712823D6A00DD9394 /* ServiceDetailViewController_iPad.m in Sources */,
+				36834B0E128F215E0029D92A /* DetailViewController_iPad.m in Sources */,
+				36834BAE128F36110029D92A /* SearchViewController_iPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1035,7 +1041,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Mannie Tags (T6HS8GZ39U)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_GC = unsupported;
@@ -1044,7 +1051,8 @@
 				GCC_PREFIX_HEADER = BioMonitor_Prefix.pch;
 				INFOPLIST_FILE = "BioMonitor-Info.plist";
 				PRODUCT_NAME = BioMonitor;
-				PROVISIONING_PROFILE = "63EFF4A0-CCFA-44C6-A9B4-6C98F22DCAF1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};
 			name = Debug;
 		};
@@ -1052,14 +1060,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Mannie Tags (T6HS8GZ39U)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = BioMonitor_Prefix.pch;
 				INFOPLIST_FILE = "BioMonitor-Info.plist";
 				PRODUCT_NAME = BioMonitor;
-				PROVISIONING_PROFILE = "63EFF4A0-CCFA-44C6-A9B4-6C98F22DCAF1";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

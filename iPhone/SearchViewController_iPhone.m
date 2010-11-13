@@ -16,14 +16,6 @@
 
 
 #pragma mark -
-#pragma mark Class Specific Helper Constants
-
-NSInteger ServicesScopeIndex = 0;
-NSInteger UsersScopeIndex = 1;
-NSInteger ProvidersScopeIndex = 2;
-
-
-#pragma mark -
 #pragma mark Helpers
 
 -(void) performSearch {
@@ -48,8 +40,13 @@ NSInteger ProvidersScopeIndex = 2;
   currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
   
   previousPageButton.hidden = currentPage == 1;
-  nextPageBarButton.hidden = servicesOnLastPage < ServicesPerPage && currentPage == lastPage;
-  currentPageLabel.hidden = lastPage == 1;
+  if ([searchResults count] == 0) {
+    nextPageBarButton.hidden = YES;
+  } else {
+    nextPageBarButton.hidden = servicesOnLastPage < ServicesPerPage && currentPage == lastPage;
+  }
+
+//  currentPageLabel.hidden = lastPage == 1;
 
   performingSearch = NO;
   [[self tableView] reloadData];
@@ -111,7 +108,6 @@ NSInteger ProvidersScopeIndex = 2;
 
  // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
  return YES;
 }
 
@@ -121,13 +117,10 @@ NSInteger ProvidersScopeIndex = 2;
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // Return the number of sections.
   return 1;
 }
 
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  // Return the number of rows in the section.
   if (performingSearch || [searchResults count] == 0) {
     return 1;
   } else {
@@ -148,17 +141,20 @@ NSInteger ProvidersScopeIndex = 2;
   
   // Configure the cell...
   if (performingSearch || [searchResults count] == 0) {
+    cell.textLabel.text = nil;
+    cell.imageView.image = nil;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+
     if (performingSearch) {
-      cell.textLabel.text = @"Searching, Please Wait...";
+      cell.detailTextLabel.text = @"Searching, Please Wait...";
     } else {
-      cell.textLabel.text = @"No Results";
+      NSString *searchQuery = [searchResultsDocument objectForKey:JSONSearchQueryElement];    
+      cell.detailTextLabel.text = (searchResultsDocument == nil ?
+                                   @"No search has been performed yet" : 
+                                   [NSString stringWithFormat:@"No %@ containing '%@'", searchScope, searchQuery]);
+      
       cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    
-    cell.detailTextLabel.text = nil;
-    cell.imageView.image = nil;
-    
-    cell.accessoryType = UITableViewCellAccessoryNone;
     
     return cell;
   }
@@ -300,10 +296,10 @@ NSInteger ProvidersScopeIndex = 2;
 }
 
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-  if (selectedScope == ServicesScopeIndex) {
+  if (selectedScope == ServicesSearchScopeIndex) {
     searchBar.placeholder = @"Search For A Service";
     searchScope = ServicesSearchScope;
-  } else if (selectedScope == UsersScopeIndex) {
+  } else if (selectedScope == UsersSearchScopeIndex) {
     searchBar.placeholder = @"Search For A User";
     searchScope = UsersSearchScope;
   } else {

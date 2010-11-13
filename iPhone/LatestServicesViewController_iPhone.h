@@ -13,9 +13,7 @@
 
 @interface LatestServicesViewController_iPhone : UITableViewController {  
   NSArray *services;
-  
-  UITableViewCell *serviceCell;
-  
+    
   ServiceDetailViewController_iPhone *detailViewController;
 
   UINavigationController *navigationController;
