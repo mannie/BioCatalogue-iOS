@@ -84,7 +84,6 @@
 								<string key="NSResourceName">06-magnifying-glass.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIParentViewController" ref="368978690"/>
 						<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
@@ -112,7 +111,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUITableViewController" id="2463601">
 								<object class="IBUITableView" key="IBUIView" id="563840606">
-									<reference key="NSNextResponder"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">274</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -121,7 +120,6 @@
 											<int key="NSvFlags">290</int>
 											<string key="NSFrameSize">{320, 44}</string>
 											<reference key="NSSuperview" ref="563840606"/>
-											<reference key="NSWindow"/>
 											<int key="IBUIContentMode">3</int>
 											<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 											<object class="IBUITextInputTraits" key="IBTextInputTraits">
@@ -138,10 +136,9 @@
 										</object>
 										<object class="IBUILabel" id="907284672">
 											<reference key="NSNextResponder" ref="563840606"/>
-											<int key="NSvFlags">-2147483382</int>
+											<int key="NSvFlags">266</int>
 											<string key="NSFrame">{{0, 655}, {320, 44}}</string>
 											<reference key="NSSuperview" ref="563840606"/>
-											<reference key="NSWindow"/>
 											<bool key="IBUIOpaque">NO</bool>
 											<bool key="IBUIClipsSubviews">YES</bool>
 											<int key="IBUIContentMode">7</int>
@@ -153,12 +150,9 @@
 												<double key="NSSize">15</double>
 												<int key="NSfFlags">16</int>
 											</object>
-											<object class="NSColor" key="IBUITextColor">
+											<object class="NSColor" key="IBUITextColor" id="473183622">
 												<int key="NSColorSpace">1</int>
-												<bytes key="NSRGB">MSAxIDEAA</bytes>
-												<object class="NSColorSpace" key="NSCustomColorSpace">
-													<int key="NSID">1</int>
-												</object>
+												<bytes key="NSRGB">MCAwIDAAA</bytes>
 											</object>
 											<object class="NSColor" key="IBUIHighlightedColor" id="869607344">
 												<int key="NSColorSpace">3</int>
@@ -171,8 +165,6 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{-160, 2}, {320, 699}}</string>
-									<reference key="NSSuperview"/>
-									<reference key="NSWindow"/>
 									<object class="NSColor" key="IBUIBackgroundColor">
 										<int key="NSColorSpace">1</int>
 										<bytes key="NSRGB">MCAwIDAgMAA</bytes>
@@ -191,8 +183,7 @@
 									<reference key="IBUITableFooterView" ref="907284672"/>
 								</object>
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="164895200">
-									<reference key="IBUINavigationBar"/>
-									<string key="IBUITitle">Services</string>
+									<string key="IBUITitle">Search</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								</object>
 								<reference key="IBUIParentViewController" ref="805118192"/>
@@ -217,7 +208,6 @@
 									<string key="NSResourceName">11-clock.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="368978690"/>
 							<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
@@ -261,10 +251,7 @@
 												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 												<string key="IBUIText">X of Y</string>
 												<reference key="IBUIFont" ref="6028118"/>
-												<object class="NSColor" key="IBUITextColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MCAwIDAAA</bytes>
-												</object>
+												<reference key="IBUITextColor" ref="473183622"/>
 												<reference key="IBUIHighlightedColor" ref="869607344"/>
 												<int key="IBUIBaselineAdjustment">1</int>
 												<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
@@ -775,38 +762,38 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>detailDescriptionLabel</string>
-							<string>detailItem</string>
-							<string>toolbar</string>
+							<string>defaultToolbar</string>
+							<string>loadingText</string>
+							<string>loadingTextLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UILabel</string>
-							<string>id</string>
 							<string>UIToolbar</string>
+							<string>id</string>
+							<string>UILabel</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>detailDescriptionLabel</string>
-							<string>detailItem</string>
-							<string>toolbar</string>
+							<string>defaultToolbar</string>
+							<string>loadingText</string>
+							<string>loadingTextLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">detailDescriptionLabel</string>
-								<string key="candidateClassName">UILabel</string>
+								<string key="name">defaultToolbar</string>
+								<string key="candidateClassName">UIToolbar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">detailItem</string>
+								<string key="name">loadingText</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">toolbar</string>
-								<string key="candidateClassName">UIToolbar</string>
+								<string key="name">loadingTextLabel</string>
+								<string key="candidateClassName">UILabel</string>
 							</object>
 						</object>
 					</object>

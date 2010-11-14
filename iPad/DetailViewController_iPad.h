@@ -10,21 +10,47 @@
 
 
 @interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
+  UIPopoverController *popoverController;
+  NSString *loadingText;
 
-    UIPopoverController *popoverController;
-    UIToolbar *toolbar;
-    
-    id detailItem;
-    UILabel *detailDescriptionLabel;
+  IBOutlet UIToolbar *defaultToolbar;
+  IBOutlet UIToolbar *serviceDetailToolbar;
+  UIToolbar *currentToolbar;
+  
+  IBOutlet UILabel *loadingTextLabel;
+  
+  IBOutlet UIView *defaultView;
+  IBOutlet UIView *serviceDetailView;
+  
+  NSDictionary *listingProperties;
+  NSDictionary *serviceProperties;
+  NSDictionary *userProperties;
+  NSDictionary *providerProperties;
+  
+  BOOL monitoringStatusInformationAvailable;
+  BOOL descriptionAvailable;
+  
+  IBOutlet UILabel *nameLabel;
+  IBOutlet UITextView *descriptionLabel;
+  IBOutlet UILabel *providerNameLabel;
+  IBOutlet UITextView *providerDescriptionLabel;
+  IBOutlet UILabel *submitterNameLabel;
+  IBOutlet UITextView *submitterInfoLabel;
+  IBOutlet UIImageView *countryFlagIcon;
+  
+  IBOutlet UIActivityIndicatorView *defaultActivityIndicator;
+  IBOutlet UIActivityIndicatorView *serviceDetailActivityIndicator;
 }
 
-@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
-
-@property (nonatomic, retain) id detailItem;
-@property (nonatomic, retain) IBOutlet UILabel *detailDescriptionLabel;
+@property (nonatomic, retain) NSString *loadingText;
 
 @property (nonatomic, retain) UIPopoverController *popoverController;
 
-- (void)configureView;
+-(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties;
+-(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties;
+-(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties;
+
+-(void) startAnimatingActivityIndicators;
+-(void) stopAnimatingActivityIndicators;
 
 @end

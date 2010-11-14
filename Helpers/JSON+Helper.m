@@ -47,7 +47,8 @@
     limit = ServicesPerPage;
   }
   
-  NSDictionary *document = [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
+  NSDictionary *document = [self documentAtPath:
+                            [NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
   return [document objectForKey:JSONResultsElement];
 }
 

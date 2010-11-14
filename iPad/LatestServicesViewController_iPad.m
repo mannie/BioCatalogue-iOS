@@ -18,22 +18,23 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) performServiceFetch {
+-(void) performServiceFetch {  
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-    
+
+  fetching = YES;
   [services release];
   
   if (currentPage < 1) {
     currentPage = 1;
   }
-    
+  
   if (lastPage < 1) {
     NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
     services = [[servicesDocument objectForKey:JSONResultsElement] copy];
     lastPage = [[servicesDocument objectForKey:JSONPagesElement] intValue];
-  
+    
     currentPageLabel.hidden = NO;
-} else {
+  } else {
     services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
   }
   
@@ -41,7 +42,10 @@
   currentPageLabel.text = [NSString stringWithFormat:@"Page %i of %i", currentPage, lastPage];
   
   initializing = NO;
+  fetching = NO;
   [[self tableView] reloadData];
+  
+  [detailViewController stopAnimatingActivityIndicators];
   
   [autoreleasePool drain];
 }
@@ -51,17 +55,20 @@
 #pragma mark IBActions
 
 -(IBAction) loadServicesOnNextPage:(id)sender {
-  if ([services count] > 0) {
-    currentPage++;
+  if (!fetching) {
+    if ([services count] > 0) {
+      currentPage++;
+    }
+    [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   }
-  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 }
 
 -(IBAction) loadServicesOnPreviousPage:(id)sender {
-  if (currentPage > 1) {
-    currentPage--;
-  }
-  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+  if (!fetching) {
+    if (currentPage > 1) {
+      currentPage--;
+    }
+    [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];}
 }
 
 
@@ -70,10 +77,10 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
   self.clearsSelectionOnViewWillAppear = NO;
   self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
-
+  
   initializing = YES;
   
   currentPageLabel.text = @"Loading, Please Wait...";
@@ -82,7 +89,7 @@
   lastPage = 0;
   
   [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
-
+  
   // Uncomment the following line to preserve selection between presentations.
   // self.clearsSelectionOnViewWillAppear = NO;
   
@@ -161,7 +168,7 @@
     cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
   } else {
     cell.detailTextLabel.text = nil;
-
+    
     if (indexPath.section == PreviousPageButtonSection) {
       if (currentPage == 1) {
         cell.textLabel.text = nil;
@@ -184,7 +191,7 @@
       }
     } // if else previous page button
   } // if else main section
-
+  
   return cell;
 }
 
@@ -234,13 +241,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == MainSection) {
-    detailViewController.detailItem = [[services objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
+    [detailViewController startAnimatingActivityIndicators];
+    detailViewController.loadingText = [[services objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
+/*
+    [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
+                             toTarget:detailViewController
+                           withObject:[services objectAtIndex:indexPath.row]];
+ */
+    
+    [detailViewController updateWithPropertiesForServicesScope:[services objectAtIndex:indexPath.row]];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
+      [detailViewController startAnimatingActivityIndicators];
       [self loadServicesOnPreviousPage:self];
     } 
     
     if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
+      [detailViewController startAnimatingActivityIndicators];
       [self loadServicesOnNextPage:self];
     }
     

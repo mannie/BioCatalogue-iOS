@@ -25,6 +25,8 @@
   IBOutlet UIButton *nextPageBarButton;
   IBOutlet UILabel *currentPageLabel;
   IBOutlet UILabel *loadingLabel;
+  
+  BOOL fetching;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *detailViewController;

@@ -15,6 +15,7 @@
 
 
 @interface JSON_Helper : NSObject {
+  
 }
 
 +(JSON_Helper *) helper;

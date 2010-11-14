@@ -23,6 +23,7 @@
   IBOutlet UILabel *currentPageLabel;
   
   BOOL initializing;
+  BOOL fetching;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;

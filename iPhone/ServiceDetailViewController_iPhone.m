@@ -139,18 +139,18 @@ NSInteger SubmitterSection = 3;
   }
   
   // Configure the cell...
-  NSString *value;
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   
   if (indexPath.section == DescriptionSection) {
     cell.imageView.image = [UIImage imageNamed:DescriptionIcon];
     cell.detailTextLabel.text = @"Description";
 
-    value = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
-    descriptionAvailable = ![value isEqualToString:JSONNull];
+    NSString *description = [NSString stringWithFormat:@"%@", 
+                             [serviceListingProperties objectForKey:JSONDescriptionElement]];
+    descriptionAvailable = ![description isEqualToString:JSONNull];
     
     if (descriptionAvailable) {
-      cell.textLabel.text = value;
+      cell.textLabel.text = description;
     } else {
       cell.textLabel.text = @"No description";
       cell.accessoryType = UITableViewCellAccessoryNone;

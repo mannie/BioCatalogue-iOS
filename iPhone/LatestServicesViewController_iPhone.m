@@ -20,6 +20,7 @@
 -(void) performServiceFetch {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
+  fetching = YES;
   [services release];
   
   if (currentPage < 1) {
@@ -30,18 +31,19 @@
     NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
     services = [[servicesDocument objectForKey:JSONResultsElement] copy];
     lastPage = [[servicesDocument objectForKey:JSONPagesElement] intValue];
-
+    
     [[self tableView] setTableHeaderView:nil];
     currentPageLabel.hidden = NO;
   } else {
     services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
   }
-
+  
   currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
   
   previousPageButton.hidden = currentPage == 1;
   nextPageBarButton.hidden = currentPage == lastPage;
   
+  fetching = NO;
   [[self tableView] reloadData];
   
   [autoreleasePool drain];
@@ -52,17 +54,21 @@
 #pragma mark IBActions
 
 -(IBAction) loadServicesOnNextPage:(id)sender {
-  if ([services count] > 0) {
-    currentPage++;
+  if (!fetching) {
+    if ([services count] > 0) {
+      currentPage++;
+    }
+    [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   }
-  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 }
 
 -(IBAction) loadServicesOnPreviousPage:(id)sender {
-  if (currentPage > 1) {
-    currentPage--;
+  if (!fetching) {
+    if (currentPage > 1) {
+      currentPage--;
+    }
+    [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   }
-  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 }
 
 
@@ -230,7 +236,7 @@
 - (void)dealloc {
   [services release];
   [detailViewController release];
-    
+  
   [super dealloc];
 }
 

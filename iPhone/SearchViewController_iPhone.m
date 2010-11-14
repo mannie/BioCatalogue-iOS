@@ -46,7 +46,7 @@
     nextPageBarButton.hidden = servicesOnLastPage < ServicesPerPage && currentPage == lastPage;
   }
 
-//  currentPageLabel.hidden = lastPage == 1;
+  currentPageLabel.hidden = lastPage == 1;
 
   performingSearch = NO;
   [[self tableView] reloadData];
@@ -144,6 +144,7 @@
     cell.textLabel.text = nil;
     cell.imageView.image = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     if (performingSearch) {
       cell.detailTextLabel.text = @"Searching, Please Wait...";
@@ -151,9 +152,7 @@
       NSString *searchQuery = [searchResultsDocument objectForKey:JSONSearchQueryElement];    
       cell.detailTextLabel.text = (searchResultsDocument == nil ?
                                    @"No search has been performed yet" : 
-                                   [NSString stringWithFormat:@"No %@ containing '%@'", searchScope, searchQuery]);
-      
-      cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                                   [NSString stringWithFormat:@"No %@ containing '%@'", searchScope, searchQuery]);      
     }
     
     return cell;
