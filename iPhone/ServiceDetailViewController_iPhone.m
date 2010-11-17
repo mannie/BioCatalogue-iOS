@@ -311,6 +311,13 @@ NSInteger SubmitterSection = 3;
 #pragma mark -
 #pragma mark Memory management
 
+-(void) releaseIBOutlets {
+  [userDetailViewController release];
+  [providerDetailViewController release];  
+  [monitoringStatusViewController release];
+  [descriptionViewController release];
+}
+
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
@@ -320,16 +327,12 @@ NSInteger SubmitterSection = 3;
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-  // For example: self.myOutlet = nil;
+  [self releaseIBOutlets];
 }
 
-- (void)dealloc {  
-  [userDetailViewController release];
-  [providerDetailViewController release];
-  
-  [monitoringStatusViewController release];
-  [descriptionViewController release];
-  
+- (void)dealloc {
+  [self releaseIBOutlets];
+    
   [serviceListingProperties release];
   [serviceProperties release];
   [submitterProperties release];

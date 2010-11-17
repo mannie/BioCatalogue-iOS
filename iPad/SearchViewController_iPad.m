@@ -266,13 +266,13 @@
     detailViewController.loadingText = [[searchResults objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
     
     if (searchResultsScope == ServicesSearchScope) {
-      /*
+      NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
+      detailViewController.loadingText = [listing objectForKey:JSONNameElement];
+      [detailViewController setServiceDescription:[listing objectForKey:JSONDescriptionElement]];
+
       [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
                                toTarget:detailViewController
-                             withObject:[searchResults objectAtIndex:indexPath.row]];
-       */
-
-      [detailViewController updateWithPropertiesForServicesScope:[searchResults objectAtIndex:indexPath.row]];
+                             withObject:listing];
     } else if (searchResultsScope == UsersSearchScope) {
       [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForUsersScope:) 
                                toTarget:detailViewController
@@ -282,9 +282,6 @@
                                toTarget:detailViewController
                              withObject:[searchResults objectAtIndex:indexPath.row]];
     }
-    
-//    [detailViewController updateWithProperties:[searchResults objectAtIndex:indexPath.row] 
-//                                     withScope:searchResultsScope];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
       [detailViewController startAnimatingActivityIndicators];
@@ -354,6 +351,12 @@
 #pragma mark -
 #pragma mark Memory management
 
+-(void) releaseIBOutlets {
+  [currentPageLabel release];
+  [mySearchBar release];
+  [detailViewController release];  
+}
+
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
@@ -363,13 +366,12 @@
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-  // For example: self.myOutlet = nil;
+  [self releaseIBOutlets];
 }
 
 
 - (void)dealloc {
-  [detailViewController release];
-  
+  [self releaseIBOutlets];
   [super dealloc];
 }
 

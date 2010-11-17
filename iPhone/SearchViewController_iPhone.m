@@ -29,10 +29,10 @@
                                                             withScope:searchScope
                                                    withRepresentation:JSONFormat
                                                                  page:currentPage] copy];
-
+  
   [searchResults release];
   searchResults = [[searchResultsDocument objectForKey:JSONResultsElement] copy];
-
+  
   searchResultsScope = searchScope;
   
   int servicesOnLastPage = [[searchResultsDocument objectForKey:JSONTotalElement] intValue] % ServicesPerPage;
@@ -45,9 +45,9 @@
   } else {
     nextPageBarButton.hidden = servicesOnLastPage < ServicesPerPage && currentPage == lastPage;
   }
-
+  
   currentPageLabel.hidden = lastPage == 1;
-
+  
   performingSearch = NO;
   [[self tableView] reloadData];
   
@@ -106,9 +106,9 @@
  }
  */
 
- // Override to allow orientations other than the default portrait orientation.
+// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- return YES;
+  return YES;
 }
 
 
@@ -145,7 +145,7 @@
     cell.imageView.image = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     if (performingSearch) {
       cell.detailTextLabel.text = @"Searching, Please Wait...";
     } else {
@@ -240,9 +240,9 @@
   } else {
     detailViewController = providerDetailViewController;
   }
-
+  
   [detailViewController loadView];
-
+  
   if (searchResultsScope == ServicesSearchScope) {  
     NSThread *updateThread = [[NSThread alloc] initWithTarget:detailViewController
                                                      selector:@selector(updateWithProperties:)
@@ -267,7 +267,7 @@
   
   searchBar.showsScopeBar = YES;
   [searchBar sizeToFit];
-
+  
   return YES;
 }
 
@@ -276,7 +276,7 @@
   
   searchBar.showsScopeBar = NO;  
   [searchBar sizeToFit];
-
+  
   [searchBar resignFirstResponder];
   
   return YES;
@@ -289,7 +289,7 @@
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-//  [self performSelectorOnMainThread:@selector(performSearch) withObject:nil waitUntilDone:NO];
+  //  [self performSelectorOnMainThread:@selector(performSearch) withObject:nil waitUntilDone:NO];
   
   [searchBar resignFirstResponder];
 }
@@ -311,6 +311,19 @@
 #pragma mark -
 #pragma mark Memory management
 
+-(void) releaseIBOutlets {
+  [previousPageButton release];
+  [nextPageBarButton release];
+  [currentPageLabel release];
+  
+  [mySearchBar release];
+  
+  [navigationController release];
+  
+  [serviceDetailViewController release];
+  [userDetailViewController release];
+  [providerDetailViewController release];
+}
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
@@ -320,16 +333,12 @@
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-  // For example: self.myOutlet = nil;
+  [self releaseIBOutlets];
 }
 
 
 - (void)dealloc {
-  [navigationController release];
-  
-  [serviceDetailViewController release];
-  [userDetailViewController release];
-  [providerDetailViewController release];
+  [self releaseIBOutlets];
   
   [searchResultsDocument release];
   [searchResults release];

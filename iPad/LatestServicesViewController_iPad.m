@@ -242,14 +242,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == MainSection) {
     [detailViewController startAnimatingActivityIndicators];
-    detailViewController.loadingText = [[services objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
-/*
+    
+    NSDictionary *listing = [services objectAtIndex:indexPath.row];
+    detailViewController.loadingText = [listing objectForKey:JSONNameElement];
+    [detailViewController setServiceDescription:[listing objectForKey:JSONDescriptionElement]];
+
     [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
                              toTarget:detailViewController
-                           withObject:[services objectAtIndex:indexPath.row]];
- */
-    
-    [detailViewController updateWithPropertiesForServicesScope:[services objectAtIndex:indexPath.row]];
+                           withObject:listing];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
       [detailViewController startAnimatingActivityIndicators];
@@ -269,6 +269,11 @@
 #pragma mark -
 #pragma mark Memory management
 
+-(void) releaseIBOutlets {
+  [currentPageLabel release];
+  [detailViewController release];
+}
+
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
@@ -278,13 +283,12 @@
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-  // For example: self.myOutlet = nil;
+  [self releaseIBOutlets];
 }
-
 
 - (void)dealloc {
   [services release];
-  [detailViewController release];
+  [self releaseIBOutlets];
   
   [super dealloc];
 }

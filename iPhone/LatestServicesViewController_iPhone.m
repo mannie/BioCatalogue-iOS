@@ -220,6 +220,15 @@
 #pragma mark -
 #pragma mark Memory management
 
+-(void) releaseIBOutlets {
+  [previousPageButton release];
+  [nextPageBarButton release];
+  [currentPageLabel release];
+  [loadingLabel release];
+  
+  [detailViewController release];
+  [navigationController release];
+}
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
@@ -229,13 +238,13 @@
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-  // For example: self.myOutlet = nil;
+  [self releaseIBOutlets];
 }
 
 
 - (void)dealloc {
   [services release];
-  [detailViewController release];
+  [self releaseIBOutlets];
   
   [super dealloc];
 }

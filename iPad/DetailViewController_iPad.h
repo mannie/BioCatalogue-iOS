@@ -9,13 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
+@interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
   UIPopoverController *popoverController;
   NSString *loadingText;
 
   IBOutlet UIToolbar *defaultToolbar;
   IBOutlet UIToolbar *serviceDetailToolbar;
-  UIToolbar *currentToolbar;
   
   IBOutlet UILabel *loadingTextLabel;
   
@@ -29,22 +28,30 @@
   
   BOOL monitoringStatusInformationAvailable;
   BOOL descriptionAvailable;
+  BOOL viewHasAlreadyInitialized;
   
   IBOutlet UILabel *nameLabel;
   IBOutlet UITextView *descriptionLabel;
   IBOutlet UILabel *providerNameLabel;
-  IBOutlet UITextView *providerDescriptionLabel;
   IBOutlet UILabel *submitterNameLabel;
-  IBOutlet UITextView *submitterInfoLabel;
-  IBOutlet UIImageView *countryFlagIcon;
   
   IBOutlet UIActivityIndicatorView *defaultActivityIndicator;
   IBOutlet UIActivityIndicatorView *serviceDetailActivityIndicator;
+  
+  IBOutlet UITableView *componentsTableView;
+  
+  CGPoint initialViewCenterPositionBeforePanningInLandscape;
+  BOOL initialViewCenterStoredInLandscape;
+
+  CGPoint initialViewCenterPositionBeforePanningInPortrait;
+  BOOL initialViewCenterStoredInPortrait;
 }
 
 @property (nonatomic, retain) NSString *loadingText;
 
 @property (nonatomic, retain) UIPopoverController *popoverController;
+
+-(void) setServiceDescription:(NSString *)description;
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties;
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties;

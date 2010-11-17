@@ -25,7 +25,7 @@ NSString *const SOAPService = @"SOAP";
 NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"test.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"www.biocatalogue.org";
-
+//NSString *const BioCatalogueHostname = @"demo.edunify.pesc.org";
 
 #pragma mark -
 #pragma mark JSON Elements
@@ -38,6 +38,7 @@ NSString *const JSONNull = @"<null>";
 NSString *const JSONResultsElement = @"results";
 NSString *const JSONNameElement = @"name";
 NSString *const JSONDescriptionElement = @"description";
+NSString *const JSONSelfElement = @"self";
 NSString *const JSONResourceElement = @"resource";
 NSString *const JSONSubmitterElement = @"submitter";
 NSString *const JSONLatestMonitoringStatusElement = @"latest_monitoring_status";
@@ -88,6 +89,14 @@ NSUInteger const ProvidersSearchScopeIndex = 2;
 NSUInteger const PreviousPageButtonSection = 0;
 NSUInteger const MainSection = 1;
 NSUInteger const NextPageButtonSection = 2;
+
+
+
+#pragma mark -
+#pragma mark NSUserDefaults
+
+NSString *const LastViewedResourceKey = @"LastViewedResource";
+NSString *const LastViewedResourceScopeKey = @"LastViewedResourceScope";
 
 
 

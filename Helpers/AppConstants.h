@@ -36,6 +36,7 @@ extern NSString *const JSONNull;
 extern NSString *const JSONResultsElement;
 extern NSString *const JSONNameElement;
 extern NSString *const JSONDescriptionElement;
+extern NSString *const JSONSelfElement;
 extern NSString *const JSONResourceElement;
 extern NSString *const JSONSubmitterElement;
 extern NSString *const JSONLatestMonitoringStatusElement;
@@ -84,6 +85,14 @@ extern NSUInteger const ProvidersSearchScopeIndex;
 extern NSUInteger const PreviousPageButtonSection;
 extern NSUInteger const MainSection;
 extern NSUInteger const NextPageButtonSection;
+
+
+#pragma mark -
+#pragma mark NSUserDefaults
+
+extern NSString *const LastViewedResourceKey;
+extern NSString *const LastViewedResourceScopeKey;
+
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */

@@ -72,6 +72,13 @@
 #pragma mark -
 #pragma mark Memory management
 
+-(void) releaseIBOutlets {
+  [name release];
+  [descriptionTextView release];
+  
+  [servicesButton release];
+}
+
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
@@ -81,12 +88,13 @@
 
 - (void)viewDidUnload {
   [super viewDidUnload];
-  // Release any retained subviews of the main view.
-  // e.g. self.myOutlet = nil;
+
+  [self releaseIBOutlets];
 }
 
 
 - (void)dealloc {
+  [self releaseIBOutlets];
   [providerProperties release];
   
   [super dealloc];
