@@ -15,7 +15,7 @@
 
 
 #pragma mark -
-#pragma mark Helpers
+#pragma mark Private Helpers
 
 -(void) performSearch {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
@@ -37,11 +37,15 @@
   performingSearch = NO;
   [detailViewController stopAnimatingActivityIndicators];
   currentPageLabel.hidden = [searchResults count] == 0;
-
+  
   [[self tableView] reloadData];
   
   [autoreleasePool drain];
-}
+} // performSearch
+
+-(void) startFetchResultsForCurrentPageThread {
+  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
+} // startFetchResultsForCurrentPageThread
 
 
 #pragma mark -
@@ -52,62 +56,38 @@
     if ([searchResults count] > 0) {
       currentPage++;
     }
-    [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];    
+    [self startFetchResultsForCurrentPageThread];
   }
-}
+} // loadServicesOnNextPage
 
 -(IBAction) loadServicesOnPreviousPage:(id)sender {
   if (!performingSearch) {
-  if (currentPage > 1) {
-    currentPage--;
+    if (currentPage > 1) {
+      currentPage--;
+    }
+    [self startFetchResultsForCurrentPageThread];
   }
-  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-  }
-}
-
+} // loadServicesOnPreviousPage
+ 
 
 #pragma mark -
 #pragma mark View lifecycle
-
 
 - (void)viewDidLoad {
   [super viewDidLoad];
   
   searchScope = ServicesSearchScope;
   currentPageLabel.text = @"";
-  
-  // Uncomment the following line to preserve selection between presentations.
-  // self.clearsSelectionOnViewWillAppear = NO;
-  
-  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
+} // viewDidLoad
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   [self searchBarCancelButtonClicked:mySearchBar];
-}
-
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-
+} // viewWillAppear
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
-}
+} // shouldAutorotateToInterfaceOrientation
 
 
 #pragma mark -
@@ -119,7 +99,7 @@
   } else {
     return 3;
   }
-}
+} // numberOfSectionsInTableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (!performingSearch && section == MainSection) {
@@ -127,7 +107,7 @@
   } else {
     return 1;
   }
-}
+} // tableView:numberOfRowsInSection
 
 
 // Customize the appearance of table view cells.
@@ -145,7 +125,7 @@
     cell.textLabel.text = nil;
     cell.imageView.image = nil;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
+    
     if (performingSearch) {
       cell.detailTextLabel.text = @"Searching, Please Wait...";
     } else {
@@ -154,10 +134,10 @@
                                    @"No search has been performed yet" : 
                                    [NSString stringWithFormat:@"No %@ containing '%@'", searchScope, searchQuery]);
     }
-            
+    
     return cell;
   }
-
+  
   if (indexPath.section == MainSection) {
     id listing  = [searchResults objectAtIndex:indexPath.row];
     
@@ -207,80 +187,34 @@
   } // if else main section
   
   return cell;
-}
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
+} // tableView:cellForRowAtIndexPath
 
 
 #pragma mark -
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-/*
- if (performingSearch || [searchResults count] == 0) {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    return;
-  }
-*/
-
   if (indexPath.section == MainSection) {
     [detailViewController startAnimatingActivityIndicators];
     detailViewController.loadingText = [[searchResults objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
     
+    NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
     if (searchResultsScope == ServicesSearchScope) {
-      NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
       detailViewController.loadingText = [listing objectForKey:JSONNameElement];
       [detailViewController setServiceDescription:[listing objectForKey:JSONDescriptionElement]];
-
-      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
-                               toTarget:detailViewController
-                             withObject:listing];
+      
+      [detailViewController updateWithPropertiesForServicesScope:listing];
+//      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
+//                               toTarget:detailViewController 
+//                             withObject:listing];
     } else if (searchResultsScope == UsersSearchScope) {
       [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForUsersScope:) 
                                toTarget:detailViewController
-                             withObject:[searchResults objectAtIndex:indexPath.row]];
+                             withObject:listing];
     } else {
       [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForProvidersScope:) 
-                               toTarget:detailViewController
-                             withObject:[searchResults objectAtIndex:indexPath.row]];
+                               toTarget:detailViewController 
+                             withObject:listing];
     }
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
@@ -296,7 +230,7 @@
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   }
-}
+} // tableView:didSelectRowAtIndexPath
 
 
 #pragma mark -
@@ -309,7 +243,7 @@
   [searchBar sizeToFit];
   
   return YES;
-}
+} // searchBarShouldBeginEditing
 
 -(BOOL) searchBarShouldEndEditing:(UISearchBar *)searchBar {
   [searchBar setShowsCancelButton:NO animated:YES];
@@ -320,19 +254,19 @@
   [searchBar resignFirstResponder];
   
   return YES;
-}
+} // searchBarShouldEndEditing
 
 -(void) searchBarCancelButtonClicked:(UISearchBar *)searchBar {
   [self searchBarShouldEndEditing:searchBar];
-}
+} // searchBarCancelButtonClicked
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
   [detailViewController startAnimatingActivityIndicators];
-  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
+  [self startFetchResultsForCurrentPageThread];
   
   [searchBar resignFirstResponder];
-}
+} // searchBarSearchButtonClicked
 
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
   if (selectedScope == ServicesSearchScopeIndex) {
@@ -345,7 +279,7 @@
     searchBar.placeholder = @"Search For A Service Provider";
     searchScope = ProvidersSearchScope;
   }
-}
+} // searchBar:selectedScopeButtonIndexDidChange
 
 
 #pragma mark -
@@ -355,25 +289,24 @@
   [currentPageLabel release];
   [mySearchBar release];
   [detailViewController release];  
-}
+} // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
   
   // Relinquish ownership any cached data, images, etc that aren't in use.
-}
+} // didReceiveMemoryWarning
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
   [self releaseIBOutlets];
-}
-
+} // viewDidUnload
 
 - (void)dealloc {
   [self releaseIBOutlets];
   [super dealloc];
-}
+} // dealloc
 
 
 @end

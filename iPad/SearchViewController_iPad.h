@@ -30,6 +30,7 @@
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;
 
+// TODO: do these need to be IBActions?
 -(IBAction) loadServicesOnNextPage:(id)sender;
 -(IBAction) loadServicesOnPreviousPage:(id)sender;
 

@@ -195,6 +195,7 @@
 		36834B0F128F215E0029D92A /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36834B0D128F215E0029D92A /* DetailView_iPad.xib */; };
 		36834BAE128F36110029D92A /* SearchViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 36834BAD128F36110029D92A /* SearchViewController_iPad.m */; };
 		3683516B1293473D0029D92A /* rounded-corners-black.gif in Resources */ = {isa = PBXBuildFile; fileRef = 3683516A1293473D0029D92A /* rounded-corners-black.gif */; };
+		368353671294962C0029D92A /* BrushedMetalBack.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 368353661294962C0029D92A /* BrushedMetalBack.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -406,6 +407,7 @@
 		36834BAC128F36110029D92A /* SearchViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController_iPad.h; path = iPad/SearchViewController_iPad.h; sourceTree = "<group>"; };
 		36834BAD128F36110029D92A /* SearchViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController_iPad.m; path = iPad/SearchViewController_iPad.m; sourceTree = "<group>"; };
 		3683516A1293473D0029D92A /* rounded-corners-black.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "rounded-corners-black.gif"; sourceTree = "<group>"; };
+		368353661294962C0029D92A /* BrushedMetalBack.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = BrushedMetalBack.jpg; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* BioMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BioMonitor-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -550,6 +552,7 @@
 		36344438125E860C006F3295 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				368353661294962C0029D92A /* BrushedMetalBack.jpg */,
 				3683516A1293473D0029D92A /* rounded-corners-black.gif */,
 				3611C22A126B5BB10076404E /* Monitoring */,
 				3634462C125E9FA6006F3295 /* BioMonitor.tiff */,
@@ -977,6 +980,7 @@
 				364150F5126CE66700DD9394 /* SearchView_iPhone.xib in Resources */,
 				36834B0F128F215E0029D92A /* DetailView_iPad.xib in Resources */,
 				3683516B1293473D0029D92A /* rounded-corners-black.gif in Resources */,
+				368353671294962C0029D92A /* BrushedMetalBack.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
