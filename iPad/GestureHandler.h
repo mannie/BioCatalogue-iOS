@@ -12,6 +12,17 @@
 @interface GestureHandler : NSObject {  
   NSMutableDictionary *initialCenterPositionsInLandscape;
   NSMutableDictionary *initialCenterPositionsInPortrait;
+  
+  IBOutlet UITableView *containerTableView;
+  
+  IBOutlet UIView *defaultView;
+  IBOutlet UIView *serviceDetailView;
+  
+  IBOutlet UIView *userDetailView;  
+  IBOutlet UIView *userDetailIDCardView;
+
+  IBOutlet UIView *providerDetailView;  
+  IBOutlet UIView *providerDetailIDCardView;
 }
 
 -(void) panViewButResetPositionAfterwards:(UIPanGestureRecognizer *)recognizer;

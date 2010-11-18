@@ -20,10 +20,7 @@
 
 // TODO: move this to a helper class
 -(void) startAnimatingActivityIndicators {
-  [defaultViewActivityIndicator startAnimating];
-  [serviceViewActivityIndicator startAnimating];
-  [userViewActivityIndicator startAnimating];
-  [providerViewActivityIndicator startAnimating];
+  [activityIndicator startAnimating];
   
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:0.3];
@@ -35,11 +32,8 @@
 
 // TODO: move this to a helper class
 -(void) stopAnimatingActivityIndicators {
-  [defaultViewActivityIndicator stopAnimating];
-  [serviceViewActivityIndicator stopAnimating];
-  [userViewActivityIndicator stopAnimating];
-  [providerViewActivityIndicator stopAnimating];
-  
+  [activityIndicator stopAnimating];
+
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:0.3];
   
@@ -72,11 +66,13 @@
 } // setLoadingText
 
 
--(void) setServiceDescription:(NSString *)description {
+-(void) setDescription:(NSString *)description {
   NSString *desc = [NSString stringWithFormat:@"%@", description];
-  descriptionAvailable = ![desc isEqualToString:JSONNull];
-  serviceDescriptionLabel.text = (descriptionAvailable ? desc : @"No service description");
-} // setServiceDescription
+  BOOL descriptionAvailable = ![desc isEqualToString:@""] && ![desc isEqualToString:JSONNull];
+
+  serviceDescriptionLabel.text = (descriptionAvailable ? desc : @"No description available");
+//  providerDescriptionLabel.text = (descriptionAvailable ? desc : @"No information available");
+} // setDescription
 
 -(void) updateWithProperties:(NSDictionary *)properties withScope:(NSString *)scope {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
@@ -84,12 +80,13 @@
   // fetch the latest properties
   [listingProperties release];
   listingProperties = [properties copy];
-  serviceNameLabel.text = [listingProperties objectForKey:JSONNameElement];
     
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   
   NSString *detailItem;
   if ([scope isEqualToString:ServicesSearchScope]) {
+    serviceNameLabel.text = [listingProperties objectForKey:JSONNameElement];
+    
     [serviceProperties release];
     serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
     
@@ -109,11 +106,10 @@
     userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] copy];
     
     serviceSubmitterNameLabel.text = [userProperties objectForKey:JSONNameElement];
-    
-    containerTableView.tableHeaderView = serviceDetailView;
   } else if ([scope isEqualToString:UsersSearchScope]) {
     [userProperties release];
-    userProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
+//    userProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
+    userProperties = [properties copy];
     
     userNameLabel.text = [userProperties objectForKey:JSONNameElement];
 
@@ -131,15 +127,15 @@
     
     detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONJoinedElement]];
     userJoinedLabel.text = [detailItem stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
-
-    containerTableView.tableHeaderView = userDetailView;
   } else {
     [providerProperties release];
-    providerProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
+//    providerProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
+    providerProperties = [properties copy];
     
-    loadingTextLabel.text = [NSString stringWithFormat:@"%@", providerProperties];
-    
-    containerTableView.tableHeaderView = defaultView;
+    providerNameLabel.text = [providerProperties objectForKey:JSONNameElement];
+
+    detailItem = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
+    providerDescriptionLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"No information available" : detailItem);
   }
   
   // TODO: move this to a helper class
@@ -162,36 +158,77 @@
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {  
+  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+
   [self updateWithProperties:properties withScope:ServicesSearchScope];
+  containerTableView.tableHeaderView = serviceDetailView;
+  scopeOfResourceBeingViewed = ServicesSearchScope;
+
+  [autoreleasePool drain];
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
+  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+
   [self updateWithProperties:properties withScope:UsersSearchScope];  
+  containerTableView.tableHeaderView = userDetailView;
+  scopeOfResourceBeingViewed = UsersSearchScope;
+
+  [autoreleasePool drain];
 } // updateWithPropertiesForUsersScope
 
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties {
+  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+
   [self updateWithProperties:properties withScope:ProvidersSearchScope];  
+  containerTableView.tableHeaderView = providerDetailView;
+  scopeOfResourceBeingViewed = ProvidersSearchScope;
+
+  [autoreleasePool drain];
 } // updateWithPropertiesForProvidersScope
 
 
 #pragma mark -
-#pragma mark Split view support
+#pragma mark IBActions
 
--(NSArray *) listOfToolbarsInNib {
-  if (containerTableView.tableHeaderView == serviceDetailView) {
-    return [NSArray arrayWithObjects:defaultViewToolbar, userViewToolbar, providerViewToolbar, 
-            serviceViewToolbar, nil];
-  } else if (containerTableView.tableHeaderView == userViewToolbar) {
-    return [NSArray arrayWithObjects:defaultViewToolbar, userViewToolbar, serviceViewToolbar,
-            providerViewToolbar, nil];
-  } else if (containerTableView.tableHeaderView == providerViewToolbar) {
-    return [NSArray arrayWithObjects:defaultViewToolbar, providerViewToolbar, serviceViewToolbar,
-            userViewToolbar, nil];
-  } else {
-    return [NSArray arrayWithObjects:userViewToolbar, providerViewToolbar, serviceViewToolbar,
-            defaultViewToolbar, nil];
+-(void) viewSubmitterInformation:(id)sender {
+/*
+  userDetailIDCardView.alpha = 0;
+  
+  containerTableView.tableFooterView = userDetailIDCardView;
+  
+  [self updateWithProperties:userProperties withScope:UsersSearchScope];
+  
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.5];
+  userDetailIDCardView.alpha = 1;
+  [UIView commitAnimations];
+*/  
+  
+  /*
+  UIViewController *viewController = [[UIViewController alloc] init];
+  viewController.view = userDetailIDCardView;
+  
+  // TODO: store current service?
+  
+  // TODO: load up user into popover
+  [self updateWithProperties:userProperties withScope:UsersSearchScope];
+  
+  if (!contextualPopoverController.popoverVisible) {
+    [contextualPopoverController release];
+    contextualPopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
+    [contextualPopoverController presentPopoverFromRect:[sender frame]
+                                                 inView:serviceDetailView 
+                               permittedArrowDirections:UIPopoverArrowDirectionUp
+                                               animated:YES];    
+    [contextualPopoverController setPopoverContentSize:userDetailIDCardView.frame.size animated:YES];
   }
-} // listOfToolbarsInNib
+   */
+}
+
+
+#pragma mark -
+#pragma mark Split view support
 
 - (void)splitViewController: (UISplitViewController*)svc 
      willHideViewController:(UIViewController *)aViewController
@@ -199,13 +236,15 @@
        forPopoverController: (UIPopoverController*)pc {
   
   barButtonItem.title = @"Main Menu";
+
+  NSMutableArray *items = [[toolbar items] mutableCopy];
+
+  favouriteServiceBarButtonItem.enabled = [scopeOfResourceBeingViewed isEqualToString:ServicesSearchScope];
   
-  for (UIToolbar *toolbar in [self listOfToolbarsInNib]) {
-    NSMutableArray *items = [[toolbar items] mutableCopy];
-    [items insertObject:barButtonItem atIndex:0];
-    [toolbar setItems:items animated:YES];
-    [items release];    
-  }
+  [items insertObject:barButtonItem atIndex:0];
+  [toolbar setItems:items animated:YES];
+
+  [items release];
   
   defaultPopoverController = pc;
 } // splitViewController:willHideViewController:withBarButtonItem:forPopoverController
@@ -214,12 +253,10 @@
      willShowViewController:(UIViewController *)aViewController 
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
   
-  for (UIToolbar *toolbar in [self listOfToolbarsInNib]) {
-    NSMutableArray *items = [[toolbar items] mutableCopy];
-    [items removeObjectAtIndex:0];
-    [toolbar setItems:items animated:YES];  
-    [items release];
-  }
+  NSMutableArray *items = [[toolbar items] mutableCopy];
+  [items removeObjectAtIndex:0]; 
+  [toolbar setItems:items animated:YES];  
+  [items release];
   
   defaultPopoverController = nil;
 } // splitViewController:willShowViewController:invalidatingBarButtonItem
@@ -240,20 +277,30 @@
   if (!viewHasAlreadyInitialized) {
     NSDictionary *properties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LastViewedResourceKey];
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
+
+    self.loadingText = [properties objectForKey:JSONNameElement];
     if ([scope isEqualToString:ServicesSearchScope]) {
-      [self setServiceDescription:[properties objectForKey:JSONDescriptionElement]];
+      [self setDescription:[properties objectForKey:JSONDescriptionElement]];
+
+      // FIXME: threading issues
+      [self updateWithPropertiesForServicesScope:properties];
+//      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
+//                               toTarget:self
+//                             withObject:properties];
+    } else if ([scope isEqualToString:UsersSearchScope]) {
+      [self updateWithPropertiesForUsersScope:properties];
+    } else {
+      [self setDescription:[properties objectForKey:JSONDescriptionElement]];
+      [self updateWithPropertiesForProvidersScope:properties];
     }
-    
-    [self updateWithProperties:properties withScope:scope];
-    
-    viewHasAlreadyInitialized = YES;
-    
-    gestureHandler = [[GestureHandler alloc] init];
     
     UIGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
                                                                               action:@selector(panViewButResetPositionAfterwards:)];
     [userDetailIDCardView addGestureRecognizer:recognizer];
+    [providerDetailIDCardView addGestureRecognizer:recognizer];
     [recognizer release];
+    
+    viewHasAlreadyInitialized = YES;
   }  
 } // viewWillAppear
 
@@ -297,13 +344,11 @@
 
 -(void) releaseIBOutlets {
   // default view outlets
-  [defaultViewToolbar release];
+  [toolbar release];
   [defaultView release];  
-  [defaultViewActivityIndicator release];
+  [activityIndicator release];
   
   // service view outlets
-  [serviceViewToolbar release];
-  [serviceViewActivityIndicator release];
   [serviceDetailView release];
   
   [serviceNameLabel release];
@@ -313,8 +358,6 @@
   
   // user view outlets  
   [userDetailView release];
-  [userViewToolbar release];
-  [userViewActivityIndicator release];
   
   [userDetailIDCardView release];
   
@@ -327,12 +370,18 @@
   
   // provider view outlets
   [providerDetailView release];
-  [providerViewToolbar release];
-  [providerViewActivityIndicator release];  
+  [providerDetailIDCardView release];
   
+  [providerNameLabel release];
+  [providerDescriptionLabel release];
+
   // other outlets
   [loadingTextLabel release];
   [containerTableView release];
+  [gestureHandler release];
+  
+  [favouriteServiceBarButtonItem release];
+  [viewResourceInBioCatalogueBarButtonItem release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
@@ -354,7 +403,6 @@
   [defaultPopoverController release];
   [contextualPopoverController release];
   
-  [gestureHandler release];
   [loadingText release];
   
   [self releaseIBOutlets];

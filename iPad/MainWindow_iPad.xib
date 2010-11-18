@@ -762,31 +762,27 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>defaultViewToolbar</string>
 							<string>loadingText</string>
 							<string>loadingTextLabel</string>
+							<string>toolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIToolbar</string>
 							<string>id</string>
 							<string>UILabel</string>
+							<string>UIToolbar</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>defaultViewToolbar</string>
 							<string>loadingText</string>
 							<string>loadingTextLabel</string>
+							<string>toolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">defaultViewToolbar</string>
-								<string key="candidateClassName">UIToolbar</string>
-							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">loadingText</string>
 								<string key="candidateClassName">id</string>
@@ -794,6 +790,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">loadingTextLabel</string>
 								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">toolbar</string>
+								<string key="candidateClassName">UIToolbar</string>
 							</object>
 						</object>
 					</object>

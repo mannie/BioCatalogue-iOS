@@ -14,32 +14,35 @@
   UIPopoverController *defaultPopoverController;
   UIPopoverController *contextualPopoverController;
   
-  GestureHandler *gestureHandler;
+  IBOutlet GestureHandler *gestureHandler;
   
   NSDictionary *listingProperties;
   NSDictionary *serviceProperties;
   NSDictionary *userProperties;
   NSDictionary *providerProperties;
   
+  NSString *scopeOfResourceBeingViewed;
+  
   BOOL viewHasAlreadyInitialized;
 
   IBOutlet UITableView *containerTableView;
+
+  IBOutlet UIToolbar *toolbar;
+  IBOutlet UIBarButtonItem *favouriteServiceBarButtonItem;
+  IBOutlet UIBarButtonItem *viewResourceInBioCatalogueBarButtonItem;
   
+  IBOutlet UIActivityIndicatorView *activityIndicator;
+
   // the default view
   IBOutlet UIView *defaultView;
-  IBOutlet UIToolbar *defaultViewToolbar;
-  IBOutlet UIActivityIndicatorView *defaultViewActivityIndicator;
 
   IBOutlet UILabel *loadingTextLabel;
   NSString *loadingText;
   
   // the service view
-  BOOL descriptionAvailable;
   BOOL monitoringStatusInformationAvailable;
 
   IBOutlet UIView *serviceDetailView;
-  IBOutlet UIToolbar *serviceViewToolbar;
-  IBOutlet UIActivityIndicatorView *serviceViewActivityIndicator;
   
   IBOutlet UILabel *serviceNameLabel;
   IBOutlet UITextView *serviceDescriptionLabel;
@@ -48,9 +51,6 @@
   
   // the user view
   IBOutlet UIView *userDetailView;
-  IBOutlet UIToolbar *userViewToolbar;
-  IBOutlet UIActivityIndicatorView *userViewActivityIndicator;
-
   IBOutlet UIView *userDetailIDCardView;
   
   IBOutlet UILabel *userNameLabel;
@@ -62,13 +62,15 @@
 
   // the provider view
   IBOutlet UIView *providerDetailView;
-  IBOutlet UIToolbar *providerViewToolbar;
-  IBOutlet UIActivityIndicatorView *providerViewActivityIndicator;  
+  IBOutlet UIView *providerDetailIDCardView;
+  
+  IBOutlet UILabel *providerNameLabel;
+  IBOutlet UITextView *providerDescriptionLabel;
 }
 
 @property (nonatomic, retain) NSString *loadingText;
 
--(void) setServiceDescription:(NSString *)description;
+-(void) setDescription:(NSString *)description;
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties;
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties;
@@ -76,5 +78,7 @@
 
 -(void) startAnimatingActivityIndicators;
 -(void) stopAnimatingActivityIndicators;
+
+-(IBAction) viewSubmitterInformation:(id)sender;
 
 @end

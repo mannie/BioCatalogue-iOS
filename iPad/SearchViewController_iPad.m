@@ -44,6 +44,7 @@
 } // performSearch
 
 -(void) startFetchResultsForCurrentPageThread {
+  [self searchBarShouldEndEditing:mySearchBar];
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
 } // startFetchResultsForCurrentPageThread
 
@@ -56,6 +57,8 @@
     if ([searchResults count] > 0) {
       currentPage++;
     }
+    
+    searchScope = searchResultsScope;
     [self startFetchResultsForCurrentPageThread];
   }
 } // loadServicesOnNextPage
@@ -65,6 +68,8 @@
     if (currentPage > 1) {
       currentPage--;
     }
+    
+    searchScope = searchResultsScope;
     [self startFetchResultsForCurrentPageThread];
   }
 } // loadServicesOnPreviousPage
@@ -75,15 +80,12 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
+  [self searchBarCancelButtonClicked:mySearchBar];
+
   searchScope = ServicesSearchScope;
   currentPageLabel.text = @"";
 } // viewDidLoad
-
-- (void)viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  [self searchBarCancelButtonClicked:mySearchBar];
-} // viewWillAppear
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -196,25 +198,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == MainSection) {
     [detailViewController startAnimatingActivityIndicators];
-    detailViewController.loadingText = [[searchResults objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
     
     NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
-    if (searchResultsScope == ServicesSearchScope) {
-      detailViewController.loadingText = [listing objectForKey:JSONNameElement];
-      [detailViewController setServiceDescription:[listing objectForKey:JSONDescriptionElement]];
+    detailViewController.loadingText = [listing objectForKey:JSONNameElement];
+
+    if (searchResultsScope == ServicesSearchScope) {      
+      [detailViewController setDescription:[listing objectForKey:JSONDescriptionElement]];
       
+      // FIXME: threading issues
       [detailViewController updateWithPropertiesForServicesScope:listing];
 //      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
 //                               toTarget:detailViewController 
 //                             withObject:listing];
     } else if (searchResultsScope == UsersSearchScope) {
-      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForUsersScope:) 
-                               toTarget:detailViewController
-                             withObject:listing];
+      [detailViewController updateWithPropertiesForUsersScope:listing];
     } else {
-      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForProvidersScope:) 
-                               toTarget:detailViewController 
-                             withObject:listing];
+      [detailViewController updateWithPropertiesForProvidersScope:listing];
     }
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {

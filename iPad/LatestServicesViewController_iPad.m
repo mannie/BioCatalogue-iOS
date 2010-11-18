@@ -85,12 +85,7 @@
   
   self.clearsSelectionOnViewWillAppear = NO;
   self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
-} // viewDidLoad
 
-
-- (void)viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  
   initializing = YES;
   
   currentPageLabel.text = @"Loading, Please Wait...";
@@ -99,7 +94,7 @@
   lastPage = 0;
   
   [self startFetchServicesForCurrentPageThread];   
-} // viewWillAppear
+} // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -186,12 +181,13 @@
     
     NSDictionary *listing = [services objectAtIndex:indexPath.row];
     detailViewController.loadingText = [listing objectForKey:JSONNameElement];
-    [detailViewController setServiceDescription:[listing objectForKey:JSONDescriptionElement]];
-    
+    [detailViewController setDescription:[listing objectForKey:JSONDescriptionElement]];
+
+    // FIXME: threading issues
     [detailViewController updateWithPropertiesForServicesScope:listing];
 //    [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:)
 //                             toTarget:detailViewController 
-//                           withObject:listing];    
+//                           withObject:listing];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
       [detailViewController startAnimatingActivityIndicators];

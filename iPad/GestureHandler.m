@@ -69,13 +69,15 @@
   } // if UIGestureRecognizerStateChanged
   
   if (recognizer.state == UIGestureRecognizerStateEnded) {
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.45];
+
     NSDictionary *originalCenterAsObject = (portraitOrientation ? 
                                             [initialCenterPositionsInPortrait objectForKey:viewHash] :
                                             [initialCenterPositionsInLandscape objectForKey:viewHash]);
     
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.45];
-    recognizer.view.center = [self pointForNSDictionary:originalCenterAsObject];
+    recognizer.view.center = [self pointForNSDictionary:originalCenterAsObject];  
+    
     [UIView commitAnimations];
   } // if UIGestureRecognizerStateEnded
 } // panViewButResetPositionAfterwards
@@ -84,7 +86,28 @@
 #pragma mark -
 #pragma mark Memory Management
 
+-(void) releaseIBOutlets {
+  // default view outlets
+  [defaultView release];  
+  
+  // service view outlets
+  [serviceDetailView release];
+
+  // user view outlets  
+  [userDetailView release];
+  [userDetailIDCardView release];
+  
+  // provider view outlets
+  [providerDetailView release];
+  [providerDetailIDCardView release];
+  
+  [containerTableView release];
+} // releaseIBOutlets
+
+
 -(void) dealloc {
+  [self releaseIBOutlets];
+  
   [initialCenterPositionsInLandscape release];
   [initialCenterPositionsInPortrait release];
   
