@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GestureHandler.h"
 
 
 @interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
@@ -40,11 +41,7 @@
   
   IBOutlet UITableView *componentsTableView;
   
-  CGPoint initialViewCenterPositionBeforePanningInLandscape;
-  BOOL initialViewCenterStoredInLandscape;
-
-  CGPoint initialViewCenterPositionBeforePanningInPortrait;
-  BOOL initialViewCenterStoredInPortrait;
+  GestureHandler *gestureHandler;
 }
 
 @property (nonatomic, retain) NSString *loadingText;
