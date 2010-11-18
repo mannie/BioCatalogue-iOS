@@ -11,42 +11,62 @@
 
 
 @interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
-  UIPopoverController *popoverController;
-  NSString *loadingText;
-
-  IBOutlet UIToolbar *defaultToolbar;
-  IBOutlet UIToolbar *serviceDetailToolbar;
+  UIPopoverController *defaultPopoverController;
+  UIPopoverController *contextualPopoverController;
   
-  IBOutlet UILabel *loadingTextLabel;
-  
-  IBOutlet UIView *defaultView;
-  IBOutlet UIView *serviceDetailView;
+  GestureHandler *gestureHandler;
   
   NSDictionary *listingProperties;
   NSDictionary *serviceProperties;
   NSDictionary *userProperties;
   NSDictionary *providerProperties;
   
-  BOOL monitoringStatusInformationAvailable;
-  BOOL descriptionAvailable;
   BOOL viewHasAlreadyInitialized;
+
+  IBOutlet UITableView *containerTableView;
   
-  IBOutlet UILabel *nameLabel;
-  IBOutlet UITextView *descriptionLabel;
-  IBOutlet UILabel *providerNameLabel;
-  IBOutlet UILabel *submitterNameLabel;
+  // the default view
+  IBOutlet UIView *defaultView;
+  IBOutlet UIToolbar *defaultViewToolbar;
+  IBOutlet UIActivityIndicatorView *defaultViewActivityIndicator;
+
+  IBOutlet UILabel *loadingTextLabel;
+  NSString *loadingText;
   
-  IBOutlet UIActivityIndicatorView *defaultActivityIndicator;
-  IBOutlet UIActivityIndicatorView *serviceDetailActivityIndicator;
+  // the service view
+  BOOL descriptionAvailable;
+  BOOL monitoringStatusInformationAvailable;
+
+  IBOutlet UIView *serviceDetailView;
+  IBOutlet UIToolbar *serviceViewToolbar;
+  IBOutlet UIActivityIndicatorView *serviceViewActivityIndicator;
   
-  IBOutlet UITableView *componentsTableView;
+  IBOutlet UILabel *serviceNameLabel;
+  IBOutlet UITextView *serviceDescriptionLabel;
+  IBOutlet UILabel *serviceProviderNameLabel;
+  IBOutlet UILabel *serviceSubmitterNameLabel;
   
-  GestureHandler *gestureHandler;
+  // the user view
+  IBOutlet UIView *userDetailView;
+  IBOutlet UIToolbar *userViewToolbar;
+  IBOutlet UIActivityIndicatorView *userViewActivityIndicator;
+
+  IBOutlet UIView *userDetailIDCardView;
+  
+  IBOutlet UILabel *userNameLabel;
+  IBOutlet UILabel *userAffiliationLabel;
+  IBOutlet UILabel *userCountryLabel;
+  IBOutlet UILabel *userCityLabel;
+  IBOutlet UILabel *userEmailLabel;
+  IBOutlet UILabel *userJoinedLabel;
+
+  // the provider view
+  IBOutlet UIView *providerDetailView;
+  IBOutlet UIToolbar *providerViewToolbar;
+  IBOutlet UIActivityIndicatorView *providerViewActivityIndicator;  
 }
 
 @property (nonatomic, retain) NSString *loadingText;
-
-@property (nonatomic, retain) UIPopoverController *popoverController;
 
 -(void) setServiceDescription:(NSString *)description;
 

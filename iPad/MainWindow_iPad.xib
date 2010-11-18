@@ -762,7 +762,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>defaultToolbar</string>
+							<string>defaultViewToolbar</string>
 							<string>loadingText</string>
 							<string>loadingTextLabel</string>
 						</object>
@@ -777,14 +777,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>defaultToolbar</string>
+							<string>defaultViewToolbar</string>
 							<string>loadingText</string>
 							<string>loadingTextLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">defaultToolbar</string>
+								<string key="name">defaultViewToolbar</string>
 								<string key="candidateClassName">UIToolbar</string>
 							</object>
 							<object class="IBToOneOutletInfo">

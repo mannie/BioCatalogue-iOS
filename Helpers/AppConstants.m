@@ -62,7 +62,9 @@ NSString *const JSONURLElement = @"url";
 NSString *const JSONTotalElement = @"total";
 NSString *const JSONPagesElement = @"pages";
 NSString *const JSONSearchQueryElement = @"search_query";
-
+NSString *const JSONAffiliationElement = @"affiliation";
+NSString *const JSONPublicEmailElement = @"public_email";
+NSString *const JSONJoinedElement = @"joined";
 
 
 #pragma mark -

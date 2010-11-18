@@ -12,29 +12,39 @@
 
 @implementation DetailViewController_iPad
 
-@synthesize popoverController, loadingText;
+@synthesize loadingText;
 
 
 #pragma mark -
 #pragma mark Helpers
 
+// TODO: move this to a helper class
 -(void) startAnimatingActivityIndicators {
-  [defaultActivityIndicator startAnimating];
-  [serviceDetailActivityIndicator startAnimating];
+  [defaultViewActivityIndicator startAnimating];
+  [serviceViewActivityIndicator startAnimating];
+  [userViewActivityIndicator startAnimating];
+  [providerViewActivityIndicator startAnimating];
   
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:0.3];
-  nameLabel.alpha = 0.1;
+  
+  serviceNameLabel.alpha = 0.1;
+  
   [UIView commitAnimations];
 } // startAnimatingActivityIndicators
 
+// TODO: move this to a helper class
 -(void) stopAnimatingActivityIndicators {
-  [defaultActivityIndicator stopAnimating];
-  [serviceDetailActivityIndicator stopAnimating];
+  [defaultViewActivityIndicator stopAnimating];
+  [serviceViewActivityIndicator stopAnimating];
+  [userViewActivityIndicator stopAnimating];
+  [providerViewActivityIndicator stopAnimating];
   
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:0.3];
-  nameLabel.alpha = 1;
+  
+  serviceNameLabel.alpha = 1;
+  
   [UIView commitAnimations];
 } // stopAnimatingActivityIndicators
 
@@ -54,10 +64,10 @@
     loadingTextLabel.text = [NSString stringWithFormat:@"Loading: %@", [loadingText description]];
   }
   
-  componentsTableView.tableHeaderView = defaultView;
+  containerTableView.tableHeaderView = defaultView;
   
-  if (popoverController != nil) {
-    [popoverController dismissPopoverAnimated:YES];
+  if (defaultPopoverController != nil) {
+    [defaultPopoverController dismissPopoverAnimated:YES];
   }        
 } // setLoadingText
 
@@ -65,7 +75,7 @@
 -(void) setServiceDescription:(NSString *)description {
   NSString *desc = [NSString stringWithFormat:@"%@", description];
   descriptionAvailable = ![desc isEqualToString:JSONNull];
-  descriptionLabel.text = (descriptionAvailable ? desc : @"No service description");
+  serviceDescriptionLabel.text = (descriptionAvailable ? desc : @"No service description");
 } // setServiceDescription
 
 -(void) updateWithProperties:(NSDictionary *)properties withScope:(NSString *)scope {
@@ -74,20 +84,19 @@
   // fetch the latest properties
   [listingProperties release];
   listingProperties = [properties copy];
-  nameLabel.text = [listingProperties objectForKey:JSONNameElement];
-  
-  NSString *name;
-  
+  serviceNameLabel.text = [listingProperties objectForKey:JSONNameElement];
+    
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   
+  NSString *detailItem;
   if ([scope isEqualToString:ServicesSearchScope]) {
     [serviceProperties release];
     serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
     
     // provider details
-    name = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+    detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
              objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-    providerNameLabel.text = name;
+    serviceProviderNameLabel.text = detailItem;
     
     // monitoring details
     NSString *lastChecked = [NSString stringWithFormat:@"%@", 
@@ -99,21 +108,41 @@
     NSURL *userURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
     userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] copy];
     
-    submitterNameLabel.text = [userProperties objectForKey:JSONNameElement];
-
-    componentsTableView.tableHeaderView = serviceDetailView;
+    serviceSubmitterNameLabel.text = [userProperties objectForKey:JSONNameElement];
+    
+    containerTableView.tableHeaderView = serviceDetailView;
   } else if ([scope isEqualToString:UsersSearchScope]) {
     [userProperties release];
     userProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
-    componentsTableView.tableHeaderView = defaultView;
-    loadingTextLabel.text = [NSString stringWithFormat:@"%@", userProperties];
+    
+    userNameLabel.text = [userProperties objectForKey:JSONNameElement];
+
+    detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
+    userAffiliationLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    
+    detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCountryElement]];
+    userCountryLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    
+    detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCityElement]];
+    userCityLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    
+    detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
+    userEmailLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    
+    detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONJoinedElement]];
+    userJoinedLabel.text = [detailItem stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
+
+    containerTableView.tableHeaderView = userDetailView;
   } else {
     [providerProperties release];
     providerProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
-    componentsTableView.tableHeaderView = defaultView;
-    loadingTextLabel.text = [NSString stringWithFormat:@"%@", providerProperties];
-  }
     
+    loadingTextLabel.text = [NSString stringWithFormat:@"%@", providerProperties];
+    
+    containerTableView.tableHeaderView = defaultView;
+  }
+  
+  // TODO: move this to a helper class
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   NSDictionary *lastSavedProperties = [defaults dictionaryForKey:LastViewedResourceKey];
   NSString *lastSavedScope = [defaults stringForKey:LastViewedResourceScopeKey];
@@ -149,10 +178,18 @@
 #pragma mark Split view support
 
 -(NSArray *) listOfToolbarsInNib {
-  if (componentsTableView.tableHeaderView == serviceDetailView) {
-    return [NSArray arrayWithObjects:defaultToolbar, serviceDetailToolbar, nil];
+  if (containerTableView.tableHeaderView == serviceDetailView) {
+    return [NSArray arrayWithObjects:defaultViewToolbar, userViewToolbar, providerViewToolbar, 
+            serviceViewToolbar, nil];
+  } else if (containerTableView.tableHeaderView == userViewToolbar) {
+    return [NSArray arrayWithObjects:defaultViewToolbar, userViewToolbar, serviceViewToolbar,
+            providerViewToolbar, nil];
+  } else if (containerTableView.tableHeaderView == providerViewToolbar) {
+    return [NSArray arrayWithObjects:defaultViewToolbar, providerViewToolbar, serviceViewToolbar,
+            userViewToolbar, nil];
   } else {
-    return [NSArray arrayWithObjects:serviceDetailToolbar, defaultToolbar, nil];
+    return [NSArray arrayWithObjects:userViewToolbar, providerViewToolbar, serviceViewToolbar,
+            defaultViewToolbar, nil];
   }
 } // listOfToolbarsInNib
 
@@ -169,22 +206,22 @@
     [toolbar setItems:items animated:YES];
     [items release];    
   }
-
-  self.popoverController = pc;
+  
+  defaultPopoverController = pc;
 } // splitViewController:willHideViewController:withBarButtonItem:forPopoverController
 
 - (void)splitViewController: (UISplitViewController*)svc
      willShowViewController:(UIViewController *)aViewController 
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    
+  
   for (UIToolbar *toolbar in [self listOfToolbarsInNib]) {
     NSMutableArray *items = [[toolbar items] mutableCopy];
     [items removeObjectAtIndex:0];
     [toolbar setItems:items animated:YES];  
     [items release];
   }
-
-  self.popoverController = nil;
+  
+  defaultPopoverController = nil;
 } // splitViewController:willShowViewController:invalidatingBarButtonItem
 
 
@@ -215,7 +252,7 @@
     
     UIGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
                                                                               action:@selector(panViewButResetPositionAfterwards:)];
-    [self.view addGestureRecognizer:recognizer];
+    [userDetailIDCardView addGestureRecognizer:recognizer];
     [recognizer release];
   }  
 } // viewWillAppear
@@ -259,39 +296,63 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [defaultToolbar release];
-  [serviceDetailToolbar release];
+  // default view outlets
+  [defaultViewToolbar release];
+  [defaultView release];  
+  [defaultViewActivityIndicator release];
   
-  [loadingTextLabel release];
-  
-  [defaultView release];
+  // service view outlets
+  [serviceViewToolbar release];
+  [serviceViewActivityIndicator release];
   [serviceDetailView release];
-  [nameLabel release];
-  [descriptionLabel release];
-  [providerNameLabel release];
-  [submitterNameLabel release];
   
-  [defaultActivityIndicator release];
-  [serviceDetailActivityIndicator release];
+  [serviceNameLabel release];
+  [serviceDescriptionLabel release];
+  [serviceProviderNameLabel release];
+  [serviceSubmitterNameLabel release];
   
-  [componentsTableView release];
+  // user view outlets  
+  [userDetailView release];
+  [userViewToolbar release];
+  [userViewActivityIndicator release];
+  
+  [userDetailIDCardView release];
+  
+  [userNameLabel release];
+  [userAffiliationLabel release];
+  [userCountryLabel release];
+  [userCityLabel release];
+  [userEmailLabel release];
+  [userJoinedLabel release];
+  
+  // provider view outlets
+  [providerDetailView release];
+  [providerViewToolbar release];
+  [providerViewActivityIndicator release];  
+  
+  // other outlets
+  [loadingTextLabel release];
+  [containerTableView release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
- // Releases the view if it doesn't have a superview.
- [super didReceiveMemoryWarning];
- 
- // Release any cached data, images, etc that aren't in use.
+  // Releases the view if it doesn't have a superview.
+  [super didReceiveMemoryWarning];
+  
+  // Release any cached data, images, etc that aren't in use.
 } // didReceiveMemoryWarning
 
 - (void)viewDidUnload {
   // Release any retained subviews of the main view.
-  self.popoverController = nil;
+  [defaultPopoverController release];
+  [contextualPopoverController release];
+
   [self releaseIBOutlets];
 } // viewDidUnload
 
 - (void)dealloc {
-  [popoverController release];
+  [defaultPopoverController release];
+  [contextualPopoverController release];
   
   [gestureHandler release];
   [loadingText release];

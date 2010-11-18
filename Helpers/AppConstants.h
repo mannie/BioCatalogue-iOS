@@ -60,6 +60,9 @@ extern NSString *const JSONURLElement;
 extern NSString *const JSONTotalElement;
 extern NSString *const JSONPagesElement;
 extern NSString *const JSONSearchQueryElement;
+extern NSString *const JSONAffiliationElement;
+extern NSString *const JSONPublicEmailElement;
+extern NSString *const JSONJoinedElement;
 
 
 #pragma mark -
