@@ -15,7 +15,7 @@
 #import "ProviderDetailViewController_iPhone.h"
 
 
-@interface SearchViewController_iPhone : UITableViewController <UISearchBarDelegate> {
+@interface SearchViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
   UINavigationController *navigationController;
   
   NSDictionary *searchResultsDocument;
@@ -34,7 +34,10 @@
   IBOutlet UILabel *currentPageLabel;
   
   IBOutlet UISearchBar *mySearchBar;
+  IBOutlet UITableView *myTableView;
   
+  IBOutlet UIActivityIndicatorView *activityIndicator;
+
   BOOL performingSearch;
 }
 

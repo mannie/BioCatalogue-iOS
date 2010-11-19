@@ -18,8 +18,7 @@
 #pragma mark -
 #pragma mark Helpers
 
-// TODO: move this to a helper class
--(void) startAnimatingActivityIndicators {
+-(void) startAnimatingActivityIndicator {
   [activityIndicator startAnimating];
   
   [UIView beginAnimations:nil context:NULL];
@@ -28,10 +27,9 @@
   serviceNameLabel.alpha = 0.1;
   
   [UIView commitAnimations];
-} // startAnimatingActivityIndicators
+} // startAnimatingActivityIndicator
 
-// TODO: move this to a helper class
--(void) stopAnimatingActivityIndicators {
+-(void) stopAnimatingActivityIndicator {
   [activityIndicator stopAnimating];
 
   [UIView beginAnimations:nil context:NULL];
@@ -40,15 +38,12 @@
   serviceNameLabel.alpha = 1;
   
   [UIView commitAnimations];
-} // stopAnimatingActivityIndicators
+} // stopAnimatingActivityIndicator
 
 
 #pragma mark -
-#pragma mark Managing loading
+#pragma mark Managing loading resources into the view
 
-/*
- When setting the detail item, update the view and dismiss the popover controller if it's showing.
- */
 -(void) setLoadingText:(NSString *)newLoadingText {
   if (loadingText != newLoadingText) {
     [loadingText release];
@@ -58,23 +53,21 @@
     loadingTextLabel.text = [NSString stringWithFormat:@"Loading: %@", [loadingText description]];
   }
   
-  containerTableView.tableHeaderView = defaultView;
+  mainContentView.tableHeaderView = defaultView;
   
   if (defaultPopoverController != nil) {
     [defaultPopoverController dismissPopoverAnimated:YES];
   }        
 } // setLoadingText
 
-
 -(void) setDescription:(NSString *)description {
-  NSString *desc = [NSString stringWithFormat:@"%@", description];
-  BOOL descriptionAvailable = ![desc isEqualToString:@""] && ![desc isEqualToString:JSONNull];
-
-  serviceDescriptionLabel.text = (descriptionAvailable ? desc : @"No description available");
-//  providerDescriptionLabel.text = (descriptionAvailable ? desc : @"No information available");
+  NSString *value = [NSString stringWithFormat:@"%@", description];
+  serviceDescriptionLabel.text = ([value isValidJSONValue] ? value : NoDescriptionText);
 } // setDescription
 
 -(void) updateWithProperties:(NSDictionary *)properties withScope:(NSString *)scope {
+  // TODO: put a check to see whether a fetch is already occuring or not
+  
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
   // fetch the latest properties
@@ -98,7 +91,7 @@
     // monitoring details
     NSString *lastChecked = [NSString stringWithFormat:@"%@", 
                              [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
-    monitoringStatusInformationAvailable = ![lastChecked isEqualToString:JSONNull];
+    monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
     
     // submitter details
     [userProperties release];
@@ -106,53 +99,54 @@
     userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] copy];
     
     serviceSubmitterNameLabel.text = [userProperties objectForKey:JSONNameElement];
+    
+    // service components
+    BioCatalogueClient *client = [BioCatalogueClient client];
+    BOOL isREST = [client serviceIsREST:properties];
+    BOOL isSOAP = [client serviceIsSOAP:properties];
+    
+    if (isREST) {
+      componentsLabel.text = RESTComponentsText;
+    } else if (isSOAP) {
+      componentsLabel.text = SOAPComponentsText;
+    } else {
+      componentsLabel.text = [client serviceType:properties];
+    }
+    
+    showComponentsButton.hidden = !isREST && !isSOAP;    
   } else if ([scope isEqualToString:UsersSearchScope]) {
     [userProperties release];
-//    userProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
     userProperties = [properties copy];
     
     userNameLabel.text = [userProperties objectForKey:JSONNameElement];
 
     detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
-    userAffiliationLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    userAffiliationLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
     
     detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCountryElement]];
-    userCountryLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    userCountryLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
     
     detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCityElement]];
-    userCityLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    userCityLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
     
     detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
-    userEmailLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"Unknown" : detailItem);
+    userEmailLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
     
     detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONJoinedElement]];
     userJoinedLabel.text = [detailItem stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
   } else {
     [providerProperties release];
-//    providerProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
     providerProperties = [properties copy];
     
     providerNameLabel.text = [providerProperties objectForKey:JSONNameElement];
 
     detailItem = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
-    providerDescriptionLabel.text = ([detailItem isEqualToString:@""] || [detailItem isEqualToString:JSONNull] ? @"No information available" : detailItem);
+    providerDescriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoInformationText);
   }
   
-  // TODO: move this to a helper class
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDictionary *lastSavedProperties = [defaults dictionaryForKey:LastViewedResourceKey];
-  NSString *lastSavedScope = [defaults stringForKey:LastViewedResourceScopeKey];
-  
-  [defaults setObject:properties forKey:LastViewedResourceKey];
-  [defaults setObject:scope forKey:LastViewedResourceScopeKey];
-  
-  if (![defaults objectForKey:LastViewedResourceKey]) {
-    // failed to store new object so revert to last stored one
-    [defaults setObject:lastSavedProperties forKey:LastViewedResourceKey];
-    [defaults setObject:lastSavedScope forKey:LastViewedResourceScopeKey];
-  }
-  
-  [self stopAnimatingActivityIndicators];
+  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
+    
+  [self stopAnimatingActivityIndicator];
   
   [autoreleasePool drain];
 } // updateWithProperties:scope
@@ -161,7 +155,7 @@
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
 
   [self updateWithProperties:properties withScope:ServicesSearchScope];
-  containerTableView.tableHeaderView = serviceDetailView;
+  mainContentView.tableHeaderView = serviceDetailView;
   scopeOfResourceBeingViewed = ServicesSearchScope;
 
   [autoreleasePool drain];
@@ -171,7 +165,7 @@
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
 
   [self updateWithProperties:properties withScope:UsersSearchScope];  
-  containerTableView.tableHeaderView = userDetailView;
+  mainContentView.tableHeaderView = userDetailView;
   scopeOfResourceBeingViewed = UsersSearchScope;
 
   [autoreleasePool drain];
@@ -181,7 +175,7 @@
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
 
   [self updateWithProperties:properties withScope:ProvidersSearchScope];  
-  containerTableView.tableHeaderView = providerDetailView;
+  mainContentView.tableHeaderView = providerDetailView;
   scopeOfResourceBeingViewed = ProvidersSearchScope;
 
   [autoreleasePool drain];
@@ -224,6 +218,22 @@
     [contextualPopoverController setPopoverContentSize:userDetailIDCardView.frame.size animated:YES];
   }
    */
+}
+
+-(void) showProviderInfo:(id)sender {
+  
+}
+
+-(void) showSubmitterInfo:(id)sender {
+  
+}
+
+-(void) showMonitoringStatusInfo:(id)sender {
+  
+}
+
+-(void) showServiceComponents:(id)sender {
+  
 }
 
 
@@ -269,19 +279,15 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
   [super viewDidLoad];
-} // viewDidLoad
 
-- (void)viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  
   if (!viewHasAlreadyInitialized) {
     NSDictionary *properties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LastViewedResourceKey];
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
-
+    
     self.loadingText = [properties objectForKey:JSONNameElement];
     if ([scope isEqualToString:ServicesSearchScope]) {
       [self setDescription:[properties objectForKey:JSONDescriptionElement]];
-
+      
       // FIXME: threading issues
       [self updateWithPropertiesForServicesScope:properties];
 //      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
@@ -294,49 +300,41 @@
       [self updateWithPropertiesForProvidersScope:properties];
     }
     
-    UIGestureRecognizer *recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
-                                                                              action:@selector(panViewButResetPositionAfterwards:)];
-    [userDetailIDCardView addGestureRecognizer:recognizer];
+    UIGestureRecognizer *recognizer;
+    
+    // pan recognizer for providerDetailIDCardView
+    recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
+                                                         action:@selector(panViewButResetPositionAfterwards:)];
     [providerDetailIDCardView addGestureRecognizer:recognizer];
     [recognizer release];
+
+    // pan recognizer for userDetailIDCardView
+    recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
+                                                         action:@selector(panViewButResetPositionAfterwards:)];
+    [userDetailIDCardView addGestureRecognizer:recognizer];
+    [recognizer release];
+
     
+    // right swipe recognizer for auxiliaryDetailPanel
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:gestureHandler 
+                                                           action:@selector(rolloutAuxiliaryDetailPanel:)];
+    [auxiliaryDetailPanel addGestureRecognizer:recognizer];
+    [recognizer release];
+    
+    // left swipe recognizer for auxiliaryDetailPanel
+    recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:gestureHandler 
+                                                           action:@selector(rolloutAuxiliaryDetailPanel:)];
+    ((UISwipeGestureRecognizer *)recognizer).direction = UISwipeGestureRecognizerDirectionLeft;
+    [auxiliaryDetailPanel addGestureRecognizer:recognizer];    
+    [recognizer release];
+        
     viewHasAlreadyInitialized = YES;
   }  
-} // viewWillAppear
+} // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 } // shouldAutorotateToInterfaceOrientation
-
-
-#pragma mark -
-#pragma mark Table view data source
-
--(NSInteger) tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section {
-  return 0;
-} // tableView:numberOfRowsInSection
-
--(UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  static NSString *CellIdentifier = @"Cell";
-  
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-  }
-  
-  // Configure the cell...
-  
-  return cell;
-} // tableView:cellForRowAtIndexPath
-
-
-#pragma mark -
-#pragma mark Table view delegate
-
--(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [tableView deselectRowAtIndexPath:indexPath animated:YES];
-} // tableView:didSelectRowAtIndexPath
 
 
 #pragma mark -
@@ -355,6 +353,9 @@
   [serviceDescriptionLabel release];
   [serviceProviderNameLabel release];
   [serviceSubmitterNameLabel release];
+  
+  [componentsLabel release];
+  [showComponentsButton release];
   
   // user view outlets  
   [userDetailView release];
@@ -377,7 +378,11 @@
 
   // other outlets
   [loadingTextLabel release];
-  [containerTableView release];
+  
+  [mainContentView release];
+  [auxiliaryDetailPanel release];
+  [auxiliaryDetailView release];
+  
   [gestureHandler release];
   
   [favouriteServiceBarButtonItem release];

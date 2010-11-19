@@ -97,6 +97,17 @@ extern NSString *const LastViewedResourceKey;
 extern NSString *const LastViewedResourceScopeKey;
 
 
+#pragma mark -
+#pragma mark Text Placeholders
+
+extern NSString *UnknownText;
+
+extern NSString *NoDescriptionText;
+extern NSString *NoInformationText;
+
+extern NSString *RESTComponentsText;
+extern NSString *SOAPComponentsText;
+
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
 

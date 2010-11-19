@@ -1,26 +1,27 @@
 //
-//  MonitoringStatusTableViewController_iPhone.m
+//  MonitoringStatusTableController_iPhone.m
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 17/10/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "MonitoringStatusTableViewController_iPhone.h"
+#import "MonitoringStatusViewController_iPhone.h"
 
 
-@implementation MonitoringStatusTableViewController_iPhone
+@implementation MonitoringStatusViewController_iPhone
 
 #pragma mark -
 #pragma mark Helpers
 
 -(void) fetchMonitoringStatusInfo:(NSString *)fromPath {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  [[self tableView] setTableHeaderView:loadingLabel];
-
+  
+  [myTableView setTableHeaderView:loadingLabel];
   [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
+  
   [autoreleasePool drain];
-}
+} // fetchMonitoringStatusInfo
 
 -(void) updateWithProperties:(NSDictionary *)properties {
   [monitoringProperties release];
@@ -29,64 +30,34 @@
   [monitoringStatuses release];
   monitoringStatuses = [[properties objectForKey:JSONServiceTestsElement] copy];
   
-  [[self tableView] reloadData];
-  [[self tableView] setTableHeaderView:nil];
-}
+  [myTableView reloadData];
+  [myTableView setTableHeaderView:nil];
+} // updateWithProperties
 
 
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
- - (void)viewDidLoad {
+- (void)viewDidLoad {
  [super viewDidLoad];
- 
- // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
- // self.navigationItem.rightBarButtonItem = self.editButtonItem;
- }
- */
+} // viewDidLoad
 
-/*
- - (void)viewWillAppear:(BOOL)animated {
- [super viewWillAppear:animated];
- }
- */
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  // Return YES for supported orientations
   return YES;
-}
+} // shouldAutorotateToInterfaceOrientation
 
 
 #pragma mark -
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // Return the number of sections.
   return 1;
-}
+} // numberOfSectionsInTableView
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  // Return the number of rows in the section.
   return [monitoringStatuses count];
-}
+} // tableView:numberOfRowsInSection
 
 
 // Customize the appearance of table view cells.
@@ -104,50 +75,11 @@
   
   NSString *date = [[status objectForKey:JSONLastCheckedElement] stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
   cell.textLabel.text = [NSString stringWithFormat:@"%@ on %@", [status objectForKey:JSONLabelElement], date];
-  cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[status objectForKey:@"small_symbol"]]]];
+  cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:
+                                                 [NSURL URLWithString:[status objectForKey:@"small_symbol"]]]];
   
   return cell;
-}
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
+} // tableView:cellForRowAtIndexPath
 
 
 #pragma mark -
@@ -167,33 +99,37 @@
   [alert release];
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+} // tableView:didSelectRowAtIndexPath
 
 
 #pragma mark -
 #pragma mark Memory management
+
+-(void) releaseIBOutlets {
+  [loadingLabel release];
+  [myTableView release]; 
+} // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
   
   // Relinquish ownership any cached data, images, etc that aren't in use.
-}
+} // didReceiveMemoryWarning
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-  [loadingLabel release];
-}
-
+  [self releaseIBOutlets];
+} // viewDidUnload
 
 - (void)dealloc {
-  [loadingLabel release];
+  [self releaseIBOutlets];
   
   [monitoringProperties release];
   [monitoringStatuses release];
   
   [super dealloc];
-}
+} // dealloc
 
 
 @end

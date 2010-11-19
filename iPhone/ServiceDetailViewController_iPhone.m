@@ -11,18 +11,7 @@
 
 @implementation ServiceDetailViewController_iPhone
 
-@synthesize userDetailViewController, providerDetailViewController;
-@synthesize monitoringStatusViewController, descriptionViewController;
-
-
-#pragma mark -
-#pragma mark Class Specific Helper Constants
-
-NSInteger DescriptionSection = 0;
-NSInteger MonitoringStatusSection = 1;
-NSInteger ComponentsSection = 2;
-NSInteger ProviderSection = 2;
-NSInteger SubmitterSection = 3;
+@synthesize userDetailViewController, providerDetailViewController, monitoringStatusViewController;
 
 
 #pragma mark -
@@ -31,37 +20,48 @@ NSInteger SubmitterSection = 3;
 -(void) updateWithProperties:(NSDictionary *)properties {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
-  // capture all the instances that need to be released
-  // tableView:cellForRowAtIndexPath: needs the ...Properties dictionaries
-  // this section is made to avoid the callback making calls to a released var
-  NSDictionary *serviceListingPropertiesToRelease = serviceListingProperties;
-  NSDictionary *servicePropertiesToRelease = serviceProperties;
-  NSDictionary *submitterPropertiesToRelease = submitterProperties;
-  
-  // fetch the latest properties
-  self.view.userInteractionEnabled = NO;
-  
   serviceListingProperties = [properties copy];
 
+  nameLabel.text = [serviceListingProperties objectForKey:JSONNameElement];
+  
+  [serviceProperties release];
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
-
+  
+  // provider details
+  NSString *detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+                           objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
+  providerNameLabel.text = detailItem;
+  
+  // monitoring details
   NSString *lastChecked = [NSString stringWithFormat:@"%@", 
                            [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
-  monitoringStatusInformationAvailable = ![lastChecked isEqualToString:JSONNull];
-
+  monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
+    
+  // submitter details
+  [submitterProperties release];
   NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
   submitterProperties = [[[JSON_Helper helper] documentAtPath:[submitterURL path]] copy];
   
-  name.text = [serviceListingProperties objectForKey:JSONNameElement];
+  submitterNameLabel.text = [submitterProperties objectForKey:JSONNameElement];
   
-  [[self tableView] reloadData];
-  self.view.userInteractionEnabled = YES;
+  detailItem = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
+  descriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoDescriptionText);
   
-  // now release the var
-  [serviceListingPropertiesToRelease release];
-  [servicePropertiesToRelease release];
-  [submitterPropertiesToRelease release];
+  // service components
+  BioCatalogueClient *client = [BioCatalogueClient client];
+  BOOL isREST = [client serviceIsREST:serviceListingProperties];
+  BOOL isSOAP = [client serviceIsSOAP:serviceListingProperties];
+  
+  if (isREST) {
+    componentsLabel.text = RESTComponentsText;
+  } else if (isSOAP) {
+    componentsLabel.text = SOAPComponentsText;
+  } else {
+    componentsLabel.text = [client serviceType:serviceListingProperties];
+  }
+
+  showComponentsButton.hidden = !isREST && !isSOAP;
   
   [autoreleasePool drain];
 } // updateWithProperties
@@ -72,239 +72,58 @@ NSInteger SubmitterSection = 3;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  monitoringStatusInformationAvailable = NO;
-  descriptionAvailable = NO;
-    
- // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
- // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
+} // viewDidLoad
 
-
-/*
- - (void)viewWillAppear:(BOOL)animated {
- [super viewWillAppear:animated];
- }
- */
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  // Return YES for supported orientations
   return YES;
 }
 
 
 #pragma mark -
-#pragma mark Table view data source
+#pragma mark IBActions
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // Return the number of sections.
-  return 4;
+-(void) showProviderInfo:(id)sender {
+  NSDictionary *properties = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+                              objectForKey:JSONProviderElement];
+  
+  [providerDetailViewController loadView];
+  [providerDetailViewController updateWithProperties:properties];
+  [providerDetailViewController makeShowServicesButtonVisible:NO];
+  
+  [self.navigationController pushViewController:providerDetailViewController animated:YES];  
 }
 
+-(void) showSubmitterInfo:(id)sender {
+  // submitting user
+  [userDetailViewController loadView];
+  [userDetailViewController updateWithProperties:submitterProperties];
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {  
-  // Return the number of rows in the section.
-  if (section == ProviderSection) {
-    return 2;
-  } else {
-    return 1;
-  }
+  [self.navigationController pushViewController:userDetailViewController animated:YES];      
 }
 
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  
-  static NSString *CellIdentifier = @"Cell";
-  
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-  if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-  }
-  
-  // Configure the cell...
-  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  
-  if (indexPath.section == DescriptionSection) {
-    cell.imageView.image = [UIImage imageNamed:DescriptionIcon];
-    cell.detailTextLabel.text = @"Description";
-
-    NSString *description = [NSString stringWithFormat:@"%@", 
-                             [serviceListingProperties objectForKey:JSONDescriptionElement]];
-    descriptionAvailable = ![description isEqualToString:JSONNull];
+-(void) showMonitoringStatusInfo:(id)sender {
+  if (monitoringStatusInformationAvailable) {
+    NSURL *serviceURL = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
+    NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
     
-    if (descriptionAvailable) {
-      cell.textLabel.text = description;
-    } else {
-      cell.textLabel.text = @"No description";
-      cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-  } else if (indexPath.section == MonitoringStatusSection) {
-    id monitoringElement = [serviceListingProperties objectForKey:JSONLatestMonitoringStatusElement];
-    id image = [NSURL URLWithString:[monitoringElement objectForKey:JSONSmallSymbolElement]];
-    cell.imageView.image = [UIImage imageNamed:[[image lastPathComponent] stringByDeletingPathExtension]];
-    
-    cell.detailTextLabel.text = @"Monitoring";
-    cell.textLabel.text = [monitoringElement objectForKey:JSONLabelElement];
+    [NSThread detachNewThreadSelector:@selector(fetchMonitoringStatusInfo:)
+                             toTarget:monitoringStatusViewController
+                           withObject:path];
 
-    if (!monitoringStatusInformationAvailable) {
-      cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-  } else if (indexPath.section == ProviderSection) {
-    if (indexPath.row == 0) {
-      cell.imageView.image = [UIImage imageNamed:ProviderIcon];
-      cell.detailTextLabel.text = @"Service Provider";
-      
-      id provider = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject]
-                      objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-      cell.textLabel.text = provider;
-    } else {
-      cell.imageView.image = [UIImage imageNamed:@"59-flag"];
-      cell.detailTextLabel.text = @"Location";
-      id country = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
-                     objectForKey:JSONLocationElement] objectForKey:JSONCountryElement];
-      
-      if ([[NSString stringWithFormat:@"%@", country] isEqualToString:JSONNull]) {
-        cell.textLabel.text = @"Unknown";
-      } else {
-        cell.textLabel.text = country;
-      }
-      
-      cell.accessoryType = UITableViewCellAccessoryNone;
-      cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
   } else {
-    cell.imageView.image = [UIImage imageNamed:UserIcon];
-    cell.detailTextLabel.text = @"Submitter";
-    cell.textLabel.text = [submitterProperties objectForKey:JSONNameElement];
-  }
-    
-  return cell;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
+                                                    message:@"No monitoring information is available for this service." 
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK" 
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+  }  
 }
 
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-
-#pragma mark -
-#pragma mark Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section == DescriptionSection) {
-    // descriptions
-    if (descriptionAvailable) {
-      [descriptionViewController loadView];
-      id description = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
-      descriptionViewController.descriptionTextView.text = description;
-      [self.navigationController pushViewController:descriptionViewController animated:YES];
-    } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Description" 
-                                                      message:@"No description is available for this service." 
-                                                     delegate:self
-                                            cancelButtonTitle:@"OK" 
-                                            otherButtonTitles:nil];
-      [alert show];
-      [alert release];
-      
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-      descriptionViewController.descriptionTextView.text = @"";
-    }
-  } else if (indexPath.section == MonitoringStatusSection) {
-    // monitoring statuses
-    if (monitoringStatusInformationAvailable) {
-      NSURL *serviceURL = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
-      NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
-      
-      NSThread *downloadThread = [[NSThread alloc] initWithTarget:monitoringStatusViewController 
-                                                         selector:@selector(fetchMonitoringStatusInfo:) 
-                                                           object:path];
-      [downloadThread start];
-      [downloadThread release];
-
-      [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
-    } else {
-      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
-                                                      message:@"No monitoring information is available for this service." 
-                                                     delegate:self
-                                            cancelButtonTitle:@"OK" 
-                                            otherButtonTitles:nil];
-      [alert show];
-      [alert release];
-
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
-  } else if (indexPath.section == ProviderSection) {
-    if (indexPath.row == 0) {
-      // service provider
-      id properties = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] objectForKey:JSONProviderElement];
-      
-      [providerDetailViewController loadView];
-      [providerDetailViewController updateWithProperties:properties];
-      [providerDetailViewController makeShowServicesButtonVisible:NO];
-      [self.navigationController pushViewController:providerDetailViewController animated:YES];
-    } else {
-      // location
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
-  } else {
-    // submitting user
-    [userDetailViewController loadView];
-    [userDetailViewController updateWithProperties:submitterProperties];
-    [self.navigationController pushViewController:userDetailViewController animated:YES];    
-  }
+-(void) showServiceComponents:(id)sender {
+  
 }
 
 
@@ -315,20 +134,28 @@ NSInteger SubmitterSection = 3;
   [userDetailViewController release];
   [providerDetailViewController release];  
   [monitoringStatusViewController release];
-  [descriptionViewController release];
-}
+
+  [myTableView release];
+  
+  [nameLabel release];
+  [descriptionLabel release];
+  [providerNameLabel release];
+  [submitterNameLabel release];
+  [componentsLabel release];
+  [showComponentsButton release];
+} // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
   
   // Relinquish ownership any cached data, images, etc that aren't in use.
-}
+} // didReceiveMemoryWarning
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
   [self releaseIBOutlets];
-}
+} // viewDidUnload
 
 - (void)dealloc {
   [self releaseIBOutlets];
@@ -338,7 +165,7 @@ NSInteger SubmitterSection = 3;
   [submitterProperties release];
   
   [super dealloc];
-}
+} // dealloc
 
 
 @end

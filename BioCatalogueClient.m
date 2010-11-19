@@ -96,4 +96,26 @@
   }
 } // performSearch:withScope:withRepresentation
 
+
+#pragma mark -
+#pragma mark Attaining Service Types
+
+-(BOOL) serviceIsREST:(NSDictionary *)listingProperties {
+  return [[[listingProperties objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:RESTService];
+} // serviceIsSOAP
+
+-(BOOL) serviceIsSOAP:(NSDictionary *)listingProperties {
+  return [[[listingProperties objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:SOAPService];
+} // serviceIsSOAP
+
+-(NSString *) serviceType:(NSDictionary *)listingProperties {
+  if ([self serviceIsREST:listingProperties]) {
+    return RESTService;
+  } else if ([self serviceIsSOAP:listingProperties]) {
+    return SOAPService;
+  } else {
+    return [[listingProperties objectForKey:JSONTechnologyTypesElement] lastObject];
+  }
+} // serviceType
+
 @end

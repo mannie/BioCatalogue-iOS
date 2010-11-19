@@ -1,15 +1,15 @@
 //
-//  TestJSON.m
+//  TestJSON+Helper.m
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 05/10/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "TestJSON.h"
+#import "TestJSON+Helper.h"
 
 
-@implementation TestJSON
+@implementation TestJSON_Helper
 
 -(void) setUp {
   jsonHelper = [[JSON_Helper alloc] init];

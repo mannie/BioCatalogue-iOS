@@ -1,5 +1,5 @@
 //
-//  MonitoringStatusTableViewController_iPhone.h
+//  MonitoringStatusTableController_iPhone.h
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 17/10/2010.
@@ -11,10 +11,11 @@
 #import "JSON+Helper.h"
 
 
-@interface MonitoringStatusTableViewController_iPhone : UITableViewController {
+@interface MonitoringStatusViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   NSDictionary *monitoringProperties;
   NSArray *monitoringStatuses;
   
+  IBOutlet UITableView *myTableView;
   IBOutlet UILabel *loadingLabel;
 }
 

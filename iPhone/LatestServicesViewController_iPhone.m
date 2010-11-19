@@ -17,9 +17,31 @@
 #pragma mark -
 #pragma mark Helpers
 
+-(void) startAnimatingActivityIndicator {
+  [activityIndicator startAnimating];
+  
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.3];
+  
+  currentPageLabel.alpha = 0.1;
+  
+  [UIView commitAnimations];
+} // startAnimatingActivityIndicator
+
+-(void) stopAnimatingActivityIndicator {
+  [activityIndicator stopAnimating];
+  
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.3];
+  
+  currentPageLabel.alpha = 1;
+  
+  [UIView commitAnimations];
+} // stopAnimatingActivityIndicator
+
 -(void) performServiceFetch {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
+    
   fetching = YES;
   [services release];
   
@@ -32,7 +54,7 @@
     services = [[servicesDocument objectForKey:JSONResultsElement] copy];
     lastPage = [[servicesDocument objectForKey:JSONPagesElement] intValue];
     
-    [[self tableView] setTableHeaderView:nil];
+    [myTableView setTableHeaderView:nil];
     currentPageLabel.hidden = NO;
   } else {
     services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
@@ -44,10 +66,12 @@
   nextPageBarButton.hidden = currentPage == lastPage;
   
   fetching = NO;
-  [[self tableView] reloadData];
+  [myTableView reloadData];
+  
+  [self stopAnimatingActivityIndicator];
   
   [autoreleasePool drain];
-}
+} // performServiceFetch
 
 
 #pragma mark -
@@ -58,18 +82,20 @@
     if ([services count] > 0) {
       currentPage++;
     }
+    [self startAnimatingActivityIndicator];
     [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   }
-}
+} // loadServicesOnNextPage
 
 -(IBAction) loadServicesOnPreviousPage:(id)sender {
   if (!fetching) {
     if (currentPage > 1) {
       currentPage--;
     }
+    [self startAnimatingActivityIndicator];
     [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   }
-}
+} // loadServicesOnPreviousPage
 
 
 #pragma mark -
@@ -85,55 +111,26 @@
   currentPage = 0;
   lastPage = 0;
   
+  [self startAnimatingActivityIndicator];
   [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
-  
-  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
+} // viewDidLoad
 
-
-/*
- - (void)viewWillAppear:(BOOL)animated {
- [super viewWillAppear:animated];
- }
- */
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  // Return YES for supported orientations
   return YES;
-}
+} // shouldAutorotateToInterfaceOrientation
 
 
 #pragma mark -
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // Return the number of sections.
   return 1;
-}
+} // numberOfSectionsInTableView
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  // Return the number of rows in the section.
   return [services count];
-}
-
+} // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -149,7 +146,7 @@
   id service = [services objectAtIndex:indexPath.row];
   
   cell.textLabel.text = [service objectForKey:JSONNameElement];
-  cell.detailTextLabel.text = [[service objectForKey:JSONTechnologyTypesElement] lastObject];
+  cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:service];
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   
   NSURL *imageURL = [NSURL URLWithString:
@@ -157,47 +154,7 @@
   cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];
   
   return cell;
-}
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
+} // tableView:cellForRowAtIndexPath
 
 
 #pragma mark -
@@ -205,14 +162,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [detailViewController loadView];
+
+  // FIXME: threading issues
+  [detailViewController updateWithProperties:[services objectAtIndex:indexPath.row]];
+//  [NSThread detachNewThreadSelector:@selector(updateWithProperties:) 
+//                           toTarget:detailViewController
+//                         withObject:[services objectAtIndex:indexPath.row]];
   
-  NSThread *updateThread = [[NSThread alloc] initWithTarget:detailViewController
-                                                   selector:@selector(updateWithProperties:)
-                                                     object:[services objectAtIndex:indexPath.row]];
-  [updateThread start];
-  [updateThread release];
-  
-  // Pass the selected object to the new view controller.
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
   [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
@@ -226,28 +183,31 @@
   [currentPageLabel release];
   [loadingLabel release];
   
+  [myTableView release];
+  [activityIndicator release];
+  
   [detailViewController release];
   [navigationController release];
-}
+} // releaseIBOutlets
+
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
   
   // Relinquish ownership any cached data, images, etc that aren't in use.
-}
+} // didReceiveMemoryWarning
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
   [self releaseIBOutlets];
-}
-
+} // viewDidLoad
 
 - (void)dealloc {
   [services release];
   [self releaseIBOutlets];
   
   [super dealloc];
-}
+} // dealloc
 
 
 @end

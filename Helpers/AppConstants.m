@@ -27,6 +27,7 @@ NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"www.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"demo.edunify.pesc.org";
 
+
 #pragma mark -
 #pragma mark JSON Elements
 
@@ -79,7 +80,6 @@ NSString *const UserIconFull = @"111-user.png";
 NSString *const UserIcon = @"111-user";
 
 
-
 #pragma mark -
 #pragma mark BioCatalogue Browsing Indexes
 
@@ -93,7 +93,6 @@ NSUInteger const MainSection = 1;
 NSUInteger const NextPageButtonSection = 2;
 
 
-
 #pragma mark -
 #pragma mark NSUserDefaults
 
@@ -101,6 +100,16 @@ NSString *const LastViewedResourceKey = @"LastViewedResource";
 NSString *const LastViewedResourceScopeKey = @"LastViewedResourceScope";
 
 
+#pragma mark -
+#pragma mark Text Placeholders
+
+NSString *UnknownText = @"Unknown";
+
+NSString *NoDescriptionText = @"(no description available)";
+NSString *NoInformationText = @"(no information available)";
+
+NSString *RESTComponentsText = @"REST Endpoints";
+NSString *SOAPComponentsText = @"SOAP Operations";
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
 

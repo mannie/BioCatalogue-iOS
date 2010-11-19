@@ -35,7 +35,7 @@
   searchResultsScope = searchScope;
   
   performingSearch = NO;
-  [detailViewController stopAnimatingActivityIndicators];
+  [detailViewController stopAnimatingActivityIndicator];
   currentPageLabel.hidden = [searchResults count] == 0;
   
   [[self tableView] reloadData];
@@ -146,7 +146,7 @@
     cell.textLabel.text = [listing objectForKey:JSONNameElement];
     
     if (searchResultsScope == ServicesSearchScope) {
-      cell.detailTextLabel.text = [[listing objectForKey:JSONTechnologyTypesElement] lastObject];
+      cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
       
       NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
       cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
@@ -197,7 +197,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == MainSection) {
-    [detailViewController startAnimatingActivityIndicators];
+    [detailViewController startAnimatingActivityIndicator];
     
     NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
     detailViewController.loadingText = [listing objectForKey:JSONNameElement];
@@ -217,13 +217,13 @@
     }
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
-      [detailViewController startAnimatingActivityIndicators];
+      [detailViewController startAnimatingActivityIndicator];
       [self loadServicesOnPreviousPage:self];
     } 
     
     int lastPage = [[searchResultsDocument objectForKey:JSONPagesElement] intValue];    
     if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
-      [detailViewController startAnimatingActivityIndicators];
+      [detailViewController startAnimatingActivityIndicator];
       [self loadServicesOnNextPage:self];
     }
     
@@ -261,7 +261,7 @@
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
-  [detailViewController startAnimatingActivityIndicators];
+  [detailViewController startAnimatingActivityIndicator];
   [self startFetchResultsForCurrentPageThread];
   
   [searchBar resignFirstResponder];

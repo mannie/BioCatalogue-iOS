@@ -1,15 +1,15 @@
 //
-//  GestureHandler.m
+//  GestureHandler_iPad.m
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 17/11/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "GestureHandler.h"
+#import "GestureHandler_iPad.h"
 
 
-@implementation GestureHandler
+@implementation GestureHandler_iPad
 
 
 #pragma mark -
@@ -81,6 +81,31 @@
     [UIView commitAnimations];
   } // if UIGestureRecognizerStateEnded
 } // panViewButResetPositionAfterwards
+
+-(void) rolloutAuxiliaryDetailPanel:(UISwipeGestureRecognizer *)recognizer {
+  // TODO: calculate how many point are off screen
+  BOOL portraitOrientation = [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait;
+  CGFloat pixelsOffScreen = 430;
+
+  CGPoint center = CGPointMake(recognizer.view.center.x, recognizer.view.center.y);
+
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.3];
+    
+  if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft && !auxiliaryDetailPanelExposed) {
+    center.x -= pixelsOffScreen;
+    auxiliaryDetailPanelExposed = YES;
+  } 
+  
+  if (recognizer.direction == UISwipeGestureRecognizerDirectionRight && auxiliaryDetailPanelExposed) {
+    center.x += pixelsOffScreen;
+    auxiliaryDetailPanelExposed = NO;
+  }
+  
+  recognizer.view.center = center;
+
+  [UIView commitAnimations];
+} // rolloutAuxiliaryDetailPanel
 
 
 #pragma mark -

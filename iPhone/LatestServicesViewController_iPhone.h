@@ -11,7 +11,7 @@
 #import "JSON+Helper.h"
 #import "ServiceDetailViewController_iPhone.h"
 
-@interface LatestServicesViewController_iPhone : UITableViewController {  
+@interface LatestServicesViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource> {  
   NSArray *services;
     
   ServiceDetailViewController_iPhone *detailViewController;
@@ -26,6 +26,9 @@
   IBOutlet UILabel *currentPageLabel;
   IBOutlet UILabel *loadingLabel;
   
+  IBOutlet UITableView *myTableView;
+  IBOutlet UIActivityIndicatorView *activityIndicator;
+ 
   BOOL fetching;
 }
 

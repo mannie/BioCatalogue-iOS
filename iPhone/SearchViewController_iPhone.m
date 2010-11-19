@@ -18,11 +18,33 @@
 #pragma mark -
 #pragma mark Helpers
 
+-(void) startAnimatingActivityIndicator {
+  [activityIndicator startAnimating];
+  
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.3];
+  
+  currentPageLabel.alpha = 0.1;
+  
+  [UIView commitAnimations];
+} // startAnimatingActivityIndicator
+
+-(void) stopAnimatingActivityIndicator {
+  [activityIndicator stopAnimating];
+  
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:0.3];
+  
+  currentPageLabel.alpha = 1;
+  
+  [UIView commitAnimations];
+} // stopAnimatingActivityIndicator
+
 -(void) performSearch {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
   performingSearch = YES;
-  [[self tableView] reloadData];
+  [myTableView reloadData];
   
   [searchResultsDocument release];
   searchResultsDocument = [[[BioCatalogueClient client] performSearch:mySearchBar.text 
@@ -46,13 +68,15 @@
     nextPageBarButton.hidden = servicesOnLastPage < ServicesPerPage && currentPage == lastPage;
   }
   
-  currentPageLabel.hidden = lastPage == 1;
+  currentPageLabel.hidden = lastPage == 0;
   
   performingSearch = NO;
-  [[self tableView] reloadData];
+  [myTableView reloadData];
+  
+  [self stopAnimatingActivityIndicator];
   
   [autoreleasePool drain];
-}
+} // performSearch
 
 
 #pragma mark -
@@ -62,15 +86,19 @@
   if ([searchResults count] > 0) {
     currentPage++;
   }
+  searchScope = searchResultsScope;
+  [self startAnimatingActivityIndicator];
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-}
+} // loadServicesOnNextPage
 
 -(IBAction) loadServicesOnPreviousPage:(id)sender {
   if (currentPage > 1) {
     currentPage--;
   }
+  searchScope = searchResultsScope;
+  [self startAnimatingActivityIndicator];
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-}
+} // loadServicesOnPreviousPage
 
 
 #pragma mark -
@@ -80,37 +108,18 @@
   [super viewDidLoad];
   
   searchScope = ServicesSearchScope;
-  
-  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
+
+  [self stopAnimatingActivityIndicator];
+} // viewDidLoad
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   [self searchBarCancelButtonClicked:mySearchBar];
-}
+} // viewWillAppear
 
-/*
- - (void)viewDidAppear:(BOOL)animated {
- [super viewDidAppear:animated];
- }
- */
-/*
- - (void)viewWillDisappear:(BOOL)animated {
- [super viewWillDisappear:animated];
- }
- */
-/*
- - (void)viewDidDisappear:(BOOL)animated {
- [super viewDidDisappear:animated];
- }
- */
-
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
-}
-
+} // shouldAutorotateToInterfaceOrientation
 
 
 #pragma mark -
@@ -118,7 +127,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return 1;
-}
+} // numberOfSectionsInTableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (performingSearch || [searchResults count] == 0) {
@@ -126,8 +135,7 @@
   } else {
     return [searchResults count];
   }
-}
-
+} // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -164,7 +172,7 @@
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   
   if (searchResultsScope == ServicesSearchScope) {
-    cell.detailTextLabel.text = [[listing objectForKey:JSONTechnologyTypesElement] lastObject];
+    cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
     
     NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
     cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];    
@@ -179,47 +187,7 @@
   }
   
   return cell;
-}
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- 
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
+} // tableView:cellForRowAtIndexPath
 
 
 #pragma mark -
@@ -244,11 +212,11 @@
   [detailViewController loadView];
   
   if (searchResultsScope == ServicesSearchScope) {  
-    NSThread *updateThread = [[NSThread alloc] initWithTarget:detailViewController
-                                                     selector:@selector(updateWithProperties:)
-                                                       object:[searchResults objectAtIndex:indexPath.row]];
-    [updateThread start];
-    [updateThread release];
+    // FIXME: threading issues
+    [detailViewController updateWithProperties:[searchResults objectAtIndex:indexPath.row]];
+//    [NSThread detachNewThreadSelector:@selector(updateWithProperties:) 
+//                             toTarget:detailViewController
+//                           withObject:[searchResults objectAtIndex:indexPath.row]];
   } else {
     [detailViewController updateWithProperties:[searchResults objectAtIndex:indexPath.row]];
   }
@@ -256,7 +224,7 @@
   [providerDetailViewController makeShowServicesButtonVisible:YES];
   
   [self.navigationController pushViewController:detailViewController animated:YES];
-}
+} // tableView:didSelectRowAtIndexPath
 
 
 #pragma mark -
@@ -269,7 +237,7 @@
   [searchBar sizeToFit];
   
   return YES;
-}
+} // searchBarShouldBeginEditing
 
 -(BOOL) searchBarShouldEndEditing:(UISearchBar *)searchBar {
   [searchBar setShowsCancelButton:NO animated:YES];
@@ -280,19 +248,19 @@
   [searchBar resignFirstResponder];
   
   return YES;
-}
+} // searchBarShouldEndEditing
 
 -(void) searchBarCancelButtonClicked:(UISearchBar *)searchBar {
   [self searchBarShouldEndEditing:searchBar];
-}
+} // searchBarCancelButtonClicked
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
+  [self startAnimatingActivityIndicator];
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-  //  [self performSelectorOnMainThread:@selector(performSearch) withObject:nil waitUntilDone:NO];
   
   [searchBar resignFirstResponder];
-}
+} // searchBarSearchButtonClicked
 
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
   if (selectedScope == ServicesSearchScopeIndex) {
@@ -305,7 +273,7 @@
     searchBar.placeholder = @"Search For A Service Provider";
     searchScope = ProvidersSearchScope;
   }
-}
+} // searchBar:selectedScopeButtonIndexDidChange
 
 
 #pragma mark -
@@ -317,25 +285,27 @@
   [currentPageLabel release];
   
   [mySearchBar release];
+  [myTableView release];
+  [activityIndicator release];
   
   [navigationController release];
   
   [serviceDetailViewController release];
   [userDetailViewController release];
   [providerDetailViewController release];
-}
+} // releaseIBOutlets
+
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
   
   // Relinquish ownership any cached data, images, etc that aren't in use.
-}
+} // didReceiveMemoryWarning
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
   [self releaseIBOutlets];
-}
-
+} // viewDidUnload
 
 - (void)dealloc {
   [self releaseIBOutlets];
@@ -344,7 +314,7 @@
   [searchResults release];
   
   [super dealloc];
-}
+} // dealloc
 
 
 @end

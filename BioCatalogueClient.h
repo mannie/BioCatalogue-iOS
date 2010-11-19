@@ -23,4 +23,9 @@
 -(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format;
 -(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format page:(NSUInteger)pageNum;
 
+-(BOOL) serviceIsREST:(NSDictionary *)listingProperties;
+-(BOOL) serviceIsSOAP:(NSDictionary *)listingProperties;
+
+-(NSString *) serviceType:(NSDictionary *)listingProperties;
+
 @end

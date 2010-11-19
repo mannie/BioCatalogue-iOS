@@ -12,12 +12,18 @@
 
 #import "UserDetailViewController_iPhone.h"
 #import "ProviderDetailViewController_iPhone.h"
-#import "MonitoringStatusTableViewController_iPhone.h"
-#import "DescriptionViewController_iPhone.h"
+#import "MonitoringStatusViewController_iPhone.h"
 
 
-@interface ServiceDetailViewController_iPhone : UITableViewController {
-  IBOutlet UILabel *name;
+@interface ServiceDetailViewController_iPhone : UIViewController {
+  IBOutlet UITableView *myTableView;
+  
+  IBOutlet UILabel *nameLabel;
+  IBOutlet UITextView *descriptionLabel;
+  IBOutlet UILabel *providerNameLabel;
+  IBOutlet UILabel *submitterNameLabel;
+  IBOutlet UILabel *componentsLabel;
+  IBOutlet UIButton *showComponentsButton;
   
   NSDictionary *serviceListingProperties;
   NSDictionary *serviceProperties;
@@ -25,8 +31,7 @@
   
   UserDetailViewController_iPhone *userDetailViewController;
   ProviderDetailViewController_iPhone *providerDetailViewController;
-  MonitoringStatusTableViewController_iPhone *monitoringStatusViewController;
-  DescriptionViewController_iPhone *descriptionViewController;
+  MonitoringStatusViewController_iPhone *monitoringStatusViewController;
   
   BOOL monitoringStatusInformationAvailable;
   BOOL descriptionAvailable;
@@ -34,9 +39,13 @@
 
 @property (nonatomic, retain) IBOutlet UserDetailViewController_iPhone *userDetailViewController;
 @property (nonatomic, retain) IBOutlet ProviderDetailViewController_iPhone *providerDetailViewController;
-@property (nonatomic, retain) IBOutlet MonitoringStatusTableViewController_iPhone *monitoringStatusViewController;
-@property (nonatomic, retain) IBOutlet DescriptionViewController_iPhone *descriptionViewController;
+@property (nonatomic, retain) IBOutlet MonitoringStatusViewController_iPhone *monitoringStatusViewController;
 
 -(void) updateWithProperties:(NSDictionary *)properties;
+
+-(IBAction) showProviderInfo:(id)sender;
+-(IBAction) showSubmitterInfo:(id)sender;
+-(IBAction) showMonitoringStatusInfo:(id)sender;
+-(IBAction) showServiceComponents:(id)sender;
 
 @end

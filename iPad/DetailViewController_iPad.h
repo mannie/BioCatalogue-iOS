@@ -7,14 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GestureHandler.h"
+#import "GestureHandler_iPad.h"
+#import "NSUserDefaults+Helper.h"
 
 
-@interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate, UITableViewDelegate, UITableViewDataSource> {
+@interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
   UIPopoverController *defaultPopoverController;
   UIPopoverController *contextualPopoverController;
   
-  IBOutlet GestureHandler *gestureHandler;
+  IBOutlet GestureHandler_iPad *gestureHandler;
   
   NSDictionary *listingProperties;
   NSDictionary *serviceProperties;
@@ -25,8 +26,10 @@
   
   BOOL viewHasAlreadyInitialized;
 
-  IBOutlet UITableView *containerTableView;
-
+  IBOutlet UITableView *mainContentView;
+  IBOutlet UIView *auxiliaryDetailPanel;
+  IBOutlet UITableView *auxiliaryDetailView;
+  
   IBOutlet UIToolbar *toolbar;
   IBOutlet UIBarButtonItem *favouriteServiceBarButtonItem;
   IBOutlet UIBarButtonItem *viewResourceInBioCatalogueBarButtonItem;
@@ -49,6 +52,9 @@
   IBOutlet UILabel *serviceProviderNameLabel;
   IBOutlet UILabel *serviceSubmitterNameLabel;
   
+  IBOutlet UILabel *componentsLabel;
+  IBOutlet UIButton *showComponentsButton;
+
   // the user view
   IBOutlet UIView *userDetailView;
   IBOutlet UIView *userDetailIDCardView;
@@ -76,9 +82,12 @@
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties;
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties;
 
--(void) startAnimatingActivityIndicators;
--(void) stopAnimatingActivityIndicators;
+-(void) startAnimatingActivityIndicator;
+-(void) stopAnimatingActivityIndicator;
 
--(IBAction) viewSubmitterInformation:(id)sender;
+-(IBAction) showProviderInfo:(id)sender;
+-(IBAction) showSubmitterInfo:(id)sender;
+-(IBAction) showMonitoringStatusInfo:(id)sender;
+-(IBAction) showServiceComponents:(id)sender;
 
 @end

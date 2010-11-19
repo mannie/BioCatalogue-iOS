@@ -1,5 +1,5 @@
 //
-//  GestureHandler.h
+//  GestureHandler_iPad.h
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 17/11/2010.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface GestureHandler : NSObject {  
+@interface GestureHandler_iPad : NSObject {  
   NSMutableDictionary *initialCenterPositionsInLandscape;
   NSMutableDictionary *initialCenterPositionsInPortrait;
   
@@ -23,8 +23,11 @@
 
   IBOutlet UIView *providerDetailView;  
   IBOutlet UIView *providerDetailIDCardView;
+  
+  BOOL auxiliaryDetailPanelExposed;
 }
 
 -(void) panViewButResetPositionAfterwards:(UIPanGestureRecognizer *)recognizer;
+-(void) rolloutAuxiliaryDetailPanel:(UISwipeGestureRecognizer *)recognizer;
 
 @end

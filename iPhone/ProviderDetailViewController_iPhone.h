@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "AppConstants.h"
+#import "NSString+Helper.h"
 
 
 @interface ProviderDetailViewController_iPhone : UIViewController {

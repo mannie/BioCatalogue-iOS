@@ -12,21 +12,21 @@
 @implementation ProviderDetailViewController_iPhone
 
 #pragma mark -
-#pragma mark Helpers and IBActions
+#pragma mark Helpers
 
 -(void) updateWithProperties:(NSDictionary *)properties {  
   name.text = [properties objectForKey:JSONNameElement];
   
   NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
-  if (![description isEqualToString:JSONNull]) {
-    descriptionTextView.text = description;
-  } else {
-    descriptionTextView.text = @"(no description available)";
-  }
+  descriptionTextView.text = ([description isValidJSONValue] ? description : NoInformationText);
   
   [providerProperties release];
   providerProperties = [properties copy];
-}
+} // updateWithProperties
+
+
+#pragma mark -
+#pragma mark  IBActions
 
 -(void) showServices:(id)sender {
   
@@ -36,29 +36,17 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
- - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
- if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
- // Custom initialization
- }
- return self;
- }
- */
-
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
   [super viewDidLoad];
   
   [self makeShowServicesButtonVisible:YES];
-}
+} // viewDidLoad
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-  // Return YES for supported orientations
   return YES;
-}
-
+} // shouldAutorotateToInterfaceOrientation
 
 -(void) makeShowServicesButtonVisible:(BOOL)visible {
   if (visible) {
@@ -66,7 +54,7 @@
   } else {
     self.navigationItem.rightBarButtonItem = nil;
   }
-}
+} // makeShowServicesButtonVisible
 
 
 #pragma mark -
@@ -77,28 +65,27 @@
   [descriptionTextView release];
   
   [servicesButton release];
-}
+} // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
   // Releases the view if it doesn't have a superview.
   [super didReceiveMemoryWarning];
   
   // Release any cached data, images, etc that aren't in use.
-}
+} // didReceiveMemoryWarning
 
 - (void)viewDidUnload {
   [super viewDidUnload];
 
   [self releaseIBOutlets];
-}
-
+} // viewDidUnload
 
 - (void)dealloc {
   [self releaseIBOutlets];
   [providerProperties release];
   
   [super dealloc];
-}
+} // dealloc
 
 
 @end

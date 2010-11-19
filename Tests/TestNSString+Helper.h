@@ -1,8 +1,8 @@
 //
-//  TestJSON.h
+//  TestNSString+Helper.h
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 05/10/2010.
+//  Created by Mannie Tagarira on 18/11/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 //  See Also: http://developer.apple.com/iphone/library/documentation/Xcode/Conceptual/iphone_development/135-Unit_Testing_Applications/unit_testing_applications.html
@@ -15,16 +15,13 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
 
-#import "JSON+Helper.h"
+#import "NSString+Helper.h"
 
 
-@interface TestJSON : SenTestCase {
-  NSString *message;
-  JSON_Helper *jsonHelper;
+@interface TestNSString_Helper : SenTestCase {
+
 }
 
--(void) testGETdocumentAtPath;
--(void) testGETLatestServices;
--(void) testGETServicesAtPage;
+-(void) testIsValidJSONValue;
 
 @end

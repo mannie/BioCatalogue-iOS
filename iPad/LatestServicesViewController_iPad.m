@@ -45,14 +45,14 @@
   fetching = NO;
   [[self tableView] reloadData];
   
-  [detailViewController stopAnimatingActivityIndicators];
+  [detailViewController stopAnimatingActivityIndicator];
   
   [autoreleasePool drain];
 } // performServiceFetch
 
--(void) startFetchServicesForCurrentPageThread {
+-(void) startThreadToFetchServicesForCurrentPage {
   [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
-} // startFetchServicesForCurrentPageThread
+} // startThreadToFetchServicesForCurrentPage
 
 
 #pragma mark -
@@ -63,7 +63,7 @@
     if ([services count] > 0) {
       currentPage++;
     }
-    [self startFetchServicesForCurrentPageThread];
+    [self startThreadToFetchServicesForCurrentPage];
   }
 } // loadServicesOnNextPage
 
@@ -72,7 +72,7 @@
     if (currentPage > 1) {
       currentPage--;
     }
-    [self startFetchServicesForCurrentPageThread];
+    [self startThreadToFetchServicesForCurrentPage];
   }
 } // loadServicesOnPreviousPage
 
@@ -93,7 +93,7 @@
   currentPage = 0;
   lastPage = 0;
   
-  [self startFetchServicesForCurrentPageThread];   
+  [self startThreadToFetchServicesForCurrentPage];   
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -137,7 +137,7 @@
     id service = [services objectAtIndex:indexPath.row];
     
     cell.textLabel.text = [service objectForKey:JSONNameElement];
-    cell.detailTextLabel.text = [[service objectForKey:JSONTechnologyTypesElement] lastObject];
+    cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:service];
     
     NSURL *imageURL = [NSURL URLWithString:
                        [[service objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
@@ -177,7 +177,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == MainSection) {
-    [detailViewController startAnimatingActivityIndicators];
+    [detailViewController startAnimatingActivityIndicator];
     
     NSDictionary *listing = [services objectAtIndex:indexPath.row];
     detailViewController.loadingText = [listing objectForKey:JSONNameElement];
@@ -190,12 +190,12 @@
 //                           withObject:listing];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
-      [detailViewController startAnimatingActivityIndicators];
+      [detailViewController startAnimatingActivityIndicator];
       [self loadServicesOnPreviousPage:self];
     } 
     
     if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
-      [detailViewController startAnimatingActivityIndicators];
+      [detailViewController startAnimatingActivityIndicator];
       [self loadServicesOnNextPage:self];
     }
     

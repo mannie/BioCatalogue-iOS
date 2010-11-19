@@ -20,7 +20,7 @@
 		3611BE6B1268E3770076404E /* UserDetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611BE691268E3770076404E /* UserDetailView_iPhone.xib */; };
 		3611C01A126B2DEE0076404E /* ProviderDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */; };
 		3611C01B126B2DEE0076404E /* ProviderDetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */; };
-		3611C0B0126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C0AE126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m */; };
+		3611C0B0126B386A0076404E /* MonitoringStatusViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C0AE126B386A0076404E /* MonitoringStatusViewController_iPhone.m */; };
 		3611C268126B5CC00076404E /* cross-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C260126B5CC00076404E /* cross-sphere-50.png */; };
 		3611C269126B5CC00076404E /* pling-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C261126B5CC00076404E /* pling-sphere-50.png */; };
 		3611C26A126B5CC00076404E /* query-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C262126B5CC00076404E /* query-sphere-50.png */; };
@@ -30,7 +30,6 @@
 		3611C26E126B5CC00076404E /* small-tick-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C266126B5CC00076404E /* small-tick-sphere-50.png */; };
 		3611C26F126B5CC00076404E /* tick-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C267126B5CC00076404E /* tick-sphere-50.png */; };
 		3611C2B5126B60F00076404E /* info.png in Resources */ = {isa = PBXBuildFile; fileRef = 3611C2B4126B60F00076404E /* info.png */; };
-		3611C30E126B6C5C0076404E /* DescriptionViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */; };
 		363444BB125E860C006F3295 /* 01-refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 36344439125E860C006F3295 /* 01-refresh.png */; };
 		363444BC125E860C006F3295 /* 02-redo.png in Resources */ = {isa = PBXBuildFile; fileRef = 3634443A125E860C006F3295 /* 02-redo.png */; };
 		363444BD125E860C006F3295 /* 03-loopback.png in Resources */ = {isa = PBXBuildFile; fileRef = 3634443B125E860C006F3295 /* 03-loopback.png */; };
@@ -166,7 +165,6 @@
 		3634473D125FCED1006F3295 /* ServiceDetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3634473B125FCED1006F3295 /* ServiceDetailView_iPhone.xib */; };
 		36403C09125D51E100025672 /* LatestServicesViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */; };
 		36403C0A125D51E100025672 /* LatestServicesView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36403C08125D51E100025672 /* LatestServicesView_iPhone.xib */; };
-		36414F5A126B7D0B00DD9394 /* DescriptionView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36414F59126B7D0B00DD9394 /* DescriptionView_iPhone.xib */; };
 		364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */; };
 		364150F5126CE66700DD9394 /* SearchView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 364150F3126CE66700DD9394 /* SearchView_iPhone.xib */; };
 		365C68E7125BC6230099CE38 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */; };
@@ -175,7 +173,7 @@
 		365C68EA125BC6230099CE38 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E4125BC6230099CE38 /* SBJsonParser.m */; };
 		365C68EB125BC6230099CE38 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E6125BC6230099CE38 /* SBJsonWriter.m */; };
 		365C68F0125BC6A20099CE38 /* JSON+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68EF125BC6A20099CE38 /* JSON+Helper.m */; };
-		365C6981125BCBFD0099CE38 /* TestJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C697F125BCBFD0099CE38 /* TestJSON.m */; };
+		365C6981125BCBFD0099CE38 /* TestJSON+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C697F125BCBFD0099CE38 /* TestJSON+Helper.m */; };
 		365C6982125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C6980125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m */; };
 		365C6987125BCC420099CE38 /* BioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C6986125BCC420099CE38 /* BioCatalogueClient.m */; };
 		365C698C125BCC8C0099CE38 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C698B125BCC8C0099CE38 /* AppConstants.m */; };
@@ -196,7 +194,10 @@
 		368353D012949FC60029D92A /* LatestServicesViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353C912949FC60029D92A /* LatestServicesViewController_iPad.m */; };
 		368353D112949FC60029D92A /* MainWindow_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 368353CA12949FC60029D92A /* MainWindow_iPad.xib */; };
 		368353D212949FC60029D92A /* SearchViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353CC12949FC60029D92A /* SearchViewController_iPad.m */; };
-		368353D812949FDD0029D92A /* GestureHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353D612949FDD0029D92A /* GestureHandler.m */; };
+		368353D812949FDD0029D92A /* GestureHandler_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353D612949FDD0029D92A /* GestureHandler_iPad.m */; };
+		36CD0B4B1295960400DAE156 /* NSUserDefaults+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CD0B4A1295960400DAE156 /* NSUserDefaults+Helper.m */; };
+		36CD0B611295990800DAE156 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CD0B601295990800DAE156 /* NSString+Helper.m */; };
+		36CD0B7812959B9A00DAE156 /* TestNSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -219,8 +220,8 @@
 		3611C017126B2DEE0076404E /* ProviderDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviderDetailViewController_iPhone.h; sourceTree = "<group>"; };
 		3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviderDetailViewController_iPhone.m; sourceTree = "<group>"; };
 		3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProviderDetailView_iPhone.xib; sourceTree = "<group>"; };
-		3611C0AD126B386A0076404E /* MonitoringStatusTableViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoringStatusTableViewController_iPhone.h; sourceTree = "<group>"; };
-		3611C0AE126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitoringStatusTableViewController_iPhone.m; sourceTree = "<group>"; };
+		3611C0AD126B386A0076404E /* MonitoringStatusViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoringStatusViewController_iPhone.h; sourceTree = "<group>"; };
+		3611C0AE126B386A0076404E /* MonitoringStatusViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitoringStatusViewController_iPhone.m; sourceTree = "<group>"; };
 		3611C260126B5CC00076404E /* cross-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-sphere-50.png"; sourceTree = "<group>"; };
 		3611C261126B5CC00076404E /* pling-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pling-sphere-50.png"; sourceTree = "<group>"; };
 		3611C262126B5CC00076404E /* query-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "query-sphere-50.png"; sourceTree = "<group>"; };
@@ -230,8 +231,6 @@
 		3611C266126B5CC00076404E /* small-tick-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "small-tick-sphere-50.png"; sourceTree = "<group>"; };
 		3611C267126B5CC00076404E /* tick-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tick-sphere-50.png"; sourceTree = "<group>"; };
 		3611C2B4126B60F00076404E /* info.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = info.png; sourceTree = "<group>"; };
-		3611C30B126B6C5C0076404E /* DescriptionViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DescriptionViewController_iPhone.h; sourceTree = "<group>"; };
-		3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DescriptionViewController_iPhone.m; sourceTree = "<group>"; };
 		36344439125E860C006F3295 /* 01-refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "01-refresh.png"; sourceTree = "<group>"; };
 		3634443A125E860C006F3295 /* 02-redo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "02-redo.png"; sourceTree = "<group>"; };
 		3634443B125E860C006F3295 /* 03-loopback.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "03-loopback.png"; sourceTree = "<group>"; };
@@ -369,7 +368,6 @@
 		36403C06125D51E100025672 /* LatestServicesViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LatestServicesViewController_iPhone.h; sourceTree = "<group>"; };
 		36403C07125D51E100025672 /* LatestServicesViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LatestServicesViewController_iPhone.m; sourceTree = "<group>"; };
 		36403C08125D51E100025672 /* LatestServicesView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LatestServicesView_iPhone.xib; sourceTree = "<group>"; };
-		36414F59126B7D0B00DD9394 /* DescriptionView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DescriptionView_iPhone.xib; sourceTree = "<group>"; };
 		364150F1126CE66700DD9394 /* SearchViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController_iPhone.h; sourceTree = "<group>"; };
 		364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPhone.m; sourceTree = "<group>"; };
 		364150F3126CE66700DD9394 /* SearchView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView_iPhone.xib; sourceTree = "<group>"; };
@@ -388,8 +386,8 @@
 		365C68EF125BC6A20099CE38 /* JSON+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSON+Helper.m"; sourceTree = "<group>"; };
 		365C6978125BCBE20099CE38 /* Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		365C6979125BCBE20099CE38 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
-		365C697E125BCBFD0099CE38 /* TestJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestJSON.h; sourceTree = "<group>"; };
-		365C697F125BCBFD0099CE38 /* TestJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestJSON.m; sourceTree = "<group>"; };
+		365C697E125BCBFD0099CE38 /* TestJSON+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestJSON+Helper.h"; sourceTree = "<group>"; };
+		365C697F125BCBFD0099CE38 /* TestJSON+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestJSON+Helper.m"; sourceTree = "<group>"; };
 		365C6980125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Xcode324iOS41TestSuiteWorkaround.m; sourceTree = "<group>"; };
 		365C6985125BCC420099CE38 /* BioCatalogueClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BioCatalogueClient.h; sourceTree = "<group>"; };
 		365C6986125BCC420099CE38 /* BioCatalogueClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BioCatalogueClient.m; sourceTree = "<group>"; };
@@ -409,8 +407,14 @@
 		368353CA12949FC60029D92A /* MainWindow_iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow_iPad.xib; sourceTree = "<group>"; };
 		368353CB12949FC60029D92A /* SearchViewController_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController_iPad.h; sourceTree = "<group>"; };
 		368353CC12949FC60029D92A /* SearchViewController_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController_iPad.m; sourceTree = "<group>"; };
-		368353D612949FDD0029D92A /* GestureHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureHandler.m; sourceTree = "<group>"; };
-		368353D712949FDD0029D92A /* GestureHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureHandler.h; sourceTree = "<group>"; };
+		368353D612949FDD0029D92A /* GestureHandler_iPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureHandler_iPad.m; sourceTree = "<group>"; };
+		368353D712949FDD0029D92A /* GestureHandler_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureHandler_iPad.h; sourceTree = "<group>"; };
+		36CD0B491295960400DAE156 /* NSUserDefaults+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Helper.h"; sourceTree = "<group>"; };
+		36CD0B4A1295960400DAE156 /* NSUserDefaults+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Helper.m"; sourceTree = "<group>"; };
+		36CD0B5F1295990800DAE156 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
+		36CD0B601295990800DAE156 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helper.m"; sourceTree = "<group>"; };
+		36CD0B7612959B9A00DAE156 /* TestNSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestNSString+Helper.h"; sourceTree = "<group>"; };
+		36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestNSString+Helper.m"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* BioMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BioMonitor-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -459,10 +463,8 @@
 				3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */,
 				3611C017126B2DEE0076404E /* ProviderDetailViewController_iPhone.h */,
 				3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */,
-				3611C0AD126B386A0076404E /* MonitoringStatusTableViewController_iPhone.h */,
-				3611C0AE126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m */,
-				3611C30B126B6C5C0076404E /* DescriptionViewController_iPhone.h */,
-				3611C30C126B6C5C0076404E /* DescriptionViewController_iPhone.m */,
+				3611C0AD126B386A0076404E /* MonitoringStatusViewController_iPhone.h */,
+				3611C0AE126B386A0076404E /* MonitoringStatusViewController_iPhone.m */,
 				364150F1126CE66700DD9394 /* SearchViewController_iPhone.h */,
 				364150F2126CE66700DD9394 /* SearchViewController_iPhone.m */,
 			);
@@ -521,8 +523,8 @@
 				368353C912949FC60029D92A /* LatestServicesViewController_iPad.m */,
 				368353CB12949FC60029D92A /* SearchViewController_iPad.h */,
 				368353CC12949FC60029D92A /* SearchViewController_iPad.m */,
-				368353D712949FDD0029D92A /* GestureHandler.h */,
-				368353D612949FDD0029D92A /* GestureHandler.m */,
+				368353D712949FDD0029D92A /* GestureHandler_iPad.h */,
+				368353D612949FDD0029D92A /* GestureHandler_iPad.m */,
 			);
 			path = iPad;
 			sourceTree = "<group>";
@@ -725,10 +727,12 @@
 			isa = PBXGroup;
 			children = (
 				365C6980125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m */,
-				365C697E125BCBFD0099CE38 /* TestJSON.h */,
-				365C697F125BCBFD0099CE38 /* TestJSON.m */,
+				365C697E125BCBFD0099CE38 /* TestJSON+Helper.h */,
+				365C697F125BCBFD0099CE38 /* TestJSON+Helper.m */,
 				365C698F125BCCA80099CE38 /* TestBioCatalogueClient.h */,
 				365C6990125BCCA80099CE38 /* TestBioCatalogueClient.m */,
+				36CD0B7612959B9A00DAE156 /* TestNSString+Helper.h */,
+				36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -741,7 +745,6 @@
 				3634473B125FCED1006F3295 /* ServiceDetailView_iPhone.xib */,
 				3611BE691268E3770076404E /* UserDetailView_iPhone.xib */,
 				3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */,
-				36414F59126B7D0B00DD9394 /* DescriptionView_iPhone.xib */,
 				364150F3126CE66700DD9394 /* SearchView_iPhone.xib */,
 			);
 			name = XIBs;
@@ -763,6 +766,10 @@
 				365C698B125BCC8C0099CE38 /* AppConstants.m */,
 				365C68EE125BC6A20099CE38 /* JSON+Helper.h */,
 				365C68EF125BC6A20099CE38 /* JSON+Helper.m */,
+				36CD0B491295960400DAE156 /* NSUserDefaults+Helper.h */,
+				36CD0B4A1295960400DAE156 /* NSUserDefaults+Helper.m */,
+				36CD0B5F1295990800DAE156 /* NSString+Helper.h */,
+				36CD0B601295990800DAE156 /* NSString+Helper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -980,7 +987,6 @@
 				3611C26E126B5CC00076404E /* small-tick-sphere-50.png in Resources */,
 				3611C26F126B5CC00076404E /* tick-sphere-50.png in Resources */,
 				3611C2B5126B60F00076404E /* info.png in Resources */,
-				36414F5A126B7D0B00DD9394 /* DescriptionView_iPhone.xib in Resources */,
 				364150F5126CE66700DD9394 /* SearchView_iPhone.xib in Resources */,
 				3683516B1293473D0029D92A /* rounded-corners-black.gif in Resources */,
 				368353671294962C0029D92A /* BrushedMetalBack.jpg in Resources */,
@@ -1035,14 +1041,15 @@
 				3634473C125FCED1006F3295 /* ServiceDetailViewController_iPhone.m in Sources */,
 				3611BE6A1268E3770076404E /* UserDetailViewController_iPhone.m in Sources */,
 				3611C01A126B2DEE0076404E /* ProviderDetailViewController_iPhone.m in Sources */,
-				3611C0B0126B386A0076404E /* MonitoringStatusTableViewController_iPhone.m in Sources */,
-				3611C30E126B6C5C0076404E /* DescriptionViewController_iPhone.m in Sources */,
+				3611C0B0126B386A0076404E /* MonitoringStatusViewController_iPhone.m in Sources */,
 				364150F4126CE66700DD9394 /* SearchViewController_iPhone.m in Sources */,
 				368353CD12949FC60029D92A /* AppDelegate_iPad.m in Sources */,
 				368353CF12949FC60029D92A /* DetailViewController_iPad.m in Sources */,
 				368353D012949FC60029D92A /* LatestServicesViewController_iPad.m in Sources */,
 				368353D212949FC60029D92A /* SearchViewController_iPad.m in Sources */,
-				368353D812949FDD0029D92A /* GestureHandler.m in Sources */,
+				368353D812949FDD0029D92A /* GestureHandler_iPad.m in Sources */,
+				36CD0B4B1295960400DAE156 /* NSUserDefaults+Helper.m in Sources */,
+				36CD0B611295990800DAE156 /* NSString+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1059,8 +1066,9 @@
 				365C6A02125BD53F0099CE38 /* JSON+Helper.m in Sources */,
 				365C6A03125BD53F0099CE38 /* BioCatalogueClient.m in Sources */,
 				365C6A01125BD53F0099CE38 /* AppConstants.m in Sources */,
-				365C6981125BCBFD0099CE38 /* TestJSON.m in Sources */,
+				365C6981125BCBFD0099CE38 /* TestJSON+Helper.m in Sources */,
 				365C6991125BCCA80099CE38 /* TestBioCatalogueClient.m in Sources */,
+				36CD0B7812959B9A00DAE156 /* TestNSString+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
