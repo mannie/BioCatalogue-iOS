@@ -14,6 +14,8 @@
 #import "UserDetailViewController_iPhone.h"
 #import "ProviderDetailViewController_iPhone.h"
 
+#import "UIView+Helper.h"
+
 
 @interface SearchViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
   UINavigationController *navigationController;

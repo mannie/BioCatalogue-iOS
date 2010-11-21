@@ -9,7 +9,7 @@
 #import "NSUserDefaults+Helper.h"
 
 
-@implementation NSUserDefaults(NSUserDefaults_Helper)
+@implementation NSUserDefaults (Helper)
 
 -(void) serializeLastViewedResource:(NSDictionary *)properties withScope:(NSString *)scope {
   NSMutableDictionary *mutableProperties = [properties mutableCopy];

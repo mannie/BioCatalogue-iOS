@@ -11,6 +11,8 @@
 #import "DetailViewController_iPad.h"
 #import "BioCatalogueClient.h"
 
+#import "UIView+Helper.h"
+
 
 @interface SearchViewController_iPad : UITableViewController <UISearchBarDelegate> {
   DetailViewController_iPad *detailViewController;

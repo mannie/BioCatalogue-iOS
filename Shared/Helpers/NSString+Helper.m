@@ -9,7 +9,7 @@
 #import "NSString+Helper.h"
 
 
-@implementation NSString (NSString_Helper)
+@implementation NSString (Helper)
 
 -(BOOL) isValidJSONValue {
   BOOL isEmpty = [[self stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""];

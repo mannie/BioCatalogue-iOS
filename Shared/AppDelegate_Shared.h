@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
+#import "JSON+Helper.h"
+
+
 @interface AppDelegate_Shared : NSObject <UIApplicationDelegate> {
   UIWindow *window;
   
@@ -23,6 +26,9 @@
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+
+-(BOOL) internetConnectionFound;
 
 - (NSString *)applicationDocumentsDirectory;
 - (void)saveContext;

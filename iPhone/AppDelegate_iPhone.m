@@ -17,10 +17,14 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-  [window addSubview:tabBarController.view];
-  [window makeKeyAndVisible];
-  
-  return YES;
+  if ([super internetConnectionFound]) {  
+    [window addSubview:tabBarController.view];
+    [window makeKeyAndVisible];
+    
+    return YES;
+  } else {
+    return NO;
+  }
 }
 
 

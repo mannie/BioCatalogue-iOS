@@ -14,6 +14,16 @@
 @synthesize window;
 
 
+-(BOOL) internetConnectionFound {
+  // TODO: check for internet connection
+  @try {
+    return YES;
+  } @catch (NSException * e) {
+    return NO;
+  }
+} // checkInternetConnection
+
+
 #pragma mark -
 #pragma mark Application lifecycle
 

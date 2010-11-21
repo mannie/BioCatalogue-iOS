@@ -12,9 +12,7 @@
 @interface GestureHandler_iPad : NSObject {  
   NSMutableDictionary *initialCenterPositionsInLandscape;
   NSMutableDictionary *initialCenterPositionsInPortrait;
-  
-  IBOutlet UITableView *containerTableView;
-  
+    
   IBOutlet UIView *defaultView;
   IBOutlet UIView *serviceDetailView;
   
@@ -24,10 +22,17 @@
   IBOutlet UIView *providerDetailView;  
   IBOutlet UIView *providerDetailIDCardView;
   
-  BOOL auxiliaryDetailPanelExposed;
+  IBOutlet UIView *interactionDisablingLayer;
+  IBOutlet UIView *auxiliaryDetailPanel;
+  
+  BOOL auxiliaryDetailPanelIsExposed;
 }
 
 -(void) panViewButResetPositionAfterwards:(UIPanGestureRecognizer *)recognizer;
+
 -(void) rolloutAuxiliaryDetailPanel:(UISwipeGestureRecognizer *)recognizer;
+
+-(void) enableInteractionDisablingLayer;
+-(void) disableInteractionDisablingLayer:(UITapGestureRecognizer *)recognizer;
 
 @end

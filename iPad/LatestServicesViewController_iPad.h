@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "DetailViewController_iPad.h"
+
 #import "JSON+Helper.h"
+#import "UIView+Helper.h"
 
 
 @interface LatestServicesViewController_iPad : UITableViewController {

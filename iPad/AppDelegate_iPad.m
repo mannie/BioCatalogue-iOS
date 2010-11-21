@@ -17,10 +17,14 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-  [window addSubview:splitViewController.view];
-  [window makeKeyAndVisible];
-  
-  return YES;
+  if ([super internetConnectionFound]) {
+    [window addSubview:splitViewController.view];
+    [window makeKeyAndVisible];
+
+    return YES;
+  } else {
+    return NO;
+  }
 }
 
 

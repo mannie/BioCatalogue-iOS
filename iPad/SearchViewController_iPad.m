@@ -35,7 +35,7 @@
   searchResultsScope = searchScope;
   
   performingSearch = NO;
-  [detailViewController stopAnimatingActivityIndicator];
+  [detailViewController stopLoadingAnimation];
   currentPageLabel.hidden = [searchResults count] == 0;
   
   [[self tableView] reloadData];
@@ -196,8 +196,10 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [detailViewController dismissAuxiliaryDetailPanel:self];
+  
   if (indexPath.section == MainSection) {
-    [detailViewController startAnimatingActivityIndicator];
+    [detailViewController startLoadingAnimation];
     
     NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
     detailViewController.loadingText = [listing objectForKey:JSONNameElement];
@@ -217,13 +219,13 @@
     }
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
-      [detailViewController startAnimatingActivityIndicator];
+      [detailViewController startLoadingAnimation];
       [self loadServicesOnPreviousPage:self];
     } 
     
     int lastPage = [[searchResultsDocument objectForKey:JSONPagesElement] intValue];    
     if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
-      [detailViewController startAnimatingActivityIndicator];
+      [detailViewController startLoadingAnimation];
       [self loadServicesOnNextPage:self];
     }
     
@@ -261,7 +263,7 @@
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
-  [detailViewController startAnimatingActivityIndicator];
+  [detailViewController startLoadingAnimation];
   [self startFetchResultsForCurrentPageThread];
   
   [searchBar resignFirstResponder];

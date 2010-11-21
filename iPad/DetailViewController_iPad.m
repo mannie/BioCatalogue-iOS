@@ -12,34 +12,84 @@
 
 @implementation DetailViewController_iPad
 
-@synthesize loadingText;
+@synthesize loadingText, monitoringStatusViewController, serviceComponentsViewController;
 
 
 #pragma mark -
 #pragma mark Helpers
 
--(void) startAnimatingActivityIndicator {
-  [activityIndicator startAnimating];
+-(void) loadViewIntoContextualPopover:(UIView *)myView 
+                             intoView:(UIView *)parentView
+                   withViewController:(UIViewController *)viewController 
+                    withArrowFromRect:(CGRect)rect
+                             withSize:(CGSize)size {
+  if (myView) {
+    //  NSData *tempArchive = [NSKeyedArchiver archivedDataWithRootObject:myView];
+    //  UIView *duplicateView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
+    // TODO: clone myView
+    UIView *duplicateView = myView;
+    
+    viewController = [[[UIViewController alloc] init] autorelease];
+    viewController.view = duplicateView;
+  }
   
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-  
-  serviceNameLabel.alpha = 0.1;
-  
-  [UIView commitAnimations];
-} // startAnimatingActivityIndicator
+  [contextualPopoverController release];
+  contextualPopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
+  contextualPopoverController.delegate = self;
+  [contextualPopoverController setPopoverContentSize:size animated:YES];
+  [contextualPopoverController presentPopoverFromRect:rect
+                                               inView:parentView
+                             permittedArrowDirections:UIPopoverArrowDirectionAny
+                                             animated:YES];
+} // loadViewIntoContextualPopover:intoView:withViewController:withArrowFromRect:withSize
 
--(void) stopAnimatingActivityIndicator {
-  [activityIndicator stopAnimating];
+-(void) webBrowserActivityWatcher {
+  // FIXME: change this so that it actually stops and starts the activity update
+  // IBOutlet webBrowserActivityIndicator is currently disconnected
+  while (YES) {
+    [NSThread sleepForTimeInterval:1];
+        
+    if (webBrowser.loading) {
+      [webBrowserActivityIndicator startAnimating];
+    } else {
+      [webBrowserActivityIndicator stopAnimating];
+    }
+  }
+} // webActivityWatcher
 
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-  
-  serviceNameLabel.alpha = 1;
-  
-  [UIView commitAnimations];
-} // stopAnimatingActivityIndicator
+-(void) startLoadingAnimation {
+  [UIView startAnimatingActivityIndicator:activityIndicator
+                             dimmingViews:[NSArray arrayWithObject:serviceNameLabel]];
+} // startLoadingAnimation
 
+-(void) stopLoadingAnimation {
+  [UIView stopAnimatingActivityIndicator:activityIndicator
+                          undimmingViews:[NSArray arrayWithObject:serviceNameLabel]];
+} // stopLoadingAnimation
+
+-(void) setContentView:(UIView *)subView forParentView:(UIView *)parentView {  
+  // remove subviews
+  for (id item in parentView.subviews) {
+    if (![item isMemberOfClass:[UIToolbar class]]) {
+      [item removeFromSuperview];
+    }
+  } // for each item in subview
+  
+  [parentView addSubview:subView];
+  
+  defaultView.hidden = subView != defaultView;
+  
+  // set up web browser
+  if (parentView == auxiliaryDetailPanel) {
+    auxiliaryToolbar.hidden = subView == webBrowser;
+    webBrowserToolbar.hidden = !auxiliaryToolbar.hidden;
+    webBrowser.hidden = webBrowserToolbar.hidden;
+    
+    [self exposeAuxiliaryDetailPanel:self];
+  }
+  
+  [parentView setNeedsLayout];
+} // setContentView:forParentView
 
 #pragma mark -
 #pragma mark Managing loading resources into the view
@@ -53,7 +103,7 @@
     loadingTextLabel.text = [NSString stringWithFormat:@"Loading: %@", [loadingText description]];
   }
   
-  mainContentView.tableHeaderView = defaultView;
+  [self setContentView:defaultView forParentView:mainContentView];
   
   if (defaultPopoverController != nil) {
     [defaultPopoverController dismissPopoverAnimated:YES];
@@ -73,7 +123,7 @@
   // fetch the latest properties
   [listingProperties release];
   listingProperties = [properties copy];
-    
+  
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   
   NSString *detailItem;
@@ -85,13 +135,16 @@
     
     // provider details
     detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
-             objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
+                   objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
     serviceProviderNameLabel.text = detailItem;
     
     // monitoring details
     NSString *lastChecked = [NSString stringWithFormat:@"%@", 
                              [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
     monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
+    NSURL *imageURL = [NSURL URLWithString:
+                       [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
+    monitoringStatusIcon.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
     
     // submitter details
     [userProperties release];
@@ -119,7 +172,7 @@
     userProperties = [properties copy];
     
     userNameLabel.text = [userProperties objectForKey:JSONNameElement];
-
+    
     detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
     userAffiliationLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
     
@@ -133,51 +186,54 @@
     userEmailLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
     
     detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONJoinedElement]];
-    userJoinedLabel.text = [detailItem stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
+    userJoinedLabel.text = detailItem;
+    if ([detailItem length] > 10) {
+      userJoinedLabel.text = [detailItem stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
+    }
   } else {
     [providerProperties release];
     providerProperties = [properties copy];
     
     providerNameLabel.text = [providerProperties objectForKey:JSONNameElement];
-
+    
     detailItem = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
     providerDescriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoInformationText);
   }
   
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
-    
-  [self stopAnimatingActivityIndicator];
+  
+  [self stopLoadingAnimation];
   
   [autoreleasePool drain];
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {  
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-
+  
   [self updateWithProperties:properties withScope:ServicesSearchScope];
-  mainContentView.tableHeaderView = serviceDetailView;
+  [self setContentView:serviceDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = ServicesSearchScope;
-
+  
   [autoreleasePool drain];
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-
+  
   [self updateWithProperties:properties withScope:UsersSearchScope];  
-  mainContentView.tableHeaderView = userDetailView;
+  [self setContentView:userDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = UsersSearchScope;
-
+  
   [autoreleasePool drain];
 } // updateWithPropertiesForUsersScope
 
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-
+  
   [self updateWithProperties:properties withScope:ProvidersSearchScope];  
-  mainContentView.tableHeaderView = providerDetailView;
+  [self setContentView:providerDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = ProvidersSearchScope;
-
+  
   [autoreleasePool drain];
 } // updateWithPropertiesForProvidersScope
 
@@ -185,56 +241,126 @@
 #pragma mark -
 #pragma mark IBActions
 
--(void) viewSubmitterInformation:(id)sender {
-/*
-  userDetailIDCardView.alpha = 0;
-  
-  containerTableView.tableFooterView = userDetailIDCardView;
-  
-  [self updateWithProperties:userProperties withScope:UsersSearchScope];
-  
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.5];
-  userDetailIDCardView.alpha = 1;
-  [UIView commitAnimations];
-*/  
-  
-  /*
-  UIViewController *viewController = [[UIViewController alloc] init];
-  viewController.view = userDetailIDCardView;
-  
-  // TODO: store current service?
-  
-  // TODO: load up user into popover
-  [self updateWithProperties:userProperties withScope:UsersSearchScope];
-  
-  if (!contextualPopoverController.popoverVisible) {
-    [contextualPopoverController release];
-    contextualPopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
-    [contextualPopoverController presentPopoverFromRect:[sender frame]
-                                                 inView:serviceDetailView 
-                               permittedArrowDirections:UIPopoverArrowDirectionUp
-                                               animated:YES];    
-    [contextualPopoverController setPopoverContentSize:userDetailIDCardView.frame.size animated:YES];
-  }
-   */
-}
-
 -(void) showProviderInfo:(id)sender {
+  NSDictionary *currentListingProperties = [listingProperties copy];
+  NSDictionary *currentProviderProperties = [providerProperties copy];
   
-}
+  NSDictionary *provider = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+                            objectForKey:JSONProviderElement];
+  [self updateWithProperties:provider withScope:ProvidersSearchScope];
+  
+  [self loadViewIntoContextualPopover:providerIDCard 
+                             intoView:serviceDetailView
+                   withViewController:nil
+                    withArrowFromRect:[sender frame] 
+                             withSize:providerIDCard.frame.size];
+  
+  listingProperties = currentListingProperties;
+  providerProperties = currentProviderProperties;
+  
+  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServicesSearchScope];
+} // showProviderInfo
 
 -(void) showSubmitterInfo:(id)sender {
+  NSDictionary *currentListingProperties = [listingProperties copy];
+  NSDictionary *currentUserProperties = [userProperties copy];
   
+  [self updateWithProperties:userProperties withScope:UsersSearchScope];
+  
+  [self loadViewIntoContextualPopover:userIDCard 
+                             intoView:serviceDetailView
+                   withViewController:nil
+                    withArrowFromRect:[sender frame]
+                             withSize:userIDCard.frame.size];
+  
+  listingProperties = currentListingProperties;
+  userProperties = currentUserProperties;
+  
+  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServicesSearchScope];
 }
 
 -(void) showMonitoringStatusInfo:(id)sender {
-  
+  if (monitoringStatusInformationAvailable) {
+    [self startLoadingAnimation];
+    
+    NSURL *serviceURL = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
+    NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
+    
+    [NSThread detachNewThreadSelector:@selector(fetchMonitoringStatusInfo:)
+                             toTarget:monitoringStatusViewController
+                           withObject:path];
+    
+    [self loadViewIntoContextualPopover:nil 
+                               intoView:serviceDetailView
+                     withViewController:monitoringStatusViewController
+                      withArrowFromRect:[sender frame]
+                               withSize:CGSizeMake(320, 230)];
+  } else {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
+                                                    message:@"No monitoring information is available for this service." 
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK" 
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+  }  
 }
 
 -(void) showServiceComponents:(id)sender {
+  [self startLoadingAnimation];
   
+  NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
+                                            objectForKey:JSONResourceElement]];
+  NSString *path;
+  if ([[BioCatalogueClient client] serviceIsREST:listingProperties]) {
+    path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
+  } else {
+    path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
+  }
+  
+  [NSThread detachNewThreadSelector:@selector(fetchServiceComponents:)
+                           toTarget:serviceComponentsViewController
+                         withObject:path];
+  
+  [self loadViewIntoContextualPopover:nil 
+                             intoView:serviceDetailView
+                   withViewController:serviceComponentsViewController
+                    withArrowFromRect:[sender frame]
+                             withSize:CGSizeMake(320, 460)];
 }
+
+-(void) dismissAuxiliaryDetailPanel:(id)sender {
+  UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] init];
+  [NSThread detachNewThreadSelector:@selector(disableInteractionDisablingLayer:) 
+                           toTarget:gestureHandler
+                         withObject:[recognizer autorelease]];
+} // dismissAuxiliaryDetailPanel
+
+-(void) exposeAuxiliaryDetailPanel:(id)sender {
+  UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] init];
+  recognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+  [NSThread detachNewThreadSelector:@selector(rolloutAuxiliaryDetailPanel:) 
+                           toTarget:gestureHandler
+                         withObject:[recognizer autorelease]];
+} // exposeAuxiliaryDetailPanel
+
+-(void) showCurrentResourceInBioCatalogue:(id)sender {  
+  NSURL *url = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
+  [self showResourceInBioCatalogue:url];
+} // showCurrentResourceInBioCatalogue
+
+-(void) showResourceInBioCatalogue:(NSURL *)url {
+  NSURLRequest *request = [NSURLRequest requestWithURL:url
+                                           cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                       timeoutInterval:10];
+  [webBrowser loadRequest:request];
+  
+  if (contextualPopoverController && [contextualPopoverController isPopoverVisible]) {
+    [contextualPopoverController dismissPopoverAnimated:YES];
+  }
+  
+  [self setContentView:webBrowser forParentView:auxiliaryDetailPanel];  
+} // showResourceInBioCatalogue
 
 
 #pragma mark -
@@ -246,14 +372,14 @@
        forPopoverController: (UIPopoverController*)pc {
   
   barButtonItem.title = @"Main Menu";
-
-  NSMutableArray *items = [[toolbar items] mutableCopy];
-
+  
+  NSMutableArray *items = [[mainToolbar items] mutableCopy];
+  
   favouriteServiceBarButtonItem.enabled = [scopeOfResourceBeingViewed isEqualToString:ServicesSearchScope];
   
   [items insertObject:barButtonItem atIndex:0];
-  [toolbar setItems:items animated:YES];
-
+  [mainToolbar setItems:items animated:YES];
+  
   [items release];
   
   defaultPopoverController = pc;
@@ -263,13 +389,29 @@
      willShowViewController:(UIViewController *)aViewController 
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
   
-  NSMutableArray *items = [[toolbar items] mutableCopy];
+  NSMutableArray *items = [[mainToolbar items] mutableCopy];
   [items removeObjectAtIndex:0]; 
-  [toolbar setItems:items animated:YES];  
+  [mainToolbar setItems:items animated:YES];  
   [items release];
   
   defaultPopoverController = nil;
 } // splitViewController:willShowViewController:invalidatingBarButtonItem
+
+
+#pragma mark -
+#pragma mark UIPopoverControllerDelegate
+
+-(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+  UIView *myView = popoverController.contentViewController.view;
+  
+  if (myView == userIDCard) {
+    [userIDCardContainer addSubview:userIDCard];
+  }
+
+  if (myView == providerIDCard) {
+    [providerIDCardContainer addSubview:providerIDCard];
+  }
+} // popoverControllerDidDismissPopover
 
 
 #pragma mark -
@@ -279,7 +421,7 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
   if (!viewHasAlreadyInitialized) {
     NSDictionary *properties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LastViewedResourceKey];
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
@@ -290,9 +432,9 @@
       
       // FIXME: threading issues
       [self updateWithPropertiesForServicesScope:properties];
-//      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
-//                               toTarget:self
-//                             withObject:properties];
+      //      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
+      //                               toTarget:self
+      //                             withObject:properties];
     } else if ([scope isEqualToString:UsersSearchScope]) {
       [self updateWithPropertiesForUsersScope:properties];
     } else {
@@ -305,15 +447,15 @@
     // pan recognizer for providerDetailIDCardView
     recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
                                                          action:@selector(panViewButResetPositionAfterwards:)];
-    [providerDetailIDCardView addGestureRecognizer:recognizer];
+    [providerIDCardContainer addGestureRecognizer:recognizer];
     [recognizer release];
-
+    
     // pan recognizer for userDetailIDCardView
     recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
                                                          action:@selector(panViewButResetPositionAfterwards:)];
-    [userDetailIDCardView addGestureRecognizer:recognizer];
+    [userIDCardContainer addGestureRecognizer:recognizer];
     [recognizer release];
-
+    
     
     // right swipe recognizer for auxiliaryDetailPanel
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:gestureHandler 
@@ -327,9 +469,19 @@
     ((UISwipeGestureRecognizer *)recognizer).direction = UISwipeGestureRecognizerDirectionLeft;
     [auxiliaryDetailPanel addGestureRecognizer:recognizer];    
     [recognizer release];
+    
+    // tap recognizer for interactionDisablingLayer
+    recognizer = [[UITapGestureRecognizer alloc] initWithTarget:gestureHandler 
+                                                         action:@selector(disableInteractionDisablingLayer:)];
+    [interactionDisablingLayer addGestureRecognizer:recognizer];
+    [recognizer release];
+    
+    [gestureHandler disableInteractionDisablingLayer:nil];
+    
+    [NSThread detachNewThreadSelector:@selector(webBrowserActivityWatcher) toTarget:self withObject:nil];
         
     viewHasAlreadyInitialized = YES;
-  }  
+  }
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -342,9 +494,20 @@
 
 -(void) releaseIBOutlets {
   // default view outlets
-  [toolbar release];
+  [mainToolbar release];
   [defaultView release];  
   [activityIndicator release];
+  [mainContentView release];
+  [webBrowser release];
+  [webBrowserToolbar release];
+  [webBrowserActivityIndicator release];
+  
+  [favouriteServiceBarButtonItem release];
+  [viewResourceInBioCatalogueBarButtonItem release];
+  
+  [auxiliaryToolbar release];
+  [auxiliaryDetailPanel release];
+  [interactionDisablingLayer release];
   
   // service view outlets
   [serviceDetailView release];
@@ -356,37 +519,34 @@
   
   [componentsLabel release];
   [showComponentsButton release];
+  [serviceComponentsViewController release];
   
   // user view outlets  
   [userDetailView release];
-  
-  [userDetailIDCardView release];
-  
+  [userIDCard release];
+  [userIDCardContainer release];
+
   [userNameLabel release];
   [userAffiliationLabel release];
   [userCountryLabel release];
   [userCityLabel release];
   [userEmailLabel release];
   [userJoinedLabel release];
-  
+
+
   // provider view outlets
   [providerDetailView release];
-  [providerDetailIDCardView release];
+  [providerIDCard release];
+  [providerIDCardContainer release];
   
   [providerNameLabel release];
   [providerDescriptionLabel release];
-
+  
   // other outlets
-  [loadingTextLabel release];
-  
-  [mainContentView release];
-  [auxiliaryDetailPanel release];
-  [auxiliaryDetailView release];
-  
+  [loadingTextLabel release];  
   [gestureHandler release];
-  
-  [favouriteServiceBarButtonItem release];
-  [viewResourceInBioCatalogueBarButtonItem release];
+  [monitoringStatusViewController release];
+  [monitoringStatusIcon release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
@@ -400,7 +560,7 @@
   // Release any retained subviews of the main view.
   [defaultPopoverController release];
   [contextualPopoverController release];
-
+  
   [self releaseIBOutlets];
 } // viewDidUnload
 

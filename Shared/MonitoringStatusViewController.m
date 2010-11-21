@@ -1,15 +1,17 @@
 //
-//  MonitoringStatusTableController_iPhone.m
+//  MonitoringStatusViewController.m
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 17/10/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "MonitoringStatusViewController_iPhone.h"
+#import "MonitoringStatusViewController.h"
+#import "DetailViewController_iPad.h"
 
 
-@implementation MonitoringStatusViewController_iPhone
+@implementation MonitoringStatusViewController
+
 
 #pragma mark -
 #pragma mark Helpers
@@ -19,6 +21,10 @@
   
   [myTableView setTableHeaderView:loadingLabel];
   [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
+
+  if ([[[UIDevice currentDevice] model] isEqualToString:iPadDevice]) {
+      [detailViewController stopLoadingAnimation];
+  }
   
   [autoreleasePool drain];
 } // fetchMonitoringStatusInfo
@@ -50,11 +56,6 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-} // numberOfSectionsInTableView
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return [monitoringStatuses count];
 } // tableView:numberOfRowsInSection
@@ -73,7 +74,8 @@
   // Configure the cell...
   id status = [[monitoringStatuses objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
   
-  NSString *date = [[status objectForKey:JSONLastCheckedElement] stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
+  NSString *date = [[status objectForKey:JSONLastCheckedElement] stringByReplacingCharactersInRange:NSMakeRange(10, 10)
+                                                                                         withString:@""];
   cell.textLabel.text = [NSString stringWithFormat:@"%@ on %@", [status objectForKey:JSONLabelElement], date];
   cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:
                                                  [NSURL URLWithString:[status objectForKey:@"small_symbol"]]]];
@@ -106,6 +108,8 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
+  [detailViewController release];
+  
   [loadingLabel release];
   [myTableView release]; 
 } // releaseIBOutlets

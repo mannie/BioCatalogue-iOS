@@ -10,6 +10,8 @@
 
 #import "JSON+Helper.h"
 #import "ServiceDetailViewController_iPhone.h"
+#import "UIView+Helper.h"
+
 
 @interface LatestServicesViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource> {  
   NSArray *services;
@@ -24,7 +26,6 @@
   IBOutlet UIButton *previousPageButton;
   IBOutlet UIButton *nextPageBarButton;
   IBOutlet UILabel *currentPageLabel;
-  IBOutlet UILabel *loadingLabel;
   
   IBOutlet UITableView *myTableView;
   IBOutlet UIActivityIndicatorView *activityIndicator;

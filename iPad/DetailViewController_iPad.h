@@ -7,8 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+
 #import "GestureHandler_iPad.h"
+
+#import "UIView+Helper.h"
 #import "NSUserDefaults+Helper.h"
+
+#import "MonitoringStatusViewController.h"
+#import "ServiceComponentsViewController.h"
 
 
 @interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
@@ -26,15 +32,20 @@
   
   BOOL viewHasAlreadyInitialized;
 
-  IBOutlet UITableView *mainContentView;
+  IBOutlet UIView *mainContentView;
   IBOutlet UIView *auxiliaryDetailPanel;
-  IBOutlet UITableView *auxiliaryDetailView;
+  IBOutlet UIView *interactionDisablingLayer;
   
-  IBOutlet UIToolbar *toolbar;
+  IBOutlet UIToolbar *mainToolbar;
+  IBOutlet UIToolbar *auxiliaryToolbar;
+  IBOutlet UIToolbar *webBrowserToolbar;
+  IBOutlet UIWebView *webBrowser;
+
   IBOutlet UIBarButtonItem *favouriteServiceBarButtonItem;
   IBOutlet UIBarButtonItem *viewResourceInBioCatalogueBarButtonItem;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
+  IBOutlet UIActivityIndicatorView *webBrowserActivityIndicator;
 
   // the default view
   IBOutlet UIView *defaultView;
@@ -54,10 +65,15 @@
   
   IBOutlet UILabel *componentsLabel;
   IBOutlet UIButton *showComponentsButton;
+  ServiceComponentsViewController *serviceComponentsViewController;
+  
+  MonitoringStatusViewController *monitoringStatusViewController;
+  IBOutlet UIImageView *monitoringStatusIcon;
 
   // the user view
   IBOutlet UIView *userDetailView;
-  IBOutlet UIView *userDetailIDCardView;
+  IBOutlet UIView *userIDCard;
+  IBOutlet UIView *userIDCardContainer;
   
   IBOutlet UILabel *userNameLabel;
   IBOutlet UILabel *userAffiliationLabel;
@@ -68,13 +84,17 @@
 
   // the provider view
   IBOutlet UIView *providerDetailView;
-  IBOutlet UIView *providerDetailIDCardView;
-  
+  IBOutlet UIView *providerIDCard;
+  IBOutlet UIView *providerIDCardContainer;
+
   IBOutlet UILabel *providerNameLabel;
   IBOutlet UITextView *providerDescriptionLabel;
 }
 
 @property (nonatomic, retain) NSString *loadingText;
+
+@property (nonatomic, retain) IBOutlet MonitoringStatusViewController *monitoringStatusViewController;
+@property (nonatomic, retain) IBOutlet ServiceComponentsViewController *serviceComponentsViewController;
 
 -(void) setDescription:(NSString *)description;
 
@@ -82,12 +102,18 @@
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties;
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties;
 
--(void) startAnimatingActivityIndicator;
--(void) stopAnimatingActivityIndicator;
+-(void) startLoadingAnimation;
+-(void) stopLoadingAnimation;
 
 -(IBAction) showProviderInfo:(id)sender;
 -(IBAction) showSubmitterInfo:(id)sender;
 -(IBAction) showMonitoringStatusInfo:(id)sender;
 -(IBAction) showServiceComponents:(id)sender;
+
+-(IBAction) dismissAuxiliaryDetailPanel:(id)sender;
+-(IBAction) exposeAuxiliaryDetailPanel:(id)sender;
+
+-(IBAction) showCurrentResourceInBioCatalogue:(id)sender;
+-(IBAction) showResourceInBioCatalogue:(NSURL *)url;
 
 @end

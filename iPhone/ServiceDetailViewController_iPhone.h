@@ -12,7 +12,8 @@
 
 #import "UserDetailViewController_iPhone.h"
 #import "ProviderDetailViewController_iPhone.h"
-#import "MonitoringStatusViewController_iPhone.h"
+#import "MonitoringStatusViewController.h"
+#import "ServiceComponentsViewController.h"
 
 
 @interface ServiceDetailViewController_iPhone : UIViewController {
@@ -31,7 +32,8 @@
   
   UserDetailViewController_iPhone *userDetailViewController;
   ProviderDetailViewController_iPhone *providerDetailViewController;
-  MonitoringStatusViewController_iPhone *monitoringStatusViewController;
+  MonitoringStatusViewController *monitoringStatusViewController;
+  ServiceComponentsViewController *serviceComponentsViewController;
   
   BOOL monitoringStatusInformationAvailable;
   BOOL descriptionAvailable;
@@ -39,7 +41,8 @@
 
 @property (nonatomic, retain) IBOutlet UserDetailViewController_iPhone *userDetailViewController;
 @property (nonatomic, retain) IBOutlet ProviderDetailViewController_iPhone *providerDetailViewController;
-@property (nonatomic, retain) IBOutlet MonitoringStatusViewController_iPhone *monitoringStatusViewController;
+@property (nonatomic, retain) IBOutlet MonitoringStatusViewController *monitoringStatusViewController;
+@property (nonatomic, retain) IBOutlet ServiceComponentsViewController *serviceComponentsViewController;
 
 -(void) updateWithProperties:(NSDictionary *)properties;
 

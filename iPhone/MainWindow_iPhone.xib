@@ -779,7 +779,7 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">MonitoringStatusViewController_iPhone</string>
+					<string key="className">MonitoringStatusViewController</string>
 					<string key="superclassName">UITableViewController</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<string key="NS.key.0">loadingLabel</string>
@@ -999,7 +999,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>DescriptionViewController_iPhone</string>
-							<string>MonitoringStatusViewController_iPhone</string>
+							<string>MonitoringStatusViewController</string>
 							<string>UILabel</string>
 							<string>ProviderDetailViewController_iPhone</string>
 							<string>UserDetailViewController_iPhone</string>
@@ -1023,7 +1023,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">monitoringStatusViewController</string>
-								<string key="candidateClassName">MonitoringStatusViewController_iPhone</string>
+								<string key="candidateClassName">MonitoringStatusViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">nameLabel</string>

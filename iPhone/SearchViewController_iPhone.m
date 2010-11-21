@@ -18,27 +18,15 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) startAnimatingActivityIndicator {
-  [activityIndicator startAnimating];
-  
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-  
-  currentPageLabel.alpha = 0.1;
-  
-  [UIView commitAnimations];
-} // startAnimatingActivityIndicator
+-(void) startLoadingAnimation {
+  [UIView startAnimatingActivityIndicator:activityIndicator
+                             dimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+} // startLoadingAnimation
 
--(void) stopAnimatingActivityIndicator {
-  [activityIndicator stopAnimating];
-  
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-  
-  currentPageLabel.alpha = 1;
-  
-  [UIView commitAnimations];
-} // stopAnimatingActivityIndicator
+-(void) stopLoadingAnimation {
+  [UIView stopAnimatingActivityIndicator:activityIndicator
+                          undimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+} // stopLoadingAnimation
 
 -(void) performSearch {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
@@ -73,7 +61,7 @@
   performingSearch = NO;
   [myTableView reloadData];
   
-  [self stopAnimatingActivityIndicator];
+  [self stopLoadingAnimation];
   
   [autoreleasePool drain];
 } // performSearch
@@ -87,7 +75,7 @@
     currentPage++;
   }
   searchScope = searchResultsScope;
-  [self startAnimatingActivityIndicator];
+  [self startLoadingAnimation];
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
 } // loadServicesOnNextPage
 
@@ -96,7 +84,7 @@
     currentPage--;
   }
   searchScope = searchResultsScope;
-  [self startAnimatingActivityIndicator];
+  [self startLoadingAnimation];
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
 } // loadServicesOnPreviousPage
 
@@ -109,7 +97,7 @@
   
   searchScope = ServicesSearchScope;
 
-  [self stopAnimatingActivityIndicator];
+  [self stopLoadingAnimation];
 } // viewDidLoad
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -124,10 +112,6 @@
 
 #pragma mark -
 #pragma mark Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-} // numberOfSectionsInTableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (performingSearch || [searchResults count] == 0) {
@@ -174,7 +158,8 @@
   if (searchResultsScope == ServicesSearchScope) {
     cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
     
-    NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
+    NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement]
+                                            objectForKey:JSONSmallSymbolElement]];
     cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];    
   } else {
     cell.detailTextLabel.text = nil;
@@ -193,12 +178,7 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (performingSearch || [searchResults count] == 0) {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    return;
-  }
-  
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {  
   id detailViewController;
   
   if (searchResultsScope == ServicesSearchScope) {
@@ -223,6 +203,7 @@
   
   [providerDetailViewController makeShowServicesButtonVisible:YES];
   
+  [tableView deselectRowAtIndexPath:indexPath animated:YES];
   [self.navigationController pushViewController:detailViewController animated:YES];
 } // tableView:didSelectRowAtIndexPath
 
@@ -256,7 +237,7 @@
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
-  [self startAnimatingActivityIndicator];
+  [self startLoadingAnimation];
   [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
   
   [searchBar resignFirstResponder];

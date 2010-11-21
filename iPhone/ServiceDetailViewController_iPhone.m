@@ -11,7 +11,7 @@
 
 @implementation ServiceDetailViewController_iPhone
 
-@synthesize userDetailViewController, providerDetailViewController, monitoringStatusViewController;
+@synthesize userDetailViewController, providerDetailViewController, monitoringStatusViewController, serviceComponentsViewController;
 
 
 #pragma mark -
@@ -62,6 +62,7 @@
   }
 
   showComponentsButton.hidden = !isREST && !isSOAP;
+  [self.view setNeedsDisplay];
   
   [autoreleasePool drain];
 } // updateWithProperties
@@ -76,7 +77,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
-}
+} // shouldAutorotateToInterfaceOrientation
 
 
 #pragma mark -
@@ -91,7 +92,7 @@
   [providerDetailViewController makeShowServicesButtonVisible:NO];
   
   [self.navigationController pushViewController:providerDetailViewController animated:YES];  
-}
+} // showProviderInfo
 
 -(void) showSubmitterInfo:(id)sender {
   // submitting user
@@ -99,7 +100,7 @@
   [userDetailViewController updateWithProperties:submitterProperties];
 
   [self.navigationController pushViewController:userDetailViewController animated:YES];      
-}
+} // showSubmitterInfo
 
 -(void) showMonitoringStatusInfo:(id)sender {
   if (monitoringStatusInformationAvailable) {
@@ -120,11 +121,26 @@
     [alert show];
     [alert release];
   }  
-}
+} // showMonitoringStatusInfo
 
 -(void) showServiceComponents:(id)sender {
+  NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
+                                            objectForKey:JSONResourceElement]];
+  NSString *path;
+  if ([[BioCatalogueClient client] serviceIsREST:serviceListingProperties]) {
+    path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
+    serviceComponentsViewController.title = RESTComponentsText;
+  } else {
+    path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
+    serviceComponentsViewController.title = SOAPComponentsText;
+  }
   
-}
+  [NSThread detachNewThreadSelector:@selector(fetchServiceComponents:)
+                           toTarget:serviceComponentsViewController
+                         withObject:path];
+
+  [self.navigationController pushViewController:serviceComponentsViewController animated:YES];
+} // showServiceComponents
 
 
 #pragma mark -
@@ -134,7 +150,8 @@
   [userDetailViewController release];
   [providerDetailViewController release];  
   [monitoringStatusViewController release];
-
+  [serviceComponentsViewController release];
+  
   [myTableView release];
   
   [nameLabel release];

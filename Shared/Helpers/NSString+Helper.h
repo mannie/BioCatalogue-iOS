@@ -1,5 +1,5 @@
 //
-//  NSUserDefaults+Helper.h
+//  NSString+Helper.h
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 18/11/2010.
@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import "NSString+Helper.h"
 #import "AppConstants.h"
 
 
-@interface NSUserDefaults(NSUserDefaults_Helper)
+@interface NSString (Helper)
 
--(void) serializeLastViewedResource:(NSDictionary *)properties withScope:(NSString *)scope;
+-(BOOL) isValidJSONValue;
 
 @end

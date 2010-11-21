@@ -12,6 +12,9 @@
 @implementation GestureHandler_iPad
 
 
+float animationDuration = 0.5;
+
+
 #pragma mark -
 #pragma mark initializer
 
@@ -30,8 +33,8 @@
 
 -(NSDictionary *) dictionaryForCGPoint:(CGPoint)point {
   return [NSDictionary dictionaryWithObjectsAndKeys:
-          [NSString stringWithFormat:@"%f", point.x], @"x", 
-          [NSString stringWithFormat:@"%f", point.y], @"y", nil];
+          [NSNumber numberWithFloat:point.x], @"x", 
+          [NSNumber numberWithFloat:point.y], @"y", nil];
 } // dictionaryForCGPoint
 
 -(CGPoint) pointForNSDictionary:(NSDictionary *)point {
@@ -46,7 +49,7 @@
   BOOL portraitOrientation = [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait;
   CGPoint translation = [recognizer translationInView:recognizer.view];
   
-  NSString *viewHash = [NSString stringWithFormat:@"%i", recognizer.view.hash];
+  NSNumber *viewHash = [NSNumber numberWithInt:recognizer.view.hash];
   CGPoint center = CGPointMake(recognizer.view.center.x, recognizer.view.center.y);
   NSDictionary *centerAsObject = [self dictionaryForCGPoint:center];
   
@@ -83,35 +86,80 @@
 } // panViewButResetPositionAfterwards
 
 -(void) rolloutAuxiliaryDetailPanel:(UISwipeGestureRecognizer *)recognizer {
-  // TODO: calculate how many point are off screen
-  BOOL portraitOrientation = [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait;
-  CGFloat pixelsOffScreen = 430;
-
-  CGPoint center = CGPointMake(recognizer.view.center.x, recognizer.view.center.y);
-
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-    
-  if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft && !auxiliaryDetailPanelExposed) {
-    center.x -= pixelsOffScreen;
-    auxiliaryDetailPanelExposed = YES;
-  } 
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
   
-  if (recognizer.direction == UISwipeGestureRecognizerDirectionRight && auxiliaryDetailPanelExposed) {
-    center.x += pixelsOffScreen;
-    auxiliaryDetailPanelExposed = NO;
+  NSArray *visibleSubviewsInAuxiliaryPanel = [auxiliaryDetailPanel.subviews filteredArrayUsingPredicate:
+                                              [NSPredicate predicateWithFormat:@"hidden == NO"]];
+  if (!auxiliaryDetailPanelIsExposed && [visibleSubviewsInAuxiliaryPanel count] <= 1) {
+    return;
   }
   
-  recognizer.view.center = center;
+  CGPoint center = CGPointMake(auxiliaryDetailPanel.center.x, auxiliaryDetailPanel.center.y);
+  CGFloat horizontalShiftOfAuxiliaryDetailPanel = 450; // 480
+  
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:animationDuration];
+  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  
+  if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft && !auxiliaryDetailPanelIsExposed) {
+    center.x -= horizontalShiftOfAuxiliaryDetailPanel;
+    auxiliaryDetailPanelIsExposed = YES;
+    [self enableInteractionDisablingLayer];
+  } 
+  
+  if (recognizer.direction == UISwipeGestureRecognizerDirectionRight && auxiliaryDetailPanelIsExposed) {
+    center.x += horizontalShiftOfAuxiliaryDetailPanel;
+    auxiliaryDetailPanelIsExposed = NO;
+    [self disableInteractionDisablingLayer:nil];
+  }
+  
+  auxiliaryDetailPanel.center = center;
 
   [UIView commitAnimations];
+  
+  [pool drain];
 } // rolloutAuxiliaryDetailPanel
+
+-(void) enableInteractionDisablingLayer {
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:animationDuration];
+  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  
+  interactionDisablingLayer.alpha = 0.8;
+  
+  [UIView commitAnimations];
+} // enableInteractionDisablingLayer
+
+-(void) disableInteractionDisablingLayer:(UITapGestureRecognizer *)recognizer {
+  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+  [UIView beginAnimations:nil context:NULL];
+  [UIView setAnimationDuration:animationDuration];
+  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+
+  if (recognizer) {    
+    // create swipe gesture
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] init];
+    [NSThread detachNewThreadSelector:@selector(rolloutAuxiliaryDetailPanel:) 
+                             toTarget:self 
+                           withObject:[swipeRight autorelease]];
+  } else {
+    interactionDisablingLayer.alpha = 0;
+  }
+
+  [UIView commitAnimations];
+  
+  [pool drain];
+} // disableInteractionDisablingLayer
 
 
 #pragma mark -
 #pragma mark Memory Management
 
 -(void) releaseIBOutlets {
+  [interactionDisablingLayer release];
+  [auxiliaryDetailPanel release];
+  
   // default view outlets
   [defaultView release];  
   
@@ -125,10 +173,7 @@
   // provider view outlets
   [providerDetailView release];
   [providerDetailIDCardView release];
-  
-  [containerTableView release];
 } // releaseIBOutlets
-
 
 -(void) dealloc {
   [self releaseIBOutlets];

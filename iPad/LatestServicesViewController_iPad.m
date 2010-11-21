@@ -22,12 +22,13 @@
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
   fetching = YES;
-  [services release];
+  [[self tableView] reloadData];
   
   if (currentPage < 1) {
     currentPage = 1;
   }
   
+  [services release];
   if (lastPage < 1) {
     NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
     services = [[servicesDocument objectForKey:JSONResultsElement] copy];
@@ -39,13 +40,14 @@
   }
   
   services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
+  
   currentPageLabel.text = [NSString stringWithFormat:@"Page %i of %i", currentPage, lastPage];
   
   initializing = NO;
   fetching = NO;
   [[self tableView] reloadData];
   
-  [detailViewController stopAnimatingActivityIndicator];
+  [detailViewController stopLoadingAnimation];
   
   [autoreleasePool drain];
 } // performServiceFetch
@@ -93,7 +95,7 @@
   currentPage = 0;
   lastPage = 0;
   
-  [self startThreadToFetchServicesForCurrentPage];   
+  [self startThreadToFetchServicesForCurrentPage];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -114,10 +116,10 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (!initializing && section == MainSection) {
-    return [services count];
-  } else {
+  if (fetching || initializing || [services count] == 0 || section != MainSection) {
     return 1;
+  } else {
+    return [services count];
   }
 } // tableView:numberOfRowsInSection
 
@@ -133,6 +135,17 @@
   }
   
   // Configure the cell...
+  if (initializing || fetching || [services count] == 0) {
+    cell.textLabel.text = nil;
+    cell.imageView.image = nil;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.detailTextLabel.text = @"Loading, Please Wait...";
+    
+    return cell;
+  }
+  
   if (indexPath.section == MainSection) {
     id service = [services objectAtIndex:indexPath.row];
     
@@ -176,8 +189,10 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [detailViewController dismissAuxiliaryDetailPanel:self];
+  
   if (indexPath.section == MainSection) {
-    [detailViewController startAnimatingActivityIndicator];
+    [detailViewController startLoadingAnimation];
     
     NSDictionary *listing = [services objectAtIndex:indexPath.row];
     detailViewController.loadingText = [listing objectForKey:JSONNameElement];
@@ -190,12 +205,12 @@
 //                           withObject:listing];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
-      [detailViewController startAnimatingActivityIndicator];
+      [detailViewController startLoadingAnimation];
       [self loadServicesOnPreviousPage:self];
     } 
     
     if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
-      [detailViewController startAnimatingActivityIndicator];
+      [detailViewController startLoadingAnimation];
       [self loadServicesOnNextPage:self];
     }
     

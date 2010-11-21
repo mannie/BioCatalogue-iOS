@@ -17,38 +17,27 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) startAnimatingActivityIndicator {
-  [activityIndicator startAnimating];
-  
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-  
-  currentPageLabel.alpha = 0.1;
-  
-  [UIView commitAnimations];
-} // startAnimatingActivityIndicator
+-(void) startLoadingAnimation {
+  [UIView startAnimatingActivityIndicator:activityIndicator
+                             dimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+} // startLoadingAnimation
 
--(void) stopAnimatingActivityIndicator {
-  [activityIndicator stopAnimating];
-  
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:0.3];
-  
-  currentPageLabel.alpha = 1;
-  
-  [UIView commitAnimations];
-} // stopAnimatingActivityIndicator
+-(void) stopLoadingAnimation {
+  [UIView stopAnimatingActivityIndicator:activityIndicator 
+                          undimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+} // stopLoadingAnimation
 
 -(void) performServiceFetch {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
     
   fetching = YES;
-  [services release];
+  [myTableView reloadData];
   
   if (currentPage < 1) {
     currentPage = 1;
   }
   
+  [services release];
   if (lastPage < 1) {
     NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
     services = [[servicesDocument objectForKey:JSONResultsElement] copy];
@@ -68,7 +57,7 @@
   fetching = NO;
   [myTableView reloadData];
   
-  [self stopAnimatingActivityIndicator];
+  [self stopLoadingAnimation];
   
   [autoreleasePool drain];
 } // performServiceFetch
@@ -82,7 +71,7 @@
     if ([services count] > 0) {
       currentPage++;
     }
-    [self startAnimatingActivityIndicator];
+    [self startLoadingAnimation];
     [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   }
 } // loadServicesOnNextPage
@@ -92,7 +81,7 @@
     if (currentPage > 1) {
       currentPage--;
     }
-    [self startAnimatingActivityIndicator];
+    [self startLoadingAnimation];
     [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
   }
 } // loadServicesOnPreviousPage
@@ -111,7 +100,7 @@
   currentPage = 0;
   lastPage = 0;
   
-  [self startAnimatingActivityIndicator];
+  [self startLoadingAnimation];
   [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 } // viewDidLoad
 
@@ -123,13 +112,12 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  return 1;
-} // numberOfSectionsInTableView
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [services count];
+  if (fetching || [services count] == 0) {
+    return 1;
+  } else {
+    return [services count];
+  }
 } // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
@@ -143,6 +131,17 @@
   }
   
   // Configure the cell...
+  if (fetching || [services count] == 0) {
+    cell.textLabel.text = nil;
+    cell.imageView.image = nil;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    cell.detailTextLabel.text = @"Loading, Please Wait...";
+    
+    return cell;
+  }
+  
   id service = [services objectAtIndex:indexPath.row];
   
   cell.textLabel.text = [service objectForKey:JSONNameElement];
@@ -168,7 +167,7 @@
 //  [NSThread detachNewThreadSelector:@selector(updateWithProperties:) 
 //                           toTarget:detailViewController
 //                         withObject:[services objectAtIndex:indexPath.row]];
-  
+
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   [self.navigationController pushViewController:detailViewController animated:YES];
 }
@@ -181,7 +180,6 @@
   [previousPageButton release];
   [nextPageBarButton release];
   [currentPageLabel release];
-  [loadingLabel release];
   
   [myTableView release];
   [activityIndicator release];
