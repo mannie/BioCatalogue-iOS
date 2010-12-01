@@ -40,6 +40,7 @@ extern NSString *const JSONCountryElement;
 extern NSString *const JSONDeploymentsElement;
 extern NSString *const JSONDescriptionElement;
 extern NSString *const JSONEndpointLabelElement;
+extern NSString *const JSONErrorsElement;
 extern NSString *const JSONFlagElement;
 extern NSString *const JSONJoinedElement;
 extern NSString *const JSONLabelElement;
@@ -112,7 +113,6 @@ extern NSString *NoInformationText;
 extern NSString *RESTComponentsText;
 extern NSString *SOAPComponentsText;
 
-extern NSString *const iPadDevice;
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */

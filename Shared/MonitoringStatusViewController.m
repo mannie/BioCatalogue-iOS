@@ -18,13 +18,18 @@
 
 -(void) fetchMonitoringStatusInfo:(NSString *)fromPath {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
-  [myTableView setTableHeaderView:loadingLabel];
-  [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
 
-  if ([[[UIDevice currentDevice] model] isEqualToString:iPadDevice]) {
-      [detailViewController stopLoadingAnimation];
+  if (![lastUsedPath isEqualToString:fromPath]) {
+    [lastUsedPath release];
+    lastUsedPath = [fromPath copy];
+    
+    [myTableView setTableHeaderView:loadingLabel];
+    [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
   }
+  
+  if ([[UIDevice currentDevice] isIPadDevice]) {
+    [detailViewController stopLoadingAnimation];
+  }    
   
   [autoreleasePool drain];
 } // fetchMonitoringStatusInfo
@@ -131,6 +136,8 @@
   
   [monitoringProperties release];
   [monitoringStatuses release];
+  
+  [lastUsedPath release];
   
   [super dealloc];
 } // dealloc

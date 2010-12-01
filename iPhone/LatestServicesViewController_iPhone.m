@@ -12,6 +12,7 @@
 @implementation LatestServicesViewController_iPhone
 
 @synthesize detailViewController, navigationController;
+@synthesize paginationDelegate;
 
 
 #pragma mark -
@@ -27,64 +28,37 @@
                           undimmingViews:[NSArray arrayWithObject:currentPageLabel]];
 } // stopLoadingAnimation
 
--(void) performServiceFetch {
+-(void) postFetchActions {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-    
-  fetching = YES;
-  [myTableView reloadData];
   
-  if (currentPage < 1) {
-    currentPage = 1;
-  }
+  [myTableView setTableHeaderView:nil];
+  currentPageLabel.hidden = NO;
   
   [services release];
-  if (lastPage < 1) {
-    NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
-    services = [[servicesDocument objectForKey:JSONResultsElement] copy];
-    lastPage = [[servicesDocument objectForKey:JSONPagesElement] intValue];
-    
-    [myTableView setTableHeaderView:nil];
-    currentPageLabel.hidden = NO;
-  } else {
-    services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
-  }
+  services = [[servicesData objectForKey:JSONResultsElement] retain];
   
   currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
   
   previousPageButton.hidden = currentPage == 1;
   nextPageBarButton.hidden = currentPage == lastPage;
   
-  fetching = NO;
   [myTableView reloadData];
   
-  [self stopLoadingAnimation];
+  [autoreleasePool drain];
+} // postFetchActions
+
+-(void) performServiceFetch {  
+  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+  
+  [paginationDelegate performServiceFetchForPage:&currentPage
+                                        lastPage:&lastPage
+                                        progress:&fetching
+                                     resultsData:&servicesData
+                              performingSelector:@selector(postFetchActions)
+                                        onTarget:self];
   
   [autoreleasePool drain];
 } // performServiceFetch
-
-
-#pragma mark -
-#pragma mark IBActions
-
--(IBAction) loadServicesOnNextPage:(id)sender {
-  if (!fetching) {
-    if ([services count] > 0) {
-      currentPage++;
-    }
-    [self startLoadingAnimation];
-    [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
-  }
-} // loadServicesOnNextPage
-
--(IBAction) loadServicesOnPreviousPage:(id)sender {
-  if (!fetching) {
-    if (currentPage > 1) {
-      currentPage--;
-    }
-    [self startLoadingAnimation];
-    [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
-  }
-} // loadServicesOnPreviousPage
 
 
 #pragma mark -
@@ -96,9 +70,6 @@
   currentPageLabel.hidden = YES;
   previousPageButton.hidden = YES;
   nextPageBarButton.hidden = YES;
-  
-  currentPage = 0;
-  lastPage = 0;
   
   [self startLoadingAnimation];
   [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
@@ -186,6 +157,8 @@
   
   [detailViewController release];
   [navigationController release];
+  
+  [paginationDelegate release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
@@ -201,8 +174,11 @@
 } // viewDidLoad
 
 - (void)dealloc {
+
+  [servicesData release];
   [services release];
-  [self releaseIBOutlets];
+ 
+   [self releaseIBOutlets];
   
   [super dealloc];
 } // dealloc

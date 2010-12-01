@@ -19,12 +19,17 @@
 -(void) fetchServiceComponents:(NSString *)fromPath {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
-  serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
+  if (![lastUsedPath isEqualToString:fromPath]) {
+    [lastUsedPath release];
+    lastUsedPath = [fromPath copy];
+
+    serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
+    
+    [myTableView setTableHeaderView:loadingLabel];
+    [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
+  }
   
-  [myTableView setTableHeaderView:loadingLabel];
-  [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
-  
-  if ([[[UIDevice currentDevice] model] isEqualToString:iPadDevice]) {
+  if ([[UIDevice currentDevice] isIPadDevice]) {
     [iPadDetailViewController stopLoadingAnimation];
   }
   
@@ -94,7 +99,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONResourceElement]];
   
-  if ([[[UIDevice currentDevice] model] isEqualToString:iPadDevice]) {
+  if ([[UIDevice currentDevice] isIPadDevice]) {
     [iPadDetailViewController showResourceInBioCatalogue:url];
   } else {
     NSURLRequest *request = [NSURLRequest requestWithURL:url
@@ -136,7 +141,8 @@
   
   [componentsProperties release];
   [serviceComponents release];
-  
+  [lastUsedPath release];
+
   [super dealloc];
 } // dealloc
 

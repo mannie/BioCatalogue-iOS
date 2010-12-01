@@ -12,26 +12,28 @@
 
 #import "JSON+Helper.h"
 #import "UIView+Helper.h"
+#import "PaginationDelegate.h"
 
 
 @interface LatestServicesViewController_iPad : UITableViewController {
+  NSDictionary *servicesData;
   NSArray *services;
 
   DetailViewController_iPad *detailViewController;
 
-  NSUInteger currentPage;
-  NSUInteger lastPage;
+  int currentPage;
+  int lastPage;
 
   IBOutlet UILabel *currentPageLabel;
   
-  BOOL initializing;
   BOOL fetching;
+  
+  NSIndexPath *lastSelection;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;
 
-// TODO: do these need to be IBActions???
--(IBAction) loadServicesOnNextPage:(id)sender;
--(IBAction) loadServicesOnPreviousPage:(id)sender;
+@property (nonatomic, retain) IBOutlet id<PaginationDelegate> paginationDelegate;
+
 
 @end

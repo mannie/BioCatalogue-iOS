@@ -20,7 +20,7 @@
 
 -(NSDictionary *) documentAtPath:(NSString *)path {
   @try {
-    NSError *error;
+    NSError *error = nil;
     NSURLResponse *response;
     
     NSURL *url = [[BioCatalogueClient client] URLForPath:path withRepresentation:JSONFormat];
@@ -32,26 +32,27 @@
     NSString *dataAsString = [[NSString alloc] initWithBytes:[data bytes] 
                                                       length:[data length] 
                                                     encoding:NSUTF8StringEncoding];
-        
+    
+    if (error) {
+      NSLog(@"%@\n%@\n%@", [error localizedDescription], [error localizedFailureReason], [error localizedRecoverySuggestion]);
+    }
+    
     id json = [dataAsString JSONValue];
     [dataAsString release];
-    
-    if ([[json allKeys] count] != 1) {
+        
+    if ([[json allKeys] count] != 1 || [[[json allKeys] lastObject] isEqualToString:JSONErrorsElement]) {
       return nil;
     } else {
       NSString *key = [[json allKeys] lastObject];
       return [json objectForKey:key];
     }
   } @catch (NSException * e) {
+    NSLog(@"%@\n%@", [e name], [e reason]);
     return nil;
   }
 } // documentAtPath
 
--(NSArray *) latestServices:(NSUInteger)limit {
-  return [self services:limit page:1];
-} // latestServices
-
--(NSArray *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
+-(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
   if (pageNum < 1) {
     pageNum = 1;
   }
@@ -60,10 +61,11 @@
     limit = ServicesPerPage;
   }
   
-  NSDictionary *document = [self documentAtPath:
-                            [NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
-  return [document objectForKey:JSONResultsElement];
+  return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
 }
 
+-(NSArray *) latestServices:(NSUInteger)limit {
+  return [[self services:limit page:1] objectForKey:JSONResultsElement];
+} // latestServices
 
 @end

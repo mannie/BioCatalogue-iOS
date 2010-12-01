@@ -14,34 +14,46 @@
 
 float loadingAnimationDuration = 0.5;
 
-
-+(void) startAnimatingActivityIndicator:(UIActivityIndicatorView *)activityIndicator dimmingViews:(NSArray *)views {
-  [activityIndicator startAnimating];
-  
++(void) setUpForAnimation {
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:loadingAnimationDuration];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];  
+}
 
++(void) startLoadingAnimation:(UIActivityIndicatorView *)activityIndicator dimmingViews:(NSArray *)views {
+  [activityIndicator startAnimating];
+  
+  [self setUpForAnimation];
   for (id view in views) {
     [view setAlpha:0.1];
   }
-  
   [UIView commitAnimations];
 } // startAnimatingActivityIndicator:dimmingViews
 
-+(void) stopAnimatingActivityIndicator:(UIActivityIndicatorView *)activityIndicator undimmingViews:(NSArray *)views {
++(void) stopLoadingAnimation:(UIActivityIndicatorView *)activityIndicator undimmingViews:(NSArray *)views {
   [activityIndicator stopAnimating];
   
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:loadingAnimationDuration];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-
+  [self setUpForAnimation];
   for (id view in views) {
     [view setAlpha:1];
   }
-  
   [UIView commitAnimations];  
 } // stopAnimatingActivityIndicator:undimmingViews
 
++(void) startLoadingAnimation:(UIActivityIndicatorView *)activityIndicator dimmingView:(UIView *)view {
+  [activityIndicator startAnimating];
+  
+  [self setUpForAnimation];
+  view.alpha = 0.1;
+  [UIView commitAnimations];  
+}
+
++(void) stopLoadingAnimation:(UIActivityIndicatorView *)activityIndicator undimmingView:(UIView *)view {
+  [activityIndicator stopAnimating];
+  
+  [self setUpForAnimation];
+  view.alpha = 1;
+  [UIView commitAnimations];  
+}
 
 @end

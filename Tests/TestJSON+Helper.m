@@ -12,7 +12,7 @@
 @implementation TestJSON_Helper
 
 -(void) setUp {
-  jsonHelper = [[JSON_Helper alloc] init];
+  jsonHelper = [[JSON_Helper helper] retain];
 }
 
 -(void) testGETdocumentAtPath {  
@@ -64,19 +64,19 @@
   NSArray *latestServices = [jsonHelper latestServices:limit];
   NSString *latestServicesAsString = [NSString stringWithFormat:@"%@", latestServices];
   
-  NSArray *services = [jsonHelper services:limit page:0];
+  NSDictionary *services = [[jsonHelper services:limit page:0] objectForKey:JSONResultsElement];
   STAssertNotNil(services, @"Services list cannot be nil when page=0");
   STAssertTrue([services count] == limit, [NSString stringWithFormat:@"Found %i", [services count]]);
   NSString *servicesAsString = [NSString stringWithFormat:@"%@", services];
   STAssertTrue([servicesAsString isEqualToString:latestServicesAsString], @"Should yeild the same document.");
   
-  services = [jsonHelper services:limit page:0];
+  services = [[jsonHelper services:limit page:1] objectForKey:JSONResultsElement];
   STAssertNotNil(services, @"Services list cannot be nil when page=1");
   STAssertTrue([services count] == limit, [NSString stringWithFormat:@"Found %i", [services count]]);
   servicesAsString = [NSString stringWithFormat:@"%@", services];
   STAssertTrue([servicesAsString isEqualToString:latestServicesAsString], @"Should yeild the same document.");
   
-  services = [jsonHelper services:limit page:limit];
+  services = [[jsonHelper services:limit page:limit] objectForKey:JSONResultsElement];
   STAssertNotNil(services, @"Services list cannot be nil when page>0");
   STAssertTrue([services count] == limit, [NSString stringWithFormat:@"Found %i", [services count]]);
   servicesAsString = [NSString stringWithFormat:@"%@", services];

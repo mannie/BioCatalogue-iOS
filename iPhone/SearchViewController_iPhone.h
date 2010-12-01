@@ -15,6 +15,7 @@
 #import "ProviderDetailViewController_iPhone.h"
 
 #import "UIView+Helper.h"
+#import "PaginationDelegate.h"
 
 
 @interface SearchViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
@@ -48,6 +49,8 @@
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *serviceDetailViewController;
 @property (nonatomic, retain) IBOutlet UserDetailViewController_iPhone *userDetailViewController;
 @property (nonatomic, retain) IBOutlet ProviderDetailViewController_iPhone *providerDetailViewController;
+
+@property (nonatomic, retain) IBOutlet id<PaginationDelegate> paginationDelegate;
 
 -(IBAction) loadServicesOnNextPage:(id)sender;
 -(IBAction) loadServicesOnPreviousPage:(id)sender;

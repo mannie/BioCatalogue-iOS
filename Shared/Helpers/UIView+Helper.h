@@ -7,11 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
 @interface UIView (Helper)
 
 +(void) startLoadingAnimation:(UIActivityIndicatorView *)activityIndicator dimmingViews:(NSArray *)views;
 +(void) stopLoadingAnimation:(UIActivityIndicatorView *)activityIndicator undimmingViews:(NSArray *)views;
+
++(void) startLoadingAnimation:(UIActivityIndicatorView *)activityIndicator dimmingView:(UIView *)view;
++(void) stopLoadingAnimation:(UIActivityIndicatorView *)activityIndicator undimmingView:(UIView *)view;
 
 @end

@@ -12,16 +12,19 @@
 #import "ServiceDetailViewController_iPhone.h"
 #import "UIView+Helper.h"
 
+#import "PaginationDelegate.h"
+
 
 @interface LatestServicesViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource> {  
+  NSDictionary *servicesData;
   NSArray *services;
     
   ServiceDetailViewController_iPhone *detailViewController;
 
   UINavigationController *navigationController;
 
-  NSUInteger currentPage;
-  NSUInteger lastPage;
+  int currentPage;
+  int lastPage;
 
   IBOutlet UIButton *previousPageButton;
   IBOutlet UIButton *nextPageBarButton;
@@ -36,7 +39,6 @@
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *detailViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
--(IBAction) loadServicesOnNextPage:(id)sender;
--(IBAction) loadServicesOnPreviousPage:(id)sender;
+@property (nonatomic, retain) IBOutlet id<PaginationDelegate> paginationDelegate;
 
 @end

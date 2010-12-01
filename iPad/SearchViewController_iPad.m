@@ -11,7 +11,7 @@
 
 @implementation SearchViewController_iPad
 
-@synthesize detailViewController;
+@synthesize detailViewController, paginationDelegate;
 
 
 #pragma mark -
@@ -198,20 +198,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [detailViewController dismissAuxiliaryDetailPanel:self];
   
-  if (indexPath.section == MainSection) {
-    [detailViewController startLoadingAnimation];
-    
+  if (indexPath.section == MainSection) {    
     NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
     detailViewController.loadingText = [listing objectForKey:JSONNameElement];
 
     if (searchResultsScope == ServicesSearchScope) {      
       [detailViewController setDescription:[listing objectForKey:JSONDescriptionElement]];
+            
+      NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:detailViewController
+                                                                              selector:@selector(startLoadingAnimation)
+                                                                                object:nil];
+      [[NSOperationQueue mainQueue] addOperation:[operation autorelease]];
       
-      // FIXME: threading issues
-      [detailViewController updateWithPropertiesForServicesScope:listing];
-//      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
-//                               toTarget:detailViewController 
-//                             withObject:listing];
+      operation = [[NSInvocationOperation alloc] initWithTarget:detailViewController
+                                                       selector:@selector(updateWithPropertiesForServicesScope:) 
+                                                         object:listing];
+      [[NSOperationQueue mainQueue] addOperation:[operation autorelease]];
     } else if (searchResultsScope == UsersSearchScope) {
       [detailViewController updateWithPropertiesForUsersScope:listing];
     } else {
@@ -289,7 +291,8 @@
 -(void) releaseIBOutlets {
   [currentPageLabel release];
   [mySearchBar release];
-  [detailViewController release];  
+  [detailViewController release];
+  [paginationDelegate release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

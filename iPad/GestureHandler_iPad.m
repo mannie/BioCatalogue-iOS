@@ -46,7 +46,7 @@ float animationDuration = 0.5;
 #pragma mark Handlers
 
 -(void) panViewButResetPositionAfterwards:(UIPanGestureRecognizer *)recognizer {
-  BOOL portraitOrientation = [[UIDevice currentDevice] orientation] == UIDeviceOrientationPortrait;
+  BOOL portraitOrientation = [[UIDevice currentDevice] inPortraitOrientation];
   CGPoint translation = [recognizer translationInView:recognizer.view];
   
   NSNumber *viewHash = [NSNumber numberWithInt:recognizer.view.hash];

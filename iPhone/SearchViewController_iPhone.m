@@ -13,6 +13,7 @@
 
 @synthesize navigationController;
 @synthesize serviceDetailViewController, userDetailViewController, providerDetailViewController;
+@synthesize paginationDelegate;
 
 
 #pragma mark -
@@ -274,6 +275,8 @@
   [serviceDetailViewController release];
   [userDetailViewController release];
   [providerDetailViewController release];
+  
+  [paginationDelegate release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

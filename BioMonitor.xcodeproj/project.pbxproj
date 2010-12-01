@@ -182,7 +182,6 @@
 		365C68EA125BC6230099CE38 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E4125BC6230099CE38 /* SBJsonParser.m */; };
 		365C68EB125BC6230099CE38 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E6125BC6230099CE38 /* SBJsonWriter.m */; };
 		365C6981125BCBFD0099CE38 /* TestJSON+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C697F125BCBFD0099CE38 /* TestJSON+Helper.m */; };
-		365C6982125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C6980125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m */; };
 		365C6991125BCCA80099CE38 /* TestBioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C6990125BCCA80099CE38 /* TestBioCatalogueClient.m */; };
 		365C69EB125BD13B0099CE38 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68DE125BC6230099CE38 /* NSObject+SBJSON.m */; };
 		365C69ED125BD13B0099CE38 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E0125BC6230099CE38 /* NSString+SBJSON.m */; };
@@ -197,6 +196,14 @@
 		368353D212949FC60029D92A /* SearchViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353CC12949FC60029D92A /* SearchViewController_iPad.m */; };
 		368353D812949FDD0029D92A /* GestureHandler_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353D612949FDD0029D92A /* GestureHandler_iPad.m */; };
 		36CD0B7812959B9A00DAE156 /* TestNSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */; };
+		36F0416312A34BB500B9BAB2 /* rounded-corners.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F0416212A34BB500B9BAB2 /* rounded-corners.png */; };
+		36F0417A12A34CDE00B9BAB2 /* UIDevice+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */; };
+		36F0423312A4751F00B9BAB2 /* PaginationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0423212A4751F00B9BAB2 /* PaginationController.m */; };
+		36F0425012A4787900B9BAB2 /* JSON+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCAC1299150100DEC892 /* JSON+Helper.m */; };
+		36F0425112A4787A00B9BAB2 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCAE1299150100DEC892 /* NSString+Helper.m */; };
+		36F0425212A4787C00B9BAB2 /* NSUserDefaults+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCB01299150100DEC892 /* NSUserDefaults+Helper.m */; };
+		36F0425512A4788100B9BAB2 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCAA1299150100DEC892 /* AppConstants.m */; };
+		36F0425C12A478CA00B9BAB2 /* BioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCA51299150100DEC892 /* BioCatalogueClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -401,7 +408,6 @@
 		365C6979125BCBE20099CE38 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		365C697E125BCBFD0099CE38 /* TestJSON+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestJSON+Helper.h"; sourceTree = "<group>"; };
 		365C697F125BCBFD0099CE38 /* TestJSON+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestJSON+Helper.m"; sourceTree = "<group>"; };
-		365C6980125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Xcode324iOS41TestSuiteWorkaround.m; sourceTree = "<group>"; };
 		365C698F125BCCA80099CE38 /* TestBioCatalogueClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBioCatalogueClient.h; sourceTree = "<group>"; };
 		365C6990125BCCA80099CE38 /* TestBioCatalogueClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestBioCatalogueClient.m; sourceTree = "<group>"; };
 		368353C312949FC60029D92A /* AppDelegate_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_iPad.h; sourceTree = "<group>"; };
@@ -418,6 +424,12 @@
 		368353D712949FDD0029D92A /* GestureHandler_iPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureHandler_iPad.h; sourceTree = "<group>"; };
 		36CD0B7612959B9A00DAE156 /* TestNSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestNSString+Helper.h"; sourceTree = "<group>"; };
 		36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestNSString+Helper.m"; sourceTree = "<group>"; };
+		36F0416212A34BB500B9BAB2 /* rounded-corners.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rounded-corners.png"; sourceTree = "<group>"; };
+		36F0417812A34CDE00B9BAB2 /* UIDevice+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Helper.h"; sourceTree = "<group>"; };
+		36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Helper.m"; sourceTree = "<group>"; };
+		36F041EB12A356CB00B9BAB2 /* PaginationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaginationDelegate.h; sourceTree = "<group>"; };
+		36F0423112A4751F00B9BAB2 /* PaginationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaginationController.h; sourceTree = "<group>"; };
+		36F0423212A4751F00B9BAB2 /* PaginationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaginationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -528,10 +540,11 @@
 		362DFCA11299150100DEC892 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				362DFCB31299150100DEC892 /* Icons */,
+				362DFCB31299150100DEC892 /* Images */,
 				362DFCA61299150100DEC892 /* BioMonitor.xcdatamodeld */,
 				362DFCA21299150100DEC892 /* AppDelegate_Shared.h */,
 				362DFCA31299150100DEC892 /* AppDelegate_Shared.m */,
+				36F041EB12A356CB00B9BAB2 /* PaginationDelegate.h */,
 				362DFCA81299150100DEC892 /* Helpers */,
 				362DFCA41299150100DEC892 /* BioCatalogueClient.h */,
 				362DFCA51299150100DEC892 /* BioCatalogueClient.m */,
@@ -539,6 +552,8 @@
 				362DFD441299150200DEC892 /* MonitoringStatusViewController.m */,
 				362DFD451299150200DEC892 /* ServiceComponentsViewController.h */,
 				362DFD461299150200DEC892 /* ServiceComponentsViewController.m */,
+				36F0423112A4751F00B9BAB2 /* PaginationController.h */,
+				36F0423212A4751F00B9BAB2 /* PaginationController.m */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -556,13 +571,16 @@
 				362DFCB01299150100DEC892 /* NSUserDefaults+Helper.m */,
 				362DFCB11299150100DEC892 /* UIView+Helper.h */,
 				362DFCB21299150100DEC892 /* UIView+Helper.m */,
+				36F0417812A34CDE00B9BAB2 /* UIDevice+Helper.h */,
+				36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		362DFCB31299150100DEC892 /* Icons */ = {
+		362DFCB31299150100DEC892 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				36F0416212A34BB500B9BAB2 /* rounded-corners.png */,
 				362DFCB41299150100DEC892 /* 01-refresh.png */,
 				362DFCB51299150100DEC892 /* 02-redo.png */,
 				362DFCB61299150100DEC892 /* 03-loopback.png */,
@@ -706,7 +724,7 @@
 				362DFD401299150200DEC892 /* small-tick-sphere-50.png */,
 				362DFD411299150200DEC892 /* tick-sphere-50.png */,
 			);
-			path = Icons;
+			path = Images;
 			sourceTree = "<group>";
 		};
 		365C68DA125BC5FC0099CE38 /* Frameworks */ = {
@@ -738,7 +756,6 @@
 		365C697D125BCBFD0099CE38 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				365C6980125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m */,
 				365C697E125BCBFD0099CE38 /* TestJSON+Helper.h */,
 				365C697F125BCBFD0099CE38 /* TestJSON+Helper.m */,
 				365C698F125BCCA80099CE38 /* TestBioCatalogueClient.h */,
@@ -989,6 +1006,7 @@
 				362DFDDA1299150200DEC892 /* small-query-sphere-50.png in Resources */,
 				362DFDDB1299150200DEC892 /* small-tick-sphere-50.png in Resources */,
 				362DFDDC1299150200DEC892 /* tick-sphere-50.png in Resources */,
+				36F0416312A34BB500B9BAB2 /* rounded-corners.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1049,6 +1067,8 @@
 				362DFDDE1299150200DEC892 /* MonitoringStatusViewController.m in Sources */,
 				362DFDDF1299150200DEC892 /* ServiceComponentsViewController.m in Sources */,
 				362DFDEB129915C600DEC892 /* main.m in Sources */,
+				36F0417A12A34CDE00B9BAB2 /* UIDevice+Helper.m in Sources */,
+				36F0423312A4751F00B9BAB2 /* PaginationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1056,7 +1076,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				365C6982125BCBFD0099CE38 /* Xcode324iOS41TestSuiteWorkaround.m in Sources */,
 				365C69EB125BD13B0099CE38 /* NSObject+SBJSON.m in Sources */,
 				365C69ED125BD13B0099CE38 /* NSString+SBJSON.m in Sources */,
 				365C69EF125BD13B0099CE38 /* SBJsonBase.m in Sources */,
@@ -1065,6 +1084,11 @@
 				365C6981125BCBFD0099CE38 /* TestJSON+Helper.m in Sources */,
 				365C6991125BCCA80099CE38 /* TestBioCatalogueClient.m in Sources */,
 				36CD0B7812959B9A00DAE156 /* TestNSString+Helper.m in Sources */,
+				36F0425012A4787900B9BAB2 /* JSON+Helper.m in Sources */,
+				36F0425112A4787A00B9BAB2 /* NSString+Helper.m in Sources */,
+				36F0425212A4787C00B9BAB2 /* NSUserDefaults+Helper.m in Sources */,
+				36F0425512A4788100B9BAB2 /* AppConstants.m in Sources */,
+				36F0425C12A478CA00B9BAB2 /* BioCatalogueClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1087,6 +1111,7 @@
 				PRODUCT_NAME = BioMonitor;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.2;
 			};
 			name = Debug;
 		};
@@ -1104,6 +1129,7 @@
 				PRODUCT_NAME = BioMonitor;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos4.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1133,6 +1159,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Tests;
+				SDKROOT = iphoneos4.2;
 				WRAPPER_EXTENSION = octest;
 			};
 			name = Debug;
@@ -1161,6 +1188,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = Tests;
+				SDKROOT = iphoneos4.2;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
 			};

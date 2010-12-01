@@ -11,15 +11,13 @@
 
 @implementation TestNSString_Helper
 
-// FIXME: test
+
 -(void) testIsValidJSONValue {  
-  /*
   STAssertTrue([@"oh yes" isValidJSONValue], @"'oh yes' is valid");
   STAssertTrue([@" ." isValidJSONValue], @"' .' is valid");
   
   STAssertFalse([@"" isValidJSONValue], @"Empty string is not valid");
   STAssertFalse([@" \n \t  " isValidJSONValue], @"String containing only white space is not valid");
-   */
 }
 
 @end

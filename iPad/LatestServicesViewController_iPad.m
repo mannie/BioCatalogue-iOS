@@ -12,71 +12,41 @@
 
 @implementation LatestServicesViewController_iPad
 
-@synthesize detailViewController;
+@synthesize detailViewController, paginationDelegate;
 
 
 #pragma mark -
 #pragma mark Private Helpers
 
--(void) performServiceFetch {  
+-(void) postFetchActions {
   NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
-  fetching = YES;
-  [[self tableView] reloadData];
-  
-  if (currentPage < 1) {
-    currentPage = 1;
-  }
+  currentPageLabel.hidden = NO;
   
   [services release];
-  if (lastPage < 1) {
-    NSDictionary *servicesDocument = [[JSON_Helper helper] documentAtPath:@"services"];
-    services = [[servicesDocument objectForKey:JSONResultsElement] copy];
-    lastPage = [[servicesDocument objectForKey:JSONPagesElement] intValue];
+  services = [[servicesData objectForKey:JSONResultsElement] retain];
+  
+  currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
     
-    currentPageLabel.hidden = NO;
-  } else {
-    services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
-  }
-  
-  services = [[[JSON_Helper helper] services:ServicesPerPage page:currentPage] copy];
-  
-  currentPageLabel.text = [NSString stringWithFormat:@"Page %i of %i", currentPage, lastPage];
-  
-  initializing = NO;
-  fetching = NO;
   [[self tableView] reloadData];
-  
   [detailViewController stopLoadingAnimation];
   
   [autoreleasePool drain];
+} // postFetchActions
+
+-(void) performServiceFetch {  
+  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+  
+  [detailViewController startLoadingAnimation];
+  [paginationDelegate performServiceFetchForPage:&currentPage
+                                        lastPage:&lastPage
+                                        progress:&fetching
+                                     resultsData:&servicesData
+                              performingSelector:@selector(postFetchActions)
+                                        onTarget:self];
+  
+  [autoreleasePool drain];
 } // performServiceFetch
-
--(void) startThreadToFetchServicesForCurrentPage {
-  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
-} // startThreadToFetchServicesForCurrentPage
-
-
-#pragma mark -
-#pragma mark IBActions
-
--(IBAction) loadServicesOnNextPage:(id)sender {
-  if (!fetching) {
-    if ([services count] > 0) {
-      currentPage++;
-    }
-    [self startThreadToFetchServicesForCurrentPage];
-  }
-} // loadServicesOnNextPage
-
--(IBAction) loadServicesOnPreviousPage:(id)sender {
-  if (!fetching) {
-    if (currentPage > 1) {
-      currentPage--;
-    }
-    [self startThreadToFetchServicesForCurrentPage];
-  }
-} // loadServicesOnPreviousPage
 
 
 #pragma mark -
@@ -87,15 +57,10 @@
   
   self.clearsSelectionOnViewWillAppear = NO;
   self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
-
-  initializing = YES;
   
   currentPageLabel.text = @"Loading, Please Wait...";
-  
-  currentPage = 0;
-  lastPage = 0;
-  
-  [self startThreadToFetchServicesForCurrentPage];
+
+  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -107,8 +72,8 @@
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  if (initializing) {
-    return 0;
+  if (fetching) {
+    return 1;
   } else {
     return 3;
   }
@@ -116,7 +81,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (fetching || initializing || [services count] == 0 || section != MainSection) {
+  if (fetching || [services count] == 0 || section != MainSection) {
     return 1;
   } else {
     return [services count];
@@ -135,7 +100,7 @@
   }
   
   // Configure the cell...
-  if (initializing || fetching || [services count] == 0) {
+  if (fetching || [services count] == 0) {
     cell.textLabel.text = nil;
     cell.imageView.image = nil;
     cell.accessoryType = UITableViewCellAccessoryNone;
@@ -191,31 +156,39 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [detailViewController dismissAuxiliaryDetailPanel:self];
   
+  if (lastSelection == indexPath && indexPath.section == MainSection) {
+    return;
+  }
+  
   if (indexPath.section == MainSection) {
-    [detailViewController startLoadingAnimation];
-    
     NSDictionary *listing = [services objectAtIndex:indexPath.row];
     detailViewController.loadingText = [listing objectForKey:JSONNameElement];
     [detailViewController setDescription:[listing objectForKey:JSONDescriptionElement]];
 
-    // FIXME: threading issues
-    [detailViewController updateWithPropertiesForServicesScope:listing];
-//    [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:)
-//                             toTarget:detailViewController 
-//                           withObject:listing];
+    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:detailViewController
+                                                                            selector:@selector(startLoadingAnimation)
+                                                                              object:nil];
+    [[NSOperationQueue mainQueue] addOperation:[operation autorelease]];
+    
+    operation = [[NSInvocationOperation alloc] initWithTarget:detailViewController
+                                                     selector:@selector(updateWithPropertiesForServicesScope:) 
+                                                       object:listing];
+    [[NSOperationQueue mainQueue] addOperation:[operation autorelease]];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
       [detailViewController startLoadingAnimation];
-      [self loadServicesOnPreviousPage:self];
+      [NSThread detachNewThreadSelector:@selector(loadServicesOnPreviousPage) toTarget:paginationDelegate withObject:nil];
     } 
     
     if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
       [detailViewController startLoadingAnimation];
-      [self loadServicesOnNextPage:self];
+      [NSThread detachNewThreadSelector:@selector(loadServicesOnNextPage) toTarget:paginationDelegate withObject:nil];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   }
+  
+  lastSelection = indexPath;
 } // tableView:didSelectRowAtIndexPath
 
 
@@ -225,6 +198,7 @@
 -(void) releaseIBOutlets {
   [currentPageLabel release];
   [detailViewController release];
+  [paginationDelegate release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

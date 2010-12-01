@@ -26,6 +26,8 @@
   IBOutlet UIViewController *iPhoneWebViewController;
   
   BOOL serviceIsREST;
+  
+  NSString *lastUsedPath;
 }
 
 -(void) fetchServiceComponents:(NSString *)fromPath;

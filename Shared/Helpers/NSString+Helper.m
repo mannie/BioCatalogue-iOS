@@ -12,14 +12,13 @@
 @implementation NSString (Helper)
 
 -(BOOL) isValidJSONValue {
-  BOOL isEmpty = [[self stringByReplacingOccurrencesOfString:@" " withString:@""] isEqualToString:@""];
   BOOL isJSONNull = [self isEqualToString:JSONNull];
   
-  if (isEmpty || isJSONNull) {
-    return NO;
-  }
-  
-  return YES;
+  NSArray *components = [self componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF != %@", @""];
+  BOOL isWhiteSpace = [[components filteredArrayUsingPredicate:predicate] count] == 0;
+      
+  return !isJSONNull && !isWhiteSpace;
 }
 
 @end

@@ -21,8 +21,8 @@
 +(JSON_Helper *) helper;
 
 -(NSDictionary *) documentAtPath:(NSString *)path;
+-(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 
 -(NSArray *) latestServices:(NSUInteger)limit;
--(NSArray *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 
 @end

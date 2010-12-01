@@ -24,13 +24,8 @@
                     withArrowFromRect:(CGRect)rect
                              withSize:(CGSize)size {
   if (myView) {
-    //  NSData *tempArchive = [NSKeyedArchiver archivedDataWithRootObject:myView];
-    //  UIView *duplicateView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    // TODO: clone myView
-    UIView *duplicateView = myView;
-    
     viewController = [[[UIViewController alloc] init] autorelease];
-    viewController.view = duplicateView;
+    viewController.view = myView;
   }
   
   [contextualPopoverController release];
@@ -58,19 +53,17 @@
 } // webActivityWatcher
 
 -(void) startLoadingAnimation {
-  [UIView startAnimatingActivityIndicator:activityIndicator
-                             dimmingViews:[NSArray arrayWithObject:serviceNameLabel]];
+  [UIView startLoadingAnimation:activityIndicator dimmingView:serviceNameLabel];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
-  [UIView stopAnimatingActivityIndicator:activityIndicator
-                          undimmingViews:[NSArray arrayWithObject:serviceNameLabel]];
+  [UIView stopLoadingAnimation:activityIndicator undimmingView:serviceNameLabel];
 } // stopLoadingAnimation
 
 -(void) setContentView:(UIView *)subView forParentView:(UIView *)parentView {  
   // remove subviews
   for (id item in parentView.subviews) {
-    if (![item isMemberOfClass:[UIToolbar class]]) {
+    if (![item isMemberOfClass:[UIToolbar class]] && ![item isMemberOfClass:[UIActivityIndicatorView class]]) {
       [item removeFromSuperview];
     }
   } // for each item in subview

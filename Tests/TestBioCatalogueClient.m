@@ -60,12 +60,6 @@
   results = [client performSearch:@"blast" withRepresentation:JSONFormat];
   STAssertNotNil(results, @"nil JSON document returned for 'blast'");
   STAssertTrue([[results objectForKey:JSONResultsElement] count] > 3, @"Incorrect results count yeiled.");
-
-/*
-  search = [client performSearch:@"blast" withRepresentation:XMLFormat];
-  STAssertNotNil(search, @"nil XML document returned for 'blast'");
-  STAssertTrue([[search objectForKey:JSONResultsElement] count] > 3, @"Incorrect results count yeiled.");
-*/
 }
 
 -(void) testPerformSearchWithScopeAndRepresentationPage {

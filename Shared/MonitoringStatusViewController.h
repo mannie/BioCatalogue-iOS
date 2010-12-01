@@ -21,6 +21,8 @@
   IBOutlet UILabel *loadingLabel;
   
   IBOutlet id detailViewController;
+  
+  NSString *lastUsedPath;
 }
 
 -(void) fetchMonitoringStatusInfo:(NSString *)fromPath;

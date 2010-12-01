@@ -43,6 +43,7 @@ NSString *const JSONCountryElement = @"country";
 NSString *const JSONDeploymentsElement = @"deployments";
 NSString *const JSONDescriptionElement = @"description";
 NSString *const JSONEndpointLabelElement = @"endpoint_label";
+NSString *const JSONErrorsElement = @"errors";
 NSString *const JSONFlagElement = @"flag";
 NSString *const JSONJoinedElement = @"joined";
 NSString *const JSONLabelElement = @"label";
@@ -115,7 +116,6 @@ NSString *NoInformationText = @"(no information available)";
 NSString *RESTComponentsText = @"REST Endpoints";
 NSString *SOAPComponentsText = @"SOAP Operations";
 
-NSString *const iPadDevice = @"iPad";
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
