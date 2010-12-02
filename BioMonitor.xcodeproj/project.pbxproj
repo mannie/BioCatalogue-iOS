@@ -204,6 +204,9 @@
 		36F0425212A4787C00B9BAB2 /* NSUserDefaults+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCB01299150100DEC892 /* NSUserDefaults+Helper.m */; };
 		36F0425512A4788100B9BAB2 /* AppConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCAA1299150100DEC892 /* AppConstants.m */; };
 		36F0425C12A478CA00B9BAB2 /* BioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCA51299150100DEC892 /* BioCatalogueClient.m */; };
+		36F0472012A6B18200B9BAB2 /* NSOperationQueue+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0471F12A6B18200B9BAB2 /* NSOperationQueue+Helper.m */; };
+		36F047E912A6C37100B9BAB2 /* logo_beta_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F047E812A6C37100B9BAB2 /* logo_beta_small.png */; };
+		36F0481012A6C7A900B9BAB2 /* AnimationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0480F12A6C7A900B9BAB2 /* AnimationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -430,6 +433,11 @@
 		36F041EB12A356CB00B9BAB2 /* PaginationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaginationDelegate.h; sourceTree = "<group>"; };
 		36F0423112A4751F00B9BAB2 /* PaginationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaginationController.h; sourceTree = "<group>"; };
 		36F0423212A4751F00B9BAB2 /* PaginationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaginationController.m; sourceTree = "<group>"; };
+		36F0471E12A6B18200B9BAB2 /* NSOperationQueue+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperationQueue+Helper.h"; sourceTree = "<group>"; };
+		36F0471F12A6B18200B9BAB2 /* NSOperationQueue+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+Helper.m"; sourceTree = "<group>"; };
+		36F047E812A6C37100B9BAB2 /* logo_beta_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo_beta_small.png; sourceTree = "<group>"; };
+		36F0480E12A6C7A900B9BAB2 /* AnimationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationController.h; sourceTree = "<group>"; };
+		36F0480F12A6C7A900B9BAB2 /* AnimationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnimationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,16 +552,18 @@
 				362DFCA61299150100DEC892 /* BioMonitor.xcdatamodeld */,
 				362DFCA21299150100DEC892 /* AppDelegate_Shared.h */,
 				362DFCA31299150100DEC892 /* AppDelegate_Shared.m */,
-				36F041EB12A356CB00B9BAB2 /* PaginationDelegate.h */,
-				362DFCA81299150100DEC892 /* Helpers */,
 				362DFCA41299150100DEC892 /* BioCatalogueClient.h */,
 				362DFCA51299150100DEC892 /* BioCatalogueClient.m */,
+				36F041EB12A356CB00B9BAB2 /* PaginationDelegate.h */,
+				362DFCA81299150100DEC892 /* Helpers */,
 				362DFD431299150200DEC892 /* MonitoringStatusViewController.h */,
 				362DFD441299150200DEC892 /* MonitoringStatusViewController.m */,
 				362DFD451299150200DEC892 /* ServiceComponentsViewController.h */,
 				362DFD461299150200DEC892 /* ServiceComponentsViewController.m */,
 				36F0423112A4751F00B9BAB2 /* PaginationController.h */,
 				36F0423212A4751F00B9BAB2 /* PaginationController.m */,
+				36F0480E12A6C7A900B9BAB2 /* AnimationController.h */,
+				36F0480F12A6C7A900B9BAB2 /* AnimationController.m */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -573,6 +583,8 @@
 				362DFCB21299150100DEC892 /* UIView+Helper.m */,
 				36F0417812A34CDE00B9BAB2 /* UIDevice+Helper.h */,
 				36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */,
+				36F0471E12A6B18200B9BAB2 /* NSOperationQueue+Helper.h */,
+				36F0471F12A6B18200B9BAB2 /* NSOperationQueue+Helper.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -580,6 +592,7 @@
 		362DFCB31299150100DEC892 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				36F047E812A6C37100B9BAB2 /* logo_beta_small.png */,
 				36F0416212A34BB500B9BAB2 /* rounded-corners.png */,
 				362DFCB41299150100DEC892 /* 01-refresh.png */,
 				362DFCB51299150100DEC892 /* 02-redo.png */,
@@ -1007,6 +1020,7 @@
 				362DFDDB1299150200DEC892 /* small-tick-sphere-50.png in Resources */,
 				362DFDDC1299150200DEC892 /* tick-sphere-50.png in Resources */,
 				36F0416312A34BB500B9BAB2 /* rounded-corners.png in Resources */,
+				36F047E912A6C37100B9BAB2 /* logo_beta_small.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1069,6 +1083,8 @@
 				362DFDEB129915C600DEC892 /* main.m in Sources */,
 				36F0417A12A34CDE00B9BAB2 /* UIDevice+Helper.m in Sources */,
 				36F0423312A4751F00B9BAB2 /* PaginationController.m in Sources */,
+				36F0472012A6B18200B9BAB2 /* NSOperationQueue+Helper.m in Sources */,
+				36F0481012A6C7A900B9BAB2 /* AnimationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

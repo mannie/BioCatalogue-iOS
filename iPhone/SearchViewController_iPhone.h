@@ -14,8 +14,10 @@
 #import "UserDetailViewController_iPhone.h"
 #import "ProviderDetailViewController_iPhone.h"
 
+#import "PaginationController.h"
+
 #import "UIView+Helper.h"
-#import "PaginationDelegate.h"
+#import "NSOperationQueue+Helper.h"
 
 
 @interface SearchViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
@@ -30,7 +32,8 @@
   UserDetailViewController_iPhone *userDetailViewController;
   ProviderDetailViewController_iPhone *providerDetailViewController;
 
-  NSUInteger currentPage;
+  int currentPage;
+  int lastPage;
   
   IBOutlet UIButton *previousPageButton;
   IBOutlet UIButton *nextPageBarButton;
@@ -50,9 +53,6 @@
 @property (nonatomic, retain) IBOutlet UserDetailViewController_iPhone *userDetailViewController;
 @property (nonatomic, retain) IBOutlet ProviderDetailViewController_iPhone *providerDetailViewController;
 
-@property (nonatomic, retain) IBOutlet id<PaginationDelegate> paginationDelegate;
-
--(IBAction) loadServicesOnNextPage:(id)sender;
--(IBAction) loadServicesOnPreviousPage:(id)sender;
+@property (nonatomic, retain) IBOutlet PaginationController *paginationController;
 
 @end

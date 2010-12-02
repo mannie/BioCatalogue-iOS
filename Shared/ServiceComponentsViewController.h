@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "JSON+Helper.h"
-#import "NSString+Helper.h"
+
 
 @class DetailViewController_iPad;
 
@@ -19,7 +19,6 @@
   NSArray *serviceComponents;
   
   IBOutlet UITableView *myTableView;
-  IBOutlet UILabel *loadingLabel;
   
   IBOutlet DetailViewController_iPad *iPadDetailViewController;
 
@@ -28,10 +27,11 @@
   BOOL serviceIsREST;
   
   NSString *lastUsedPath;
+  
+  BOOL fetching;
 }
 
 -(void) fetchServiceComponents:(NSString *)fromPath;
--(void) updateWithProperties:(NSDictionary *)properties;
 
 @end
 

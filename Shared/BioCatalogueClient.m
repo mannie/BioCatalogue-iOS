@@ -17,29 +17,6 @@
 
 
 #pragma mark -
-#pragma mark Private Helpers
-
--(BOOL) validateQuery:(NSString *)query {
-  NSString *deURLizedQuery = [query stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-  deURLizedQuery = [deURLizedQuery stringByReplacingOccurrencesOfString:@" " withString:@""];
-  
-  if ([deURLizedQuery length] == 0) {
-    return NO;
-  }
-  
-  if ([[deURLizedQuery componentsSeparatedByCharactersInSet:[NSCharacterSet punctuationCharacterSet]] count] > 1) {
-    return NO;
-  }
-  
-  if ([[deURLizedQuery componentsSeparatedByCharactersInSet:[NSCharacterSet symbolCharacterSet]] count] > 1) {
-    return NO;
-  }
-  
-  return YES;
-}
-
-
-#pragma mark -
 #pragma mark Public Helpers
 
 -(NSURL *) baseURL {
@@ -53,7 +30,7 @@
   sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:@".json" withString:@""];
   sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:@".xml" withString:@""];
   
-  if ([url query] && format) {
+  if ([url query] && [format isValidAPIRepresentation]) {
     sanitizedPath = [NSString stringWithFormat:@"%@.%@?%@", sanitizedPath, format, [url query]];
   } else if ([url query]) {
     sanitizedPath = [NSString stringWithFormat:@"%@?%@", sanitizedPath, [url query]];
@@ -64,20 +41,11 @@
   return [NSURL URLWithString:sanitizedPath relativeToURL:[self baseURL]];
 } // URLForPath:withRepresentation
 
--(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format {  
-  if (!query || !format || ![self validateQuery:query]) {
-    return nil;
-  }
-    
-  if ([format isEqualToString:JSONFormat]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/search?q=%@", query]];
-  } else {
-    return nil;
-  }
-} // performSearch:withRepresentation
-
--(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format page:(NSUInteger)pageNum {
-  if (!query || !format || ![self validateQuery:query]) {
+-(NSDictionary *) performSearch:(NSString *)query 
+                      withScope:(NSString *)scope
+             withRepresentation:(NSString *)format 
+                           page:(NSUInteger)pageNum {
+  if (![format isValidAPIRepresentation] || ![query isValidQuery]) {
     return nil;
   }
   
@@ -85,14 +53,15 @@
     pageNum = 1;
   }
   
+  NSString *pathQuery = [NSString stringWithFormat:@"?q=%@&page=%i&per_page=%i", query, pageNum, ServicesPerPage];
   if ([scope isEqualToString:ServicesSearchScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services?q=%@&page=%i", query, pageNum]];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services%@", pathQuery]];
   } else if ([scope isEqualToString:UsersSearchScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/users?q=%@&page=%i", query, pageNum]];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/users%@", pathQuery]];
   } else if ([scope isEqualToString:ProvidersSearchScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/service_providers?q=%@&page=%i", query, pageNum]];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/service_providers%@", pathQuery]];
   } else {
-    return [self performSearch:query withRepresentation:format];
+    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/search%@", pathQuery]];
   }
 } // performSearch:withScope:withRepresentation
 

@@ -13,81 +13,48 @@
 
 @synthesize navigationController;
 @synthesize serviceDetailViewController, userDetailViewController, providerDetailViewController;
-@synthesize paginationDelegate;
+@synthesize paginationController;
 
 
 #pragma mark -
 #pragma mark Helpers
 
 -(void) startLoadingAnimation {
-  [UIView startAnimatingActivityIndicator:activityIndicator
-                             dimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+  [UIView startLoadingAnimation:activityIndicator dimmingView:currentPageLabel];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
-  [UIView stopAnimatingActivityIndicator:activityIndicator
-                          undimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+  [UIView stopLoadingAnimation:activityIndicator undimmingView:currentPageLabel];
 } // stopLoadingAnimation
 
--(void) performSearch {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
-  performingSearch = YES;
-  [myTableView reloadData];
-  
-  [searchResultsDocument release];
-  searchResultsDocument = [[[BioCatalogueClient client] performSearch:mySearchBar.text 
-                                                            withScope:searchScope
-                                                   withRepresentation:JSONFormat
-                                                                 page:currentPage] copy];
-  
+-(void) postFetchActions {
   [searchResults release];
-  searchResults = [[searchResultsDocument objectForKey:JSONResultsElement] copy];
+  searchResults = [[searchResultsDocument objectForKey:JSONResultsElement] retain];
   
-  searchResultsScope = searchScope;
-  
-  int servicesOnLastPage = [[searchResultsDocument objectForKey:JSONTotalElement] intValue] % ServicesPerPage;
-  int lastPage = [[searchResultsDocument objectForKey:JSONPagesElement] intValue];
+  currentPageLabel.hidden = NO;
   currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
   
   previousPageButton.hidden = currentPage == 1;
-  if ([searchResults count] == 0) {
-    nextPageBarButton.hidden = YES;
-  } else {
-    nextPageBarButton.hidden = servicesOnLastPage < ServicesPerPage && currentPage == lastPage;
-  }
-  
-  currentPageLabel.hidden = lastPage == 0;
-  
-  performingSearch = NO;
-  [myTableView reloadData];
+  nextPageBarButton.hidden = currentPage == lastPage;
   
   [self stopLoadingAnimation];
+  performingSearch = NO;
   
-  [autoreleasePool drain];
+  [myTableView reloadData];
+} // postFetchActions
+
+-(void) performSearch {
+  [searchResultsScope release];
+  searchResultsScope = [[NSString stringWithString:searchScope] retain];
+  [paginationController performSearch:mySearchBar.text
+                            withScope:searchResultsScope
+                              forPage:&currentPage
+                             lastPage:&lastPage
+                             progress:&performingSearch
+                          resultsData:&searchResultsDocument
+                   performingSelector:@selector(postFetchActions)
+                             onTarget:self];
 } // performSearch
-
-
-#pragma mark -
-#pragma mark IBActions
-
--(IBAction) loadServicesOnNextPage:(id)sender {
-  if ([searchResults count] > 0) {
-    currentPage++;
-  }
-  searchScope = searchResultsScope;
-  [self startLoadingAnimation];
-  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-} // loadServicesOnNextPage
-
--(IBAction) loadServicesOnPreviousPage:(id)sender {
-  if (currentPage > 1) {
-    currentPage--;
-  }
-  searchScope = searchResultsScope;
-  [self startLoadingAnimation];
-  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
-} // loadServicesOnPreviousPage
 
 
 #pragma mark -
@@ -97,7 +64,11 @@
   [super viewDidLoad];
   
   searchScope = ServicesSearchScope;
-
+  
+  currentPageLabel.hidden = YES;
+  previousPageButton.hidden = YES;
+  nextPageBarButton.hidden = YES;
+  
   [self stopLoadingAnimation];
 } // viewDidLoad
 
@@ -115,11 +86,10 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (performingSearch || [searchResults count] == 0) {
+  if (performingSearch || [searchResults count] == 0)
     return 1;
-  } else {
+  else
     return [searchResults count];
-  }
 } // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
@@ -129,7 +99,8 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
+                                   reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
@@ -182,22 +153,19 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {  
   id detailViewController;
   
-  if (searchResultsScope == ServicesSearchScope) {
+  if (searchResultsScope == ServicesSearchScope)
     detailViewController = serviceDetailViewController;
-  } else if (searchResultsScope == UsersSearchScope) {
+  else if (searchResultsScope == UsersSearchScope)
     detailViewController = userDetailViewController;
-  } else {
+  else
     detailViewController = providerDetailViewController;
-  }
   
   [detailViewController loadView];
   
   if (searchResultsScope == ServicesSearchScope) {  
-    // FIXME: threading issues
-    [detailViewController updateWithProperties:[searchResults objectAtIndex:indexPath.row]];
-//    [NSThread detachNewThreadSelector:@selector(updateWithProperties:) 
-//                             toTarget:detailViewController
-//                           withObject:[searchResults objectAtIndex:indexPath.row]];
+    [NSOperationQueue addToMainQueueSelector:@selector(updateWithProperties:) 
+                                    toTarget:detailViewController
+                                  withObject:[searchResults objectAtIndex:indexPath.row]];
   } else {
     [detailViewController updateWithProperties:[searchResults objectAtIndex:indexPath.row]];
   }
@@ -238,8 +206,9 @@
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   currentPage = 1;
+  
   [self startLoadingAnimation];
-  [NSThread detachNewThreadSelector:@selector(performSearch) toTarget:self withObject:nil];
+  [NSOperationQueue addToMainQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
   
   [searchBar resignFirstResponder];
 } // searchBarSearchButtonClicked
@@ -276,7 +245,7 @@
   [userDetailViewController release];
   [providerDetailViewController release];
   
-  [paginationDelegate release];
+  [paginationController release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

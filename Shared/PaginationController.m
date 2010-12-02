@@ -15,93 +15,140 @@
 #pragma mark -
 #pragma mark Services
 
+-(void) performServiceFetch {
+  [self performServiceFetchForPage:servicesCurrentPage
+                          lastPage:servicesLastPage
+                          progress:servicesCurrentlyRetrievingData
+                       resultsData:servicesResultsData
+                performingSelector:servicesPostFetchSelector
+                          onTarget:servicesFetchTarget];  
+} // performServiceFetch
+
 -(void) performServiceFetchForPage:(int *)pageNum 
                           lastPage:(int *)lastPage
                           progress:(BOOL *)isBusy 
                        resultsData:(NSDictionary **)resultsData
                 performingSelector:(SEL)postFetchActions
-                          onTarget:(id)target {
-  if ([target respondsToSelector:@selector(startLoadingAnimation)]) {
-//    [target performSelectorInBackground:@selector(startLoadingAnimation) withObject:nil];
+                          onTarget:(id)target {  
+  if ([target respondsToSelector:@selector(startLoadingAnimation)])
     [target performSelector:@selector(startLoadingAnimation)];
-  }
   
   servicesCurrentPage = pageNum;
   servicesLastPage = lastPage;
-  servicesCurrentlyPerformingFetch = isBusy;
+  servicesCurrentlyRetrievingData = isBusy;
   servicesResultsData = resultsData;
   servicesPostFetchSelector = postFetchActions;
   servicesFetchTarget = target;
   
   *isBusy = YES;
-  
-  if (*pageNum < 1) {
-    *pageNum = 1;
-  }
+
+  if (*pageNum < 1) *pageNum = 1;
   
   [*resultsData release];
   *resultsData = [[[JSON_Helper helper] services:ServicesPerPage page:*pageNum] retain];
   *lastPage = [[*resultsData objectForKey:JSONPagesElement] intValue];
-
-  *isBusy = NO;
   
-  if (target && postFetchActions) {
-    [target performSelector:postFetchActions];
-  } 
-  
-  if ([target respondsToSelector:@selector(stopLoadingAnimation)]) {
-//    [target performSelectorInBackground:@selector(stopLoadingAnimation) withObject:nil];
-    [target performSelector:@selector(stopLoadingAnimation)];
-  }
+  if (target && postFetchActions) [target performSelector:postFetchActions];
 } // performServiceFetchForPage:lastPage:progress:resultsData:performingSelector:onTarget
 
 -(void) loadServicesOnNextPage {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-    
-  if (!*servicesCurrentlyPerformingFetch) {
-    if (*servicesCurrentPage < *servicesLastPage) {
-      *servicesCurrentPage += 1;
-    }
+  if (!*servicesCurrentlyRetrievingData) {
+    if (*servicesCurrentPage < *servicesLastPage) *servicesCurrentPage += 1;
 
-    [self performServiceFetchForPage:servicesCurrentPage
-                            lastPage:servicesLastPage
-                            progress:servicesCurrentlyPerformingFetch
-                         resultsData:servicesResultsData
-                  performingSelector:servicesPostFetchSelector
-                            onTarget:servicesFetchTarget];    
+    [self performServiceFetch];
   }
-
-  [autoreleasePool drain];
 } // loadServicesOnNextPage
 
 -(void) loadServicesOnPreviousPage {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-
-  if (!*servicesCurrentlyPerformingFetch) {
+  if (!*servicesCurrentlyRetrievingData) {
     if (*servicesCurrentPage > 1) {
       *servicesCurrentPage -= 1;
     }
     
-    [self performServiceFetchForPage:servicesCurrentPage
-                            lastPage:servicesLastPage
-                            progress:servicesCurrentlyPerformingFetch
-                         resultsData:servicesResultsData
-                  performingSelector:servicesPostFetchSelector
-                            onTarget:servicesFetchTarget];    
+    [self performServiceFetch];
   }
-
-  [autoreleasePool drain];
 } // loadServicesOnPreviousPage
+
 
 #pragma mark -
 #pragma mark Search
 
+-(void) performSearch {
+  [self performSearch:searchQuery
+            withScope:searchScope
+              forPage:searchCurrentPage
+             lastPage:searchLastPage
+             progress:searchCurrentlyRetrievingData
+          resultsData:searchResultsData
+   performingSelector:searchPostFetchSelector
+             onTarget:searchFetchTarget];  
+} // performSearch
+
+-(void) performSearch:(NSString *)query 
+            withScope:(NSString *)scope
+              forPage:(int *)pageNum
+             lastPage:(int *)lastPage
+             progress:(BOOL *)isBusy
+          resultsData:(NSDictionary **)resultsData 
+   performingSelector:(SEL)postFetchActions
+             onTarget:(id)target {
+  if ([target respondsToSelector:@selector(startLoadingAnimation)]) 
+    [target performSelector:@selector(startLoadingAnimation)];
+
+  [searchQuery release];
+  searchQuery = [[NSString stringWithString:query] retain];
+  
+  [searchScope release];
+  searchScope = [[NSString stringWithString:scope] retain];
+  
+  searchCurrentPage = pageNum;
+  searchLastPage = lastPage;
+  searchCurrentlyRetrievingData = isBusy;
+  searchResultsData = resultsData;
+  searchPostFetchSelector = postFetchActions;
+  searchFetchTarget = target;
+  
+  *isBusy = YES;
+  
+  if (*pageNum < 1) *pageNum = 1;
+  
+  [*resultsData release];
+  *resultsData = [[[BioCatalogueClient client] performSearch:query
+                                                   withScope:scope
+                                          withRepresentation:JSONFormat
+                                                        page:*pageNum] retain];
+  *lastPage = [[*resultsData objectForKey:JSONPagesElement] intValue];
+    
+  if (target && postFetchActions) [target performSelector:postFetchActions];
+} // performSearch:withScoper:forPage:lastPage:progress:resultsData:performingSelector:onTarget
+
+-(void) loadSearchResultsForNextPage {  
+  if (!*searchCurrentlyRetrievingData) {
+    if (*searchCurrentPage < *searchLastPage) *searchCurrentPage += 1;
+
+    [self performSearch];
+  }
+} // loadSearchResultsForNextPage
+
+-(void) loadSearchResultsForPreviousPage {  
+  if (!*searchCurrentlyRetrievingData) {
+    if (*searchCurrentPage > 1) *searchCurrentPage -= 1;
+    
+    [self performSearch];
+  }
+} // loadSearchResultsForPreviousPage
 
 
 #pragma mark -
 #pragma mark Memory Management
 
 - (void) dealloc {
+  [*servicesResultsData release];
+
+  [*searchResultsData release];
+  [searchQuery release];
+  [searchScope release];
+
   [super dealloc];
 } // dealloc
 

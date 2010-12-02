@@ -12,7 +12,7 @@
 
 @implementation DetailViewController_iPad
 
-@synthesize loadingText, monitoringStatusViewController, serviceComponentsViewController;
+@synthesize monitoringStatusViewController, serviceComponentsViewController;
 
 
 #pragma mark -
@@ -43,7 +43,7 @@
   // IBOutlet webBrowserActivityIndicator is currently disconnected
   while (YES) {
     [NSThread sleepForTimeInterval:1];
-        
+    
     if (webBrowser.loading) {
       [webBrowserActivityIndicator startAnimating];
     } else {
@@ -87,22 +87,6 @@
 #pragma mark -
 #pragma mark Managing loading resources into the view
 
--(void) setLoadingText:(NSString *)newLoadingText {
-  if (loadingText != newLoadingText) {
-    [loadingText release];
-    loadingText = [newLoadingText retain];
-    
-    // Update the view.
-    loadingTextLabel.text = [NSString stringWithFormat:@"Loading: %@", [loadingText description]];
-  }
-  
-  [self setContentView:defaultView forParentView:mainContentView];
-  
-  if (defaultPopoverController != nil) {
-    [defaultPopoverController dismissPopoverAnimated:YES];
-  }        
-} // setLoadingText
-
 -(void) setDescription:(NSString *)description {
   NSString *value = [NSString stringWithFormat:@"%@", description];
   serviceDescriptionLabel.text = ([value isValidJSONValue] ? value : NoDescriptionText);
@@ -110,8 +94,6 @@
 
 -(void) updateWithProperties:(NSDictionary *)properties withScope:(NSString *)scope {
   // TODO: put a check to see whether a fetch is already occuring or not
-  
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
   
   // fetch the latest properties
   [listingProperties release];
@@ -196,38 +178,24 @@
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
   
   [self stopLoadingAnimation];
-  
-  [autoreleasePool drain];
 } // updateWithProperties:scope
 
--(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {  
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
+-(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
   [self updateWithProperties:properties withScope:ServicesSearchScope];
   [self setContentView:serviceDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = ServicesSearchScope;
-  
-  [autoreleasePool drain];
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
   [self updateWithProperties:properties withScope:UsersSearchScope];  
   [self setContentView:userDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = UsersSearchScope;
-  
-  [autoreleasePool drain];
 } // updateWithPropertiesForUsersScope
 
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
   [self updateWithProperties:properties withScope:ProvidersSearchScope];  
   [self setContentView:providerDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = ProvidersSearchScope;
-  
-  [autoreleasePool drain];
 } // updateWithPropertiesForProvidersScope
 
 
@@ -279,15 +247,15 @@
     NSURL *serviceURL = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
     NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
     
-    [NSThread detachNewThreadSelector:@selector(fetchMonitoringStatusInfo:)
-                             toTarget:monitoringStatusViewController
-                           withObject:path];
+    [NSOperationQueue addToNewQueueSelector:@selector(fetchMonitoringStatusInfo:)
+                                   toTarget:monitoringStatusViewController
+                                 withObject:path];
     
     [self loadViewIntoContextualPopover:nil 
                                intoView:serviceDetailView
                      withViewController:monitoringStatusViewController
                       withArrowFromRect:[sender frame]
-                               withSize:CGSizeMake(320, 230)];
+                               withSize:CGSizeMake(460, 230)];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
                                                     message:@"No monitoring information is available for this service." 
@@ -311,30 +279,26 @@
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
   }
   
-  [NSThread detachNewThreadSelector:@selector(fetchServiceComponents:)
-                           toTarget:serviceComponentsViewController
-                         withObject:path];
+  [NSOperationQueue addToNewQueueSelector:@selector(fetchServiceComponents:) 
+                                 toTarget:serviceComponentsViewController 
+                               withObject:path];
   
   [self loadViewIntoContextualPopover:nil 
                              intoView:serviceDetailView
                    withViewController:serviceComponentsViewController
                     withArrowFromRect:[sender frame]
-                             withSize:CGSizeMake(320, 460)];
+                             withSize:CGSizeMake(500, 460)];
 }
 
 -(void) dismissAuxiliaryDetailPanel:(id)sender {
   UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] init];
-  [NSThread detachNewThreadSelector:@selector(disableInteractionDisablingLayer:) 
-                           toTarget:gestureHandler
-                         withObject:[recognizer autorelease]];
+  [gestureHandler disableInteractionDisablingLayer:[recognizer autorelease]];
 } // dismissAuxiliaryDetailPanel
 
 -(void) exposeAuxiliaryDetailPanel:(id)sender {
   UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] init];
   recognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-  [NSThread detachNewThreadSelector:@selector(rolloutAuxiliaryDetailPanel:) 
-                           toTarget:gestureHandler
-                         withObject:[recognizer autorelease]];
+  [gestureHandler rolloutAuxiliaryDetailPanel:[recognizer autorelease]];
 } // exposeAuxiliaryDetailPanel
 
 -(void) showCurrentResourceInBioCatalogue:(id)sender {  
@@ -400,7 +364,7 @@
   if (myView == userIDCard) {
     [userIDCardContainer addSubview:userIDCard];
   }
-
+  
   if (myView == providerIDCard) {
     [providerIDCardContainer addSubview:providerIDCard];
   }
@@ -419,21 +383,22 @@
     NSDictionary *properties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LastViewedResourceKey];
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
     
-    self.loadingText = [properties objectForKey:JSONNameElement];
     if ([scope isEqualToString:ServicesSearchScope]) {
-      [self setDescription:[properties objectForKey:JSONDescriptionElement]];
-      
-      // FIXME: threading issues
-      [self updateWithPropertiesForServicesScope:properties];
-      //      [NSThread detachNewThreadSelector:@selector(updateWithPropertiesForServicesScope:) 
-      //                               toTarget:self
-      //                             withObject:properties];
+      [NSOperationQueue addToCurrentQueueSelector:@selector(setDescription:) 
+                                         toTarget:self 
+                                       withObject:[properties objectForKey:JSONDescriptionElement]];
+      [NSOperationQueue addToMainQueueSelector:@selector(updateWithPropertiesForServicesScope:) 
+                                      toTarget:self
+                                    withObject:properties];
     } else if ([scope isEqualToString:UsersSearchScope]) {
       [self updateWithPropertiesForUsersScope:properties];
-    } else {
+    } else if ([scope isEqualToString:ProvidersSearchScope]) {
       [self setDescription:[properties objectForKey:JSONDescriptionElement]];
       [self updateWithPropertiesForProvidersScope:properties];
+    } else {
+      [self setContentView:defaultView forParentView:mainContentView];
     }
+
     
     UIGestureRecognizer *recognizer;
     
@@ -471,8 +436,9 @@
     
     [gestureHandler disableInteractionDisablingLayer:nil];
     
-    [NSThread detachNewThreadSelector:@selector(webBrowserActivityWatcher) toTarget:self withObject:nil];
-        
+//    FIXME: enable web browser activity watcher
+//    [NSOperationQueue addToCurrentQueueSelector:@selector(webBrowserActivityWatcher) toTarget:self withObject:nil];
+    
     viewHasAlreadyInitialized = YES;
   }
 } // viewDidLoad
@@ -518,15 +484,15 @@
   [userDetailView release];
   [userIDCard release];
   [userIDCardContainer release];
-
+  
   [userNameLabel release];
   [userAffiliationLabel release];
   [userCountryLabel release];
   [userCityLabel release];
   [userEmailLabel release];
   [userJoinedLabel release];
-
-
+  
+  
   // provider view outlets
   [providerDetailView release];
   [providerIDCard release];
@@ -536,7 +502,6 @@
   [providerDescriptionLabel release];
   
   // other outlets
-  [loadingTextLabel release];  
   [gestureHandler release];
   [monitoringStatusViewController release];
   [monitoringStatusIcon release];
@@ -560,8 +525,6 @@
 - (void)dealloc {
   [defaultPopoverController release];
   [contextualPopoverController release];
-  
-  [loadingText release];
   
   [self releaseIBOutlets];
   

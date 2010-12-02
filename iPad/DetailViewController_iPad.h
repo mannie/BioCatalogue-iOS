@@ -49,9 +49,6 @@
 
   // the default view
   IBOutlet UIView *defaultView;
-
-  IBOutlet UILabel *loadingTextLabel;
-  NSString *loadingText;
   
   // the service view
   BOOL monitoringStatusInformationAvailable;
@@ -90,8 +87,6 @@
   IBOutlet UILabel *providerNameLabel;
   IBOutlet UITextView *providerDescriptionLabel;
 }
-
-@property (nonatomic, retain) NSString *loadingText;
 
 @property (nonatomic, retain) IBOutlet MonitoringStatusViewController *monitoringStatusViewController;
 @property (nonatomic, retain) IBOutlet ServiceComponentsViewController *serviceComponentsViewController;

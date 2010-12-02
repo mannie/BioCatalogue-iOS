@@ -12,25 +12,21 @@
 @implementation LatestServicesViewController_iPhone
 
 @synthesize detailViewController, navigationController;
-@synthesize paginationDelegate;
+@synthesize paginationController;
 
 
 #pragma mark -
 #pragma mark Helpers
 
 -(void) startLoadingAnimation {
-  [UIView startAnimatingActivityIndicator:activityIndicator
-                             dimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+  [UIView startLoadingAnimation:activityIndicator dimmingView:currentPageLabel];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
-  [UIView stopAnimatingActivityIndicator:activityIndicator 
-                          undimmingViews:[NSArray arrayWithObject:currentPageLabel]];
+  [UIView stopLoadingAnimation:activityIndicator undimmingView:currentPageLabel];
 } // stopLoadingAnimation
 
--(void) postFetchActions {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
+-(void) postFetchActions {  
   [myTableView setTableHeaderView:nil];
   currentPageLabel.hidden = NO;
   
@@ -42,22 +38,19 @@
   previousPageButton.hidden = currentPage == 1;
   nextPageBarButton.hidden = currentPage == lastPage;
   
+  [self stopLoadingAnimation];
+  fetching = NO;
+
   [myTableView reloadData];
-  
-  [autoreleasePool drain];
 } // postFetchActions
 
--(void) performServiceFetch {  
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
-  [paginationDelegate performServiceFetchForPage:&currentPage
-                                        lastPage:&lastPage
-                                        progress:&fetching
-                                     resultsData:&servicesData
-                              performingSelector:@selector(postFetchActions)
-                                        onTarget:self];
-  
-  [autoreleasePool drain];
+-(void) performServiceFetch {
+  [paginationController performServiceFetchForPage:&currentPage
+                                          lastPage:&lastPage
+                                          progress:&fetching
+                                       resultsData:&servicesData
+                                performingSelector:@selector(postFetchActions)
+                                          onTarget:self];
 } // performServiceFetch
 
 
@@ -70,9 +63,8 @@
   currentPageLabel.hidden = YES;
   previousPageButton.hidden = YES;
   nextPageBarButton.hidden = YES;
-  
-  [self startLoadingAnimation];
-  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+
+  [NSOperationQueue addToMainQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -84,7 +76,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (fetching || [services count] == 0) {
+  if (fetching) {
     return 1;
   } else {
     return [services count];
@@ -102,17 +94,6 @@
   }
   
   // Configure the cell...
-  if (fetching || [services count] == 0) {
-    cell.textLabel.text = nil;
-    cell.imageView.image = nil;
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    cell.detailTextLabel.text = @"Loading, Please Wait...";
-    
-    return cell;
-  }
-  
   id service = [services objectAtIndex:indexPath.row];
   
   cell.textLabel.text = [service objectForKey:JSONNameElement];
@@ -131,14 +112,10 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [detailViewController loadView];
-
-  // FIXME: threading issues
-  [detailViewController updateWithProperties:[services objectAtIndex:indexPath.row]];
-//  [NSThread detachNewThreadSelector:@selector(updateWithProperties:) 
-//                           toTarget:detailViewController
-//                         withObject:[services objectAtIndex:indexPath.row]];
-
+  [NSOperationQueue addToMainQueueSelector:@selector(updateWithProperties:) 
+                                  toTarget:detailViewController
+                                withObject:[services objectAtIndex:indexPath.row]];
+  
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   [self.navigationController pushViewController:detailViewController animated:YES];
 }
@@ -158,7 +135,7 @@
   [detailViewController release];
   [navigationController release];
   
-  [paginationDelegate release];
+  [paginationController release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
@@ -174,11 +151,11 @@
 } // viewDidLoad
 
 - (void)dealloc {
-
+  
   [servicesData release];
   [services release];
- 
-   [self releaseIBOutlets];
+  
+  [self releaseIBOutlets];
   
   [super dealloc];
 } // dealloc

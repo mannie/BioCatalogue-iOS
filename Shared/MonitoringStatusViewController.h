@@ -18,14 +18,16 @@
   NSArray *monitoringStatuses;
   
   IBOutlet UITableView *myTableView;
-  IBOutlet UILabel *loadingLabel;
   
   IBOutlet id detailViewController;
   
   NSString *lastUsedPath;
+  
+  BOOL fetching;
+  
+  NSDateFormatter *dateFormatter;
 }
 
 -(void) fetchMonitoringStatusInfo:(NSString *)fromPath;
--(void) updateWithProperties:(NSDictionary *)properties;
 
 @end

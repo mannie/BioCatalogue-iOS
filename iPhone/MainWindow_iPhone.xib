@@ -1113,7 +1113,7 @@
 							<string>myTableView</string>
 							<string>navigationController</string>
 							<string>nextPageBarButton</string>
-							<string>paginationDelegate</string>
+							<string>paginationController</string>
 							<string>previousPageButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -1138,7 +1138,7 @@
 							<string>myTableView</string>
 							<string>navigationController</string>
 							<string>nextPageBarButton</string>
-							<string>paginationDelegate</string>
+							<string>paginationController</string>
 							<string>previousPageButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -1168,7 +1168,7 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">paginationDelegate</string>
+								<string key="name">paginationController</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -1354,7 +1354,7 @@
 							<string>myTableView</string>
 							<string>navigationController</string>
 							<string>nextPageBarButton</string>
-							<string>paginationDelegate</string>
+							<string>paginationController</string>
 							<string>previousPageButton</string>
 							<string>providerDetailViewController</string>
 							<string>serviceDetailViewController</string>
@@ -1385,7 +1385,7 @@
 							<string>myTableView</string>
 							<string>navigationController</string>
 							<string>nextPageBarButton</string>
-							<string>paginationDelegate</string>
+							<string>paginationController</string>
 							<string>previousPageButton</string>
 							<string>providerDetailViewController</string>
 							<string>serviceDetailViewController</string>
@@ -1418,7 +1418,7 @@
 								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">paginationDelegate</string>
+								<string key="name">paginationController</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBToOneOutletInfo">

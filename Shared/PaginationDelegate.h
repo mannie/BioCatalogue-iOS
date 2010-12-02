@@ -18,6 +18,7 @@
 -(void) performSearch:(NSString *)query 
             withScope:(NSString *)scope
               forPage:(int *)pageNum
+             lastPage:(int *)lastPage
              progress:(BOOL *)isBusy 
           resultsData:(NSDictionary **)resultsData  
    performingSelector:(SEL)postFetchActions

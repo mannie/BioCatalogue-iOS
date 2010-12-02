@@ -9,10 +9,11 @@
 #import <UIKit/UIKit.h>
 
 #import "JSON+Helper.h"
-#import "ServiceDetailViewController_iPhone.h"
 #import "UIView+Helper.h"
+#import "NSOperationQueue+Helper.h"
 
-#import "PaginationDelegate.h"
+#import "ServiceDetailViewController_iPhone.h"
+#import "PaginationController.h"
 
 
 @interface LatestServicesViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource> {  
@@ -39,6 +40,6 @@
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *detailViewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
-@property (nonatomic, retain) IBOutlet id<PaginationDelegate> paginationDelegate;
+@property (nonatomic, retain) IBOutlet PaginationController *paginationController;
 
 @end

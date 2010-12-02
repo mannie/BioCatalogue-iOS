@@ -12,7 +12,8 @@
 
 #import "JSON+Helper.h"
 #import "UIView+Helper.h"
-#import "PaginationDelegate.h"
+
+#import "PaginationController.h"
 
 
 @interface LatestServicesViewController_iPad : UITableViewController {
@@ -33,7 +34,7 @@
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;
 
-@property (nonatomic, retain) IBOutlet id<PaginationDelegate> paginationDelegate;
+@property (nonatomic, retain) IBOutlet PaginationController *paginationController;
 
 
 @end

@@ -12,7 +12,8 @@
 #import "BioCatalogueClient.h"
 
 #import "UIView+Helper.h"
-#import "PaginationDelegate.h"
+
+#import "PaginationController.h"
 
 
 @interface SearchViewController_iPad : UITableViewController <UISearchBarDelegate> {
@@ -23,7 +24,9 @@
   NSString *searchScope;
   NSString *searchResultsScope;
 
-  NSUInteger currentPage;
+  int currentPage;
+  int lastPage;
+
   IBOutlet UILabel *currentPageLabel;
   
   IBOutlet UISearchBar *mySearchBar;
@@ -33,10 +36,6 @@
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;
 
-@property (nonatomic, retain) IBOutlet id<PaginationDelegate> paginationDelegate;
-
-// TODO: do these need to be IBActions?
--(IBAction) loadServicesOnNextPage:(id)sender;
--(IBAction) loadServicesOnPreviousPage:(id)sender;
+@property (nonatomic, retain) IBOutlet PaginationController *paginationController;
 
 @end

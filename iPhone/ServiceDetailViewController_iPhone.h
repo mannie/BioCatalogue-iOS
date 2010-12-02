@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "JSON+Helper.h"
+#import "NSOperationQueue+Helper.h"
 
 #import "UserDetailViewController_iPhone.h"
 #import "ProviderDetailViewController_iPhone.h"

@@ -86,8 +86,6 @@ float animationDuration = 0.5;
 } // panViewButResetPositionAfterwards
 
 -(void) rolloutAuxiliaryDetailPanel:(UISwipeGestureRecognizer *)recognizer {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  
   NSArray *visibleSubviewsInAuxiliaryPanel = [auxiliaryDetailPanel.subviews filteredArrayUsingPredicate:
                                               [NSPredicate predicateWithFormat:@"hidden == NO"]];
   if (!auxiliaryDetailPanelIsExposed && [visibleSubviewsInAuxiliaryPanel count] <= 1) {
@@ -116,8 +114,6 @@ float animationDuration = 0.5;
   auxiliaryDetailPanel.center = center;
 
   [UIView commitAnimations];
-  
-  [pool drain];
 } // rolloutAuxiliaryDetailPanel
 
 -(void) enableInteractionDisablingLayer {
@@ -131,8 +127,6 @@ float animationDuration = 0.5;
 } // enableInteractionDisablingLayer
 
 -(void) disableInteractionDisablingLayer:(UITapGestureRecognizer *)recognizer {
-  NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:animationDuration];
   [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
@@ -140,16 +134,12 @@ float animationDuration = 0.5;
   if (recognizer) {    
     // create swipe gesture
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] init];
-    [NSThread detachNewThreadSelector:@selector(rolloutAuxiliaryDetailPanel:) 
-                             toTarget:self 
-                           withObject:[swipeRight autorelease]];
+    [self rolloutAuxiliaryDetailPanel:[swipeRight autorelease]];
   } else {
     interactionDisablingLayer.alpha = 0;
   }
 
   [UIView commitAnimations];
-  
-  [pool drain];
 } // disableInteractionDisablingLayer
 
 

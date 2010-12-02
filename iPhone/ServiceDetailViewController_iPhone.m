@@ -17,11 +17,10 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) updateWithProperties:(NSDictionary *)properties {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
+// TODO: split this up into smaller components so that this can be run properly from any thread
+-(void) updateWithProperties:(NSDictionary *)properties {  
   serviceListingProperties = [properties copy];
-
+  
   nameLabel.text = [serviceListingProperties objectForKey:JSONNameElement];
   
   [serviceProperties release];
@@ -37,7 +36,7 @@
   NSString *lastChecked = [NSString stringWithFormat:@"%@", 
                            [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
   monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
-    
+  
   // submitter details
   [submitterProperties release];
   NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
@@ -60,11 +59,9 @@
   } else {
     componentsLabel.text = [client serviceType:serviceListingProperties];
   }
-
+  
   showComponentsButton.hidden = !isREST && !isSOAP;
   [self.view setNeedsDisplay];
-  
-  [autoreleasePool drain];
 } // updateWithProperties
 
 
@@ -98,7 +95,7 @@
   // submitting user
   [userDetailViewController loadView];
   [userDetailViewController updateWithProperties:submitterProperties];
-
+  
   [self.navigationController pushViewController:userDetailViewController animated:YES];      
 } // showSubmitterInfo
 
@@ -107,10 +104,10 @@
     NSURL *serviceURL = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
     NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
     
-    [NSThread detachNewThreadSelector:@selector(fetchMonitoringStatusInfo:)
-                             toTarget:monitoringStatusViewController
-                           withObject:path];
-
+    [NSOperationQueue addToNewQueueSelector:@selector(fetchMonitoringStatusInfo:)
+                                   toTarget:monitoringStatusViewController
+                                 withObject:path];
+    
     [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
@@ -135,10 +132,10 @@
     serviceComponentsViewController.title = SOAPComponentsText;
   }
   
-  [NSThread detachNewThreadSelector:@selector(fetchServiceComponents:)
-                           toTarget:serviceComponentsViewController
-                         withObject:path];
-
+  [NSOperationQueue addToNewQueueSelector:@selector(fetchServiceComponents:)
+                                 toTarget:serviceComponentsViewController
+                               withObject:path];
+  
   [self.navigationController pushViewController:serviceComponentsViewController animated:YES];
 } // showServiceComponents
 
@@ -176,7 +173,7 @@
 
 - (void)dealloc {
   [self releaseIBOutlets];
-    
+  
   [serviceListingProperties release];
   [serviceProperties release];
   [submitterProperties release];

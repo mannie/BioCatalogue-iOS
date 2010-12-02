@@ -10,6 +10,7 @@
 
 #import "AppConstants.h"
 #import "JSON+Helper.h"
+#import "NSString+Helper.h"
 
 
 @interface BioCatalogueClient : NSObject {
@@ -20,8 +21,10 @@
 -(NSURL *) baseURL;
 -(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
 
--(NSDictionary *) performSearch:(NSString *)query withRepresentation:(NSString *)format;
--(NSDictionary *) performSearch:(NSString *)query withScope:(NSString *)scope withRepresentation:(NSString *)format page:(NSUInteger)pageNum;
+-(NSDictionary *) performSearch:(NSString *)query 
+                      withScope:(NSString *)scope
+             withRepresentation:(NSString *)format
+                           page:(NSUInteger)pageNum;
 
 -(BOOL) serviceIsREST:(NSDictionary *)listingProperties;
 -(BOOL) serviceIsSOAP:(NSDictionary *)listingProperties;

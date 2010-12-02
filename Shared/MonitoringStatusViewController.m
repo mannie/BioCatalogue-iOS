@@ -16,24 +16,6 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) fetchMonitoringStatusInfo:(NSString *)fromPath {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-
-  if (![lastUsedPath isEqualToString:fromPath]) {
-    [lastUsedPath release];
-    lastUsedPath = [fromPath copy];
-    
-    [myTableView setTableHeaderView:loadingLabel];
-    [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
-  }
-  
-  if ([[UIDevice currentDevice] isIPadDevice]) {
-    [detailViewController stopLoadingAnimation];
-  }    
-  
-  [autoreleasePool drain];
-} // fetchMonitoringStatusInfo
-
 -(void) updateWithProperties:(NSDictionary *)properties {
   [monitoringProperties release];
   monitoringProperties = [properties copy];
@@ -41,16 +23,32 @@
   [monitoringStatuses release];
   monitoringStatuses = [[properties objectForKey:JSONServiceTestsElement] copy];
   
+  fetching = NO;
+
   [myTableView reloadData];
   [myTableView setTableHeaderView:nil];
 } // updateWithProperties
+
+-(void) fetchMonitoringStatusInfo:(NSString *)fromPath {
+  if (![lastUsedPath isEqualToString:fromPath]) {
+    fetching = YES;
+
+    [lastUsedPath release];
+    lastUsedPath = [fromPath copy];
+    
+    [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
+  }
+  
+  if ([[UIDevice currentDevice] isIPadDevice]) [detailViewController stopLoadingAnimation];
+} // fetchMonitoringStatusInfo
 
 
 #pragma mark -
 #pragma mark View lifecycle
 
-- (void)viewDidLoad {
- [super viewDidLoad];
+-(void) viewDidLoad {
+  dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -62,7 +60,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [monitoringStatuses count];
+  return (fetching ? 1 : [monitoringStatuses count]);
 } // tableView:numberOfRowsInSection
 
 
@@ -73,15 +71,24 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                   reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
-  id status = [[monitoringStatuses objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
+  if (fetching) {
+    cell.textLabel.text = @"Loading, Please Wait...";
+    cell.imageView.image = nil;
+    return cell;
+  }
   
-  NSString *date = [[status objectForKey:JSONLastCheckedElement] stringByReplacingCharactersInRange:NSMakeRange(10, 10)
-                                                                                         withString:@""];
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ on %@", [status objectForKey:JSONLabelElement], date];
+  id status = [[monitoringStatuses objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
+
+  NSArray *date = [[[dateFormatter dateFromString:[status objectForKey:JSONLastCheckedElement]] description] 
+                   componentsSeparatedByString:@" "];
+
+  cell.textLabel.text = [NSString stringWithFormat:@"%@ on %@ at %@", 
+                         [status objectForKey:JSONLabelElement], [date objectAtIndex:0], [date objectAtIndex:1]];
   cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:
                                                  [NSURL URLWithString:[status objectForKey:@"small_symbol"]]]];
   
@@ -96,7 +103,8 @@
   id status = [monitoringStatuses objectAtIndex:indexPath.row];
   
   NSString *message = [NSString stringWithFormat:@"A URL monitoring test was performed on the endpoint: \n\n %@", 
-                       [[[status objectForKey:JSONTestTypeElement] objectForKey:JSONURLMonitorElement] objectForKey:JSONURLElement]];
+                       [[[status objectForKey:JSONTestTypeElement] objectForKey:JSONURLMonitorElement] 
+                        objectForKey:JSONURLElement]];
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
                                                   message:message
                                                  delegate:self 
@@ -115,7 +123,6 @@
 -(void) releaseIBOutlets {
   [detailViewController release];
   
-  [loadingLabel release];
   [myTableView release]; 
 } // releaseIBOutlets
 
@@ -128,6 +135,7 @@
 
 - (void)viewDidUnload {
   // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
+  [dateFormatter release];
   [self releaseIBOutlets];
 } // viewDidUnload
 

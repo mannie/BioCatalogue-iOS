@@ -16,48 +16,42 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) fetchServiceComponents:(NSString *)fromPath {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
-  if (![lastUsedPath isEqualToString:fromPath]) {
-    [lastUsedPath release];
-    lastUsedPath = [fromPath copy];
-
-    serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
-    
-    [myTableView setTableHeaderView:loadingLabel];
-    [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
-  }
-  
-  if ([[UIDevice currentDevice] isIPadDevice]) {
-    [iPadDetailViewController stopLoadingAnimation];
-  }
-  
-  [autoreleasePool drain];
-} // fetchMonitoringStatusInfo
-
--(void) updateWithProperties:(NSDictionary *)properties {
+-(void) updateWithProperties:(NSDictionary *)properties {  
   [componentsProperties release];
-  componentsProperties = [properties copy];
+  componentsProperties = [properties retain];
   
   [serviceComponents release];
   if (serviceIsREST) {
-    serviceComponents = [[properties objectForKey:JSONMethodsElement] copy];
+    serviceComponents = [[properties objectForKey:JSONMethodsElement] retain];
   } else {
-    serviceComponents = [[properties objectForKey:JSONOperationsElement] copy];
+    serviceComponents = [[properties objectForKey:JSONOperationsElement] retain];
   }  
+
+  fetching = NO;
   
   [myTableView reloadData];
   [myTableView setTableHeaderView:nil];
 } // updateWithProperties
 
+-(void) fetchServiceComponents:(NSString *)fromPath {  
+  if (![lastUsedPath isEqualToString:fromPath]) {
+    fetching = YES;
+
+    [lastUsedPath release];
+    lastUsedPath = [[NSString stringWithString:fromPath] retain];
+
+    serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
+    
+    [myTableView reloadData];
+    [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
+  }
+  
+  if ([[UIDevice currentDevice] isIPadDevice]) [iPadDetailViewController stopLoadingAnimation];
+} // fetchServiceComponents
+
 
 #pragma mark -
 #pragma mark View lifecycle
-
-- (void)viewDidLoad {
-  [super viewDidLoad];
-} // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -68,7 +62,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [serviceComponents count];
+  return (fetching || [serviceComponents count] == 0 ? 1 : [serviceComponents count]);
 } // tableView:numberOfRowsInSection
 
 
@@ -79,10 +73,17 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                   reuseIdentifier:CellIdentifier] autorelease];
   }
-  
+    
   // Configure the cell...
+  if (fetching) {
+    cell.textLabel.text = @"Loading, Please Wait...";
+    cell.imageView.image = nil;
+    return cell;
+  }
+
   if (serviceIsREST) {
     cell.textLabel.text = [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONEndpointLabelElement];
   } else {
@@ -120,7 +121,6 @@
   [iPadDetailViewController release];
   [iPhoneWebViewController release];
   
-  [loadingLabel release];
   [myTableView release]; 
 } // releaseIBOutlets
 

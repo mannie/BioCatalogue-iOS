@@ -12,40 +12,33 @@
 
 @implementation LatestServicesViewController_iPad
 
-@synthesize detailViewController, paginationDelegate;
+@synthesize detailViewController, paginationController;
 
 
 #pragma mark -
 #pragma mark Private Helpers
 
 -(void) postFetchActions {
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
   currentPageLabel.hidden = NO;
   
   [services release];
   services = [[servicesData objectForKey:JSONResultsElement] retain];
   
   currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
-    
+  
+  fetching = NO;
   [[self tableView] reloadData];
   [detailViewController stopLoadingAnimation];
-  
-  [autoreleasePool drain];
 } // postFetchActions
 
 -(void) performServiceFetch {  
-  NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-  
   [detailViewController startLoadingAnimation];
-  [paginationDelegate performServiceFetchForPage:&currentPage
-                                        lastPage:&lastPage
-                                        progress:&fetching
-                                     resultsData:&servicesData
-                              performingSelector:@selector(postFetchActions)
-                                        onTarget:self];
-  
-  [autoreleasePool drain];
+  [paginationController performServiceFetchForPage:&currentPage
+                                          lastPage:&lastPage
+                                          progress:&fetching
+                                       resultsData:&servicesData
+                                performingSelector:@selector(postFetchActions)
+                                          onTarget:self];
 } // performServiceFetch
 
 
@@ -58,9 +51,9 @@
   self.clearsSelectionOnViewWillAppear = NO;
   self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
   
-  currentPageLabel.text = @"Loading, Please Wait...";
-
-  [NSThread detachNewThreadSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+  currentPageLabel.text = @"";
+  
+  [NSOperationQueue addToNewQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -72,13 +65,12 @@
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  if (fetching) {
+  if (fetching || [services count] == 0) {
     return 1;
   } else {
     return 3;
   }
 } // numberOfSectionsInTableView
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (fetching || [services count] == 0 || section != MainSection) {
@@ -87,7 +79,6 @@
     return [services count];
   }
 } // tableView:numberOfRowsInSection
-
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -156,33 +147,33 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [detailViewController dismissAuxiliaryDetailPanel:self];
   
-  if (lastSelection == indexPath && indexPath.section == MainSection) {
-    return;
-  }
+  if (lastSelection == indexPath && indexPath.section == MainSection) return;
   
   if (indexPath.section == MainSection) {
     NSDictionary *listing = [services objectAtIndex:indexPath.row];
-    detailViewController.loadingText = [listing objectForKey:JSONNameElement];
-    [detailViewController setDescription:[listing objectForKey:JSONDescriptionElement]];
-
-    NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:detailViewController
-                                                                            selector:@selector(startLoadingAnimation)
-                                                                              object:nil];
-    [[NSOperationQueue mainQueue] addOperation:[operation autorelease]];
+    [NSOperationQueue addToCurrentQueueSelector:@selector(startLoadingAnimation)
+                                       toTarget:detailViewController
+                                     withObject:nil];
     
-    operation = [[NSInvocationOperation alloc] initWithTarget:detailViewController
-                                                     selector:@selector(updateWithPropertiesForServicesScope:) 
-                                                       object:listing];
-    [[NSOperationQueue mainQueue] addOperation:[operation autorelease]];
+    [NSOperationQueue addToMainQueueSelector:@selector(updateWithPropertiesForServicesScope:)
+                                    toTarget:detailViewController
+                                  withObject:listing];
+    [NSOperationQueue addToCurrentQueueSelector:@selector(setDescription:)
+                                       toTarget:detailViewController
+                                     withObject:[listing objectForKey:JSONDescriptionElement]];
   } else {
     if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
       [detailViewController startLoadingAnimation];
-      [NSThread detachNewThreadSelector:@selector(loadServicesOnPreviousPage) toTarget:paginationDelegate withObject:nil];
+      [NSOperationQueue addToNewQueueSelector:@selector(loadServicesOnPreviousPage) 
+                                     toTarget:paginationController
+                                   withObject:nil];
     } 
     
     if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
       [detailViewController startLoadingAnimation];
-      [NSThread detachNewThreadSelector:@selector(loadServicesOnNextPage) toTarget:paginationDelegate withObject:nil];
+      [NSOperationQueue addToNewQueueSelector:@selector(loadServicesOnNextPage) 
+                                     toTarget:paginationController 
+                                   withObject:nil];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -198,7 +189,7 @@
 -(void) releaseIBOutlets {
   [currentPageLabel release];
   [detailViewController release];
-  [paginationDelegate release];
+  [paginationController release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
