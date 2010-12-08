@@ -53,7 +53,7 @@
     pageNum = 1;
   }
   
-  NSString *pathQuery = [NSString stringWithFormat:@"?q=%@&page=%i&per_page=%i", query, pageNum, ServicesPerPage];
+  NSString *pathQuery = [NSString stringWithFormat:@"?q=%@&page=%i&per_page=%i", query, pageNum, ItemsPerPage];
   if ([scope isEqualToString:ServicesSearchScope]) {
     return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services%@", pathQuery]];
   } else if ([scope isEqualToString:UsersSearchScope]) {

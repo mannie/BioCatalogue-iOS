@@ -16,6 +16,14 @@
 
 @interface PaginationController : NSObject <PaginationDelegate> {
   // services pagination
+  IBOutlet UIButton *paginationButtonOne;
+  IBOutlet UIButton *paginationButtonTwo;
+  IBOutlet UIButton *paginationButtonThree;
+  IBOutlet UIButton *paginationButtonFour;
+  IBOutlet UIButton *paginationButtonFive;
+  IBOutlet UIButton *paginationButtonSix;
+  IBOutlet UIButton *paginationButtonSeven;
+  
   int *servicesCurrentPage;
   int *servicesLastPage;
   BOOL *servicesCurrentlyRetrievingData;
@@ -33,6 +41,11 @@
   SEL searchPostFetchSelector;
   id searchFetchTarget;
 }
+
+
+-(NSArray *) servicePaginationButtons;
+-(IBAction) jumpToServicesOnPage:(UIButton *)sender;
+-(void) updateServicePaginationButtons;
 
 -(IBAction) loadServicesOnNextPage;
 -(IBAction) loadServicesOnPreviousPage;

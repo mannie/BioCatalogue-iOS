@@ -28,6 +28,9 @@
   IBOutlet UIView *auxiliaryDetailPanel;
   
   BOOL auxiliaryDetailPanelIsExposed;
+  
+  IBOutlet UIToolbar *auxiliaryToolbar;
+  IBOutlet UIToolbar *webBrowserToolbar;
 }
 
 -(void) panViewButResetPositionAfterwards:(UIPanGestureRecognizer *)recognizer;

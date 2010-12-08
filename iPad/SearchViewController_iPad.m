@@ -165,15 +165,10 @@
     NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
     
     if (searchResultsScope == ServicesSearchScope) {
-      [NSOperationQueue addToCurrentQueueSelector:@selector(startLoadingAnimation)
-                                         toTarget:detailViewController
-                                       withObject:nil];
+      [detailViewController startLoadingAnimation];
       [NSOperationQueue addToMainQueueSelector:@selector(updateWithPropertiesForServicesScope:)
                                       toTarget:detailViewController
                                     withObject:listing];
-      [NSOperationQueue addToCurrentQueueSelector:@selector(setDescription:)
-                                         toTarget:detailViewController
-                                       withObject:[listing objectForKey:JSONDescriptionElement]];
     } else if (searchResultsScope == UsersSearchScope) {
       [detailViewController updateWithPropertiesForUsersScope:listing];
     } else {

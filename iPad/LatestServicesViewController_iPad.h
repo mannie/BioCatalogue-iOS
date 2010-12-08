@@ -24,8 +24,6 @@
 
   int currentPage;
   int lastPage;
-
-  IBOutlet UILabel *currentPageLabel;
   
   BOOL fetching;
   
@@ -35,6 +33,5 @@
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;
 
 @property (nonatomic, retain) IBOutlet PaginationController *paginationController;
-
 
 @end

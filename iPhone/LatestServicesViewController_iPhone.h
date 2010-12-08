@@ -26,10 +26,6 @@
 
   int currentPage;
   int lastPage;
-
-  IBOutlet UIButton *previousPageButton;
-  IBOutlet UIButton *nextPageBarButton;
-  IBOutlet UILabel *currentPageLabel;
   
   IBOutlet UITableView *myTableView;
   IBOutlet UIActivityIndicatorView *activityIndicator;

@@ -17,51 +17,70 @@
 #pragma mark -
 #pragma mark Helpers
 
-// TODO: split this up into smaller components so that this can be run properly from any thread
--(void) updateWithProperties:(NSDictionary *)properties {  
-  serviceListingProperties = [properties copy];
-  
-  nameLabel.text = [serviceListingProperties objectForKey:JSONNameElement];
-  
-  [serviceProperties release];
-  NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
-  serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
-  
-  // provider details
-  NSString *detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
-                           objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-  providerNameLabel.text = detailItem;
-  
+-(void) preFetchActions:(NSDictionary *)properties {
+  nameLabel.text = [properties objectForKey:JSONNameElement];
+    
   // monitoring details
   NSString *lastChecked = [NSString stringWithFormat:@"%@", 
                            [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
   monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
   
-  // submitter details
-  [submitterProperties release];
-  NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
-  submitterProperties = [[[JSON_Helper helper] documentAtPath:[submitterURL path]] copy];
+  providerNameLabel.text = DefaultLoadingText;
+  submitterNameLabel.text = DefaultLoadingText;
   
-  submitterNameLabel.text = [submitterProperties objectForKey:JSONNameElement];
-  
-  detailItem = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
+  NSString *detailItem = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
   descriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoDescriptionText);
   
   // service components
   BioCatalogueClient *client = [BioCatalogueClient client];
-  BOOL isREST = [client serviceIsREST:serviceListingProperties];
-  BOOL isSOAP = [client serviceIsSOAP:serviceListingProperties];
+  BOOL isREST = [client serviceIsREST:properties];
+  BOOL isSOAP = [client serviceIsSOAP:properties];
   
   if (isREST) {
     componentsLabel.text = RESTComponentsText;
   } else if (isSOAP) {
     componentsLabel.text = SOAPComponentsText;
   } else {
-    componentsLabel.text = [client serviceType:serviceListingProperties];
+    componentsLabel.text = [client serviceType:properties];
   }
   
   showComponentsButton.hidden = !isREST && !isSOAP;
-  [self.view setNeedsDisplay];
+  
+  [self.view setNeedsDisplay];  
+} // preFetchActions
+
+-(void) postFetchActions {
+  nameLabel.text = [serviceListingProperties objectForKey:JSONNameElement];
+  
+  // provider details
+  NSString *detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+                           objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
+  providerNameLabel.text = detailItem;
+  
+  submitterNameLabel.text = [submitterProperties objectForKey:JSONNameElement];
+  
+  detailItem = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
+  descriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoDescriptionText);
+  
+  [self.view setNeedsDisplay];  
+} // postFetchActions
+
+-(void) updateWithProperties:(NSDictionary *)properties {
+  [self performSelectorOnMainThread:@selector(preFetchActions:) withObject:properties waitUntilDone:NO];
+
+  [serviceListingProperties release];
+  serviceListingProperties = [properties retain];  
+  
+  [serviceProperties release];
+  NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
+  serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] retain];
+  
+  // submitter details
+  [submitterProperties release];
+  NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
+  submitterProperties = [[[JSON_Helper helper] documentAtPath:[submitterURL path]] retain];
+  
+  [self performSelectorOnMainThread:@selector(postFetchActions) withObject:nil waitUntilDone:NO];
 } // updateWithProperties
 
 

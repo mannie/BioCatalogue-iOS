@@ -31,6 +31,7 @@
   NSString *scopeOfResourceBeingViewed;
   
   BOOL viewHasAlreadyInitialized;
+  BOOL controllerIsCurrentlyBusy;
 
   IBOutlet UIView *mainContentView;
   IBOutlet UIView *auxiliaryDetailPanel;
@@ -39,6 +40,7 @@
   IBOutlet UIToolbar *mainToolbar;
   IBOutlet UIToolbar *auxiliaryToolbar;
   IBOutlet UIToolbar *webBrowserToolbar;
+
   IBOutlet UIWebView *webBrowser;
 
   IBOutlet UIBarButtonItem *favouriteServiceBarButtonItem;
@@ -91,7 +93,7 @@
 @property (nonatomic, retain) IBOutlet MonitoringStatusViewController *monitoringStatusViewController;
 @property (nonatomic, retain) IBOutlet ServiceComponentsViewController *serviceComponentsViewController;
 
--(void) setDescription:(NSString *)description;
+-(BOOL) isCurrentlyBusy;
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties;
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties;

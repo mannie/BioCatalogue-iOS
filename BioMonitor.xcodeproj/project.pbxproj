@@ -188,6 +188,7 @@
 		365C69EF125BD13B0099CE38 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E2125BC6230099CE38 /* SBJsonBase.m */; };
 		365C69F1125BD13B0099CE38 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E4125BC6230099CE38 /* SBJsonParser.m */; };
 		365C69F3125BD13B0099CE38 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C68E6125BC6230099CE38 /* SBJsonWriter.m */; };
+		366462BB12ADDBFF00DEACC3 /* UIDevice+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */; };
 		368353CD12949FC60029D92A /* AppDelegate_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353C412949FC60029D92A /* AppDelegate_iPad.m */; };
 		368353CE12949FC60029D92A /* DetailView_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 368353C512949FC60029D92A /* DetailView_iPad.xib */; };
 		368353CF12949FC60029D92A /* DetailViewController_iPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 368353C712949FC60029D92A /* DetailViewController_iPad.m */; };
@@ -1105,6 +1106,7 @@
 				36F0425212A4787C00B9BAB2 /* NSUserDefaults+Helper.m in Sources */,
 				36F0425512A4788100B9BAB2 /* AppConstants.m in Sources */,
 				36F0425C12A478CA00B9BAB2 /* BioCatalogueClient.m in Sources */,
+				366462BB12ADDBFF00DEACC3 /* UIDevice+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

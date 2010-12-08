@@ -74,6 +74,7 @@ float animationDuration = 0.5;
   if (recognizer.state == UIGestureRecognizerStateEnded) {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.45];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];  
 
     NSDictionary *originalCenterAsObject = (portraitOrientation ? 
                                             [initialCenterPositionsInPortrait objectForKey:viewHash] :
@@ -110,7 +111,7 @@ float animationDuration = 0.5;
     auxiliaryDetailPanelIsExposed = NO;
     [self disableInteractionDisablingLayer:nil];
   }
-  
+
   auxiliaryDetailPanel.center = center;
 
   [UIView commitAnimations];
@@ -123,6 +124,9 @@ float animationDuration = 0.5;
   
   interactionDisablingLayer.alpha = 0.8;
   
+  auxiliaryToolbar.alpha = 0;
+  webBrowserToolbar.alpha = 1;
+
   [UIView commitAnimations];
 } // enableInteractionDisablingLayer
 
@@ -137,6 +141,9 @@ float animationDuration = 0.5;
     [self rolloutAuxiliaryDetailPanel:[swipeRight autorelease]];
   } else {
     interactionDisablingLayer.alpha = 0;
+
+    auxiliaryToolbar.alpha = 1;
+    webBrowserToolbar.alpha = 0;
   }
 
   [UIView commitAnimations];
@@ -150,6 +157,9 @@ float animationDuration = 0.5;
   [interactionDisablingLayer release];
   [auxiliaryDetailPanel release];
   
+  [auxiliaryToolbar release];
+  [webBrowserToolbar release];
+
   // default view outlets
   [defaultView release];  
   

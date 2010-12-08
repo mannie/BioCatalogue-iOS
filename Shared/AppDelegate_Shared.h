@@ -28,7 +28,7 @@
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 
--(BOOL) internetConnectionFound;
+-(BOOL) applicationStartConditionsMet;
 
 - (NSString *)applicationDocumentsDirectory;
 - (void)saveContext;

@@ -18,6 +18,10 @@
 #pragma mark -
 #pragma mark Helpers
 
+-(BOOL) isCurrentlyBusy {
+  return controllerIsCurrentlyBusy;
+} // isCurrentlyBusy
+
 -(void) loadViewIntoContextualPopover:(UIView *)myView 
                              intoView:(UIView *)parentView
                    withViewController:(UIViewController *)viewController 
@@ -74,8 +78,7 @@
   
   // set up web browser
   if (parentView == auxiliaryDetailPanel) {
-    auxiliaryToolbar.hidden = subView == webBrowser;
-    webBrowserToolbar.hidden = !auxiliaryToolbar.hidden;
+    webBrowserToolbar.hidden = subView != webBrowser;
     webBrowser.hidden = webBrowserToolbar.hidden;
     
     [self exposeAuxiliaryDetailPanel:self];
@@ -84,67 +87,89 @@
   [parentView setNeedsLayout];
 } // setContentView:forParentView
 
+
 #pragma mark -
 #pragma mark Managing loading resources into the view
 
--(void) setDescription:(NSString *)description {
-  NSString *value = [NSString stringWithFormat:@"%@", description];
-  serviceDescriptionLabel.text = ([value isValidJSONValue] ? value : NoDescriptionText);
-} // setDescription
+-(void) preUpdateWithPropertiesActions:(NSDictionary *)properties {
+  serviceNameLabel.text = [properties objectForKey:JSONNameElement];
+
+  NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
+  serviceDescriptionLabel.text = ([description isValidJSONValue] ? description : NoDescriptionText);
+
+  serviceProviderNameLabel.text = DefaultLoadingText;
+  serviceSubmitterNameLabel.text = DefaultLoadingText;
+  
+  // monitoring details
+  NSString *lastChecked = [NSString stringWithFormat:@"%@", 
+                           [[properties objectForKey:JSONLatestMonitoringStatusElement] 
+                            objectForKey:JSONLastCheckedElement]];
+  monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
+
+  NSURL *imageURL = [NSURL URLWithString:
+                     [[properties objectForKey:JSONLatestMonitoringStatusElement] 
+                      objectForKey:JSONSmallSymbolElement]];
+  monitoringStatusIcon.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
+
+  // service components
+  BioCatalogueClient *client = [BioCatalogueClient client];
+  BOOL isREST = [client serviceIsREST:properties];
+  BOOL isSOAP = [client serviceIsSOAP:properties];
+  
+  if (isREST) {
+    componentsLabel.text = RESTComponentsText;
+  } else if (isSOAP) {
+    componentsLabel.text = SOAPComponentsText;
+  } else {
+    componentsLabel.text = [client serviceType:properties];
+  }
+  
+  showComponentsButton.hidden = !isREST && !isSOAP;    
+  
+  [self.view setNeedsDisplay];  
+} // preUpdateWithPropertiesActions
+
+-(void) postUpdateWithPropertiesActions {
+  serviceNameLabel.text = [listingProperties objectForKey:JSONNameElement];
+
+  // provider details
+  NSString *detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+                           objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
+  serviceProviderNameLabel.text = detailItem;
+  
+  serviceSubmitterNameLabel.text = [userProperties objectForKey:JSONNameElement];
+  
+  [self.view setNeedsDisplay];  
+  [self stopLoadingAnimation];
+} // postUpdateWithPropertiesActions
 
 -(void) updateWithProperties:(NSDictionary *)properties withScope:(NSString *)scope {
-  // TODO: put a check to see whether a fetch is already occuring or not
+  controllerIsCurrentlyBusy = YES;
   
   // fetch the latest properties
   [listingProperties release];
-  listingProperties = [properties copy];
+  listingProperties = [properties retain];
   
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   
   NSString *detailItem;
   if ([scope isEqualToString:ServicesSearchScope]) {
-    serviceNameLabel.text = [listingProperties objectForKey:JSONNameElement];
-    
+    [self performSelectorOnMainThread:@selector(preUpdateWithPropertiesActions:) 
+                           withObject:properties
+                        waitUntilDone:NO];
+
     [serviceProperties release];
-    serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] copy];
-    
-    // provider details
-    detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
-                   objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-    serviceProviderNameLabel.text = detailItem;
-    
-    // monitoring details
-    NSString *lastChecked = [NSString stringWithFormat:@"%@", 
-                             [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
-    monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
-    NSURL *imageURL = [NSURL URLWithString:
-                       [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
-    monitoringStatusIcon.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
+    serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] retain];
     
     // submitter details
     [userProperties release];
     NSURL *userURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
-    userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] copy];
-    
-    serviceSubmitterNameLabel.text = [userProperties objectForKey:JSONNameElement];
-    
-    // service components
-    BioCatalogueClient *client = [BioCatalogueClient client];
-    BOOL isREST = [client serviceIsREST:properties];
-    BOOL isSOAP = [client serviceIsSOAP:properties];
-    
-    if (isREST) {
-      componentsLabel.text = RESTComponentsText;
-    } else if (isSOAP) {
-      componentsLabel.text = SOAPComponentsText;
-    } else {
-      componentsLabel.text = [client serviceType:properties];
-    }
-    
-    showComponentsButton.hidden = !isREST && !isSOAP;    
+    userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] retain];
+
+    [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActions) withObject:nil waitUntilDone:NO];
   } else if ([scope isEqualToString:UsersSearchScope]) {
     [userProperties release];
-    userProperties = [properties copy];
+    userProperties = [properties retain];
     
     userNameLabel.text = [userProperties objectForKey:JSONNameElement];
     
@@ -167,7 +192,7 @@
     }
   } else {
     [providerProperties release];
-    providerProperties = [properties copy];
+    providerProperties = [properties retain];
     
     providerNameLabel.text = [providerProperties objectForKey:JSONNameElement];
     
@@ -178,6 +203,7 @@
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
   
   [self stopLoadingAnimation];
+  controllerIsCurrentlyBusy = NO;
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
@@ -203,8 +229,8 @@
 #pragma mark IBActions
 
 -(void) showProviderInfo:(id)sender {
-  NSDictionary *currentListingProperties = [listingProperties copy];
-  NSDictionary *currentProviderProperties = [providerProperties copy];
+  NSDictionary *currentListingProperties = [listingProperties retain];
+  NSDictionary *currentProviderProperties = [providerProperties retain];
   
   NSDictionary *provider = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
                             objectForKey:JSONProviderElement];
@@ -216,15 +242,18 @@
                     withArrowFromRect:[sender frame] 
                              withSize:providerIDCard.frame.size];
   
+  [listingProperties release];
   listingProperties = currentListingProperties;
+  
+  [providerProperties release];
   providerProperties = currentProviderProperties;
   
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServicesSearchScope];
 } // showProviderInfo
 
 -(void) showSubmitterInfo:(id)sender {
-  NSDictionary *currentListingProperties = [listingProperties copy];
-  NSDictionary *currentUserProperties = [userProperties copy];
+  NSDictionary *currentListingProperties = [listingProperties retain];
+  NSDictionary *currentUserProperties = [userProperties retain];
   
   [self updateWithProperties:userProperties withScope:UsersSearchScope];
   
@@ -233,8 +262,11 @@
                    withViewController:nil
                     withArrowFromRect:[sender frame]
                              withSize:userIDCard.frame.size];
-  
+
+  [listingProperties release];
   listingProperties = currentListingProperties;
+
+  [userProperties release];
   userProperties = currentUserProperties;
   
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServicesSearchScope];
@@ -384,16 +416,12 @@
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
     
     if ([scope isEqualToString:ServicesSearchScope]) {
-      [NSOperationQueue addToCurrentQueueSelector:@selector(setDescription:) 
-                                         toTarget:self 
-                                       withObject:[properties objectForKey:JSONDescriptionElement]];
       [NSOperationQueue addToMainQueueSelector:@selector(updateWithPropertiesForServicesScope:) 
                                       toTarget:self
                                     withObject:properties];
     } else if ([scope isEqualToString:UsersSearchScope]) {
       [self updateWithPropertiesForUsersScope:properties];
     } else if ([scope isEqualToString:ProvidersSearchScope]) {
-      [self setDescription:[properties objectForKey:JSONDescriptionElement]];
       [self updateWithPropertiesForProvidersScope:properties];
     } else {
       [self setContentView:defaultView forParentView:mainContentView];

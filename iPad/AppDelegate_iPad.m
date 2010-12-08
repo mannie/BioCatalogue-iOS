@@ -17,7 +17,9 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-  if ([super internetConnectionFound]) {
+  ItemsPerPage = iPadItemsPerPage;
+  
+  if ([super applicationStartConditionsMet]) {
     [window addSubview:splitViewController.view];
     [window makeKeyAndVisible];
 

@@ -12,8 +12,9 @@
 #pragma mark -
 #pragma mark BioCatalogueClient
 
-NSUInteger const LatestServices = 10;
-NSUInteger const ServicesPerPage = 10;
+NSUInteger const iPadItemsPerPage = 15;
+NSUInteger const iPhoneItemsPerPage = 10;
+NSUInteger ItemsPerPage = 10;
 
 NSString *const UsersSearchScope = @"users";
 NSString *const ServicesSearchScope = @"services";
@@ -109,6 +110,7 @@ NSString *const LastViewedResourceScopeKey = @"LastViewedResourceScope";
 #pragma mark Text Placeholders
 
 NSString *UnknownText = @"Unknown";
+NSString *DefaultLoadingText = @"Loading, Please Wait...";
 
 NSString *NoDescriptionText = @"(no description available)";
 NSString *NoInformationText = @"(no information available)";

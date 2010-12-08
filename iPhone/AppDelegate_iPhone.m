@@ -16,8 +16,10 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-  if ([super internetConnectionFound]) {  
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  ItemsPerPage = iPhoneItemsPerPage;
+  
+  if ([super applicationStartConditionsMet]) {  
     [window addSubview:tabBarController.view];
     [window makeKeyAndVisible];
     

@@ -58,7 +58,7 @@
   }
 
   if (limit <= 0) {
-    limit = ServicesPerPage;
+    limit = ItemsPerPage;
   }
   
   return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];

@@ -14,13 +14,11 @@
 @synthesize window;
 
 
--(BOOL) internetConnectionFound {
-  // TODO: check for internet connection
-  @try {
-    return YES;
-  } @catch (NSException * e) {
-    return NO;
-  }
+-(BOOL) applicationStartConditionsMet {
+  // TODO: check for internet connection (continously)
+  // TODO: check that the API version is supported
+  
+  return YES;
 } // checkInternetConnection
 
 

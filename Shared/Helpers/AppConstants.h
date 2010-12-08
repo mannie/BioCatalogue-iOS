@@ -12,8 +12,9 @@
 #pragma mark -
 #pragma mark BioCatalogueClient
 
-extern NSUInteger const LatestServices;
-extern NSUInteger const ServicesPerPage;
+extern NSUInteger const iPadItemsPerPage;
+extern NSUInteger const iPhoneItemsPerPage;
+extern NSUInteger ItemsPerPage;
 
 extern NSString *const UsersSearchScope;
 extern NSString *const ServicesSearchScope;
@@ -106,7 +107,7 @@ extern NSString *const LastViewedResourceScopeKey;
 #pragma mark Text Placeholders
 
 extern NSString *UnknownText;
-
+extern NSString *DefaultLoadingText;
 extern NSString *NoDescriptionText;
 extern NSString *NoInformationText;
 

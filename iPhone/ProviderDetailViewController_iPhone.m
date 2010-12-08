@@ -21,7 +21,7 @@
   descriptionTextView.text = ([description isValidJSONValue] ? description : NoInformationText);
   
   [providerProperties release];
-  providerProperties = [properties copy];
+  providerProperties = [properties retain];
 } // updateWithProperties
 
 

@@ -18,10 +18,10 @@
 
 -(void) updateWithProperties:(NSDictionary *)properties {
   [monitoringProperties release];
-  monitoringProperties = [properties copy];
+  monitoringProperties = [properties retain];
   
   [monitoringStatuses release];
-  monitoringStatuses = [[properties objectForKey:JSONServiceTestsElement] copy];
+  monitoringStatuses = [[properties objectForKey:JSONServiceTestsElement] retain];
   
   fetching = NO;
 
@@ -34,7 +34,7 @@
     fetching = YES;
 
     [lastUsedPath release];
-    lastUsedPath = [fromPath copy];
+    lastUsedPath = [fromPath retain];
     
     [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
   }
@@ -77,7 +77,7 @@
   
   // Configure the cell...
   if (fetching) {
-    cell.textLabel.text = @"Loading, Please Wait...";
+    cell.textLabel.text = DefaultLoadingText;
     cell.imageView.image = nil;
     return cell;
   }

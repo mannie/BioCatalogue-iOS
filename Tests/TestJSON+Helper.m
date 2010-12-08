@@ -52,10 +52,10 @@
   }
 
   // should return the default number of services per page
-  latestServices = [jsonHelper latestServices:0]; 
+  latestServices = [jsonHelper latestServices:0];
   message = [NSString stringWithFormat:@"Retrieved %i latest services.  %i expected.",
-             [latestServices count], ServicesPerPage];
-  STAssertEquals(ServicesPerPage, [latestServices count], message);
+             [latestServices count], ItemsPerPage];
+  STAssertEquals(ItemsPerPage, [latestServices count], message);
 }
 
 -(void) testGETServicesAtPage {

@@ -16,7 +16,7 @@
 
 -(void) updateWithProperties:(NSDictionary *)properties {
   [userProperties release];
-  userProperties = [properties copy];
+  userProperties = [properties retain];
   
   nameLabel.text = [userProperties objectForKey:JSONNameElement];
   

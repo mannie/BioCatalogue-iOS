@@ -79,7 +79,7 @@
     
   // Configure the cell...
   if (fetching) {
-    cell.textLabel.text = @"Loading, Please Wait...";
+    cell.textLabel.text = DefaultLoadingText;
     cell.imageView.image = nil;
     return cell;
   }

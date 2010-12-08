@@ -19,29 +19,24 @@
 #pragma mark Helpers
 
 -(void) startLoadingAnimation {
-  [UIView startLoadingAnimation:activityIndicator dimmingView:currentPageLabel];
+  [activityIndicator startAnimating];
+  //[UIView startLoadingAnimation:activityIndicator dimmingView:nil];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
-  [UIView stopLoadingAnimation:activityIndicator undimmingView:currentPageLabel];
+  [activityIndicator stopAnimating];
+  //[UIView stopLoadingAnimation:activityIndicator undimmingView:nil];
 } // stopLoadingAnimation
 
 -(void) postFetchActions {  
   [myTableView setTableHeaderView:nil];
-  currentPageLabel.hidden = NO;
   
   [services release];
   services = [[servicesData objectForKey:JSONResultsElement] retain];
   
-  currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
-  
-  previousPageButton.hidden = currentPage == 1;
-  nextPageBarButton.hidden = currentPage == lastPage;
-  
-  [self stopLoadingAnimation];
   fetching = NO;
-
   [myTableView reloadData];
+  [self stopLoadingAnimation];
 } // postFetchActions
 
 -(void) performServiceFetch {
@@ -51,6 +46,7 @@
                                        resultsData:&servicesData
                                 performingSelector:@selector(postFetchActions)
                                           onTarget:self];
+  [paginationController updateServicePaginationButtons];
 } // performServiceFetch
 
 
@@ -60,10 +56,6 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  currentPageLabel.hidden = YES;
-  previousPageButton.hidden = YES;
-  nextPageBarButton.hidden = YES;
-
   [NSOperationQueue addToMainQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 } // viewDidLoad
 
@@ -112,9 +104,9 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [NSOperationQueue addToMainQueueSelector:@selector(updateWithProperties:) 
-                                  toTarget:detailViewController
-                                withObject:[services objectAtIndex:indexPath.row]];
+  [NSOperationQueue addToNewQueueSelector:@selector(updateWithProperties:) 
+                                 toTarget:detailViewController
+                               withObject:[services objectAtIndex:indexPath.row]];
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   [self.navigationController pushViewController:detailViewController animated:YES];
@@ -125,10 +117,6 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [previousPageButton release];
-  [nextPageBarButton release];
-  [currentPageLabel release];
-  
   [myTableView release];
   [activityIndicator release];
   
