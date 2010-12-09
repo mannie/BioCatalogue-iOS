@@ -17,25 +17,15 @@
 
 
 @interface LatestServicesViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource> {  
-  NSDictionary *servicesData;
   NSArray *services;
     
   ServiceDetailViewController_iPhone *detailViewController;
-
-  UINavigationController *navigationController;
-
-  int currentPage;
-  int lastPage;
   
   IBOutlet UITableView *myTableView;
   IBOutlet UIActivityIndicatorView *activityIndicator;
- 
-  BOOL fetching;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *detailViewController;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-
 @property (nonatomic, retain) IBOutlet PaginationController *paginationController;
 
 @end

@@ -13,33 +13,36 @@
 
 
 #pragma mark -
-#pragma mark Services
+#pragma mark Browsing Services
 
--(void) performSearch:(NSString *)query 
-            withScope:(NSString *)scope
-              forPage:(int *)pageNum
-             lastPage:(int *)lastPage
-             progress:(BOOL *)isBusy 
-          resultsData:(NSDictionary **)resultsData  
-   performingSelector:(SEL)postFetchActions
-             onTarget:(id)target;
+-(NSArray *) servicePaginationButtons;
+-(void) updateServicePaginationButtons;
 
--(void) loadSearchResultsForPreviousPage;
--(void) loadSearchResultsForNextPage;
+-(BOOL) isCurrentlyFetchingServices;
+
+-(NSArray *) lastFetchedServices;
+
+-(void) performServiceFetch:(int)page 
+         performingSelector:(SEL)postFetchActions 
+                   onTarget:(id)target;
 
 
 #pragma mark -
 #pragma mark Search
 
--(void) performServiceFetchForPage:(int *)pageNum
-                          lastPage:(int *)lastPage
-                          progress:(BOOL *)isBusy 
-                       resultsData:(NSDictionary **)resultsData
-                performingSelector:(SEL)postFetchActions
-                          onTarget:(id)target;
+-(NSArray *) searchPaginationButtons;
+-(void) updateSearchPaginationButtons;
 
--(void) loadServicesOnPreviousPage;
--(void) loadServicesOnNextPage;
+-(void) performSearch:(NSString *)query 
+            withScope:(NSString *)scope 
+                 page:(int)page
+   performingSelector:(SEL)postFetchActions
+             onTarget:(id)target;
+
+-(NSArray *) lastSearchResults;
+-(NSString *) lastSearchScopeUsed;
+
+-(BOOL) isCurrentlyPerformingSearch;
 
 
 @end

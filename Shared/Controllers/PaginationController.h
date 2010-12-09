@@ -16,41 +16,43 @@
 
 @interface PaginationController : NSObject <PaginationDelegate> {
   // services pagination
-  IBOutlet UIButton *paginationButtonOne;
-  IBOutlet UIButton *paginationButtonTwo;
-  IBOutlet UIButton *paginationButtonThree;
-  IBOutlet UIButton *paginationButtonFour;
-  IBOutlet UIButton *paginationButtonFive;
-  IBOutlet UIButton *paginationButtonSix;
-  IBOutlet UIButton *paginationButtonSeven;
+  IBOutlet UIButton *servicePaginationButtonOne;
+  IBOutlet UIButton *servicePaginationButtonTwo;
+  IBOutlet UIButton *servicePaginationButtonThree;
+  IBOutlet UIButton *servicePaginationButtonFour;
+  IBOutlet UIButton *servicePaginationButtonFive;
+  IBOutlet UIButton *servicePaginationButtonSix;
+  IBOutlet UIButton *servicePaginationButtonSeven;
   
-  int *servicesCurrentPage;
-  int *servicesLastPage;
-  BOOL *servicesCurrentlyRetrievingData;
-  NSDictionary **servicesResultsData;
-  SEL servicesPostFetchSelector;
-  id servicesFetchTarget;
-
+  int serviceCurrentPage;
+  int serviceLastPage;
+  BOOL currentlyRetrievingServiceData;
+  NSDictionary *serviceResultsData;
+  SEL servicePostFetchSelector;
+  id serviceFetchTarget;
+  
   // search pagination
+  IBOutlet UIButton *searchPaginationButtonOne;
+  IBOutlet UIButton *searchPaginationButtonTwo;
+  IBOutlet UIButton *searchPaginationButtonThree;
+  IBOutlet UIButton *searchPaginationButtonFour;
+  IBOutlet UIButton *searchPaginationButtonFive;
+  IBOutlet UIButton *searchPaginationButtonSix;
+  IBOutlet UIButton *searchPaginationButtonSeven;
+
   NSString *searchQuery;
   NSString *searchScope;
-  int *searchCurrentPage;
-  int *searchLastPage;
-  BOOL *searchCurrentlyRetrievingData;
-  NSDictionary **searchResultsData;
+  
+  int searchCurrentPage;
+  int searchLastPage;
+  BOOL currentlyRetrievingSearchData;
+  NSDictionary *searchResultsData;
   SEL searchPostFetchSelector;
   id searchFetchTarget;
 }
 
+-(IBAction) jumpToServicesPage:(UIButton *)sender;
 
--(NSArray *) servicePaginationButtons;
--(IBAction) jumpToServicesOnPage:(UIButton *)sender;
--(void) updateServicePaginationButtons;
 
--(IBAction) loadServicesOnNextPage;
--(IBAction) loadServicesOnPreviousPage;
-
--(IBAction) loadSearchResultsForNextPage;
--(IBAction) loadSearchResultsForPreviousPage;
 
 @end

@@ -17,15 +17,9 @@
 
 
 @interface LatestServicesViewController_iPad : UITableViewController {
-  NSDictionary *servicesData;
   NSArray *services;
 
   DetailViewController_iPad *detailViewController;
-
-  int currentPage;
-  int lastPage;
-  
-  BOOL fetching;
   
   NSIndexPath *lastSelection;
 }

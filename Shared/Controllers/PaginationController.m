@@ -14,112 +14,94 @@
 
 
 #pragma mark -
-#pragma mark Helpers
+#pragma mark Browsing Services
 
 -(NSArray *) servicePaginationButtons {
-  return [NSArray arrayWithObjects:paginationButtonOne, paginationButtonTwo, paginationButtonThree, 
-          paginationButtonFour, paginationButtonFive, paginationButtonSix, paginationButtonSeven, nil];
+  return [NSArray arrayWithObjects:servicePaginationButtonOne, servicePaginationButtonTwo,
+          servicePaginationButtonThree, servicePaginationButtonFour, servicePaginationButtonFive, 
+          servicePaginationButtonSix, servicePaginationButtonSeven, nil];
 } // servicePaginationButtons
-
--(void) jumpToServicesOnPage:(UIButton *)sender {  
-  for (UIButton *button in [self servicePaginationButtons]) {
-    button.enabled = NO;
-  }
-  
-  *servicesCurrentPage = [sender.titleLabel.text intValue];
-  [self updateServicePaginationButtons];
-      
-  // FIXME: this is not good code
-  if ([[UIDevice currentDevice] isIPadDevice])
-    [[((LatestServicesViewController_iPad *)servicesFetchTarget) detailViewController] startLoadingAnimation];
-  else
-    [servicesFetchTarget performSelector:@selector(startLoadingAnimation)];
-  
-  [NSOperationQueue addToNewQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
-} // jumpToServicesPage
 
 -(void) updateServicePaginationButtons {  
   int firstPageNumber;
-  if (*servicesCurrentPage <= 4) {
+  if (serviceCurrentPage <= 4) {
     firstPageNumber = 1;
-  } else if (*servicesCurrentPage >= *servicesLastPage- 3) {
-    firstPageNumber = *servicesLastPage - 6;
+  } else if (serviceCurrentPage >= serviceLastPage - 3) {
+    firstPageNumber = serviceLastPage - 6;
   } else {
-    firstPageNumber = *servicesCurrentPage - 3;
+    firstPageNumber = serviceCurrentPage - 3;
   }
   
   NSArray *buttons = [self servicePaginationButtons];
   for (int i = 0; i < [buttons count]; i++) {
     int thisPageNumber = firstPageNumber + i;
-
+    
     UIButton *button = [buttons objectAtIndex:i];
-
+    
     [button setTitle:[NSString stringWithFormat:@"%i", thisPageNumber] forState:UIControlStateNormal];
-
+    
     [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
     
-    [button setEnabled:*servicesCurrentPage != thisPageNumber];
+    [button setEnabled:serviceCurrentPage != thisPageNumber];
     [button setHidden:NO];
-      
-    [button setNeedsDisplay];
   }
-} // updatePaginationButtons:currentPage:lastPage
+} // updateServicePaginationButtons
 
+-(BOOL) isCurrentlyFetchingServices {
+  return currentlyRetrievingServiceData;
+} // isCurrentlyFetchingServices
 
-#pragma mark -
-#pragma mark Services
+-(NSArray *) lastFetchedServices {
+  return [NSArray arrayWithArray:[serviceResultsData objectForKey:JSONResultsElement]];
+} // lastFetchedServices
 
--(void) performServiceFetch {
-  [self performServiceFetchForPage:servicesCurrentPage
-                          lastPage:servicesLastPage
-                          progress:servicesCurrentlyRetrievingData
-                       resultsData:servicesResultsData
-                performingSelector:servicesPostFetchSelector
-                          onTarget:servicesFetchTarget];  
-} // performServiceFetch
-
--(void) performServiceFetchForPage:(int *)pageNum 
-                          lastPage:(int *)lastPage
-                          progress:(BOOL *)isBusy 
-                       resultsData:(NSDictionary **)resultsData
-                performingSelector:(SEL)postFetchActions
-                          onTarget:(id)target {  
-  servicesCurrentPage = pageNum;
-  servicesLastPage = lastPage;
-  servicesCurrentlyRetrievingData = isBusy;
-  servicesResultsData = resultsData;
-  servicesPostFetchSelector = postFetchActions;
-  servicesFetchTarget = target;
+-(void) performServiceFetch:(int)page performingSelector:(SEL)postFetchActions onTarget:(id)target {
+  serviceCurrentPage = page;
+  servicePostFetchSelector = postFetchActions;
+  serviceFetchTarget = target;
   
-  *isBusy = YES;
-
-  if (*pageNum < 1) *pageNum = 1;
-
-  [*resultsData release];
-  *resultsData = [[[JSON_Helper helper] services:ItemsPerPage page:*pageNum] retain];
-  *lastPage = [[*resultsData objectForKey:JSONPagesElement] intValue];
+  currentlyRetrievingServiceData = YES;
+  
+  if (serviceCurrentPage < 1) serviceCurrentPage = 1;
+  
+  [serviceResultsData release];
+  serviceResultsData = [[[JSON_Helper helper] services:ItemsPerPage page:serviceCurrentPage] retain];
+  serviceLastPage = [[serviceResultsData objectForKey:JSONPagesElement] intValue];
+  
+  currentlyRetrievingServiceData = NO;
   
   if (target && postFetchActions) [target performSelector:postFetchActions];
-} // performServiceFetchForPage:lastPage:progress:resultsData:performingSelector:onTarget
+} // performServiceFetch:performingSelector:onTarget
 
--(void) loadServicesOnNextPage {
-  if (!*servicesCurrentlyRetrievingData) {
-    if (*servicesCurrentPage < *servicesLastPage) *servicesCurrentPage += 1;
+-(void) performServiceFetch {
+  [self performServiceFetch:serviceCurrentPage 
+         performingSelector:servicePostFetchSelector 
+                   onTarget:serviceFetchTarget];
+} // performServiceFetch
 
-    [self performServiceFetch];
+-(void) jumpToServicesPage:(UIButton *)sender {  
+  for (UIButton *button in [self servicePaginationButtons]) {
+    button.enabled = NO;
   }
-} // loadServicesOnNextPage
+  
+  serviceCurrentPage = [sender.titleLabel.text intValue];
+  [self updateServicePaginationButtons];
+  
+  // FIXME: this is not good code; make use of the AnimationController
+  if ([[UIDevice currentDevice] isIPadDevice])
+    [[((LatestServicesViewController_iPad *)serviceFetchTarget) detailViewController] startLoadingAnimation];
+  else
+    [serviceFetchTarget performSelector:@selector(startLoadingAnimation)];
+  
+  [NSOperationQueue addToNewQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+} // jumpToServicesPage
 
--(void) loadServicesOnPreviousPage {
-  if (!*servicesCurrentlyRetrievingData) {
-    if (*servicesCurrentPage > 1) {
-      *servicesCurrentPage -= 1;
-    }
-    
-    [self performServiceFetch];
-  }
-} // loadServicesOnPreviousPage
+
+
+
+
+/*
 
 
 #pragma mark -
@@ -186,7 +168,7 @@
     [self performSearch];
   }
 } // loadSearchResultsForPreviousPage
-
+*/
 
 #pragma mark -
 #pragma mark Memory Management
@@ -196,11 +178,11 @@
     [button release];
   }
   
-  [*servicesResultsData release];
+  [serviceResultsData release];
 
-  [*searchResultsData release];
-  [searchQuery release];
-  [searchScope release];
+//  [searchResultsData release];
+//  [searchQuery release];
+//  [searchScope release];
 
   [super dealloc];
 } // dealloc

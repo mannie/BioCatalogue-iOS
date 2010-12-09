@@ -293,14 +293,6 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">navigationController</string>
-						<reference key="source" ref="671179149"/>
-						<reference key="destination" ref="22891214"/>
-					</object>
-					<int key="connectionID">33</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">navigationController</string>
 						<reference key="source" ref="125106668"/>
 						<reference key="destination" ref="1025907002"/>
 					</object>
@@ -736,37 +728,23 @@
 							<string>activityIndicator</string>
 							<string>auxiliaryDetailPanel</string>
 							<string>auxiliaryToolbar</string>
-							<string>componentsLabel</string>
 							<string>defaultView</string>
 							<string>favouriteServiceBarButtonItem</string>
 							<string>gestureHandler</string>
 							<string>interactionDisablingLayer</string>
-							<string>loadingTextLabel</string>
 							<string>mainContentView</string>
 							<string>mainToolbar</string>
-							<string>monitoringStatusIcon</string>
 							<string>monitoringStatusViewController</string>
-							<string>providerDescriptionLabel</string>
 							<string>providerDetailView</string>
 							<string>providerIDCard</string>
 							<string>providerIDCardContainer</string>
-							<string>providerNameLabel</string>
 							<string>serviceComponentsViewController</string>
-							<string>serviceDescriptionLabel</string>
 							<string>serviceDetailView</string>
-							<string>serviceNameLabel</string>
-							<string>serviceProviderNameLabel</string>
-							<string>serviceSubmitterNameLabel</string>
-							<string>showComponentsButton</string>
-							<string>userAffiliationLabel</string>
-							<string>userCityLabel</string>
-							<string>userCountryLabel</string>
+							<string>serviceName</string>
+							<string>uiContentController</string>
 							<string>userDetailView</string>
-							<string>userEmailLabel</string>
 							<string>userIDCard</string>
 							<string>userIDCardContainer</string>
-							<string>userJoinedLabel</string>
-							<string>userNameLabel</string>
 							<string>viewResourceInBioCatalogueBarButtonItem</string>
 							<string>webBrowser</string>
 							<string>webBrowserActivityIndicator</string>
@@ -777,37 +755,23 @@
 							<string>UIActivityIndicatorView</string>
 							<string>UIView</string>
 							<string>UIToolbar</string>
-							<string>UILabel</string>
 							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>GestureHandler_iPad</string>
 							<string>UIView</string>
-							<string>UILabel</string>
 							<string>UIView</string>
 							<string>UIToolbar</string>
-							<string>UIImageView</string>
 							<string>MonitoringStatusViewController</string>
-							<string>UITextView</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIView</string>
-							<string>UILabel</string>
 							<string>ServiceComponentsViewController</string>
-							<string>UITextView</string>
 							<string>UIView</string>
 							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UIButton</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UIView</string>
-							<string>UILabel</string>
+							<string>UIContentController</string>
 							<string>UIView</string>
 							<string>UIView</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
+							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>UIWebView</string>
 							<string>UIActivityIndicatorView</string>
@@ -821,37 +785,23 @@
 							<string>activityIndicator</string>
 							<string>auxiliaryDetailPanel</string>
 							<string>auxiliaryToolbar</string>
-							<string>componentsLabel</string>
 							<string>defaultView</string>
 							<string>favouriteServiceBarButtonItem</string>
 							<string>gestureHandler</string>
 							<string>interactionDisablingLayer</string>
-							<string>loadingTextLabel</string>
 							<string>mainContentView</string>
 							<string>mainToolbar</string>
-							<string>monitoringStatusIcon</string>
 							<string>monitoringStatusViewController</string>
-							<string>providerDescriptionLabel</string>
 							<string>providerDetailView</string>
 							<string>providerIDCard</string>
 							<string>providerIDCardContainer</string>
-							<string>providerNameLabel</string>
 							<string>serviceComponentsViewController</string>
-							<string>serviceDescriptionLabel</string>
 							<string>serviceDetailView</string>
-							<string>serviceNameLabel</string>
-							<string>serviceProviderNameLabel</string>
-							<string>serviceSubmitterNameLabel</string>
-							<string>showComponentsButton</string>
-							<string>userAffiliationLabel</string>
-							<string>userCityLabel</string>
-							<string>userCountryLabel</string>
+							<string>serviceName</string>
+							<string>uiContentController</string>
 							<string>userDetailView</string>
-							<string>userEmailLabel</string>
 							<string>userIDCard</string>
 							<string>userIDCardContainer</string>
-							<string>userJoinedLabel</string>
-							<string>userNameLabel</string>
 							<string>viewResourceInBioCatalogueBarButtonItem</string>
 							<string>webBrowser</string>
 							<string>webBrowserActivityIndicator</string>
@@ -872,10 +822,6 @@
 								<string key="candidateClassName">UIToolbar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">componentsLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">defaultView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
@@ -892,10 +838,6 @@
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">loadingTextLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">mainContentView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
@@ -904,16 +846,8 @@
 								<string key="candidateClassName">UIToolbar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">monitoringStatusIcon</string>
-								<string key="candidateClassName">UIImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">monitoringStatusViewController</string>
 								<string key="candidateClassName">MonitoringStatusViewController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">providerDescriptionLabel</string>
-								<string key="candidateClassName">UITextView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">providerDetailView</string>
@@ -928,56 +862,24 @@
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">providerNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">serviceComponentsViewController</string>
 								<string key="candidateClassName">ServiceComponentsViewController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">serviceDescriptionLabel</string>
-								<string key="candidateClassName">UITextView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">serviceDetailView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">serviceNameLabel</string>
+								<string key="name">serviceName</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">serviceProviderNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">serviceSubmitterNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">showComponentsButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userAffiliationLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userCityLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userCountryLabel</string>
-								<string key="candidateClassName">UILabel</string>
+								<string key="name">uiContentController</string>
+								<string key="candidateClassName">UIContentController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">userDetailView</string>
 								<string key="candidateClassName">UIView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userEmailLabel</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">userIDCard</string>
@@ -986,14 +888,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">userIDCardContainer</string>
 								<string key="candidateClassName">UIView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userJoinedLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">viewResourceInBioCatalogueBarButtonItem</string>
@@ -1015,7 +909,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPad/DetailViewController_iPad.h</string>
+						<string key="minorKey">iPad/Controllers/DetailViewController_iPad.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1026,6 +920,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>auxiliaryDetailPanel</string>
+							<string>auxiliaryToolbar</string>
 							<string>defaultView</string>
 							<string>interactionDisablingLayer</string>
 							<string>providerDetailIDCardView</string>
@@ -1033,10 +928,12 @@
 							<string>serviceDetailView</string>
 							<string>userDetailIDCardView</string>
 							<string>userDetailView</string>
+							<string>webBrowserToolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIView</string>
+							<string>UIToolbar</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIView</string>
@@ -1044,6 +941,7 @@
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIView</string>
+							<string>UIToolbar</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1051,6 +949,7 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>auxiliaryDetailPanel</string>
+							<string>auxiliaryToolbar</string>
 							<string>defaultView</string>
 							<string>interactionDisablingLayer</string>
 							<string>providerDetailIDCardView</string>
@@ -1058,12 +957,17 @@
 							<string>serviceDetailView</string>
 							<string>userDetailIDCardView</string>
 							<string>userDetailView</string>
+							<string>webBrowserToolbar</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">auxiliaryDetailPanel</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">auxiliaryToolbar</string>
+								<string key="candidateClassName">UIToolbar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">defaultView</string>
@@ -1093,6 +997,10 @@
 								<string key="name">userDetailView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">webBrowserToolbar</string>
+								<string key="candidateClassName">UIToolbar</string>
+							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1108,24 +1016,16 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
-							<string>currentPageLabel</string>
 							<string>detailViewController</string>
 							<string>myTableView</string>
-							<string>navigationController</string>
-							<string>nextPageBarButton</string>
 							<string>paginationController</string>
-							<string>previousPageButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIActivityIndicatorView</string>
-							<string>UILabel</string>
 							<string>ServiceDetailViewController_iPhone</string>
 							<string>UITableView</string>
-							<string>UINavigationController</string>
-							<string>UIButton</string>
-							<string>id</string>
-							<string>UIButton</string>
+							<string>PaginationController</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1133,23 +1033,15 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
-							<string>currentPageLabel</string>
 							<string>detailViewController</string>
 							<string>myTableView</string>
-							<string>navigationController</string>
-							<string>nextPageBarButton</string>
 							<string>paginationController</string>
-							<string>previousPageButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
 								<string key="name">activityIndicator</string>
 								<string key="candidateClassName">UIActivityIndicatorView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">currentPageLabel</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">detailViewController</string>
@@ -1160,26 +1052,14 @@
 								<string key="candidateClassName">UITableView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">navigationController</string>
-								<string key="candidateClassName">UINavigationController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">nextPageBarButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">paginationController</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">previousPageButton</string>
-								<string key="candidateClassName">UIButton</string>
+								<string key="candidateClassName">PaginationController</string>
 							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPhone/LatestServicesViewController_iPhone.h</string>
+						<string key="minorKey">iPhone/Controllers/LatestServicesViewController_iPhone.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1189,14 +1069,12 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>detailViewController</string>
-							<string>loadingLabel</string>
+							<string>activityIndicator</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>UILabel</string>
+							<string>UIActivityIndicatorView</string>
 							<string>UITableView</string>
 						</object>
 					</object>
@@ -1204,19 +1082,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>detailViewController</string>
-							<string>loadingLabel</string>
+							<string>activityIndicator</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">detailViewController</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">loadingLabel</string>
-								<string key="candidateClassName">UILabel</string>
+								<string key="name">activityIndicator</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myTableView</string>
@@ -1226,7 +1099,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Shared/MonitoringStatusViewController.h</string>
+						<string key="minorKey">Shared/Controllers/MonitoringStatusViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1249,6 +1122,155 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Frameworks/JSON/SBJsonWriter.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">PaginationController</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">jumpToServicesPage:</string>
+						<string key="NS.object.0">UIButton</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">jumpToServicesPage:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">jumpToServicesPage:</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>searchFetchTarget</string>
+							<string>searchPaginationButtonFive</string>
+							<string>searchPaginationButtonFour</string>
+							<string>searchPaginationButtonOne</string>
+							<string>searchPaginationButtonSeven</string>
+							<string>searchPaginationButtonSix</string>
+							<string>searchPaginationButtonThree</string>
+							<string>searchPaginationButtonTwo</string>
+							<string>serviceFetchTarget</string>
+							<string>servicePaginationButtonFive</string>
+							<string>servicePaginationButtonFour</string>
+							<string>servicePaginationButtonOne</string>
+							<string>servicePaginationButtonSeven</string>
+							<string>servicePaginationButtonSix</string>
+							<string>servicePaginationButtonThree</string>
+							<string>servicePaginationButtonTwo</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>id</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>searchFetchTarget</string>
+							<string>searchPaginationButtonFive</string>
+							<string>searchPaginationButtonFour</string>
+							<string>searchPaginationButtonOne</string>
+							<string>searchPaginationButtonSeven</string>
+							<string>searchPaginationButtonSix</string>
+							<string>searchPaginationButtonThree</string>
+							<string>searchPaginationButtonTwo</string>
+							<string>serviceFetchTarget</string>
+							<string>servicePaginationButtonFive</string>
+							<string>servicePaginationButtonFour</string>
+							<string>servicePaginationButtonOne</string>
+							<string>servicePaginationButtonSeven</string>
+							<string>servicePaginationButtonSix</string>
+							<string>servicePaginationButtonThree</string>
+							<string>servicePaginationButtonTwo</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchFetchTarget</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonFive</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonFour</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonOne</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonSeven</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonSix</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonThree</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonTwo</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceFetchTarget</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">servicePaginationButtonFive</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">servicePaginationButtonFour</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">servicePaginationButtonOne</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">servicePaginationButtonSeven</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">servicePaginationButtonSix</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">servicePaginationButtonThree</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">servicePaginationButtonTwo</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Shared/Controllers/PaginationController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1306,44 +1328,12 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPhone/ProviderDetailViewController_iPhone.h</string>
+						<string key="minorKey">iPhone/Controllers/ProviderDetailViewController_iPhone.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">SearchViewController_iPhone</string>
 					<string key="superclassName">UIViewController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>loadServicesOnNextPage:</string>
-							<string>loadServicesOnPreviousPage:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>loadServicesOnNextPage:</string>
-							<string>loadServicesOnPreviousPage:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">loadServicesOnNextPage:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">loadServicesOnPreviousPage:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-						</object>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -1368,7 +1358,7 @@
 							<string>UITableView</string>
 							<string>UINavigationController</string>
 							<string>UIButton</string>
-							<string>id</string>
+							<string>PaginationController</string>
 							<string>UIButton</string>
 							<string>ProviderDetailViewController_iPhone</string>
 							<string>ServiceDetailViewController_iPhone</string>
@@ -1419,7 +1409,7 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">paginationController</string>
-								<string key="candidateClassName">id</string>
+								<string key="candidateClassName">PaginationController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">previousPageButton</string>
@@ -1441,7 +1431,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPhone/SearchViewController_iPhone.h</string>
+						<string key="minorKey">iPhone/Controllers/SearchViewController_iPhone.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1451,16 +1441,16 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
 							<string>iPadDetailViewController</string>
 							<string>iPhoneWebViewController</string>
-							<string>loadingLabel</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIActivityIndicatorView</string>
 							<string>DetailViewController_iPad</string>
 							<string>UIViewController</string>
-							<string>UILabel</string>
 							<string>UITableView</string>
 						</object>
 					</object>
@@ -1468,13 +1458,17 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
 							<string>iPadDetailViewController</string>
 							<string>iPhoneWebViewController</string>
-							<string>loadingLabel</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">activityIndicator</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">iPadDetailViewController</string>
 								<string key="candidateClassName">DetailViewController_iPad</string>
@@ -1484,10 +1478,6 @@
 								<string key="candidateClassName">UIViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">loadingLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">myTableView</string>
 								<string key="candidateClassName">UITableView</string>
 							</object>
@@ -1495,7 +1485,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Shared/ServiceComponentsViewController.h</string>
+						<string key="minorKey">Shared/Controllers/ServiceComponentsViewController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1551,30 +1541,20 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>componentsLabel</string>
-							<string>descriptionLabel</string>
 							<string>monitoringStatusViewController</string>
 							<string>myTableView</string>
-							<string>nameLabel</string>
 							<string>providerDetailViewController</string>
-							<string>providerNameLabel</string>
 							<string>serviceComponentsViewController</string>
-							<string>showComponentsButton</string>
-							<string>submitterNameLabel</string>
+							<string>uiContentController</string>
 							<string>userDetailViewController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UILabel</string>
-							<string>UITextView</string>
 							<string>MonitoringStatusViewController</string>
 							<string>UITableView</string>
-							<string>UILabel</string>
 							<string>ProviderDetailViewController_iPhone</string>
-							<string>UILabel</string>
 							<string>ServiceComponentsViewController</string>
-							<string>UIButton</string>
-							<string>UILabel</string>
+							<string>UIContentController</string>
 							<string>UserDetailViewController_iPhone</string>
 						</object>
 					</object>
@@ -1582,28 +1562,15 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>componentsLabel</string>
-							<string>descriptionLabel</string>
 							<string>monitoringStatusViewController</string>
 							<string>myTableView</string>
-							<string>nameLabel</string>
 							<string>providerDetailViewController</string>
-							<string>providerNameLabel</string>
 							<string>serviceComponentsViewController</string>
-							<string>showComponentsButton</string>
-							<string>submitterNameLabel</string>
+							<string>uiContentController</string>
 							<string>userDetailViewController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">componentsLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">descriptionLabel</string>
-								<string key="candidateClassName">UITextView</string>
-							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">monitoringStatusViewController</string>
 								<string key="candidateClassName">MonitoringStatusViewController</string>
@@ -1613,28 +1580,16 @@
 								<string key="candidateClassName">UITableView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">nameLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">providerDetailViewController</string>
 								<string key="candidateClassName">ProviderDetailViewController_iPhone</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">providerNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">serviceComponentsViewController</string>
 								<string key="candidateClassName">ServiceComponentsViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">showComponentsButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">submitterNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
+								<string key="name">uiContentController</string>
+								<string key="candidateClassName">UIContentController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">userDetailViewController</string>
@@ -1644,14 +1599,145 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPhone/ServiceDetailViewController_iPhone.h</string>
+						<string key="minorKey">iPhone/Controllers/ServiceDetailViewController_iPhone.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">UIContentController</string>
+					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>monitoringStatusIcon</string>
+							<string>providerDescription</string>
+							<string>providerName</string>
+							<string>serviceComponents</string>
+							<string>serviceDescription</string>
+							<string>serviceName</string>
+							<string>serviceProviderName</string>
+							<string>serviceSubmitterName</string>
+							<string>showComponentsButton</string>
+							<string>userAffiliation</string>
+							<string>userCity</string>
+							<string>userCountry</string>
+							<string>userEmail</string>
+							<string>userJoinedDate</string>
+							<string>userName</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIImageView</string>
+							<string>UITextView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UITextView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UIButton</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>monitoringStatusIcon</string>
+							<string>providerDescription</string>
+							<string>providerName</string>
+							<string>serviceComponents</string>
+							<string>serviceDescription</string>
+							<string>serviceName</string>
+							<string>serviceProviderName</string>
+							<string>serviceSubmitterName</string>
+							<string>showComponentsButton</string>
+							<string>userAffiliation</string>
+							<string>userCity</string>
+							<string>userCountry</string>
+							<string>userEmail</string>
+							<string>userJoinedDate</string>
+							<string>userName</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">monitoringStatusIcon</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">providerDescription</string>
+								<string key="candidateClassName">UITextView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">providerName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceComponents</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceDescription</string>
+								<string key="candidateClassName">UITextView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceProviderName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceSubmitterName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">showComponentsButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userAffiliation</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userCity</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userCountry</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userEmail</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userJoinedDate</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">Shared/Controllers/UIContentController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">UIView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Shared/Helpers/UIView+Helper.h</string>
+						<string key="minorKey">Shared/Categories/UIView+Helper.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1719,7 +1805,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPhone/UserDetailViewController_iPhone.h</string>
+						<string key="minorKey">iPhone/Controllers/UserDetailViewController_iPhone.h</string>
 					</object>
 				</object>
 			</object>
@@ -1735,7 +1821,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../BioMonitor.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../../BioMonitor.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<bool key="EncodedWithXMLCoder">YES</bool>

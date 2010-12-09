@@ -20,22 +20,16 @@
 
 -(void) postFetchActions {  
   [services release];
-  services = [[servicesData objectForKey:JSONResultsElement] retain];
+  services = [[paginationController lastFetchedServices] retain];
   
   [detailViewController stopLoadingAnimation];
 
-  fetching = NO;
   [[self tableView] reloadData];
 } // postFetchActions
 
 -(void) performServiceFetch {  
   [detailViewController startLoadingAnimation];
-  [paginationController performServiceFetchForPage:&currentPage
-                                          lastPage:&lastPage
-                                          progress:&fetching
-                                       resultsData:&servicesData
-                                performingSelector:@selector(postFetchActions)
-                                          onTarget:self];
+  [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
   [paginationController updateServicePaginationButtons];
 } // performServiceFetch
 
@@ -62,11 +56,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (fetching || [services count] == 0) {
-    return 1;
-  } else {
-    return [services count];
-  }
+  return [services count];
 } // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
@@ -76,7 +66,8 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                   reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...  
@@ -85,8 +76,8 @@
   cell.textLabel.text = [service objectForKey:JSONNameElement];
   cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:service];
   
-  NSURL *imageURL = [NSURL URLWithString:
-                     [[service objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
+  NSURL *imageURL = [NSURL URLWithString:[[service objectForKey:JSONLatestMonitoringStatusElement] 
+                                          objectForKey:JSONSmallSymbolElement]];
   cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
   
   return cell;
@@ -98,7 +89,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   if ([detailViewController isCurrentlyBusy]) {
-    [tableView selectRowAtIndexPath:lastSelection animated:YES scrollPosition:UITableViewScrollPositionNone];
+    [tableView selectRowAtIndexPath:lastSelection animated:YES 
+                     scrollPosition:UITableViewScrollPositionNone];
     return;
   }
   

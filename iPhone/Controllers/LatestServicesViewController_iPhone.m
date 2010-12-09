@@ -11,8 +11,7 @@
 
 @implementation LatestServicesViewController_iPhone
 
-@synthesize detailViewController, navigationController;
-@synthesize paginationController;
+@synthesize detailViewController, paginationController;
 
 
 #pragma mark -
@@ -29,23 +28,16 @@
 } // stopLoadingAnimation
 
 -(void) postFetchActions {  
-  [myTableView setTableHeaderView:nil];
-  
   [services release];
-  services = [[servicesData objectForKey:JSONResultsElement] retain];
+  services = [[paginationController lastFetchedServices] retain];
   
-  fetching = NO;
-  [myTableView reloadData];
   [self stopLoadingAnimation];
+
+  [myTableView reloadData];
 } // postFetchActions
 
 -(void) performServiceFetch {
-  [paginationController performServiceFetchForPage:&currentPage
-                                          lastPage:&lastPage
-                                          progress:&fetching
-                                       resultsData:&servicesData
-                                performingSelector:@selector(postFetchActions)
-                                          onTarget:self];
+  [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
   [paginationController updateServicePaginationButtons];
 } // performServiceFetch
 
@@ -68,11 +60,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (fetching) {
-    return 1;
-  } else {
-    return [services count];
-  }
+  return [services count];
 } // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
@@ -82,7 +70,8 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
+                                   reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
@@ -92,8 +81,8 @@
   cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:service];
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   
-  NSURL *imageURL = [NSURL URLWithString:
-                     [[service objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
+  NSURL *imageURL = [NSURL URLWithString:[[service objectForKey:JSONLatestMonitoringStatusElement] 
+                                          objectForKey:JSONSmallSymbolElement]];
   cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];
   
   return cell;
@@ -121,7 +110,6 @@
   [activityIndicator release];
   
   [detailViewController release];
-  [navigationController release];
   
   [paginationController release];
 } // releaseIBOutlets
@@ -139,8 +127,6 @@
 } // viewDidLoad
 
 - (void)dealloc {
-  
-  [servicesData release];
   [services release];
   
   [self releaseIBOutlets];
