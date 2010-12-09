@@ -15,18 +15,13 @@
 #import "ProviderDetailViewController_iPhone.h"
 #import "MonitoringStatusViewController.h"
 #import "ServiceComponentsViewController.h"
+#import "UIContentController.h"
 
 
 @interface ServiceDetailViewController_iPhone : UIViewController {
   IBOutlet UITableView *myTableView;
-  
-  IBOutlet UILabel *nameLabel;
-  IBOutlet UITextView *descriptionLabel;
-  IBOutlet UILabel *providerNameLabel;
-  IBOutlet UILabel *submitterNameLabel;
-  IBOutlet UILabel *componentsLabel;
-  IBOutlet UIButton *showComponentsButton;
-  
+  IBOutlet UIContentController *uiContentController;
+    
   NSDictionary *serviceListingProperties;
   NSDictionary *serviceProperties;
   NSDictionary *submitterProperties;

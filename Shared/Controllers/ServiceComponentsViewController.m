@@ -27,26 +27,22 @@
     serviceComponents = [[properties objectForKey:JSONOperationsElement] retain];
   }  
 
-  fetching = NO;
-  
   [myTableView reloadData];
-  [myTableView setTableHeaderView:nil];
 } // updateWithProperties
 
 -(void) fetchServiceComponents:(NSString *)fromPath {  
   if (![lastUsedPath isEqualToString:fromPath]) {
-    fetching = YES;
+    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
 
     [lastUsedPath release];
     lastUsedPath = [[NSString stringWithString:fromPath] retain];
 
     serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
     
-    [myTableView reloadData];
     [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
-  }
   
-  if ([[UIDevice currentDevice] isIPadDevice]) [iPadDetailViewController stopLoadingAnimation];
+    [activityIndicator stopAnimating];
+  }
 } // fetchServiceComponents
 
 
@@ -62,7 +58,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return (fetching || [serviceComponents count] == 0 ? 1 : [serviceComponents count]);
+  return [serviceComponents count];
 } // tableView:numberOfRowsInSection
 
 
@@ -73,21 +69,19 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                    reuseIdentifier:CellIdentifier] autorelease];
   }
     
   // Configure the cell...
-  if (fetching) {
-    cell.textLabel.text = DefaultLoadingText;
-    cell.imageView.image = nil;
-    return cell;
-  }
-
   if (serviceIsREST) {
     cell.textLabel.text = [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONEndpointLabelElement];
+    NSString *name = [NSString stringWithFormat:@"%@", 
+                      [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONNameElement]];
+    cell.detailTextLabel.text = ([name isValidJSONValue] ? name : nil);
   } else {
     cell.textLabel.text = [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
+    cell.detailTextLabel.text = nil;
   }
   
   return cell;
@@ -98,7 +92,8 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONResourceElement]];
+  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:indexPath.row] 
+                                     objectForKey:JSONResourceElement]];
   
   if ([[UIDevice currentDevice] isIPadDevice]) {
     [iPadDetailViewController showResourceInBioCatalogue:url];
@@ -120,7 +115,8 @@
 -(void) releaseIBOutlets {
   [iPadDetailViewController release];
   [iPhoneWebViewController release];
-  
+
+  [activityIndicator release];
   [myTableView release]; 
 } // releaseIBOutlets
 

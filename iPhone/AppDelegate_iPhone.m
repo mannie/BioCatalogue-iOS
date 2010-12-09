@@ -8,17 +8,21 @@
 
 #import "AppDelegate_iPhone.h"
 
+
 @implementation AppDelegate_iPhone
 
 @synthesize tabBarController;
+
+
++(void) initialize {
+  ItemsPerPage = iPhoneItemsPerPage;
+} // initialize
 
 
 #pragma mark -
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-  ItemsPerPage = iPhoneItemsPerPage;
-  
   if ([super applicationStartConditionsMet]) {  
     [window addSubview:tabBarController.view];
     [window makeKeyAndVisible];

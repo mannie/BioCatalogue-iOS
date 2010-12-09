@@ -18,49 +18,28 @@
 #pragma mark Helpers
 
 -(void) preFetchActions:(NSDictionary *)properties {
-  nameLabel.text = [properties objectForKey:JSONNameElement];
-    
+  [uiContentController updateServiceUIElementsWithProperties:properties
+                                                providerName:nil 
+                                               submitterName:nil
+                                             showLoadingText:YES];
+  
   // monitoring details
   NSString *lastChecked = [NSString stringWithFormat:@"%@", 
-                           [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement]];
+                           [[properties objectForKey:JSONLatestMonitoringStatusElement] 
+                            objectForKey:JSONLastCheckedElement]];
   monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
-  
-  providerNameLabel.text = DefaultLoadingText;
-  submitterNameLabel.text = DefaultLoadingText;
-  
-  NSString *detailItem = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
-  descriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoDescriptionText);
-  
-  // service components
-  BioCatalogueClient *client = [BioCatalogueClient client];
-  BOOL isREST = [client serviceIsREST:properties];
-  BOOL isSOAP = [client serviceIsSOAP:properties];
-  
-  if (isREST) {
-    componentsLabel.text = RESTComponentsText;
-  } else if (isSOAP) {
-    componentsLabel.text = SOAPComponentsText;
-  } else {
-    componentsLabel.text = [client serviceType:properties];
-  }
-  
-  showComponentsButton.hidden = !isREST && !isSOAP;
   
   [self.view setNeedsDisplay];  
 } // preFetchActions
 
--(void) postFetchActions {
-  nameLabel.text = [serviceListingProperties objectForKey:JSONNameElement];
+-(void) postFetchActions {  
+  NSString *provider = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+                         objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
   
-  // provider details
-  NSString *detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
-                           objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-  providerNameLabel.text = detailItem;
-  
-  submitterNameLabel.text = [submitterProperties objectForKey:JSONNameElement];
-  
-  detailItem = [NSString stringWithFormat:@"%@", [serviceListingProperties objectForKey:JSONDescriptionElement]];
-  descriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoDescriptionText);
+  [uiContentController updateServiceUIElementsWithProperties:nil
+                                                providerName:provider
+                                               submitterName:[submitterProperties objectForKey:JSONNameElement]
+                                             showLoadingText:NO];
   
   [self.view setNeedsDisplay];  
 } // postFetchActions
@@ -163,19 +142,14 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
+  [uiContentController release];
+  
   [userDetailViewController release];
   [providerDetailViewController release];  
   [monitoringStatusViewController release];
   [serviceComponentsViewController release];
   
   [myTableView release];
-  
-  [nameLabel release];
-  [descriptionLabel release];
-  [providerNameLabel release];
-  [submitterNameLabel release];
-  [componentsLabel release];
-  [showComponentsButton release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

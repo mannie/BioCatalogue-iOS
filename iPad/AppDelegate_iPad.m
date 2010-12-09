@@ -8,17 +8,21 @@
 
 #import "AppDelegate_iPad.h"
 
+
 @implementation AppDelegate_iPad
 
 @synthesize splitViewController;
 
 
++(void) initialize {
+  ItemsPerPage = iPadItemsPerPage;  
+} // initialize
+
+
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-  ItemsPerPage = iPadItemsPerPage;
-  
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {      
   if ([super applicationStartConditionsMet]) {
     [window addSubview:splitViewController.view];
     [window makeKeyAndVisible];

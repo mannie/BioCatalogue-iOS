@@ -15,6 +15,7 @@
 
 #import "MonitoringStatusViewController.h"
 #import "ServiceComponentsViewController.h"
+#import "UIContentController.h"
 
 
 @interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
@@ -22,6 +23,7 @@
   UIPopoverController *contextualPopoverController;
   
   IBOutlet GestureHandler_iPad *gestureHandler;
+  IBOutlet UIContentController *uiContentController;
   
   NSDictionary *listingProperties;
   NSDictionary *serviceProperties;
@@ -54,40 +56,21 @@
   
   // the service view
   BOOL monitoringStatusInformationAvailable;
-
+  IBOutlet UILabel *serviceName;
   IBOutlet UIView *serviceDetailView;
   
-  IBOutlet UILabel *serviceNameLabel;
-  IBOutlet UITextView *serviceDescriptionLabel;
-  IBOutlet UILabel *serviceProviderNameLabel;
-  IBOutlet UILabel *serviceSubmitterNameLabel;
-  
-  IBOutlet UILabel *componentsLabel;
-  IBOutlet UIButton *showComponentsButton;
-  ServiceComponentsViewController *serviceComponentsViewController;
-  
+  ServiceComponentsViewController *serviceComponentsViewController;  
   MonitoringStatusViewController *monitoringStatusViewController;
-  IBOutlet UIImageView *monitoringStatusIcon;
 
   // the user view
   IBOutlet UIView *userDetailView;
   IBOutlet UIView *userIDCard;
   IBOutlet UIView *userIDCardContainer;
   
-  IBOutlet UILabel *userNameLabel;
-  IBOutlet UILabel *userAffiliationLabel;
-  IBOutlet UILabel *userCountryLabel;
-  IBOutlet UILabel *userCityLabel;
-  IBOutlet UILabel *userEmailLabel;
-  IBOutlet UILabel *userJoinedLabel;
-
   // the provider view
   IBOutlet UIView *providerDetailView;
   IBOutlet UIView *providerIDCard;
   IBOutlet UIView *providerIDCardContainer;
-
-  IBOutlet UILabel *providerNameLabel;
-  IBOutlet UITextView *providerDescriptionLabel;
 }
 
 @property (nonatomic, retain) IBOutlet MonitoringStatusViewController *monitoringStatusViewController;

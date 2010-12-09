@@ -10,21 +10,17 @@
 
 #import "JSON+Helper.h"
 
-@class DetailViewController_iPad;
-
 
 @interface MonitoringStatusViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
   NSDictionary *monitoringProperties;
   NSArray *monitoringStatuses;
   
   IBOutlet UITableView *myTableView;
-  
-  IBOutlet id detailViewController;
+    
+  IBOutlet UIActivityIndicatorView *activityIndicator;
   
   NSString *lastUsedPath;
-  
-  BOOL fetching;
-  
+    
   NSDateFormatter *dateFormatter;
 }
 

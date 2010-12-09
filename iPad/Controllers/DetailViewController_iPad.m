@@ -57,11 +57,11 @@
 } // webActivityWatcher
 
 -(void) startLoadingAnimation {
-  [UIView startLoadingAnimation:activityIndicator dimmingView:serviceNameLabel];
+  [UIView startLoadingAnimation:activityIndicator dimmingView:serviceName];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
-  [UIView stopLoadingAnimation:activityIndicator undimmingView:serviceNameLabel];
+  [UIView stopLoadingAnimation:activityIndicator undimmingView:serviceName];
 } // stopLoadingAnimation
 
 -(void) setContentView:(UIView *)subView forParentView:(UIView *)parentView {  
@@ -92,52 +92,28 @@
 #pragma mark Managing loading resources into the view
 
 -(void) preUpdateWithPropertiesActions:(NSDictionary *)properties {
-  serviceNameLabel.text = [properties objectForKey:JSONNameElement];
-
-  NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
-  serviceDescriptionLabel.text = ([description isValidJSONValue] ? description : NoDescriptionText);
-
-  serviceProviderNameLabel.text = DefaultLoadingText;
-  serviceSubmitterNameLabel.text = DefaultLoadingText;
+  [uiContentController updateServiceUIElementsWithProperties:properties
+                                                providerName:nil 
+                                               submitterName:nil
+                                             showLoadingText:YES];
   
   // monitoring details
   NSString *lastChecked = [NSString stringWithFormat:@"%@", 
                            [[properties objectForKey:JSONLatestMonitoringStatusElement] 
                             objectForKey:JSONLastCheckedElement]];
   monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
-
-  NSURL *imageURL = [NSURL URLWithString:
-                     [[properties objectForKey:JSONLatestMonitoringStatusElement] 
-                      objectForKey:JSONSmallSymbolElement]];
-  monitoringStatusIcon.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
-
-  // service components
-  BioCatalogueClient *client = [BioCatalogueClient client];
-  BOOL isREST = [client serviceIsREST:properties];
-  BOOL isSOAP = [client serviceIsSOAP:properties];
-  
-  if (isREST) {
-    componentsLabel.text = RESTComponentsText;
-  } else if (isSOAP) {
-    componentsLabel.text = SOAPComponentsText;
-  } else {
-    componentsLabel.text = [client serviceType:properties];
-  }
-  
-  showComponentsButton.hidden = !isREST && !isSOAP;    
   
   [self.view setNeedsDisplay];  
 } // preUpdateWithPropertiesActions
 
 -(void) postUpdateWithPropertiesActions {
-  serviceNameLabel.text = [listingProperties objectForKey:JSONNameElement];
+  NSString *provider = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
+                         objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
 
-  // provider details
-  NSString *detailItem = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
-                           objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-  serviceProviderNameLabel.text = detailItem;
-  
-  serviceSubmitterNameLabel.text = [userProperties objectForKey:JSONNameElement];
+  [uiContentController updateServiceUIElementsWithProperties:nil
+                                                providerName:provider
+                                               submitterName:[userProperties objectForKey:JSONNameElement]
+                                             showLoadingText:NO];
   
   [self.view setNeedsDisplay];  
   [self stopLoadingAnimation];
@@ -152,7 +128,6 @@
   
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   
-  NSString *detailItem;
   if ([scope isEqualToString:ServicesSearchScope]) {
     [self performSelectorOnMainThread:@selector(preUpdateWithPropertiesActions:) 
                            withObject:properties
@@ -166,38 +141,19 @@
     NSURL *userURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
     userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] retain];
 
-    [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActions) withObject:nil waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActions)
+                           withObject:nil
+                        waitUntilDone:NO];
   } else if ([scope isEqualToString:UsersSearchScope]) {
     [userProperties release];
     userProperties = [properties retain];
     
-    userNameLabel.text = [userProperties objectForKey:JSONNameElement];
-    
-    detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
-    userAffiliationLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-    
-    detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCountryElement]];
-    userCountryLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-    
-    detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCityElement]];
-    userCityLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-    
-    detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
-    userEmailLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-    
-    detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONJoinedElement]];
-    userJoinedLabel.text = detailItem;
-    if ([detailItem length] > 10) {
-      userJoinedLabel.text = [detailItem stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
-    }
+    [uiContentController updateUserProviderUIElementsWithProperties:properties];
   } else {
     [providerProperties release];
     providerProperties = [properties retain];
     
-    providerNameLabel.text = [providerProperties objectForKey:JSONNameElement];
-    
-    detailItem = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
-    providerDescriptionLabel.text = ([detailItem isValidJSONValue] ? detailItem : NoInformationText);
+    [uiContentController updateProviderUIElementsWithProperties:properties];
   }
   
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
@@ -274,8 +230,6 @@
 
 -(void) showMonitoringStatusInfo:(id)sender {
   if (monitoringStatusInformationAvailable) {
-    [self startLoadingAnimation];
-    
     NSURL *serviceURL = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
     NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
     
@@ -287,7 +241,7 @@
                                intoView:serviceDetailView
                      withViewController:monitoringStatusViewController
                       withArrowFromRect:[sender frame]
-                               withSize:CGSizeMake(460, 230)];
+                               withSize:CGSizeMake(400, 220)];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
                                                     message:@"No monitoring information is available for this service." 
@@ -300,8 +254,6 @@
 }
 
 -(void) showServiceComponents:(id)sender {
-  [self startLoadingAnimation];
-  
   NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
                                             objectForKey:JSONResourceElement]];
   NSString *path;
@@ -319,7 +271,7 @@
                              intoView:serviceDetailView
                    withViewController:serviceComponentsViewController
                     withArrowFromRect:[sender frame]
-                             withSize:CGSizeMake(500, 460)];
+                             withSize:CGSizeMake(500, 440)];
 }
 
 -(void) dismissAuxiliaryDetailPanel:(id)sender {
@@ -426,7 +378,6 @@
     } else {
       [self setContentView:defaultView forParentView:mainContentView];
     }
-
     
     UIGestureRecognizer *recognizer;
     
@@ -498,41 +449,23 @@
   
   // service view outlets
   [serviceDetailView release];
-  
-  [serviceNameLabel release];
-  [serviceDescriptionLabel release];
-  [serviceProviderNameLabel release];
-  [serviceSubmitterNameLabel release];
-  
-  [componentsLabel release];
-  [showComponentsButton release];
   [serviceComponentsViewController release];
+  [serviceName release];
   
   // user view outlets  
   [userDetailView release];
   [userIDCard release];
   [userIDCardContainer release];
-  
-  [userNameLabel release];
-  [userAffiliationLabel release];
-  [userCountryLabel release];
-  [userCityLabel release];
-  [userEmailLabel release];
-  [userJoinedLabel release];
-  
-  
+    
   // provider view outlets
   [providerDetailView release];
   [providerIDCard release];
   [providerIDCardContainer release];
-  
-  [providerNameLabel release];
-  [providerDescriptionLabel release];
-  
+    
   // other outlets
   [gestureHandler release];
   [monitoringStatusViewController release];
-  [monitoringStatusIcon release];
+  [uiContentController release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

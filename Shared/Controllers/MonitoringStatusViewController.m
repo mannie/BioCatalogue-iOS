@@ -22,24 +22,21 @@
   
   [monitoringStatuses release];
   monitoringStatuses = [[properties objectForKey:JSONServiceTestsElement] retain];
-  
-  fetching = NO;
 
   [myTableView reloadData];
-  [myTableView setTableHeaderView:nil];
 } // updateWithProperties
 
 -(void) fetchMonitoringStatusInfo:(NSString *)fromPath {
   if (![lastUsedPath isEqualToString:fromPath]) {
-    fetching = YES;
-
+    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+    
     [lastUsedPath release];
     lastUsedPath = [fromPath retain];
     
     [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
+
+    [activityIndicator stopAnimating];
   }
-  
-  if ([[UIDevice currentDevice] isIPadDevice]) [detailViewController stopLoadingAnimation];
 } // fetchMonitoringStatusInfo
 
 
@@ -60,7 +57,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return (fetching ? 1 : [monitoringStatuses count]);
+  return [monitoringStatuses count];
 } // tableView:numberOfRowsInSection
 
 
@@ -76,12 +73,6 @@
   }
   
   // Configure the cell...
-  if (fetching) {
-    cell.textLabel.text = DefaultLoadingText;
-    cell.imageView.image = nil;
-    return cell;
-  }
-  
   id status = [[monitoringStatuses objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
 
   NSArray *date = [[[dateFormatter dateFromString:[status objectForKey:JSONLastCheckedElement]] description] 
@@ -121,7 +112,7 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [detailViewController release];
+  [activityIndicator release];
   
   [myTableView release]; 
 } // releaseIBOutlets

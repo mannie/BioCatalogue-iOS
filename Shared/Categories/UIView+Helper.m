@@ -12,6 +12,9 @@
 @implementation UIView (Helper)
 
 
+#pragma mark -
+#pragma mark Helpers
+
 float loadingAnimationDuration = 0.5;
 
 +(void) setUpForAnimation {
@@ -19,6 +22,10 @@ float loadingAnimationDuration = 0.5;
   [UIView setAnimationDuration:loadingAnimationDuration];
   [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];  
 }
+
+
+#pragma mark -
+#pragma mark Class Methods
 
 +(void) startLoadingAnimation:(UIActivityIndicatorView *)activityIndicator dimmingViews:(NSArray *)views {
   [activityIndicator startAnimating];
@@ -55,5 +62,18 @@ float loadingAnimationDuration = 0.5;
   view.alpha = 1;
   [UIView commitAnimations];  
 }
+
+
+
+
+
+
+#pragma mark -
+#pragma mark Memory Management
+
+-(void) dealloc {
+  
+} // dealloc
+
 
 @end

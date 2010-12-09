@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate_Shared.h"
 
+#import "AppConstants.h"
+
+
 @interface AppDelegate_iPhone : AppDelegate_Shared {
   UITabBarController *tabBarController;
 }

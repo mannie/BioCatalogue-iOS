@@ -23,12 +23,12 @@
   IBOutlet DetailViewController_iPad *iPadDetailViewController;
 
   IBOutlet UIViewController *iPhoneWebViewController;
-  
+
+  IBOutlet UIActivityIndicatorView *activityIndicator;
+
   BOOL serviceIsREST;
   
   NSString *lastUsedPath;
-  
-  BOOL fetching;
 }
 
 -(void) fetchServiceComponents:(NSString *)fromPath;
