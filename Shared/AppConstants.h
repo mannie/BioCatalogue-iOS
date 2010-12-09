@@ -90,11 +90,6 @@ extern NSUInteger const ServicesSearchScopeIndex;
 extern NSUInteger const UsersSearchScopeIndex;
 extern NSUInteger const ProvidersSearchScopeIndex;
 
-// Table view sections
-extern NSUInteger const PreviousPageButtonSection;
-extern NSUInteger const MainSection;
-extern NSUInteger const NextPageButtonSection;
-
 
 #pragma mark -
 #pragma mark NSUserDefaults

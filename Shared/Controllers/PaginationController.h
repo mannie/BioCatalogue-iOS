@@ -51,8 +51,5 @@
   id searchFetchTarget;
 }
 
--(IBAction) jumpToServicesPage:(UIButton *)sender;
-
-
 
 @end

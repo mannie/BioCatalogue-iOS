@@ -19,19 +19,10 @@
 @interface SearchViewController_iPad : UITableViewController <UISearchBarDelegate> {
   DetailViewController_iPad *detailViewController;
 
-  NSDictionary *searchResultsDocument;
   NSArray *searchResults;
   NSString *searchScope;
-  NSString *searchResultsScope;
-
-  int currentPage;
-  int lastPage;
-
-  IBOutlet UILabel *currentPageLabel;
   
   IBOutlet UISearchBar *mySearchBar;
-  
-  BOOL performingSearch;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *detailViewController;

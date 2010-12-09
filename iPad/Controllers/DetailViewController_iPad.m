@@ -91,7 +91,7 @@
 #pragma mark -
 #pragma mark Managing loading resources into the view
 
--(void) preUpdateWithPropertiesActions:(NSDictionary *)properties {
+-(void) preUpdateWithPropertiesActionsForServices:(NSDictionary *)properties {
   [uiContentController updateServiceUIElementsWithProperties:properties
                                                 providerName:nil 
                                                submitterName:nil
@@ -104,9 +104,9 @@
   monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
   
   [self.view setNeedsDisplay];  
-} // preUpdateWithPropertiesActions
+} // preUpdateWithPropertiesActionsForServices
 
--(void) postUpdateWithPropertiesActions {
+-(void) postUpdateWithPropertiesActionsForServices {
   NSString *provider = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
                          objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
 
@@ -114,10 +114,12 @@
                                                 providerName:provider
                                                submitterName:[userProperties objectForKey:JSONNameElement]
                                              showLoadingText:NO];
+
+  [self setContentView:serviceDetailView forParentView:mainContentView];
   
   [self.view setNeedsDisplay];  
   [self stopLoadingAnimation];
-} // postUpdateWithPropertiesActions
+} // postUpdateWithPropertiesActionsForServices
 
 -(void) updateWithProperties:(NSDictionary *)properties withScope:(NSString *)scope {
   controllerIsCurrentlyBusy = YES;
@@ -129,7 +131,7 @@
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   
   if ([scope isEqualToString:ServicesSearchScope]) {
-    [self performSelectorOnMainThread:@selector(preUpdateWithPropertiesActions:) 
+    [self performSelectorOnMainThread:@selector(preUpdateWithPropertiesActionsForServices:) 
                            withObject:properties
                         waitUntilDone:NO];
 
@@ -141,7 +143,7 @@
     NSURL *userURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
     userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] retain];
 
-    [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActions)
+    [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActionsForServices)
                            withObject:nil
                         waitUntilDone:NO];
   } else if ([scope isEqualToString:UsersSearchScope]) {
@@ -164,7 +166,6 @@
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
   [self updateWithProperties:properties withScope:ServicesSearchScope];
-  [self setContentView:serviceDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = ServicesSearchScope;
 } // updateWithPropertiesForServicesScope
 

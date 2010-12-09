@@ -21,33 +21,18 @@
 
 
 @interface SearchViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
-  UINavigationController *navigationController;
-  
-  NSDictionary *searchResultsDocument;
   NSArray *searchResults;
   NSString *searchScope;
-  NSString *searchResultsScope;
   
   ServiceDetailViewController_iPhone *serviceDetailViewController;
   UserDetailViewController_iPhone *userDetailViewController;
   ProviderDetailViewController_iPhone *providerDetailViewController;
-
-  int currentPage;
-  int lastPage;
-  
-  IBOutlet UIButton *previousPageButton;
-  IBOutlet UIButton *nextPageBarButton;
-  IBOutlet UILabel *currentPageLabel;
   
   IBOutlet UISearchBar *mySearchBar;
   IBOutlet UITableView *myTableView;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-
-  BOOL performingSearch;
 }
-
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *serviceDetailViewController;
 @property (nonatomic, retain) IBOutlet UserDetailViewController_iPhone *userDetailViewController;

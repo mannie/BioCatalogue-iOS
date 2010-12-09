@@ -19,38 +19,40 @@
 
 -(void) postFetchActions {
   [searchResults release];
-  searchResults = [[searchResultsDocument objectForKey:JSONResultsElement] retain];
+  searchResults = [[paginationController lastSearchResults] retain];
   
-  currentPageLabel.text = (lastPage == 0 ? @"" : [NSString stringWithFormat:@"%i of %i", currentPage, lastPage]);
-  
-  performingSearch = NO;
   [[self tableView] reloadData];
+
   [detailViewController stopLoadingAnimation];
 } // postFetchActions
 
 -(void) performSearch {
-  searchResultsScope = searchScope;
+  [searchResults release];
+  searchResults = [[NSArray array] retain];
+  
+  [detailViewController performSelectorOnMainThread:@selector(startLoadingAnimation)
+                                         withObject:nil
+                                      waitUntilDone:NO];
+  
   [paginationController performSearch:mySearchBar.text
                             withScope:searchScope
-                              forPage:&currentPage
-                             lastPage:&lastPage
-                             progress:&performingSearch
-                          resultsData:&searchResultsDocument
+                                 page:1
                    performingSelector:@selector(postFetchActions)
                              onTarget:self];
+  
+  [paginationController updateSearchPaginationButtons];
 } // performSearch
- 
+
 
 #pragma mark -
 #pragma mark View lifecycle
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-
+  
   [self searchBarCancelButtonClicked:mySearchBar];
-
+  
   searchScope = ServicesSearchScope;
-  currentPageLabel.text = @"";
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -61,20 +63,8 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  if (performingSearch || [searchResults count] == 0) {
-    return 1;
-  } else {
-    return 3;
-  }
-} // numberOfSectionsInTableView
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (!performingSearch && section == MainSection) {
-    return [searchResults count];
-  } else {
-    return 1;
-  }
+  return [searchResults count];
 } // tableView:numberOfRowsInSection
 
 
@@ -85,71 +75,39 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle 
+                                   reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
-  if (performingSearch || [searchResults count] == 0) {
+  if ([searchResults count] == 0) {
     cell.textLabel.text = nil;
     cell.imageView.image = nil;
+    cell.detailTextLabel.text = nil;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    if (performingSearch) {
-      cell.detailTextLabel.text = @"Searching, Please Wait...";
-    } else {
-      NSString *searchQuery = [searchResultsDocument objectForKey:JSONSearchQueryElement];
-      cell.detailTextLabel.text = (searchResults == nil ?
-                                   @"No search has been performed yet" : 
-                                   [NSString stringWithFormat:@"No %@ containing '%@'", searchScope, searchQuery]);
-    }
     
     return cell;
   }
   
-  if (indexPath.section == MainSection) {
-    id listing  = [searchResults objectAtIndex:indexPath.row];
+  id listing  = [searchResults objectAtIndex:indexPath.row];
+  
+  cell.textLabel.text = [listing objectForKey:JSONNameElement];
+  
+  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
+    cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
     
-    cell.textLabel.text = [listing objectForKey:JSONNameElement];
+    NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement]
+                                            objectForKey:JSONSmallSymbolElement]];
+    cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
+  } else {
+    cell.detailTextLabel.text = nil;
     
-    if (searchResultsScope == ServicesSearchScope) {
-      cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
-      
-      NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSmallSymbolElement]];
-      cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
+    if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
+      cell.imageView.image = [UIImage imageNamed:UserIconFull];
     } else {
-      cell.detailTextLabel.text = nil;
-      
-      if (searchResultsScope == UsersSearchScope) {
-        cell.imageView.image = [UIImage imageNamed:UserIconFull];
-      } else {
-        cell.imageView.image = [UIImage imageNamed:ProviderIconFull];
-      }
+      cell.imageView.image = [UIImage imageNamed:ProviderIconFull];
     }
-  } else {    
-    cell.imageView.image = nil;
-    
-    if (indexPath.section == PreviousPageButtonSection) {
-      if (currentPage == 1) {
-        cell.textLabel.text = nil;
-        cell.detailTextLabel.text = @"Show Previous Page...";
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-      } else {
-        cell.detailTextLabel.text = nil;
-        cell.textLabel.text = @"Show Previous Page...";
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-      }
-    } else {
-      if (currentPage == lastPage) { 
-        cell.textLabel.text = nil;
-        cell.detailTextLabel.text = @"Show Next Page...";
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-      } else {
-        cell.detailTextLabel.text = nil;
-        cell.textLabel.text = @"Show Next Page...";
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-      }
-    } // if else previous page button
-  } // if else main section
+  } // if else searchscope == services
   
   return cell;
 } // tableView:cellForRowAtIndexPath
@@ -161,35 +119,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [detailViewController dismissAuxiliaryDetailPanel:self];
   
-  if (indexPath.section == MainSection) {    
-    NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
-    
-    if (searchResultsScope == ServicesSearchScope) {
-      [detailViewController startLoadingAnimation];
-      [NSOperationQueue addToMainQueueSelector:@selector(updateWithPropertiesForServicesScope:)
-                                      toTarget:detailViewController
-                                    withObject:listing];
-    } else if (searchResultsScope == UsersSearchScope) {
-      [detailViewController updateWithPropertiesForUsersScope:listing];
-    } else {
-      [detailViewController updateWithPropertiesForProvidersScope:listing];
-    }
+  NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
+  
+  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
+    [detailViewController startLoadingAnimation];
+    [NSOperationQueue addToNewQueueSelector:@selector(updateWithPropertiesForServicesScope:)
+                                   toTarget:detailViewController
+                                 withObject:listing];
+  } else if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
+    [detailViewController updateWithPropertiesForUsersScope:listing];
   } else {
-    if (indexPath.section == PreviousPageButtonSection && currentPage != 1) {
-      [detailViewController startLoadingAnimation];
-      [NSOperationQueue addToNewQueueSelector:@selector(loadSearchResultsForPreviousPage)
-                                      toTarget:paginationController
-                                    withObject:nil];
-    } 
-    
-    if (indexPath.section == NextPageButtonSection && currentPage != lastPage) {
-      [detailViewController startLoadingAnimation];
-      [NSOperationQueue addToNewQueueSelector:@selector(loadSearchResultsForNextPage) 
-                                      toTarget:paginationController 
-                                    withObject:nil];
-    }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [detailViewController updateWithPropertiesForProvidersScope:listing];
   }
 } // tableView:didSelectRowAtIndexPath
 
@@ -222,9 +162,6 @@
 } // searchBarCancelButtonClicked
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-  currentPage = 1;
-
-  [detailViewController startLoadingAnimation];
   [self searchBarShouldEndEditing:mySearchBar];
   
   [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
@@ -250,7 +187,6 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [currentPageLabel release];
   [mySearchBar release];
   [detailViewController release];
   [paginationController release];

@@ -33,16 +33,17 @@
 -(NSArray *) searchPaginationButtons;
 -(void) updateSearchPaginationButtons;
 
+-(BOOL) isCurrentlyPerformingSearch;
+
+-(NSArray *) lastSearchResults;
+-(NSString *) lastSearchQuery;
+-(NSString *) lastSearchScope;
+
 -(void) performSearch:(NSString *)query 
             withScope:(NSString *)scope 
                  page:(int)page
    performingSelector:(SEL)postFetchActions
              onTarget:(id)target;
-
--(NSArray *) lastSearchResults;
--(NSString *) lastSearchScopeUsed;
-
--(BOOL) isCurrentlyPerformingSearch;
 
 
 @end

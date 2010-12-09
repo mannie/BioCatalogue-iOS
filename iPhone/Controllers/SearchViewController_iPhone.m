@@ -11,7 +11,6 @@
 
 @implementation SearchViewController_iPhone
 
-@synthesize navigationController;
 @synthesize serviceDetailViewController, userDetailViewController, providerDetailViewController;
 @synthesize paginationController;
 
@@ -20,40 +19,37 @@
 #pragma mark Helpers
 
 -(void) startLoadingAnimation {
-  [UIView startLoadingAnimation:activityIndicator dimmingView:currentPageLabel];
+  [activityIndicator startAnimating];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
-  [UIView stopLoadingAnimation:activityIndicator undimmingView:currentPageLabel];
+  [activityIndicator stopAnimating];
 } // stopLoadingAnimation
 
 -(void) postFetchActions {
   [searchResults release];
-  searchResults = [[searchResultsDocument objectForKey:JSONResultsElement] retain];
-  
-  currentPageLabel.hidden = NO;
-  currentPageLabel.text = [NSString stringWithFormat:@"%i of %i", currentPage, lastPage];
-  
-  previousPageButton.hidden = currentPage == 1;
-  nextPageBarButton.hidden = currentPage == lastPage;
+  searchResults = [[paginationController lastSearchResults] retain];
   
   [self stopLoadingAnimation];
-  performingSearch = NO;
   
   [myTableView reloadData];
 } // postFetchActions
 
 -(void) performSearch {
-  [searchResultsScope release];
-  searchResultsScope = [[NSString stringWithString:searchScope] retain];
+  [searchResults release];
+  searchResults = [[NSArray array] retain];
+  
+  [activityIndicator performSelectorOnMainThread:@selector(startAnimating)
+                                      withObject:nil
+                                   waitUntilDone:NO];
+  
   [paginationController performSearch:mySearchBar.text
-                            withScope:searchResultsScope
-                              forPage:&currentPage
-                             lastPage:&lastPage
-                             progress:&performingSearch
-                          resultsData:&searchResultsDocument
+                            withScope:searchScope
+                                 page:1
                    performingSelector:@selector(postFetchActions)
                              onTarget:self];
+  
+  [paginationController updateSearchPaginationButtons];
 } // performSearch
 
 
@@ -64,12 +60,8 @@
   [super viewDidLoad];
   
   searchScope = ServicesSearchScope;
-  
-  currentPageLabel.hidden = YES;
-  previousPageButton.hidden = YES;
-  nextPageBarButton.hidden = YES;
-  
-  [self stopLoadingAnimation];
+
+  [activityIndicator stopAnimating];
 } // viewDidLoad
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -86,10 +78,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (performingSearch || [searchResults count] == 0)
-    return 1;
-  else
-    return [searchResults count];
+  return [searchResults count];
 } // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
@@ -104,20 +93,11 @@
   }
   
   // Configure the cell...
-  if (performingSearch || [searchResults count] == 0) {
+  if ([searchResults count] == 0) {
     cell.textLabel.text = nil;
     cell.imageView.image = nil;
-    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.detailTextLabel.text = nil;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    if (performingSearch) {
-      cell.detailTextLabel.text = @"Searching, Please Wait...";
-    } else {
-      NSString *searchQuery = [searchResultsDocument objectForKey:JSONSearchQueryElement];    
-      cell.detailTextLabel.text = (searchResultsDocument == nil ?
-                                   @"No search has been performed yet" : 
-                                   [NSString stringWithFormat:@"No %@ containing '%@'", searchScope, searchQuery]);      
-    }
     
     return cell;
   }
@@ -127,7 +107,7 @@
   cell.textLabel.text = [listing objectForKey:JSONNameElement];
   cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
   
-  if (searchResultsScope == ServicesSearchScope) {
+  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
     cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
     
     NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement]
@@ -136,7 +116,7 @@
   } else {
     cell.detailTextLabel.text = nil;
     
-    if (searchResultsScope == UsersSearchScope) {
+    if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
       cell.imageView.image = [UIImage imageNamed:UserIcon];
     } else {
       cell.imageView.image = [UIImage imageNamed:ProviderIcon];
@@ -153,16 +133,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {  
   id detailViewController;
   
-  if (searchResultsScope == ServicesSearchScope)
+  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
     detailViewController = serviceDetailViewController;
-  else if (searchResultsScope == UsersSearchScope)
+  } else if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
     detailViewController = userDetailViewController;
-  else
+  } else {
     detailViewController = providerDetailViewController;
-  
-  [detailViewController loadView];
-  
-  if (searchResultsScope == ServicesSearchScope) {  
+  }
+    
+  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
     [NSOperationQueue addToMainQueueSelector:@selector(updateWithProperties:) 
                                     toTarget:detailViewController
                                   withObject:[searchResults objectAtIndex:indexPath.row]];
@@ -205,10 +184,9 @@
 } // searchBarCancelButtonClicked
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-  currentPage = 1;
+  [self searchBarShouldEndEditing:mySearchBar];
   
-  [self startLoadingAnimation];
-  [NSOperationQueue addToMainQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+  [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
   
   [searchBar resignFirstResponder];
 } // searchBarSearchButtonClicked
@@ -230,17 +208,11 @@
 #pragma mark -
 #pragma mark Memory management
 
--(void) releaseIBOutlets {
-  [previousPageButton release];
-  [nextPageBarButton release];
-  [currentPageLabel release];
-  
+-(void) releaseIBOutlets {  
   [mySearchBar release];
   [myTableView release];
   [activityIndicator release];
-  
-  [navigationController release];
-  
+    
   [serviceDetailViewController release];
   [userDetailViewController release];
   [providerDetailViewController release];
@@ -263,7 +235,6 @@
 - (void)dealloc {
   [self releaseIBOutlets];
   
-  [searchResultsDocument release];
   [searchResults release];
   
   [super dealloc];

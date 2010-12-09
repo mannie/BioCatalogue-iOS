@@ -19,12 +19,10 @@
 
 -(void) startLoadingAnimation {
   [activityIndicator startAnimating];
-  //[UIView startLoadingAnimation:activityIndicator dimmingView:nil];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
   [activityIndicator stopAnimating];
-  //[UIView stopLoadingAnimation:activityIndicator undimmingView:nil];
 } // stopLoadingAnimation
 
 -(void) postFetchActions {  

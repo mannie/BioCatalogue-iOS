@@ -23,7 +23,7 @@
   services = [[paginationController lastFetchedServices] retain];
   
   [detailViewController stopLoadingAnimation];
-
+  
   [[self tableView] reloadData];
 } // postFetchActions
 
@@ -100,9 +100,9 @@
   
   [detailViewController startLoadingAnimation];
   [NSOperationQueue addToNewQueueSelector:@selector(updateWithPropertiesForServicesScope:)
-                                  toTarget:detailViewController
-                                withObject:listing];
-
+                                 toTarget:detailViewController
+                               withObject:listing];
+  
   [lastSelection release];
   lastSelection = [indexPath retain];
 } // tableView:didSelectRowAtIndexPath

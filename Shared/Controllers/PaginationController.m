@@ -14,6 +14,25 @@
 
 
 #pragma mark -
+#pragma mark Helpers 
+
+-(void) customizeButton:(UIButton *)button 
+                forPage:(int)pageNum
+             withAction:(SEL)action
+            currentPage:(int)currentPage {
+  [button setTitle:[NSString stringWithFormat:@"%i", pageNum] forState:UIControlStateNormal];
+  
+  [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+  [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
+  
+  [button setEnabled:currentPage != pageNum];
+  [button setHidden:NO];
+  
+  [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
+} // customizeButton:forPage:withAction:currentPage
+
+
+#pragma mark -
 #pragma mark Browsing Services
 
 -(NSArray *) servicePaginationButtons {
@@ -34,17 +53,10 @@
   
   NSArray *buttons = [self servicePaginationButtons];
   for (int i = 0; i < [buttons count]; i++) {
-    int thisPageNumber = firstPageNumber + i;
-    
-    UIButton *button = [buttons objectAtIndex:i];
-    
-    [button setTitle:[NSString stringWithFormat:@"%i", thisPageNumber] forState:UIControlStateNormal];
-    
-    [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateDisabled];
-    
-    [button setEnabled:serviceCurrentPage != thisPageNumber];
-    [button setHidden:NO];
+    [self customizeButton:[buttons objectAtIndex:i]
+                  forPage:firstPageNumber + i
+               withAction:@selector(jumpToServicesPage:) 
+              currentPage:serviceCurrentPage];
   }
 } // updateServicePaginationButtons
 
@@ -98,91 +110,130 @@
 } // jumpToServicesPage
 
 
-
-
-
-/*
-
-
 #pragma mark -
 #pragma mark Search
+
+-(NSArray *) searchPaginationButtons {
+  return [NSArray arrayWithObjects:searchPaginationButtonOne, searchPaginationButtonTwo,
+          searchPaginationButtonThree, searchPaginationButtonFour, searchPaginationButtonFive, 
+          searchPaginationButtonSix, searchPaginationButtonSeven, nil];  
+} // searchPaginationButtons
+
+-(void) updateSearchPaginationButtons {
+  int firstPageNumber;
+  if (searchCurrentPage <= 4) {
+    firstPageNumber = 1;
+  } else if (searchCurrentPage >= searchLastPage - 3) {
+    firstPageNumber = searchLastPage - 6;
+  } else {
+    firstPageNumber = searchCurrentPage - 3;
+  }
+  
+  NSArray *buttons = [self searchPaginationButtons];
+  for (int i = 0; i < [buttons count]; i++) {
+    int thisPageNumber = firstPageNumber + i;
+    
+    if (thisPageNumber > searchLastPage) {
+      [[buttons objectAtIndex:i] setHidden:YES];
+    } else {
+      [self customizeButton:[buttons objectAtIndex:i]
+                    forPage:thisPageNumber
+                 withAction:@selector(jumpToSearchResultsPage:) 
+                currentPage:searchCurrentPage];      
+    }
+  }  
+} // updateSearchPaginationButtons
+
+-(BOOL) isCurrentlyPerformingSearch {
+  return currentlyRetrievingSearchData;
+} // isCurrentlyPerformingSearch
+
+-(NSArray *) lastSearchResults {
+  return [NSArray arrayWithArray:[searchResultsData objectForKey:JSONResultsElement]];
+} // lastSearchResults
+
+-(NSString *) lastSearchQuery {
+  return [NSString stringWithString:searchQuery];
+} // lastSearchQuery
+
+-(NSString *) lastSearchScope {
+  return [NSString stringWithString:searchScope];
+} // lastSearchScope
+
+-(void) performSearch:(NSString *)query 
+            withScope:(NSString *)scope 
+                 page:(int)page
+   performingSelector:(SEL)postFetchActions
+             onTarget:(id)target {
+  [searchQuery release];
+  searchQuery = [[NSString stringWithString:query] copy];
+  
+  [searchScope release];
+  searchScope = [[NSString stringWithString:scope] copy];
+  
+  searchCurrentPage = page;
+  searchPostFetchSelector = postFetchActions;
+  searchFetchTarget = target;
+  
+  currentlyRetrievingSearchData = YES;
+  
+  if (searchCurrentPage < 1) searchCurrentPage = 1;
+  
+  [searchResultsData release];
+  searchResultsData = [[[BioCatalogueClient client] performSearch:searchQuery
+                                                        withScope:searchScope
+                                               withRepresentation:JSONFormat
+                                                             page:searchCurrentPage] retain];
+  searchLastPage = [[searchResultsData objectForKey:JSONPagesElement] intValue];
+
+  currentlyRetrievingSearchData = YES;
+  
+  if (target && postFetchActions) [target performSelector:postFetchActions];  
+} // performSearch:withScope:page:performingSelector:onTarget
+
+-(void) jumpToSearchResultsPage:(UIButton *)sender {  
+  for (UIButton *button in [self searchPaginationButtons]) {
+    button.enabled = NO;
+  }
+  
+  searchCurrentPage = [sender.titleLabel.text intValue];
+  [self updateSearchPaginationButtons];
+  
+  // FIXME: this is not good code; make use of the AnimationController
+  if ([[UIDevice currentDevice] isIPadDevice])
+    [[((LatestServicesViewController_iPad *)searchFetchTarget) detailViewController] startLoadingAnimation];
+  else
+    [searchFetchTarget performSelector:@selector(startLoadingAnimation)];
+  
+  [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+} // jumpToSearchResultsPage
 
 -(void) performSearch {
   [self performSearch:searchQuery
             withScope:searchScope
-              forPage:searchCurrentPage
-             lastPage:searchLastPage
-             progress:searchCurrentlyRetrievingData
-          resultsData:searchResultsData
+                 page:searchCurrentPage
    performingSelector:searchPostFetchSelector
-             onTarget:searchFetchTarget];  
+             onTarget:searchFetchTarget];
 } // performSearch
 
--(void) performSearch:(NSString *)query 
-            withScope:(NSString *)scope
-              forPage:(int *)pageNum
-             lastPage:(int *)lastPage
-             progress:(BOOL *)isBusy
-          resultsData:(NSDictionary **)resultsData 
-   performingSelector:(SEL)postFetchActions
-             onTarget:(id)target {  
-  [searchQuery release];
-  searchQuery = [[NSString stringWithString:query] retain];
-  
-  [searchScope release];
-  searchScope = [[NSString stringWithString:scope] retain];
-  
-  searchCurrentPage = pageNum;
-  searchLastPage = lastPage;
-  searchCurrentlyRetrievingData = isBusy;
-  searchResultsData = resultsData;
-  searchPostFetchSelector = postFetchActions;
-  searchFetchTarget = target;
-  
-  *isBusy = YES;
-  
-  if (*pageNum < 1) *pageNum = 1;
-  
-  [*resultsData release];
-  *resultsData = [[[BioCatalogueClient client] performSearch:query
-                                                   withScope:scope
-                                          withRepresentation:JSONFormat
-                                                        page:*pageNum] retain];
-  *lastPage = [[*resultsData objectForKey:JSONPagesElement] intValue];
-    
-  if (target && postFetchActions) [target performSelector:postFetchActions];
-} // performSearch:withScoper:forPage:lastPage:progress:resultsData:performingSelector:onTarget
-
--(void) loadSearchResultsForNextPage {  
-  if (!*searchCurrentlyRetrievingData) {
-    if (*searchCurrentPage < *searchLastPage) *searchCurrentPage += 1;
-
-    [self performSearch];
-  }
-} // loadSearchResultsForNextPage
-
--(void) loadSearchResultsForPreviousPage {  
-  if (!*searchCurrentlyRetrievingData) {
-    if (*searchCurrentPage > 1) *searchCurrentPage -= 1;
-    
-    [self performSearch];
-  }
-} // loadSearchResultsForPreviousPage
-*/
 
 #pragma mark -
 #pragma mark Memory Management
 
-- (void) dealloc {
+-(void) dealloc {
   for (id button in [self servicePaginationButtons]) {
     [button release];
   }
   
   [serviceResultsData release];
 
-//  [searchResultsData release];
-//  [searchQuery release];
-//  [searchScope release];
+  for (id button in [self searchPaginationButtons]) {
+    [button release];
+  }
+
+  [searchResultsData release];
+  [searchQuery release];
+  [searchScope release];
 
   [super dealloc];
 } // dealloc

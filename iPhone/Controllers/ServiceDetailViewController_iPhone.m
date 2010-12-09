@@ -82,7 +82,6 @@
   NSDictionary *properties = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
                               objectForKey:JSONProviderElement];
   
-  [providerDetailViewController loadView];
   [providerDetailViewController updateWithProperties:properties];
   [providerDetailViewController makeShowServicesButtonVisible:NO];
   
@@ -91,7 +90,6 @@
 
 -(void) showSubmitterInfo:(id)sender {
   // submitting user
-  [userDetailViewController loadView];
   [userDetailViewController updateWithProperties:submitterProperties];
   
   [self.navigationController pushViewController:userDetailViewController animated:YES];      

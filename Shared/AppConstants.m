@@ -93,11 +93,6 @@ NSUInteger const ServicesSearchScopeIndex = 0;
 NSUInteger const UsersSearchScopeIndex = 1;
 NSUInteger const ProvidersSearchScopeIndex = 2;
 
-// Table view sections
-NSUInteger const PreviousPageButtonSection = 0;
-NSUInteger const MainSection = 1;
-NSUInteger const NextPageButtonSection = 2;
-
 
 #pragma mark -
 #pragma mark NSUserDefaults

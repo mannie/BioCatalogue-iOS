@@ -375,27 +375,151 @@
 													<string>Providers</string>
 												</object>
 											</object>
-											<object class="IBUILabel" id="907284672">
+											<object class="IBUIScrollView" id="1056915298">
 												<reference key="NSNextResponder" ref="563840606"/>
-												<int key="NSvFlags">266</int>
-												<string key="NSFrame">{{0, 655}, {320, 44}}</string>
-												<reference key="NSSuperview" ref="563840606"/>
-												<bool key="IBUIOpaque">NO</bool>
-												<bool key="IBUIClipsSubviews">YES</bool>
-												<int key="IBUIContentMode">7</int>
-												<bool key="IBUIUserInteractionEnabled">NO</bool>
-												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-												<string key="IBUIText">X of Y</string>
-												<reference key="IBUIFont" ref="6028118"/>
-												<object class="NSColor" key="IBUITextColor">
-													<int key="NSColorSpace">1</int>
-													<bytes key="NSRGB">MCAwIDAAA</bytes>
+												<int key="NSvFlags">268</int>
+												<object class="NSMutableArray" key="NSSubviews">
+													<bool key="EncodedWithXMLCoder">YES</bool>
+													<object class="IBUIButton" id="169736480">
+														<reference key="NSNextResponder" ref="1056915298"/>
+														<int key="NSvFlags">-2147483356</int>
+														<string key="NSFrame">{{8, 20}, {40, 40}}</string>
+														<reference key="NSSuperview" ref="1056915298"/>
+														<bool key="IBUIOpaque">NO</bool>
+														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+														<int key="IBUIContentHorizontalAlignment">0</int>
+														<int key="IBUIContentVerticalAlignment">0</int>
+														<reference key="IBUIFont" ref="6028118"/>
+														<int key="IBUIButtonType">1</int>
+														<string key="IBUINormalTitle">1</string>
+														<reference key="IBUIHighlightedTitleColor" ref="869607344"/>
+														<object class="NSColor" key="IBUINormalTitleColor">
+															<int key="NSColorSpace">1</int>
+															<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+														</object>
+														<reference key="IBUINormalTitleShadowColor" ref="614902927"/>
+													</object>
+													<object class="IBUIButton" id="12812142">
+														<reference key="NSNextResponder" ref="1056915298"/>
+														<int key="NSvFlags">-2147483356</int>
+														<string key="NSFrame">{{52, 20}, {40, 40}}</string>
+														<reference key="NSSuperview" ref="1056915298"/>
+														<bool key="IBUIOpaque">NO</bool>
+														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+														<int key="IBUIContentHorizontalAlignment">0</int>
+														<int key="IBUIContentVerticalAlignment">0</int>
+														<reference key="IBUIFont" ref="6028118"/>
+														<int key="IBUIButtonType">1</int>
+														<string key="IBUINormalTitle">2</string>
+														<reference key="IBUIHighlightedTitleColor" ref="869607344"/>
+														<object class="NSColor" key="IBUINormalTitleColor">
+															<int key="NSColorSpace">1</int>
+															<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+														</object>
+														<reference key="IBUINormalTitleShadowColor" ref="614902927"/>
+													</object>
+													<object class="IBUIButton" id="786203404">
+														<reference key="NSNextResponder" ref="1056915298"/>
+														<int key="NSvFlags">-2147483356</int>
+														<string key="NSFrame">{{96, 20}, {40, 40}}</string>
+														<reference key="NSSuperview" ref="1056915298"/>
+														<bool key="IBUIOpaque">NO</bool>
+														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+														<int key="IBUIContentHorizontalAlignment">0</int>
+														<int key="IBUIContentVerticalAlignment">0</int>
+														<reference key="IBUIFont" ref="6028118"/>
+														<int key="IBUIButtonType">1</int>
+														<string key="IBUINormalTitle">3</string>
+														<reference key="IBUIHighlightedTitleColor" ref="869607344"/>
+														<object class="NSColor" key="IBUINormalTitleColor">
+															<int key="NSColorSpace">1</int>
+															<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+														</object>
+														<reference key="IBUINormalTitleShadowColor" ref="614902927"/>
+													</object>
+													<object class="IBUIButton" id="213225586">
+														<reference key="NSNextResponder" ref="1056915298"/>
+														<int key="NSvFlags">-2147483356</int>
+														<string key="NSFrame">{{140, 20}, {40, 40}}</string>
+														<reference key="NSSuperview" ref="1056915298"/>
+														<bool key="IBUIOpaque">NO</bool>
+														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+														<int key="IBUIContentHorizontalAlignment">0</int>
+														<int key="IBUIContentVerticalAlignment">0</int>
+														<reference key="IBUIFont" ref="6028118"/>
+														<int key="IBUIButtonType">1</int>
+														<string key="IBUINormalTitle">4</string>
+														<reference key="IBUIHighlightedTitleColor" ref="869607344"/>
+														<object class="NSColor" key="IBUINormalTitleColor">
+															<int key="NSColorSpace">1</int>
+															<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+														</object>
+														<reference key="IBUINormalTitleShadowColor" ref="614902927"/>
+													</object>
+													<object class="IBUIButton" id="226853336">
+														<reference key="NSNextResponder" ref="1056915298"/>
+														<int key="NSvFlags">-2147483356</int>
+														<string key="NSFrame">{{184, 20}, {40, 40}}</string>
+														<reference key="NSSuperview" ref="1056915298"/>
+														<bool key="IBUIOpaque">NO</bool>
+														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+														<int key="IBUIContentHorizontalAlignment">0</int>
+														<int key="IBUIContentVerticalAlignment">0</int>
+														<reference key="IBUIFont" ref="6028118"/>
+														<int key="IBUIButtonType">1</int>
+														<string key="IBUINormalTitle">5</string>
+														<reference key="IBUIHighlightedTitleColor" ref="869607344"/>
+														<object class="NSColor" key="IBUINormalTitleColor">
+															<int key="NSColorSpace">1</int>
+															<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+														</object>
+														<reference key="IBUINormalTitleShadowColor" ref="614902927"/>
+													</object>
+													<object class="IBUIButton" id="747511906">
+														<reference key="NSNextResponder" ref="1056915298"/>
+														<int key="NSvFlags">-2147483356</int>
+														<string key="NSFrame">{{228, 20}, {40, 40}}</string>
+														<reference key="NSSuperview" ref="1056915298"/>
+														<bool key="IBUIOpaque">NO</bool>
+														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+														<int key="IBUIContentHorizontalAlignment">0</int>
+														<int key="IBUIContentVerticalAlignment">0</int>
+														<reference key="IBUIFont" ref="6028118"/>
+														<int key="IBUIButtonType">1</int>
+														<string key="IBUINormalTitle">6</string>
+														<reference key="IBUIHighlightedTitleColor" ref="869607344"/>
+														<object class="NSColor" key="IBUINormalTitleColor">
+															<int key="NSColorSpace">1</int>
+															<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+														</object>
+														<reference key="IBUINormalTitleShadowColor" ref="614902927"/>
+													</object>
+													<object class="IBUIButton" id="486911007">
+														<reference key="NSNextResponder" ref="1056915298"/>
+														<int key="NSvFlags">-2147483356</int>
+														<string key="NSFrame">{{272, 20}, {40, 40}}</string>
+														<reference key="NSSuperview" ref="1056915298"/>
+														<bool key="IBUIOpaque">NO</bool>
+														<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+														<int key="IBUIContentHorizontalAlignment">0</int>
+														<int key="IBUIContentVerticalAlignment">0</int>
+														<reference key="IBUIFont" ref="6028118"/>
+														<int key="IBUIButtonType">1</int>
+														<string key="IBUINormalTitle">7</string>
+														<reference key="IBUIHighlightedTitleColor" ref="869607344"/>
+														<object class="NSColor" key="IBUINormalTitleColor">
+															<int key="NSColorSpace">1</int>
+															<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+														</object>
+														<reference key="IBUINormalTitleShadowColor" ref="614902927"/>
+													</object>
 												</object>
-												<reference key="IBUIHighlightedColor" ref="869607344"/>
-												<int key="IBUIBaselineAdjustment">1</int>
-												<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
-												<float key="IBUIMinimumFontSize">10</float>
-												<int key="IBUITextAlignment">1</int>
+												<string key="NSFrame">{{0, 619}, {320, 80}}</string>
+												<reference key="NSSuperview" ref="563840606"/>
+												<reference key="IBUIBackgroundColor" ref="226051549"/>
+												<bool key="IBUIClipsSubviews">YES</bool>
+												<bool key="IBUIMultipleTouchEnabled">YES</bool>
+												<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 											</object>
 										</object>
 										<string key="NSFrame">{{0, -22}, {320, 699}}</string>
@@ -414,7 +538,7 @@
 										<float key="IBUISectionHeaderHeight">10</float>
 										<float key="IBUISectionFooterHeight">10</float>
 										<reference key="IBUITableHeaderView" ref="989758835"/>
-										<reference key="IBUITableFooterView" ref="907284672"/>
+										<reference key="IBUITableFooterView" ref="1056915298"/>
 									</object>
 									<object class="IBUINavigationItem" key="IBUINavigationItem" id="164895200">
 										<string key="IBUITitle">Search</string>
@@ -503,14 +627,6 @@
 						<reference key="destination" ref="989758835"/>
 					</object>
 					<int key="connectionID">238</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">currentPageLabel</string>
-						<reference key="source" ref="2463601"/>
-						<reference key="destination" ref="907284672"/>
-					</object>
-					<int key="connectionID">240</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -633,67 +749,60 @@
 					<int key="connectionID">384</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">jumpToServicesPage:</string>
-						<reference key="source" ref="926573167"/>
-						<reference key="destination" ref="259189328"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchPaginationButtonOne</string>
+						<reference key="source" ref="259189328"/>
+						<reference key="destination" ref="169736480"/>
 					</object>
-					<int key="connectionID">385</int>
+					<int key="connectionID">407</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">jumpToServicesPage:</string>
-						<reference key="source" ref="878066422"/>
-						<reference key="destination" ref="259189328"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchPaginationButtonTwo</string>
+						<reference key="source" ref="259189328"/>
+						<reference key="destination" ref="12812142"/>
 					</object>
-					<int key="connectionID">386</int>
+					<int key="connectionID">408</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">jumpToServicesPage:</string>
-						<reference key="source" ref="747272940"/>
-						<reference key="destination" ref="259189328"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchPaginationButtonThree</string>
+						<reference key="source" ref="259189328"/>
+						<reference key="destination" ref="786203404"/>
 					</object>
-					<int key="connectionID">387</int>
+					<int key="connectionID">409</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">jumpToServicesPage:</string>
-						<reference key="source" ref="198546679"/>
-						<reference key="destination" ref="259189328"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchPaginationButtonFour</string>
+						<reference key="source" ref="259189328"/>
+						<reference key="destination" ref="213225586"/>
 					</object>
-					<int key="connectionID">388</int>
+					<int key="connectionID">410</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">jumpToServicesPage:</string>
-						<reference key="source" ref="62870183"/>
-						<reference key="destination" ref="259189328"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchPaginationButtonFive</string>
+						<reference key="source" ref="259189328"/>
+						<reference key="destination" ref="226853336"/>
 					</object>
-					<int key="connectionID">389</int>
+					<int key="connectionID">411</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">jumpToServicesPage:</string>
-						<reference key="source" ref="43214613"/>
-						<reference key="destination" ref="259189328"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchPaginationButtonSix</string>
+						<reference key="source" ref="259189328"/>
+						<reference key="destination" ref="747511906"/>
 					</object>
-					<int key="connectionID">390</int>
+					<int key="connectionID">412</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">jumpToServicesPage:</string>
-						<reference key="source" ref="502423104"/>
-						<reference key="destination" ref="259189328"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">searchPaginationButtonSeven</string>
+						<reference key="source" ref="259189328"/>
+						<reference key="destination" ref="486911007"/>
 					</object>
-					<int key="connectionID">391</int>
+					<int key="connectionID">413</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -854,15 +963,10 @@
 						<reference key="object" ref="563840606"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="907284672"/>
 							<reference ref="989758835"/>
+							<reference ref="1056915298"/>
 						</object>
 						<reference key="parent" ref="2463601"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">239</int>
-						<reference key="object" ref="907284672"/>
-						<reference key="parent" ref="563840606"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">235</int>
@@ -925,6 +1029,57 @@
 						<reference key="object" ref="502423104"/>
 						<reference key="parent" ref="618157339"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">392</int>
+						<reference key="object" ref="1056915298"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="169736480"/>
+							<reference ref="213225586"/>
+							<reference ref="486911007"/>
+							<reference ref="747511906"/>
+							<reference ref="226853336"/>
+							<reference ref="12812142"/>
+							<reference ref="786203404"/>
+						</object>
+						<reference key="parent" ref="563840606"/>
+						<string key="objectName">Pagination Buttons</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">393</int>
+						<reference key="object" ref="169736480"/>
+						<reference key="parent" ref="1056915298"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">394</int>
+						<reference key="object" ref="213225586"/>
+						<reference key="parent" ref="1056915298"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">395</int>
+						<reference key="object" ref="486911007"/>
+						<reference key="parent" ref="1056915298"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">396</int>
+						<reference key="object" ref="747511906"/>
+						<reference key="parent" ref="1056915298"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">397</int>
+						<reference key="object" ref="226853336"/>
+						<reference key="parent" ref="1056915298"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">398</int>
+						<reference key="object" ref="12812142"/>
+						<reference key="parent" ref="1056915298"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">399</int>
+						<reference key="object" ref="786203404"/>
+						<reference key="parent" ref="1056915298"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -963,8 +1118,6 @@
 					<string>231.IBViewBoundsToFrameTransform</string>
 					<string>235.IBPluginDependency</string>
 					<string>235.IBViewBoundsToFrameTransform</string>
-					<string>239.IBPluginDependency</string>
-					<string>239.IBViewBoundsToFrameTransform</string>
 					<string>246.CustomClassName</string>
 					<string>246.IBPluginDependency</string>
 					<string>320.CustomClassName</string>
@@ -986,6 +1139,23 @@
 					<string>340.IBViewBoundsToFrameTransform</string>
 					<string>341.IBPluginDependency</string>
 					<string>341.IBViewBoundsToFrameTransform</string>
+					<string>392.IBEditorWindowLastContentRect</string>
+					<string>392.IBPluginDependency</string>
+					<string>392.IBViewBoundsToFrameTransform</string>
+					<string>393.IBPluginDependency</string>
+					<string>393.IBViewBoundsToFrameTransform</string>
+					<string>394.IBPluginDependency</string>
+					<string>394.IBViewBoundsToFrameTransform</string>
+					<string>395.IBPluginDependency</string>
+					<string>395.IBViewBoundsToFrameTransform</string>
+					<string>396.IBPluginDependency</string>
+					<string>396.IBViewBoundsToFrameTransform</string>
+					<string>397.IBPluginDependency</string>
+					<string>397.IBViewBoundsToFrameTransform</string>
+					<string>398.IBPluginDependency</string>
+					<string>398.IBViewBoundsToFrameTransform</string>
+					<string>399.IBPluginDependency</string>
+					<string>399.IBViewBoundsToFrameTransform</string>
 					<string>6.CustomClassName</string>
 					<string>6.IBPluginDependency</string>
 				</object>
@@ -993,7 +1163,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UIApplication</string>
 					<string>UIResponder</string>
-					<string>{{67, 4}, {1024, 768}}</string>
+					<string>{{67, 88}, {1024, 768}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{102, 88}, {1024, 768}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -1035,10 +1205,6 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">AQAAAABEI8AAA</bytes>
 					</object>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABC4gAAwdAAAA</bytes>
-					</object>
 					<string>PaginationController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>GestureHandler_iPad</string>
@@ -1076,6 +1242,39 @@
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABDiIAAwsgAAA</bytes>
 					</object>
+					<string>{{315, 336}, {320, 80}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">AQAAAABEGsAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABBEAAAwsgAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDDQAAwsgAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDiIAAwsgAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDZQAAwsgAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDOQAAwsgAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABCVAAAwsgAAA</bytes>
+					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABCwgAAwsgAAA</bytes>
+					</object>
 					<string>AppDelegate_iPad</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -1096,7 +1295,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">391</int>
+			<int key="maxID">414</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1223,35 +1422,23 @@
 							<string>activityIndicator</string>
 							<string>auxiliaryDetailPanel</string>
 							<string>auxiliaryToolbar</string>
-							<string>componentsLabel</string>
 							<string>defaultView</string>
 							<string>favouriteServiceBarButtonItem</string>
 							<string>gestureHandler</string>
 							<string>interactionDisablingLayer</string>
 							<string>mainContentView</string>
 							<string>mainToolbar</string>
-							<string>monitoringStatusIcon</string>
 							<string>monitoringStatusViewController</string>
 							<string>providerDetailView</string>
 							<string>providerIDCard</string>
 							<string>providerIDCardContainer</string>
 							<string>serviceComponentsViewController</string>
-							<string>serviceDescriptionLabel</string>
 							<string>serviceDetailView</string>
-							<string>serviceNameLabel</string>
-							<string>serviceProviderNameLabel</string>
-							<string>serviceSubmitterNameLabel</string>
-							<string>showComponentsButton</string>
+							<string>serviceName</string>
 							<string>uiContentController</string>
-							<string>userAffiliationLabel</string>
-							<string>userCityLabel</string>
-							<string>userCountryLabel</string>
 							<string>userDetailView</string>
-							<string>userEmailLabel</string>
 							<string>userIDCard</string>
 							<string>userIDCardContainer</string>
-							<string>userJoinedLabel</string>
-							<string>userNameLabel</string>
 							<string>viewResourceInBioCatalogueBarButtonItem</string>
 							<string>webBrowser</string>
 							<string>webBrowserActivityIndicator</string>
@@ -1262,35 +1449,23 @@
 							<string>UIActivityIndicatorView</string>
 							<string>UIView</string>
 							<string>UIToolbar</string>
-							<string>UILabel</string>
 							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>GestureHandler_iPad</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIToolbar</string>
-							<string>UIImageView</string>
 							<string>MonitoringStatusViewController</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>UIView</string>
 							<string>ServiceComponentsViewController</string>
-							<string>UITextView</string>
 							<string>UIView</string>
 							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UIButton</string>
 							<string>UIContentController</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
-							<string>UIView</string>
-							<string>UILabel</string>
 							<string>UIView</string>
 							<string>UIView</string>
-							<string>UILabel</string>
-							<string>UILabel</string>
+							<string>UIView</string>
 							<string>UIBarButtonItem</string>
 							<string>UIWebView</string>
 							<string>UIActivityIndicatorView</string>
@@ -1304,35 +1479,23 @@
 							<string>activityIndicator</string>
 							<string>auxiliaryDetailPanel</string>
 							<string>auxiliaryToolbar</string>
-							<string>componentsLabel</string>
 							<string>defaultView</string>
 							<string>favouriteServiceBarButtonItem</string>
 							<string>gestureHandler</string>
 							<string>interactionDisablingLayer</string>
 							<string>mainContentView</string>
 							<string>mainToolbar</string>
-							<string>monitoringStatusIcon</string>
 							<string>monitoringStatusViewController</string>
 							<string>providerDetailView</string>
 							<string>providerIDCard</string>
 							<string>providerIDCardContainer</string>
 							<string>serviceComponentsViewController</string>
-							<string>serviceDescriptionLabel</string>
 							<string>serviceDetailView</string>
-							<string>serviceNameLabel</string>
-							<string>serviceProviderNameLabel</string>
-							<string>serviceSubmitterNameLabel</string>
-							<string>showComponentsButton</string>
+							<string>serviceName</string>
 							<string>uiContentController</string>
-							<string>userAffiliationLabel</string>
-							<string>userCityLabel</string>
-							<string>userCountryLabel</string>
 							<string>userDetailView</string>
-							<string>userEmailLabel</string>
 							<string>userIDCard</string>
 							<string>userIDCardContainer</string>
-							<string>userJoinedLabel</string>
-							<string>userNameLabel</string>
 							<string>viewResourceInBioCatalogueBarButtonItem</string>
 							<string>webBrowser</string>
 							<string>webBrowserActivityIndicator</string>
@@ -1351,10 +1514,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">auxiliaryToolbar</string>
 								<string key="candidateClassName">UIToolbar</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">componentsLabel</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">defaultView</string>
@@ -1381,10 +1540,6 @@
 								<string key="candidateClassName">UIToolbar</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">monitoringStatusIcon</string>
-								<string key="candidateClassName">UIImageView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">monitoringStatusViewController</string>
 								<string key="candidateClassName">MonitoringStatusViewController</string>
 							</object>
@@ -1405,52 +1560,20 @@
 								<string key="candidateClassName">ServiceComponentsViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">serviceDescriptionLabel</string>
-								<string key="candidateClassName">UITextView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">serviceDetailView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">serviceNameLabel</string>
+								<string key="name">serviceName</string>
 								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">serviceProviderNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">serviceSubmitterNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">showComponentsButton</string>
-								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">uiContentController</string>
 								<string key="candidateClassName">UIContentController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">userAffiliationLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userCityLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userCountryLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">userDetailView</string>
 								<string key="candidateClassName">UIView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userEmailLabel</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">userIDCard</string>
@@ -1459,14 +1582,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">userIDCardContainer</string>
 								<string key="candidateClassName">UIView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userJoinedLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">userNameLabel</string>
-								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">viewResourceInBioCatalogueBarButtonItem</string>
@@ -1488,7 +1603,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPad/DetailViewController_iPad.h</string>
+						<string key="minorKey">iPad/Controllers/DetailViewController_iPad.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1624,7 +1739,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPad/LatestServicesViewController_iPad.h</string>
+						<string key="minorKey">iPad/Controllers/LatestServicesViewController_iPad.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1634,12 +1749,12 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>detailViewController</string>
+							<string>activityIndicator</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
+							<string>UIActivityIndicatorView</string>
 							<string>UITableView</string>
 						</object>
 					</object>
@@ -1647,14 +1762,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>detailViewController</string>
+							<string>activityIndicator</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBToOneOutletInfo">
-								<string key="name">detailViewController</string>
-								<string key="candidateClassName">id</string>
+								<string key="name">activityIndicator</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">myTableView</string>
@@ -1684,64 +1799,18 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">PaginationController</string>
 					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>jumpToServicesPage:</string>
-							<string>loadSearchResultsForNextPage</string>
-							<string>loadSearchResultsForPreviousPage</string>
-							<string>loadServicesOnNextPage</string>
-							<string>loadServicesOnPreviousPage</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UIButton</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>jumpToServicesPage:</string>
-							<string>loadSearchResultsForNextPage</string>
-							<string>loadSearchResultsForPreviousPage</string>
-							<string>loadServicesOnNextPage</string>
-							<string>loadServicesOnPreviousPage</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">jumpToServicesPage:</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">loadSearchResultsForNextPage</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">loadSearchResultsForPreviousPage</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">loadServicesOnNextPage</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">loadServicesOnPreviousPage</string>
-								<string key="candidateClassName">id</string>
-							</object>
-						</object>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>searchFetchTarget</string>
+							<string>searchPaginationButtonFive</string>
+							<string>searchPaginationButtonFour</string>
+							<string>searchPaginationButtonOne</string>
+							<string>searchPaginationButtonSeven</string>
+							<string>searchPaginationButtonSix</string>
+							<string>searchPaginationButtonThree</string>
+							<string>searchPaginationButtonTwo</string>
 							<string>serviceFetchTarget</string>
 							<string>servicePaginationButtonFive</string>
 							<string>servicePaginationButtonFour</string>
@@ -1754,6 +1823,13 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>id</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
 							<string>id</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
@@ -1769,6 +1845,13 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>searchFetchTarget</string>
+							<string>searchPaginationButtonFive</string>
+							<string>searchPaginationButtonFour</string>
+							<string>searchPaginationButtonOne</string>
+							<string>searchPaginationButtonSeven</string>
+							<string>searchPaginationButtonSix</string>
+							<string>searchPaginationButtonThree</string>
+							<string>searchPaginationButtonTwo</string>
 							<string>serviceFetchTarget</string>
 							<string>servicePaginationButtonFive</string>
 							<string>servicePaginationButtonFour</string>
@@ -1783,6 +1866,34 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">searchFetchTarget</string>
 								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonFive</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonFour</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonOne</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonSeven</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonSix</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonThree</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">searchPaginationButtonTwo</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">serviceFetchTarget</string>
@@ -1830,14 +1941,12 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>currentPageLabel</string>
 							<string>detailViewController</string>
 							<string>mySearchBar</string>
 							<string>paginationController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>UILabel</string>
 							<string>DetailViewController_iPad</string>
 							<string>UISearchBar</string>
 							<string>PaginationController</string>
@@ -1847,17 +1956,12 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>currentPageLabel</string>
 							<string>detailViewController</string>
 							<string>mySearchBar</string>
 							<string>paginationController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">currentPageLabel</string>
-								<string key="candidateClassName">UILabel</string>
-							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">detailViewController</string>
 								<string key="candidateClassName">DetailViewController_iPad</string>
@@ -1874,7 +1978,7 @@
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPad/SearchViewController_iPad.h</string>
+						<string key="minorKey">iPad/Controllers/SearchViewController_iPad.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1884,12 +1988,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
 							<string>iPadDetailViewController</string>
 							<string>iPhoneWebViewController</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIActivityIndicatorView</string>
 							<string>DetailViewController_iPad</string>
 							<string>UIViewController</string>
 							<string>UITableView</string>
@@ -1899,12 +2005,17 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
 							<string>iPadDetailViewController</string>
 							<string>iPhoneWebViewController</string>
 							<string>myTableView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">activityIndicator</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">iPadDetailViewController</string>
 								<string key="candidateClassName">DetailViewController_iPad</string>
@@ -1931,12 +2042,38 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>monitoringStatusIcon</string>
 							<string>providerDescription</string>
 							<string>providerName</string>
+							<string>serviceComponents</string>
+							<string>serviceDescription</string>
+							<string>serviceName</string>
+							<string>serviceProviderName</string>
+							<string>serviceSubmitterName</string>
+							<string>showComponentsButton</string>
+							<string>userAffiliation</string>
+							<string>userCity</string>
+							<string>userCountry</string>
+							<string>userEmail</string>
+							<string>userJoinedDate</string>
+							<string>userName</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIImageView</string>
 							<string>UITextView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UITextView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UIButton</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
 							<string>UILabel</string>
 						</object>
 					</object>
@@ -1944,17 +2081,82 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>monitoringStatusIcon</string>
 							<string>providerDescription</string>
 							<string>providerName</string>
+							<string>serviceComponents</string>
+							<string>serviceDescription</string>
+							<string>serviceName</string>
+							<string>serviceProviderName</string>
+							<string>serviceSubmitterName</string>
+							<string>showComponentsButton</string>
+							<string>userAffiliation</string>
+							<string>userCity</string>
+							<string>userCountry</string>
+							<string>userEmail</string>
+							<string>userJoinedDate</string>
+							<string>userName</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">monitoringStatusIcon</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">providerDescription</string>
 								<string key="candidateClassName">UITextView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">providerName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceComponents</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceDescription</string>
+								<string key="candidateClassName">UITextView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceProviderName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">serviceSubmitterName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">showComponentsButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userAffiliation</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userCity</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userCountry</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userEmail</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userJoinedDate</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userName</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 						</object>
@@ -1984,7 +2186,7 @@
 			<integer value="3100" key="NS.object.0"/>
 		</object>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
-		<string key="IBDocument.LastKnownRelativeProjectPath">../BioMonitor.xcodeproj</string>
+		<string key="IBDocument.LastKnownRelativeProjectPath">../../BioMonitor.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<bool key="EncodedWithXMLCoder">YES</bool>
