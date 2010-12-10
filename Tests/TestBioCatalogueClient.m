@@ -46,7 +46,7 @@
 
 -(void) testPerformSearchWithScopeAndRepresentationPage {
   // NIL DOCUMENTS
-  NSDictionary *results = [client performSearch:@"" withScope:UsersSearchScope withRepresentation:nil page:1];
+  NSDictionary *results = [client performSearch:@"" withScope:UserResourceScope withRepresentation:nil page:1];
   STAssertNil(results, [NSString stringWithFormat:@"Found %@", results]);
   
   results = [client performSearch:@"something" withScope:nil withRepresentation:nil page:1];
@@ -55,17 +55,17 @@
   results = [client performSearch:@"blast" withScope:@"fake scope" withRepresentation:nil page:1];
   STAssertNil(results, [NSString stringWithFormat:@"Found %@", results]);
 
-  results = [client performSearch:@"blast" withScope:UsersSearchScope withRepresentation:@"fake format" page:1];
+  results = [client performSearch:@"blast" withScope:UserResourceScope withRepresentation:@"fake format" page:1];
   STAssertNil(results, [NSString stringWithFormat:@"Found %@", results]);
 
-  results = [client performSearch:@"franck&tanoh" withScope:UsersSearchScope withRepresentation:JSONFormat page:1];
+  results = [client performSearch:@"franck&tanoh" withScope:UserResourceScope withRepresentation:JSONFormat page:1];
   STAssertNil(results, [NSString stringWithFormat:@"Found %@", results]);
 
   
-  results = [client performSearch:@"blast*" withScope:ServicesSearchScope withRepresentation:JSONFormat page:1];
+  results = [client performSearch:@"blast*" withScope:ServiceResourceScope withRepresentation:JSONFormat page:1];
   STAssertNil(results, [NSString stringWithFormat:@"Found %@", results]);
   
-  results = [client performSearch:@"e-b+i" withScope:ProvidersSearchScope withRepresentation:JSONFormat page:1];
+  results = [client performSearch:@"e-b+i" withScope:ProviderResourceScope withRepresentation:JSONFormat page:1];
   STAssertNil(results, [NSString stringWithFormat:@"Found %@", results]);
   
   // NON-NIL DOCUMENTS
@@ -73,15 +73,15 @@
   STAssertNotNil(results, @"nil JSON document returned for 'blast'");
   STAssertTrue([[results objectForKey:JSONResultsElement] count] > 0, @"Incorrect results count yeiled.");
 
-  results = [client performSearch:@"franck" withScope:UsersSearchScope withRepresentation:JSONFormat page:1];
+  results = [client performSearch:@"franck" withScope:UserResourceScope withRepresentation:JSONFormat page:1];
   STAssertNotNil(results, @"nil JSON document returned for 'franck'");
   STAssertTrue([[results objectForKey:JSONResultsElement] count] > 0, @"Incorrect results count yeiled.");
     
-  results = [client performSearch:@"blast" withScope:ServicesSearchScope withRepresentation:JSONFormat page:1];
+  results = [client performSearch:@"blast" withScope:ServiceResourceScope withRepresentation:JSONFormat page:1];
   STAssertNotNil(results, @"nil JSON document returned for 'blast'");
   STAssertTrue([[results objectForKey:JSONResultsElement] count] > 0, @"Incorrect results count yeiled.");
   
-  results = [client performSearch:@"ebi" withScope:ProvidersSearchScope withRepresentation:JSONFormat page:1];
+  results = [client performSearch:@"ebi" withScope:ProviderResourceScope withRepresentation:JSONFormat page:1];
   STAssertNotNil(results, @"nil JSON document returned for 'ebi'");
   STAssertTrue([[results objectForKey:JSONResultsElement] count] > 0, @"Incorrect results count yeiled.");
 }

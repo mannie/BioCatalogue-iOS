@@ -16,12 +16,11 @@
 #import "PaginationController.h"
 
 
-@interface LatestServicesViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource> {  
+@interface LatestServicesViewController_iPhone : UITableViewController {  
   NSArray *services;
     
   ServiceDetailViewController_iPhone *detailViewController;
   
-  IBOutlet UITableView *myTableView;
   IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 

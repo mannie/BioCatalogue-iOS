@@ -40,11 +40,6 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-  [super viewDidLoad];
-} // viewDidLoad
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 } // shouldAutorotateToInterfaceOrientation

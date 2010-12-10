@@ -32,12 +32,14 @@
   
   [self stopLoadingAnimation];
   
-  [myTableView reloadData];
+  [[self tableView] reloadData];
 } // postFetchActions
 
 -(void) performSearch {
   [searchResults release];
   searchResults = [[NSArray array] retain];
+  [[self tableView] reloadData];
+  [[self tableView] setNeedsDisplay];
   
   [activityIndicator performSelectorOnMainThread:@selector(startAnimating)
                                       withObject:nil
@@ -59,7 +61,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  searchScope = ServicesSearchScope;
+  searchScope = ServiceResourceScope;
+
+  [UIContentController setBrushedMetalBackground:self.tableView];
 
   [activityIndicator stopAnimating];
 } // viewDidLoad
@@ -93,35 +97,9 @@
   }
   
   // Configure the cell...
-  if ([searchResults count] == 0) {
-    cell.textLabel.text = nil;
-    cell.imageView.image = nil;
-    cell.detailTextLabel.text = nil;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    return cell;
-  }
-  
-  id listing  = [searchResults objectAtIndex:indexPath.row];
-  
-  cell.textLabel.text = [listing objectForKey:JSONNameElement];
-  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  
-  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
-    cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
-    
-    NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement]
-                                            objectForKey:JSONSmallSymbolElement]];
-    cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];    
-  } else {
-    cell.detailTextLabel.text = nil;
-    
-    if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
-      cell.imageView.image = [UIImage imageNamed:UserIcon];
-    } else {
-      cell.imageView.image = [UIImage imageNamed:ProviderIcon];
-    }
-  }
+  [UIContentController customiseTableViewCell:cell
+                               withProperties:[searchResults objectAtIndex:indexPath.row]
+                                   givenScope:[paginationController lastSearchScope]];  
   
   return cell;
 } // tableView:cellForRowAtIndexPath
@@ -133,15 +111,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {  
   id detailViewController;
   
-  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
+  if ([[paginationController lastSearchScope] isEqualToString:ServiceResourceScope]) {
     detailViewController = serviceDetailViewController;
-  } else if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
+  } else if ([[paginationController lastSearchScope] isEqualToString:UserResourceScope]) {
     detailViewController = userDetailViewController;
   } else {
     detailViewController = providerDetailViewController;
   }
     
-  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
+  if ([[paginationController lastSearchScope] isEqualToString:ServiceResourceScope]) {
     [NSOperationQueue addToMainQueueSelector:@selector(updateWithProperties:) 
                                     toTarget:detailViewController
                                   withObject:[searchResults objectAtIndex:indexPath.row]];
@@ -186,21 +164,25 @@
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   [self searchBarShouldEndEditing:mySearchBar];
   
-  [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+  BOOL searchHasNotChanged = ([mySearchBar.text isEqualToString:[paginationController lastSearchQuery]] &&
+                              [searchScope isEqualToString:[paginationController lastSearchScope]]);
+  if (!searchHasNotChanged) {
+    [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+  }
   
   [searchBar resignFirstResponder];
 } // searchBarSearchButtonClicked
 
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-  if (selectedScope == ServicesSearchScopeIndex) {
+  if (selectedScope == ServiceResourceScopeIndex) {
     searchBar.placeholder = @"Search For A Service";
-    searchScope = ServicesSearchScope;
-  } else if (selectedScope == UsersSearchScopeIndex) {
+    searchScope = ServiceResourceScope;
+  } else if (selectedScope == UserResourceScopeIndex) {
     searchBar.placeholder = @"Search For A User";
-    searchScope = UsersSearchScope;
+    searchScope = UserResourceScope;
   } else {
     searchBar.placeholder = @"Search For A Service Provider";
-    searchScope = ProvidersSearchScope;
+    searchScope = ProviderResourceScope;
   }
 } // searchBar:selectedScopeButtonIndexDidChange
 
@@ -210,7 +192,6 @@
 
 -(void) releaseIBOutlets {  
   [mySearchBar release];
-  [myTableView release];
   [activityIndicator release];
     
   [serviceDetailViewController release];

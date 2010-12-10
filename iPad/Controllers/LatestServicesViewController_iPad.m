@@ -43,7 +43,9 @@
   self.clearsSelectionOnViewWillAppear = NO;
   self.contentSizeForViewInPopover = CGSizeMake(320.0, 600.0);
   
-  [NSOperationQueue addToNewQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+  [UIContentController setBrushedMetalBackground:self.tableView];
+  
+  [NSOperationQueue addToMainQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -71,15 +73,10 @@
   }
   
   // Configure the cell...  
-  id service = [services objectAtIndex:indexPath.row];
-  
-  cell.textLabel.text = [service objectForKey:JSONNameElement];
-  cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:service];
-  
-  NSURL *imageURL = [NSURL URLWithString:[[service objectForKey:JSONLatestMonitoringStatusElement] 
-                                          objectForKey:JSONSmallSymbolElement]];
-  cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
-  
+  [UIContentController customiseTableViewCell:cell 
+                               withProperties:[services objectAtIndex:indexPath.row]
+                                   givenScope:ServiceResourceScope];
+    
   return cell;
 }
 

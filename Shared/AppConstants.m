@@ -16,9 +16,9 @@ NSUInteger const iPadItemsPerPage = 15;
 NSUInteger const iPhoneItemsPerPage = 10;
 NSUInteger ItemsPerPage = 10;
 
-NSString *const UsersSearchScope = @"users";
-NSString *const ServicesSearchScope = @"services";
-NSString *const ProvidersSearchScope = @"providers";
+NSString *const UserResourceScope = @"users";
+NSString *const ServiceResourceScope = @"services";
+NSString *const ProviderResourceScope = @"providers";
 
 NSString *const RESTService = @"REST";
 NSString *const SOAPService = @"SOAP";
@@ -27,6 +27,14 @@ NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"test.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"www.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"demo.edunify.pesc.org";
+
+
+#pragma mark -
+#pragma mark BioCatalogue Search Indexes
+
+NSUInteger const ServiceResourceScopeIndex = 0;
+NSUInteger const UserResourceScopeIndex = 1;
+NSUInteger const ProviderResourceScopeIndex = 2;
 
 
 #pragma mark -
@@ -75,23 +83,12 @@ NSString *const JSONVariantsElement = @"variants";
 
 
 #pragma mark -
-#pragma mark Icon Names
+#pragma mark Image Names
 
 NSString *const DescriptionIcon = @"info";
-
-NSString *const ProviderIconFull = @"112-group.png";
-NSString *const ProviderIcon = @"112-group";
-
-NSString *const UserIconFull = @"111-user.png";
-NSString *const UserIcon = @"111-user";
-
-
-#pragma mark -
-#pragma mark BioCatalogue Browsing Indexes
-
-NSUInteger const ServicesSearchScopeIndex = 0;
-NSUInteger const UsersSearchScopeIndex = 1;
-NSUInteger const ProvidersSearchScopeIndex = 2;
+NSString *const ProviderIcon = @"112-group.png";
+NSString *const UserIcon = @"111-user.png";
+NSString *const BrushedMetalBackground = @"BrushedMetalBack.jpg";
 
 
 #pragma mark -

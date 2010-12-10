@@ -16,14 +16,22 @@ extern NSUInteger const iPadItemsPerPage;
 extern NSUInteger const iPhoneItemsPerPage;
 extern NSUInteger ItemsPerPage;
 
-extern NSString *const UsersSearchScope;
-extern NSString *const ServicesSearchScope;
-extern NSString *const ProvidersSearchScope;
+extern NSString *const UserResourceScope;
+extern NSString *const ServiceResourceScope;
+extern NSString *const ProviderResourceScope;
 
 extern NSString *const RESTService;
 extern NSString *const SOAPService;
 
 extern NSString *const BioCatalogueHostname;
+
+
+#pragma mark -
+#pragma mark BioCatalogue Search Indexes
+
+extern NSUInteger const ServiceResourceScopeIndex;
+extern NSUInteger const UserResourceScopeIndex;
+extern NSUInteger const ProviderResourceScopeIndex;
 
 
 #pragma mark -
@@ -72,23 +80,12 @@ extern NSString *const JSONVariantsElement;
 
 
 #pragma mark -
-#pragma mark Icon Names
+#pragma mark Image Names
 
 extern NSString *const DescriptionIcon;
-
-extern NSString *const ProviderIconFull;
 extern NSString *const ProviderIcon;
-
-extern NSString *const UserIconFull;
 extern NSString *const UserIcon;
-
-
-#pragma mark -
-#pragma mark BioCatalogue Browsing Indexes
-
-extern NSUInteger const ServicesSearchScopeIndex;
-extern NSUInteger const UsersSearchScopeIndex;
-extern NSUInteger const ProvidersSearchScopeIndex;
+extern NSString *const BrushedMetalBackground;
 
 
 #pragma mark -

@@ -54,11 +54,11 @@
   }
   
   NSString *pathQuery = [NSString stringWithFormat:@"?q=%@&page=%i&per_page=%i", query, pageNum, ItemsPerPage];
-  if ([scope isEqualToString:ServicesSearchScope]) {
+  if ([scope isEqualToString:ServiceResourceScope]) {
     return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services%@", pathQuery]];
-  } else if ([scope isEqualToString:UsersSearchScope]) {
+  } else if ([scope isEqualToString:UserResourceScope]) {
     return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/users%@", pathQuery]];
-  } else if ([scope isEqualToString:ProvidersSearchScope]) {
+  } else if ([scope isEqualToString:ProviderResourceScope]) {
     return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/service_providers%@", pathQuery]];
   } else {
     return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/search%@", pathQuery]];

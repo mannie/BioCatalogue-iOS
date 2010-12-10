@@ -27,7 +27,8 @@
     serviceComponents = [[properties objectForKey:JSONOperationsElement] retain];
   }  
 
-  [myTableView reloadData];
+  [self.tableView reloadData];
+  [self.tableView setTableHeaderView:nil];
 } // updateWithProperties
 
 -(void) fetchServiceComponents:(NSString *)fromPath {  
@@ -48,6 +49,20 @@
 
 #pragma mark -
 #pragma mark View lifecycle
+
+-(void) viewDidLoad {
+  [super viewDidLoad];
+
+  [UIContentController setBrushedMetalBackground:self.tableView];
+  if (!loadingView) loadingView = [self.tableView tableHeaderView];
+} // viewDidLoad
+
+-(void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  [self.tableView setTableHeaderView:loadingView];
+  [loadingView setNeedsDisplay];
+} // viewWillAppear
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -117,7 +132,6 @@
   [iPhoneWebViewController release];
 
   [activityIndicator release];
-  [myTableView release]; 
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

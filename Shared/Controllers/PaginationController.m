@@ -153,11 +153,11 @@
 } // lastSearchResults
 
 -(NSString *) lastSearchQuery {
-  return [NSString stringWithString:searchQuery];
+  return [NSString stringWithFormat:@"%@", searchQuery];
 } // lastSearchQuery
 
 -(NSString *) lastSearchScope {
-  return [NSString stringWithString:searchScope];
+  return [NSString stringWithFormat:@"%@", searchScope];
 } // lastSearchScope
 
 -(void) performSearch:(NSString *)query 

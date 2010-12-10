@@ -11,17 +11,17 @@
 #import "JSON+Helper.h"
 
 
-@interface MonitoringStatusViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface MonitoringStatusViewController : UITableViewController {
   NSDictionary *monitoringProperties;
   NSArray *monitoringStatuses;
   
-  IBOutlet UITableView *myTableView;
-    
   IBOutlet UIActivityIndicatorView *activityIndicator;
   
   NSString *lastUsedPath;
-    
+  
   NSDateFormatter *dateFormatter;
+  
+  UIView *loadingView;
 }
 
 -(void) fetchMonitoringStatusInfo:(NSString *)fromPath;

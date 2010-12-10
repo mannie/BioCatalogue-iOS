@@ -12,6 +12,37 @@
 @implementation UIContentController
 
 
++(void) setBrushedMetalBackground:(UITableView *)tableView {
+  UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BrushedMetalBackground]];
+  image.frame = tableView.frame;
+  [tableView setBackgroundView:image];
+  [image release];
+} // setBrushedMetalBackground
+
++(void) customiseTableViewCell:(UITableViewCell *)cell 
+                withProperties:(NSDictionary *)properties
+                    givenScope:(NSString *)scope {
+  if ([scope isEqualToString:ServiceResourceScope]) {
+    cell.textLabel.text = [properties objectForKey:JSONNameElement];
+    cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:properties];
+    
+    NSURL *imageURL = [NSURL URLWithString:[[properties objectForKey:JSONLatestMonitoringStatusElement] 
+                                            objectForKey:JSONSmallSymbolElement]];
+    cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];    
+  } else if ([scope isEqualToString:UserResourceScope]) {
+    cell.textLabel.text = [properties objectForKey:JSONNameElement];
+    cell.detailTextLabel.text = nil;
+
+    cell.imageView.image = [UIImage imageNamed:UserIcon];
+  } else if ([scope isEqualToString:ProviderResourceScope]) {
+    cell.textLabel.text = [properties objectForKey:JSONNameElement];
+    cell.detailTextLabel.text = nil;
+    
+    cell.imageView.image = [UIImage imageNamed:ProviderIcon];
+  }
+} // customiseTableViewCell:withProperties:givenScope
+
+
 #pragma mark -
 #pragma mark UI Element Update
 

@@ -29,6 +29,8 @@
 -(void) performSearch {
   [searchResults release];
   searchResults = [[NSArray array] retain];
+  [[self tableView] reloadData];
+  [[self tableView] setNeedsDisplay];
   
   [detailViewController performSelectorOnMainThread:@selector(startLoadingAnimation)
                                          withObject:nil
@@ -52,7 +54,8 @@
   
   [self searchBarCancelButtonClicked:mySearchBar];
   
-  searchScope = ServicesSearchScope;
+  searchScope = ServiceResourceScope;
+  [UIContentController setBrushedMetalBackground:self.tableView];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -80,34 +83,9 @@
   }
   
   // Configure the cell...
-  if ([searchResults count] == 0) {
-    cell.textLabel.text = nil;
-    cell.imageView.image = nil;
-    cell.detailTextLabel.text = nil;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    return cell;
-  }
-  
-  id listing  = [searchResults objectAtIndex:indexPath.row];
-  
-  cell.textLabel.text = [listing objectForKey:JSONNameElement];
-  
-  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
-    cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:listing];
-    
-    NSURL *imageURL = [NSURL URLWithString:[[listing objectForKey:JSONLatestMonitoringStatusElement]
-                                            objectForKey:JSONSmallSymbolElement]];
-    cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
-  } else {
-    cell.detailTextLabel.text = nil;
-    
-    if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
-      cell.imageView.image = [UIImage imageNamed:UserIconFull];
-    } else {
-      cell.imageView.image = [UIImage imageNamed:ProviderIconFull];
-    }
-  } // if else searchscope == services
+  [UIContentController customiseTableViewCell:cell
+                               withProperties:[searchResults objectAtIndex:indexPath.row]
+                                   givenScope:[paginationController lastSearchScope]];
   
   return cell;
 } // tableView:cellForRowAtIndexPath
@@ -121,12 +99,12 @@
   
   NSDictionary *listing = [searchResults objectAtIndex:indexPath.row];
   
-  if ([[paginationController lastSearchScope] isEqualToString:ServicesSearchScope]) {
+  if ([[paginationController lastSearchScope] isEqualToString:ServiceResourceScope]) {
     [detailViewController startLoadingAnimation];
     [NSOperationQueue addToNewQueueSelector:@selector(updateWithPropertiesForServicesScope:)
                                    toTarget:detailViewController
                                  withObject:listing];
-  } else if ([[paginationController lastSearchScope] isEqualToString:UsersSearchScope]) {
+  } else if ([[paginationController lastSearchScope] isEqualToString:UserResourceScope]) {
     [detailViewController updateWithPropertiesForUsersScope:listing];
   } else {
     [detailViewController updateWithPropertiesForProvidersScope:listing];
@@ -164,21 +142,25 @@
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   [self searchBarShouldEndEditing:mySearchBar];
   
-  [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+  BOOL searchHasNotChanged = ([mySearchBar.text isEqualToString:[paginationController lastSearchQuery]] &&
+                              [searchScope isEqualToString:[paginationController lastSearchScope]]);
+  if (!searchHasNotChanged) {
+    [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+  }
   
   [searchBar resignFirstResponder];
 } // searchBarSearchButtonClicked
 
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-  if (selectedScope == ServicesSearchScopeIndex) {
+  if (selectedScope == ServiceResourceScopeIndex) {
     searchBar.placeholder = @"Search For A Service";
-    searchScope = ServicesSearchScope;
-  } else if (selectedScope == UsersSearchScopeIndex) {
+    searchScope = ServiceResourceScope;
+  } else if (selectedScope == UserResourceScopeIndex) {
     searchBar.placeholder = @"Search For A User";
-    searchScope = UsersSearchScope;
+    searchScope = UserResourceScope;
   } else {
     searchBar.placeholder = @"Search For A Service Provider";
-    searchScope = ProvidersSearchScope;
+    searchScope = ProviderResourceScope;
   }
 } // searchBar:selectedScopeButtonIndexDidChange
 

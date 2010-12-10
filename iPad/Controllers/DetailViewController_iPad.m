@@ -130,7 +130,7 @@
   
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   
-  if ([scope isEqualToString:ServicesSearchScope]) {
+  if ([scope isEqualToString:ServiceResourceScope]) {
     [self performSelectorOnMainThread:@selector(preUpdateWithPropertiesActionsForServices:) 
                            withObject:properties
                         waitUntilDone:NO];
@@ -146,7 +146,7 @@
     [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActionsForServices)
                            withObject:nil
                         waitUntilDone:NO];
-  } else if ([scope isEqualToString:UsersSearchScope]) {
+  } else if ([scope isEqualToString:UserResourceScope]) {
     [userProperties release];
     userProperties = [properties retain];
     
@@ -165,20 +165,20 @@
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
-  [self updateWithProperties:properties withScope:ServicesSearchScope];
-  scopeOfResourceBeingViewed = ServicesSearchScope;
+  [self updateWithProperties:properties withScope:ServiceResourceScope];
+  scopeOfResourceBeingViewed = ServiceResourceScope;
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
-  [self updateWithProperties:properties withScope:UsersSearchScope];  
+  [self updateWithProperties:properties withScope:UserResourceScope];  
   [self setContentView:userDetailView forParentView:mainContentView];
-  scopeOfResourceBeingViewed = UsersSearchScope;
+  scopeOfResourceBeingViewed = UserResourceScope;
 } // updateWithPropertiesForUsersScope
 
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties {
-  [self updateWithProperties:properties withScope:ProvidersSearchScope];  
+  [self updateWithProperties:properties withScope:ProviderResourceScope];  
   [self setContentView:providerDetailView forParentView:mainContentView];
-  scopeOfResourceBeingViewed = ProvidersSearchScope;
+  scopeOfResourceBeingViewed = ProviderResourceScope;
 } // updateWithPropertiesForProvidersScope
 
 
@@ -191,7 +191,7 @@
   
   NSDictionary *provider = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
                             objectForKey:JSONProviderElement];
-  [self updateWithProperties:provider withScope:ProvidersSearchScope];
+  [self updateWithProperties:provider withScope:ProviderResourceScope];
   
   [self loadViewIntoContextualPopover:providerIDCard 
                              intoView:serviceDetailView
@@ -205,14 +205,14 @@
   [providerProperties release];
   providerProperties = currentProviderProperties;
   
-  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServicesSearchScope];
+  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServiceResourceScope];
 } // showProviderInfo
 
 -(void) showSubmitterInfo:(id)sender {
   NSDictionary *currentListingProperties = [listingProperties retain];
   NSDictionary *currentUserProperties = [userProperties retain];
   
-  [self updateWithProperties:userProperties withScope:UsersSearchScope];
+  [self updateWithProperties:userProperties withScope:UserResourceScope];
   
   [self loadViewIntoContextualPopover:userIDCard 
                              intoView:serviceDetailView
@@ -226,7 +226,7 @@
   [userProperties release];
   userProperties = currentUserProperties;
   
-  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServicesSearchScope];
+  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServiceResourceScope];
 }
 
 -(void) showMonitoringStatusInfo:(id)sender {
@@ -317,7 +317,7 @@
   
   NSMutableArray *items = [[mainToolbar items] mutableCopy];
   
-  favouriteServiceBarButtonItem.enabled = [scopeOfResourceBeingViewed isEqualToString:ServicesSearchScope];
+  favouriteServiceBarButtonItem.enabled = [scopeOfResourceBeingViewed isEqualToString:ServiceResourceScope];
   
   [items insertObject:barButtonItem atIndex:0];
   [mainToolbar setItems:items animated:YES];
@@ -368,13 +368,13 @@
     NSDictionary *properties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LastViewedResourceKey];
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
     
-    if ([scope isEqualToString:ServicesSearchScope]) {
+    if ([scope isEqualToString:ServiceResourceScope]) {
       [NSOperationQueue addToMainQueueSelector:@selector(updateWithPropertiesForServicesScope:) 
                                       toTarget:self
                                     withObject:properties];
-    } else if ([scope isEqualToString:UsersSearchScope]) {
+    } else if ([scope isEqualToString:UserResourceScope]) {
       [self updateWithPropertiesForUsersScope:properties];
-    } else if ([scope isEqualToString:ProvidersSearchScope]) {
+    } else if ([scope isEqualToString:ProviderResourceScope]) {
       [self updateWithPropertiesForProvidersScope:properties];
     } else {
       [self setContentView:defaultView forParentView:mainContentView];

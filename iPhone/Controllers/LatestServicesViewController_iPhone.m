@@ -31,7 +31,7 @@
   
   [self stopLoadingAnimation];
 
-  [myTableView reloadData];
+  [[self tableView] reloadData];
 } // postFetchActions
 
 -(void) performServiceFetch {
@@ -45,6 +45,8 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  [UIContentController setBrushedMetalBackground:self.tableView];
   
   [NSOperationQueue addToMainQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
 } // viewDidLoad
@@ -73,15 +75,9 @@
   }
   
   // Configure the cell...
-  id service = [services objectAtIndex:indexPath.row];
-  
-  cell.textLabel.text = [service objectForKey:JSONNameElement];
-  cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:service];
-  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-  
-  NSURL *imageURL = [NSURL URLWithString:[[service objectForKey:JSONLatestMonitoringStatusElement] 
-                                          objectForKey:JSONSmallSymbolElement]];
-  cell.imageView.image = [UIImage imageNamed:[[imageURL lastPathComponent] stringByDeletingPathExtension]];
+  [UIContentController customiseTableViewCell:cell 
+                               withProperties:[services objectAtIndex:indexPath.row]
+                                   givenScope:ServiceResourceScope];
   
   return cell;
 } // tableView:cellForRowAtIndexPath
@@ -104,7 +100,6 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [myTableView release];
   [activityIndicator release];
   
   [detailViewController release];

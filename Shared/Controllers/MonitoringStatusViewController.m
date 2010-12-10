@@ -23,7 +23,8 @@
   [monitoringStatuses release];
   monitoringStatuses = [[properties objectForKey:JSONServiceTestsElement] retain];
 
-  [myTableView reloadData];
+  [self.tableView reloadData];
+  [self.tableView setTableHeaderView:nil];
 } // updateWithProperties
 
 -(void) fetchMonitoringStatusInfo:(NSString *)fromPath {
@@ -44,9 +45,22 @@
 #pragma mark View lifecycle
 
 -(void) viewDidLoad {
+  [super viewDidLoad];
+
   dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
+  
+  [UIContentController setBrushedMetalBackground:self.tableView];
+  
+  if (!loadingView) loadingView = [self.tableView tableHeaderView];
 } // viewDidLoad
+
+-(void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+
+  [self.tableView setTableHeaderView:loadingView];
+  [loadingView setNeedsDisplay];
+} // viewWillAppear
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -113,8 +127,6 @@
 
 -(void) releaseIBOutlets {
   [activityIndicator release];
-  
-  [myTableView release]; 
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

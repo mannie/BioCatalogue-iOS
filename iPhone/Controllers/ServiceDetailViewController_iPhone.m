@@ -66,10 +66,6 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-- (void)viewDidLoad {
-  [super viewDidLoad];
-} // viewDidLoad
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 } // shouldAutorotateToInterfaceOrientation

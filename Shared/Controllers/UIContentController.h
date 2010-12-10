@@ -39,6 +39,11 @@
   IBOutlet UITextView *providerDescription;  
 }
 
++(void) setBrushedMetalBackground:(UITableView *)tableView;
++(void) customiseTableViewCell:(UITableViewCell *)cell 
+                withProperties:(NSDictionary *)properties
+                    givenScope:(NSString *)scope;
+
 -(void) updateServiceUIElementsWithProperties:(NSDictionary *)listingProperties 
                                  providerName:(NSString *)providerName 
                                 submitterName:(NSString *)submitterName 

@@ -14,11 +14,11 @@
 @class DetailViewController_iPad;
 
 
-@interface ServiceComponentsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface ServiceComponentsViewController : UITableViewController {
   NSDictionary *componentsProperties;
   NSArray *serviceComponents;
   
-  IBOutlet UITableView *myTableView;
+  UIView *loadingView;
   
   IBOutlet DetailViewController_iPad *iPadDetailViewController;
 

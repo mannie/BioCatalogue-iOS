@@ -20,7 +20,7 @@
 #import "NSOperationQueue+Helper.h"
 
 
-@interface SearchViewController_iPhone : UIViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate> {
+@interface SearchViewController_iPhone : UITableViewController <UISearchBarDelegate> {
   NSArray *searchResults;
   NSString *searchScope;
   
@@ -28,9 +28,7 @@
   UserDetailViewController_iPhone *userDetailViewController;
   ProviderDetailViewController_iPhone *providerDetailViewController;
   
-  IBOutlet UISearchBar *mySearchBar;
-  IBOutlet UITableView *myTableView;
-  
+  IBOutlet UISearchBar *mySearchBar;  
   IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
