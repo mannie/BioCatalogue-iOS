@@ -11,20 +11,13 @@
 
 @implementation BioCatalogueClient
 
-+(BioCatalogueClient *) client {
-  return [[[BioCatalogueClient alloc] init] autorelease];
-}
 
-
-#pragma mark -
-#pragma mark Public Helpers
-
--(NSURL *) baseURL {
++(NSURL *) baseURL {
   return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", BioCatalogueHostname]];
 } // baseURL
 
--(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format {
-  NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
++(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format {
+  NSURL *url = [NSURL URLWithString:path relativeToURL:[BioCatalogueClient baseURL]];
   
   NSString *sanitizedPath = [[url path] lowercaseString];
   sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:@".json" withString:@""];
@@ -38,10 +31,10 @@
     sanitizedPath = [NSString stringWithFormat:@"%@.%@", sanitizedPath, format];
   }
 
-  return [NSURL URLWithString:sanitizedPath relativeToURL:[self baseURL]];
+  return [NSURL URLWithString:sanitizedPath relativeToURL:[BioCatalogueClient baseURL]];
 } // URLForPath:withRepresentation
 
--(NSDictionary *) performSearch:(NSString *)query 
++(NSDictionary *) performSearch:(NSString *)query 
                       withScope:(NSString *)scope
              withRepresentation:(NSString *)format 
                            page:(NSUInteger)pageNum {
@@ -55,13 +48,13 @@
   
   NSString *pathQuery = [NSString stringWithFormat:@"?q=%@&page=%i&per_page=%i", query, pageNum, ItemsPerPage];
   if ([scope isEqualToString:ServiceResourceScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/services%@", pathQuery]];
+    return [WebAccessController documentAtPath:[NSString stringWithFormat:@"/services%@", pathQuery]];
   } else if ([scope isEqualToString:UserResourceScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/users%@", pathQuery]];
+    return [WebAccessController documentAtPath:[NSString stringWithFormat:@"/users%@", pathQuery]];
   } else if ([scope isEqualToString:ProviderResourceScope]) {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/service_providers%@", pathQuery]];
+    return [WebAccessController documentAtPath:[NSString stringWithFormat:@"/service_providers%@", pathQuery]];
   } else {
-    return [[JSON_Helper helper] documentAtPath:[NSString stringWithFormat:@"/search%@", pathQuery]];
+    return [WebAccessController documentAtPath:[NSString stringWithFormat:@"/search%@", pathQuery]];
   }
 } // performSearch:withScope:withRepresentation
 
@@ -69,22 +62,23 @@
 #pragma mark -
 #pragma mark Attaining Service Types
 
--(BOOL) serviceIsREST:(NSDictionary *)listingProperties {
++(BOOL) serviceIsREST:(NSDictionary *)listingProperties {
   return [[[listingProperties objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:RESTService];
 } // serviceIsSOAP
 
--(BOOL) serviceIsSOAP:(NSDictionary *)listingProperties {
++(BOOL) serviceIsSOAP:(NSDictionary *)listingProperties {
   return [[[listingProperties objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:SOAPService];
 } // serviceIsSOAP
 
--(NSString *) serviceType:(NSDictionary *)listingProperties {
-  if ([self serviceIsREST:listingProperties]) {
++(NSString *) serviceType:(NSDictionary *)listingProperties {
+  if ([BioCatalogueClient serviceIsREST:listingProperties]) {
     return RESTService;
-  } else if ([self serviceIsSOAP:listingProperties]) {
+  } else if ([BioCatalogueClient serviceIsSOAP:listingProperties]) {
     return SOAPService;
   } else {
     return [[listingProperties objectForKey:JSONTechnologyTypesElement] lastObject];
   }
 } // serviceType
+
 
 @end

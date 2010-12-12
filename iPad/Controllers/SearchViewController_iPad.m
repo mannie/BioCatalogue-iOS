@@ -22,28 +22,10 @@
   searchResults = [[paginationController lastSearchResults] retain];
   
   [[self tableView] reloadData];
-
+  [paginationController updateSearchPaginationButtons];
+  
   [detailViewController stopLoadingAnimation];
 } // postFetchActions
-
--(void) performSearch {
-  [searchResults release];
-  searchResults = [[NSArray array] retain];
-  [[self tableView] reloadData];
-  [[self tableView] setNeedsDisplay];
-  
-  [detailViewController performSelectorOnMainThread:@selector(startLoadingAnimation)
-                                         withObject:nil
-                                      waitUntilDone:NO];
-  
-  [paginationController performSearch:mySearchBar.text
-                            withScope:searchScope
-                                 page:1
-                   performingSelector:@selector(postFetchActions)
-                             onTarget:self];
-  
-  [paginationController updateSearchPaginationButtons];
-} // performSearch
 
 
 #pragma mark -
@@ -101,9 +83,9 @@
   
   if ([[paginationController lastSearchScope] isEqualToString:ServiceResourceScope]) {
     [detailViewController startLoadingAnimation];
-    [NSOperationQueue addToNewQueueSelector:@selector(updateWithPropertiesForServicesScope:)
-                                   toTarget:detailViewController
-                                 withObject:listing];
+    dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+      [detailViewController updateWithPropertiesForServicesScope:listing];
+    });
   } else if ([[paginationController lastSearchScope] isEqualToString:UserResourceScope]) {
     [detailViewController updateWithPropertiesForUsersScope:listing];
   } else {
@@ -145,10 +127,30 @@
   BOOL searchHasNotChanged = ([mySearchBar.text isEqualToString:[paginationController lastSearchQuery]] &&
                               [searchScope isEqualToString:[paginationController lastSearchScope]]);
   if (!searchHasNotChanged) {
-    [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+    dispatch_async(dispatch_queue_create("Search", NULL), ^{
+      [searchResults release];
+      searchResults = [[NSArray array] retain];
+      [self.tableView performSelectorOnMainThread:@selector(reloadData) 
+                                       withObject:nil 
+                                    waitUntilDone:NO];
+      
+      [detailViewController performSelectorOnMainThread:@selector(startLoadingAnimation)
+                                             withObject:nil
+                                          waitUntilDone:NO];
+      
+      [paginationController performSearch:mySearchBar.text
+                                withScope:searchScope
+                                     page:1
+                       performingSelector:@selector(postFetchActions)
+                                 onTarget:self];
+      
+    });
   }
-  
+
   [searchBar resignFirstResponder];
+  
+  [[self tableView] reloadData];
+  [[self tableView] setNeedsDisplay];
 } // searchBarSearchButtonClicked
 
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {

@@ -15,12 +15,11 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import <UIKit/UIKit.h>
 
-#import "JSON+Helper.h"
+#import "WebAccessController.h"
 
 
-@interface TestJSON_Helper : SenTestCase {
+@interface TestWebAccessController : SenTestCase {
   NSString *message;
-  JSON_Helper *jsonHelper;
 }
 
 -(void) testGETdocumentAtPath;

@@ -10,8 +10,7 @@
 
 #import "DetailViewController_iPad.h"
 
-#import "JSON+Helper.h"
-#import "UIView+Helper.h"
+#import "WebAccessController.h"
 
 #import "PaginationController.h"
 

@@ -12,7 +12,8 @@
 
 @implementation DetailViewController_iPad
 
-@synthesize monitoringStatusViewController, serviceComponentsViewController;
+
+@synthesize monitoringStatusViewController, serviceComponentsViewController, webBrowserController;
 
 
 #pragma mark -
@@ -57,34 +58,44 @@
 } // webActivityWatcher
 
 -(void) startLoadingAnimation {
-  [UIView startLoadingAnimation:activityIndicator dimmingView:serviceName];
+  [activityIndicator startAnimating];
+  [UIView animateWithDuration:0.5
+                        delay:0
+                      options:UIViewAnimationOptionBeginFromCurrentState
+                   animations:^{ serviceName.alpha = 0.1; }
+                   completion:nil];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
-  [UIView stopLoadingAnimation:activityIndicator undimmingView:serviceName];
+  [activityIndicator stopAnimating];
+  [UIView animateWithDuration:0.5
+                        delay:0
+                      options:UIViewAnimationOptionBeginFromCurrentState
+                   animations:^{ serviceName.alpha = 1; }
+                   completion:nil];
 } // stopLoadingAnimation
 
 -(void) setContentView:(UIView *)subView forParentView:(UIView *)parentView {  
-  // remove subviews
-  for (id item in parentView.subviews) {
-    if (![item isMemberOfClass:[UIToolbar class]] && ![item isMemberOfClass:[UIActivityIndicatorView class]]) {
-      [item removeFromSuperview];
-    }
-  } // for each item in subview
-  
-  [parentView addSubview:subView];
-  
   defaultView.hidden = subView != defaultView;
   
-  // set up web browser
-  if (parentView == auxiliaryDetailPanel) {
+  // auxiliary panel
+  if (parentView == auxiliaryDetailPanel && currentAuxiliaryPanelView != subView) {
+    [currentAuxiliaryPanelView removeFromSuperview];
+    [parentView addSubview:subView];
+    currentAuxiliaryPanelView = subView;
+    
     webBrowserToolbar.hidden = subView != webBrowser;
     webBrowser.hidden = webBrowserToolbar.hidden;
-    
-    [self exposeAuxiliaryDetailPanel:self];
-  }
+  } 
   
-  [parentView setNeedsLayout];
+  if (parentView == auxiliaryDetailPanel) [self exposeAuxiliaryDetailPanel:self];
+  
+  // main content panel
+  if (parentView == mainContentView && currentMainContentView != subView) {
+    [currentMainContentView removeFromSuperview];
+    [parentView addSubview:subView];
+    currentMainContentView = subView;
+  }
 } // setContentView:forParentView
 
 
@@ -109,12 +120,12 @@
 -(void) postUpdateWithPropertiesActionsForServices {
   NSString *provider = [[[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
                          objectForKey:JSONProviderElement] objectForKey:JSONNameElement];
-
+  
   [uiContentController updateServiceUIElementsWithProperties:nil
                                                 providerName:provider
                                                submitterName:[userProperties objectForKey:JSONNameElement]
                                              showLoadingText:NO];
-
+  
   [self setContentView:serviceDetailView forParentView:mainContentView];
   
   [self.view setNeedsDisplay];  
@@ -134,15 +145,15 @@
     [self performSelectorOnMainThread:@selector(preUpdateWithPropertiesActionsForServices:) 
                            withObject:properties
                         waitUntilDone:NO];
-
+    
     [serviceProperties release];
-    serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] retain];
+    serviceProperties = [[WebAccessController documentAtPath:[resourceURL path]] retain];
     
     // submitter details
     [userProperties release];
     NSURL *userURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
-    userProperties = [[[JSON_Helper helper] documentAtPath:[userURL path]] retain];
-
+    userProperties = [[WebAccessController documentAtPath:[userURL path]] retain];
+    
     [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActionsForServices)
                            withObject:nil
                         waitUntilDone:NO];
@@ -219,10 +230,10 @@
                    withViewController:nil
                     withArrowFromRect:[sender frame]
                              withSize:userIDCard.frame.size];
-
+  
   [listingProperties release];
   listingProperties = currentListingProperties;
-
+  
   [userProperties release];
   userProperties = currentUserProperties;
   
@@ -233,11 +244,11 @@
   if (monitoringStatusInformationAvailable) {
     NSURL *serviceURL = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
     NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
-    
-    [NSOperationQueue addToNewQueueSelector:@selector(fetchMonitoringStatusInfo:)
-                                   toTarget:monitoringStatusViewController
-                                 withObject:path];
-    
+
+    dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
+      [monitoringStatusViewController fetchMonitoringStatusInfo:path];
+    });
+        
     [self loadViewIntoContextualPopover:nil 
                                intoView:serviceDetailView
                      withViewController:monitoringStatusViewController
@@ -258,16 +269,16 @@
   NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
                                             objectForKey:JSONResourceElement]];
   NSString *path;
-  if ([[BioCatalogueClient client] serviceIsREST:listingProperties]) {
+  if ([BioCatalogueClient serviceIsREST:listingProperties]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
   } else {
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
   }
   
-  [NSOperationQueue addToNewQueueSelector:@selector(fetchServiceComponents:) 
-                                 toTarget:serviceComponentsViewController 
-                               withObject:path];
-  
+  dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
+    [serviceComponentsViewController fetchServiceComponents:path];
+  });
+
   [self loadViewIntoContextualPopover:nil 
                              intoView:serviceDetailView
                    withViewController:serviceComponentsViewController
@@ -359,8 +370,6 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
   [super viewDidLoad];
   
@@ -369,9 +378,9 @@
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
     
     if ([scope isEqualToString:ServiceResourceScope]) {
-      [NSOperationQueue addToMainQueueSelector:@selector(updateWithPropertiesForServicesScope:) 
-                                      toTarget:self
-                                    withObject:properties];
+      dispatch_async(dispatch_queue_create("Load last viewed resource", NULL), ^{
+        [self updateWithPropertiesForServicesScope:properties];
+      });
     } else if ([scope isEqualToString:UserResourceScope]) {
       [self updateWithPropertiesForUsersScope:properties];
     } else if ([scope isEqualToString:ProviderResourceScope]) {
@@ -416,8 +425,8 @@
     
     [gestureHandler disableInteractionDisablingLayer:nil];
     
-//    FIXME: enable web browser activity watcher
-//    [NSOperationQueue addToCurrentQueueSelector:@selector(webBrowserActivityWatcher) toTarget:self withObject:nil];
+    //    FIXME: enable web browser activity watcher
+    [NSThread detachNewThreadSelector:@selector(webBrowserActivityWatcher) toTarget:self withObject:nil];
     
     viewHasAlreadyInitialized = YES;
   }
@@ -457,15 +466,17 @@
   [userDetailView release];
   [userIDCard release];
   [userIDCardContainer release];
-    
+  
   // provider view outlets
   [providerDetailView release];
   [providerIDCard release];
   [providerIDCardContainer release];
-    
+  
   // other outlets
   [gestureHandler release];
   [monitoringStatusViewController release];
+  [webBrowserController release];
+  
   [uiContentController release];
 } // releaseIBOutlets
 

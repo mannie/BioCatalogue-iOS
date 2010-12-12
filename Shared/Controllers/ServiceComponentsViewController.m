@@ -28,22 +28,34 @@
   }  
 
   [self.tableView reloadData];
-  [self.tableView setTableHeaderView:nil];
 } // updateWithProperties
 
 -(void) fetchServiceComponents:(NSString *)fromPath {  
   if (![lastUsedPath isEqualToString:fromPath]) {
-    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+    [activityIndicator performSelectorOnMainThread:@selector(startAnimating)
+                                        withObject:nil
+                                     waitUntilDone:NO];
+    [self.tableView performSelectorOnMainThread:@selector(setTableHeaderView:) 
+                                     withObject:loadingView
+                                  waitUntilDone:NO];
+
+    [serviceComponents release];
+    serviceComponents = [[NSArray array] retain];
+    [self.tableView performSelectorOnMainThread:@selector(reloadData) 
+                                     withObject:nil 
+                                  waitUntilDone:NO];
 
     [lastUsedPath release];
     lastUsedPath = [[NSString stringWithString:fromPath] retain];
 
     serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
     
-    [self updateWithProperties:[[JSON_Helper helper] documentAtPath:fromPath]];
+    [self updateWithProperties:[WebAccessController documentAtPath:fromPath]];
   
     [activityIndicator stopAnimating];
   }
+
+  [self.tableView setTableHeaderView:nil];  
 } // fetchServiceComponents
 
 
@@ -54,15 +66,8 @@
   [super viewDidLoad];
 
   [UIContentController setBrushedMetalBackground:self.tableView];
-  if (!loadingView) loadingView = [self.tableView tableHeaderView];
+  if (!loadingView) loadingView = [[self.tableView tableHeaderView] retain];
 } // viewDidLoad
-
--(void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  
-  [self.tableView setTableHeaderView:loadingView];
-  [loadingView setNeedsDisplay];
-} // viewWillAppear
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;

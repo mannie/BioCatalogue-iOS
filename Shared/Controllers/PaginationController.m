@@ -78,7 +78,7 @@
   if (serviceCurrentPage < 1) serviceCurrentPage = 1;
   
   [serviceResultsData release];
-  serviceResultsData = [[[JSON_Helper helper] services:ItemsPerPage page:serviceCurrentPage] retain];
+  serviceResultsData = [[WebAccessController services:ItemsPerPage page:serviceCurrentPage] retain];
   serviceLastPage = [[serviceResultsData objectForKey:JSONPagesElement] intValue];
   
   currentlyRetrievingServiceData = NO;
@@ -106,7 +106,11 @@
   else
     [serviceFetchTarget performSelector:@selector(startLoadingAnimation)];
   
-  [NSOperationQueue addToNewQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+  dispatch_async(dispatch_queue_create("Fetch services", NULL), ^{
+    [self performServiceFetch:serviceCurrentPage 
+           performingSelector:servicePostFetchSelector 
+                     onTarget:serviceFetchTarget];
+  });
 } // jumpToServicesPage
 
 
@@ -180,12 +184,12 @@
   if (searchCurrentPage < 1) searchCurrentPage = 1;
   
   [searchResultsData release];
-  searchResultsData = [[[BioCatalogueClient client] performSearch:searchQuery
-                                                        withScope:searchScope
-                                               withRepresentation:JSONFormat
-                                                             page:searchCurrentPage] retain];
+  searchResultsData = [[BioCatalogueClient performSearch:searchQuery
+                                               withScope:searchScope
+                                      withRepresentation:JSONFormat
+                                                    page:searchCurrentPage] retain];
   searchLastPage = [[searchResultsData objectForKey:JSONPagesElement] intValue];
-
+  
   currentlyRetrievingSearchData = YES;
   
   if (target && postFetchActions) [target performSelector:postFetchActions];  
@@ -205,16 +209,14 @@
   else
     [searchFetchTarget performSelector:@selector(startLoadingAnimation)];
   
-  [NSOperationQueue addToNewQueueSelector:@selector(performSearch) toTarget:self withObject:nil];
+  dispatch_async(dispatch_queue_create("Search", NULL), ^{
+    [self performSearch:searchQuery 
+              withScope:searchScope
+                   page:searchCurrentPage
+     performingSelector:searchPostFetchSelector
+               onTarget:searchFetchTarget];
+  });
 } // jumpToSearchResultsPage
-
--(void) performSearch {
-  [self performSearch:searchQuery
-            withScope:searchScope
-                 page:searchCurrentPage
-   performingSelector:searchPostFetchSelector
-             onTarget:searchFetchTarget];
-} // performSearch
 
 
 #pragma mark -
@@ -226,15 +228,15 @@
   }
   
   [serviceResultsData release];
-
+  
   for (id button in [self searchPaginationButtons]) {
     [button release];
   }
-
+  
   [searchResultsData release];
   [searchQuery release];
   [searchScope release];
-
+  
   [super dealloc];
 } // dealloc
 

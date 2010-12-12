@@ -30,13 +30,12 @@
   services = [[paginationController lastFetchedServices] retain];
   
   [self stopLoadingAnimation];
+  [paginationController updateServicePaginationButtons];
 
   [[self tableView] reloadData];
 } // postFetchActions
 
 -(void) performServiceFetch {
-  [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
-  [paginationController updateServicePaginationButtons];
 } // performServiceFetch
 
 
@@ -48,7 +47,9 @@
   
   [UIContentController setBrushedMetalBackground:self.tableView];
   
-  [NSOperationQueue addToMainQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+  dispatch_async(dispatch_queue_create("Fetch services", NULL), ^{
+    [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
+  });
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -87,9 +88,9 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [NSOperationQueue addToNewQueueSelector:@selector(updateWithProperties:) 
-                                 toTarget:detailViewController
-                               withObject:[services objectAtIndex:indexPath.row]];
+  dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+    [detailViewController updateWithProperties:[services objectAtIndex:indexPath.row]];
+  });
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
   [self.navigationController pushViewController:detailViewController animated:YES];

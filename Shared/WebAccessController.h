@@ -14,15 +14,13 @@
 #import "BioCatalogueClient.h"
 
 
-@interface JSON_Helper : NSObject {
+@interface WebAccessController : NSObject {
   
 }
 
-+(JSON_Helper *) helper;
++(NSDictionary *) documentAtPath:(NSString *)path;
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 
--(NSDictionary *) documentAtPath:(NSString *)path;
--(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
-
--(NSArray *) latestServices:(NSUInteger)limit;
++(NSArray *) latestServices:(NSUInteger)limit;
 
 @end

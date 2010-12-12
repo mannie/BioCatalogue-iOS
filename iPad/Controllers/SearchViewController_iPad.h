@@ -11,8 +11,6 @@
 #import "DetailViewController_iPad.h"
 #import "BioCatalogueClient.h"
 
-#import "UIView+Helper.h"
-
 #import "PaginationController.h"
 
 

@@ -16,9 +16,6 @@
 
 #import "PaginationController.h"
 
-#import "UIView+Helper.h"
-#import "NSOperationQueue+Helper.h"
-
 
 @interface SearchViewController_iPhone : UITableViewController <UISearchBarDelegate> {
   NSArray *searchResults;

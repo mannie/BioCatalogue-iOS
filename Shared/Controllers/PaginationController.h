@@ -7,14 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PaginationDelegate.h"
 
-#import "JSON+Helper.h"
+#import "WebAccessController.h"
 #import "UIDevice+Helper.h"
-#import "NSOperationQueue+Helper.h"
 
 
-@interface PaginationController : NSObject <PaginationDelegate> {
+@interface PaginationController : NSObject {
   // services pagination
   IBOutlet UIButton *servicePaginationButtonOne;
   IBOutlet UIButton *servicePaginationButtonTwo;
@@ -51,5 +49,37 @@
   id searchFetchTarget;
 }
 
+#pragma mark -
+#pragma mark Browsing Services
+
+-(NSArray *) servicePaginationButtons;
+-(void) updateServicePaginationButtons;
+
+-(BOOL) isCurrentlyFetchingServices;
+
+-(NSArray *) lastFetchedServices;
+
+-(void) performServiceFetch:(int)page 
+         performingSelector:(SEL)postFetchActions 
+                   onTarget:(id)target;
+
+
+#pragma mark -
+#pragma mark Search
+
+-(NSArray *) searchPaginationButtons;
+-(void) updateSearchPaginationButtons;
+
+-(BOOL) isCurrentlyPerformingSearch;
+
+-(NSArray *) lastSearchResults;
+-(NSString *) lastSearchQuery;
+-(NSString *) lastSearchScope;
+
+-(void) performSearch:(NSString *)query 
+            withScope:(NSString *)scope 
+                 page:(int)page
+   performingSelector:(SEL)postFetchActions
+             onTarget:(id)target;
 
 @end

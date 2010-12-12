@@ -10,15 +10,16 @@
 
 #import "GestureHandler_iPad.h"
 
-#import "UIView+Helper.h"
 #import "NSUserDefaults+Helper.h"
 
 #import "MonitoringStatusViewController.h"
 #import "ServiceComponentsViewController.h"
+#import "WebBrowserController.h"
+
 #import "UIContentController.h"
 
 
-@interface DetailViewController_iPad : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
+@interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
   UIPopoverController *defaultPopoverController;
   UIPopoverController *contextualPopoverController;
   
@@ -51,6 +52,9 @@
   IBOutlet UIActivityIndicatorView *activityIndicator;
   IBOutlet UIActivityIndicatorView *webBrowserActivityIndicator;
 
+  UIView *currentMainContentView;
+  UIView *currentAuxiliaryPanelView;
+  
   // the default view
   IBOutlet UIView *defaultView;
   
@@ -75,6 +79,7 @@
 
 @property (nonatomic, retain) IBOutlet MonitoringStatusViewController *monitoringStatusViewController;
 @property (nonatomic, retain) IBOutlet ServiceComponentsViewController *serviceComponentsViewController;
+@property (nonatomic, retain) IBOutlet WebBrowserController *webBrowserController;
 
 -(BOOL) isCurrentlyBusy;
 

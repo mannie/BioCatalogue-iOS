@@ -24,7 +24,7 @@
                     givenScope:(NSString *)scope {
   if ([scope isEqualToString:ServiceResourceScope]) {
     cell.textLabel.text = [properties objectForKey:JSONNameElement];
-    cell.detailTextLabel.text = [[BioCatalogueClient client] serviceType:properties];
+    cell.detailTextLabel.text = [BioCatalogueClient serviceType:properties];
     
     NSURL *imageURL = [NSURL URLWithString:[[properties objectForKey:JSONLatestMonitoringStatusElement] 
                                             objectForKey:JSONSmallSymbolElement]];
@@ -65,16 +65,15 @@
     monitoringStatusIcon.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
     
     // service components
-    BioCatalogueClient *client = [BioCatalogueClient client];
-    BOOL isREST = [client serviceIsREST:listingProperties];
-    BOOL isSOAP = [client serviceIsSOAP:listingProperties];
+    BOOL isREST = [BioCatalogueClient serviceIsREST:listingProperties];
+    BOOL isSOAP = [BioCatalogueClient serviceIsSOAP:listingProperties];
     
     if (isREST) {
       serviceComponents.text = RESTComponentsText;
     } else if (isSOAP) {
       serviceComponents.text = SOAPComponentsText;
     } else {
-      serviceComponents.text = [client serviceType:listingProperties];
+      serviceComponents.text = [BioCatalogueClient serviceType:listingProperties];
     }
     
     showComponentsButton.hidden = !isREST && !isSOAP;    

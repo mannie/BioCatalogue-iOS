@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSON+Helper.h"
-#import "UIView+Helper.h"
-#import "NSOperationQueue+Helper.h"
+#import "WebAccessController.h"
 
 #import "ServiceDetailViewController_iPhone.h"
 #import "PaginationController.h"

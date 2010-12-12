@@ -6,24 +6,18 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "JSON+Helper.h"
+#import "WebAccessController.h"
 
 
-@implementation JSON_Helper
+@implementation WebAccessController
 
-+(JSON_Helper *) helper {
-  return [[[JSON_Helper alloc] init] autorelease];
-}
 
-#pragma mark -
-#pragma mark Helpers
-
--(NSDictionary *) documentAtPath:(NSString *)path {
++(NSDictionary *) documentAtPath:(NSString *)path {
   @try {
     NSError *error = nil;
     NSURLResponse *response;
     
-    NSURL *url = [[BioCatalogueClient client] URLForPath:path withRepresentation:JSONFormat];
+    NSURL *url = [BioCatalogueClient URLForPath:path withRepresentation:JSONFormat];
     NSURLRequest *request = [NSURLRequest requestWithURL:url 
                                              cachePolicy:NSURLRequestReturnCacheDataElseLoad 
                                          timeoutInterval:10];
@@ -52,7 +46,7 @@
   }
 } // documentAtPath
 
--(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
   if (pageNum < 1) {
     pageNum = 1;
   }
@@ -64,8 +58,9 @@
   return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
 }
 
--(NSArray *) latestServices:(NSUInteger)limit {
++(NSArray *) latestServices:(NSUInteger)limit {
   return [[self services:limit page:1] objectForKey:JSONResultsElement];
 } // latestServices
+
 
 @end

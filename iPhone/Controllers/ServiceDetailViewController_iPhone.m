@@ -46,18 +46,18 @@
 
 -(void) updateWithProperties:(NSDictionary *)properties {
   [self performSelectorOnMainThread:@selector(preFetchActions:) withObject:properties waitUntilDone:NO];
-
+  
   [serviceListingProperties release];
   serviceListingProperties = [properties retain];  
   
   [serviceProperties release];
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
-  serviceProperties = [[[JSON_Helper helper] documentAtPath:[resourceURL path]] retain];
+  serviceProperties = [[WebAccessController documentAtPath:[resourceURL path]] retain];
   
   // submitter details
   [submitterProperties release];
   NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
-  submitterProperties = [[[JSON_Helper helper] documentAtPath:[submitterURL path]] retain];
+  submitterProperties = [[WebAccessController documentAtPath:[submitterURL path]] retain];
   
   [self performSelectorOnMainThread:@selector(postFetchActions) withObject:nil waitUntilDone:NO];
 } // updateWithProperties
@@ -96,9 +96,9 @@
     NSURL *serviceURL = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
     NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
     
-    [NSOperationQueue addToNewQueueSelector:@selector(fetchMonitoringStatusInfo:)
-                                   toTarget:monitoringStatusViewController
-                                 withObject:path];
+    dispatch_async(dispatch_queue_create("Fetch monitoring statuses", NULL), ^{
+      [monitoringStatusViewController fetchMonitoringStatusInfo:path];
+    });
     
     [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
   } else {
@@ -116,7 +116,7 @@
   NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
                                             objectForKey:JSONResourceElement]];
   NSString *path;
-  if ([[BioCatalogueClient client] serviceIsREST:serviceListingProperties]) {
+  if ([BioCatalogueClient serviceIsREST:serviceListingProperties]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
     serviceComponentsViewController.title = RESTComponentsText;
   } else {
@@ -124,9 +124,9 @@
     serviceComponentsViewController.title = SOAPComponentsText;
   }
   
-  [NSOperationQueue addToNewQueueSelector:@selector(fetchServiceComponents:)
-                                 toTarget:serviceComponentsViewController
-                               withObject:path];
+  dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
+    [serviceComponentsViewController fetchServiceComponents:path];
+  });
   
   [self.navigationController pushViewController:serviceComponentsViewController animated:YES];
 } // showServiceComponents

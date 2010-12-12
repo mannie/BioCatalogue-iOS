@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "JSON+Helper.h"
+#import "WebAccessController.h"
 
 
 @interface MonitoringStatusViewController : UITableViewController {

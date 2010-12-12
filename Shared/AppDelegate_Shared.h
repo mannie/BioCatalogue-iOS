@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-#import "JSON+Helper.h"
+#import "WebAccessController.h"
 
 
 @interface AppDelegate_Shared : NSObject <UIApplicationDelegate> {

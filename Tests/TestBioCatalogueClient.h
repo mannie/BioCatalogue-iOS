@@ -20,7 +20,6 @@
 
 @interface TestBioCatalogueClient : SenTestCase {
   NSString *message;
-  BioCatalogueClient *client;
 }
 
 -(void) testBaseURL;

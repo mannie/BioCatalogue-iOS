@@ -12,7 +12,7 @@
 @implementation GestureHandler_iPad
 
 
-float animationDuration = 0.5;
+NSTimeInterval gestureAnimationDuration = 0.5;
 
 
 #pragma mark -
@@ -72,17 +72,15 @@ float animationDuration = 0.5;
   } // if UIGestureRecognizerStateChanged
   
   if (recognizer.state == UIGestureRecognizerStateEnded) {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.45];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];  
-
     NSDictionary *originalCenterAsObject = (portraitOrientation ? 
                                             [initialCenterPositionsInPortrait objectForKey:viewHash] :
-                                            [initialCenterPositionsInLandscape objectForKey:viewHash]);
+                                            [initialCenterPositionsInLandscape objectForKey:viewHash]);  
     
-    recognizer.view.center = [self pointForNSDictionary:originalCenterAsObject];  
-    
-    [UIView commitAnimations];
+    [UIView animateWithDuration:gestureAnimationDuration
+                          delay:0
+                        options:UIViewAnimationOptionAllowUserInteraction
+                     animations:^{ recognizer.view.center = [self pointForNSDictionary:originalCenterAsObject]; }
+                     completion:nil];
   } // if UIGestureRecognizerStateEnded
 } // panViewButResetPositionAfterwards
 
@@ -96,10 +94,6 @@ float animationDuration = 0.5;
   CGPoint center = CGPointMake(auxiliaryDetailPanel.center.x, auxiliaryDetailPanel.center.y);
   CGFloat horizontalShiftOfAuxiliaryDetailPanel = 450; // 480
   
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:animationDuration];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-  
   if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft && !auxiliaryDetailPanelIsExposed) {
     center.x -= horizontalShiftOfAuxiliaryDetailPanel;
     auxiliaryDetailPanelIsExposed = YES;
@@ -112,41 +106,43 @@ float animationDuration = 0.5;
     [self disableInteractionDisablingLayer:nil];
   }
 
-  auxiliaryDetailPanel.center = center;
-
-  [UIView commitAnimations];
+  [UIView animateWithDuration:gestureAnimationDuration
+                        delay:0
+                      options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
+                   animations:^{ auxiliaryDetailPanel.center = center; }
+                   completion:nil];  
 } // rolloutAuxiliaryDetailPanel
 
 -(void) enableInteractionDisablingLayer {
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:animationDuration];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-  
-  interactionDisablingLayer.alpha = 0.8;
-  
-  auxiliaryToolbar.alpha = 0;
-  webBrowserToolbar.alpha = 1;
-
-  [UIView commitAnimations];
+  [UIView animateWithDuration:gestureAnimationDuration
+                        delay:0
+                      options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
+                   animations:^{ 
+                     interactionDisablingLayer.alpha = 0.8;
+                     
+                     auxiliaryToolbar.alpha = 0;
+                     webBrowserToolbar.alpha = 1;
+                   }
+                   completion:nil];  
 } // enableInteractionDisablingLayer
 
 -(void) disableInteractionDisablingLayer:(UITapGestureRecognizer *)recognizer {
-  [UIView beginAnimations:nil context:NULL];
-  [UIView setAnimationDuration:animationDuration];
-  [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-
   if (recognizer) {    
     // create swipe gesture
     UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] init];
     [self rolloutAuxiliaryDetailPanel:[swipeRight autorelease]];
   } else {
-    interactionDisablingLayer.alpha = 0;
-
-    auxiliaryToolbar.alpha = 1;
-    webBrowserToolbar.alpha = 0;
+    [UIView animateWithDuration:gestureAnimationDuration
+                          delay:0
+                        options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{ 
+                       interactionDisablingLayer.alpha = 0;
+                       
+                       auxiliaryToolbar.alpha = 1;
+                       webBrowserToolbar.alpha = 0;
+                     }
+                     completion:nil];
   }
-
-  [UIView commitAnimations];
 } // disableInteractionDisablingLayer
 
 

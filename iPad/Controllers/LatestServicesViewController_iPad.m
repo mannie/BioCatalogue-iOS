@@ -23,15 +23,10 @@
   services = [[paginationController lastFetchedServices] retain];
   
   [detailViewController stopLoadingAnimation];
+  [paginationController updateServicePaginationButtons];    
   
   [[self tableView] reloadData];
 } // postFetchActions
-
--(void) performServiceFetch {  
-  [detailViewController startLoadingAnimation];
-  [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
-  [paginationController updateServicePaginationButtons];
-} // performServiceFetch
 
 
 #pragma mark -
@@ -45,7 +40,10 @@
   
   [UIContentController setBrushedMetalBackground:self.tableView];
   
-  [NSOperationQueue addToMainQueueSelector:@selector(performServiceFetch) toTarget:self withObject:nil];
+  [detailViewController startLoadingAnimation];
+  dispatch_async(dispatch_queue_create("Fetch services", NULL), ^{
+    [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
+  });
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -90,15 +88,12 @@
                      scrollPosition:UITableViewScrollPositionNone];
     return;
   }
-  
-  [detailViewController dismissAuxiliaryDetailPanel:self];
-  
-  NSDictionary *listing = [services objectAtIndex:indexPath.row];
-  
+
   [detailViewController startLoadingAnimation];
-  [NSOperationQueue addToNewQueueSelector:@selector(updateWithPropertiesForServicesScope:)
-                                 toTarget:detailViewController
-                               withObject:listing];
+  [detailViewController dismissAuxiliaryDetailPanel:self];
+  dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+    [detailViewController updateWithPropertiesForServicesScope:[services objectAtIndex:indexPath.row]];
+  });
   
   [lastSelection release];
   lastSelection = [indexPath retain];
