@@ -13,13 +13,13 @@
 
 
 -(BOOL) isValidJSONValue {
-  BOOL isJSONNull = [self isEqualToString:JSONNull];
+  BOOL isNull = [self isEqual:[NSNull null]] || [self isEqualToString:JSONNull];
   
   NSArray *components = [self componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF != %@", @""];
   BOOL isWhiteSpace = [[components filteredArrayUsingPredicate:predicate] count] == 0;
-      
-  return !isJSONNull && !isWhiteSpace;
+  
+  return !isNull && !isWhiteSpace;
 } // isValidJSONValue
 
 -(BOOL) isValidAPIRepresentation {

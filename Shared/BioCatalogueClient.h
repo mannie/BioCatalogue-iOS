@@ -13,7 +13,7 @@
 #import "NSString+Helper.h"
 #import "NSError+Helper.h"
 
-#import "JSON.h"
+#import "JSONKit.h"
 
 #import "GTMOAuthViewControllerTouch.h"
 

@@ -78,32 +78,30 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
 
 +(NSDictionary *) documentAtPath:(NSString *)path {
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
+
+  NSError *error = nil;
+  NSURLResponse *response = nil;
   
   @try {
-    NSError *error = nil;
-    NSURLResponse *response;
-    
     NSURL *url = [self URLForPath:path withRepresentation:JSONFormat];
     NSURLRequest *request = [NSURLRequest requestWithURL:url 
                                              cachePolicy:NSURLRequestReturnCacheDataElseLoad 
-                                         timeoutInterval:10];
+                                         timeoutInterval:5];
     
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    NSString *dataAsString = [[NSString alloc] initWithBytes:[data bytes] 
-                                                      length:[data length] 
-                                                    encoding:NSUTF8StringEncoding];
     if (error) [error log];
-    
-    id json = [dataAsString JSONValue];
-    [dataAsString release];
+
+    id json = [data objectFromJSONDataWithParseOptions:JKParseOptionUnicodeNewlines|JKParseOptionStrict
+                                                 error:&error];
     
     if ([[json allKeys] count] != 1 || [[[json allKeys] lastObject] isEqualToString:JSONErrorsElement]) {
       return nil;
     } else {
-      NSString *key = [[json allKeys] lastObject];
-      return [json objectForKey:key];
+      return [json objectForKey:[[json allKeys] lastObject]];
     }
   } @catch (NSException * e) {
+    if (error) [error log];
+
     NSLog(@"%@\n%@", [e name], [e reason]);
     return nil;
   } @finally {
