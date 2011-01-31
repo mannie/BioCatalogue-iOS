@@ -10,6 +10,13 @@
 
 
 #pragma mark -
+#pragma mark Notifications
+
+extern NSString *const NetworkActivityStarted;
+extern NSString *const NetworkActivityStopped;
+
+
+#pragma mark -
 #pragma mark BioCatalogueClient
 
 extern NSUInteger const iPadItemsPerPage;

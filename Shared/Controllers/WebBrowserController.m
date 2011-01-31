@@ -11,22 +11,32 @@
 
 @implementation WebBrowserController
 
+-(void) updateNavigationButtons:(UIWebView *)webView {
+  reloadButton.enabled = !webView.loading;
+  stopButton.enabled = webView.loading;
+
+  backButton.enabled = webView.canGoBack;
+  forwardButton.enabled = webView.canGoForward;
+} // updateNavigationButtons
+
 -(void) webViewDidStartLoad:(UIWebView *)webView {
-  NSLog(@"webViewDidStartLoad: %@", webView);
+  [self updateNavigationButtons:webView];
+  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
+
+  NSLog(@"webViewDidStartLoad: %@", webView);  
 } // webViewDidStartLoad
 
 -(void) webViewDidFinishLoad:(UIWebView *)webView {
+  [self updateNavigationButtons:webView];
+  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
+
   NSLog(@"webViewDidFinishLoad: %@", webView);
 } // webViewDidFinishLoad
 
--(BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-  NSLog(@"shouldStartLoadWithRequest: %@", request);
-
-  return YES;
-} // shouldStartLoadWithRequest:navigationType
-
 -(void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
   NSLog(@"didFailLoadWithError: %@", error);
+  
+  return;
   
   NSString *message = [NSString stringWithFormat:@"%@\n\n%@", 
                        [error localizedDescription], [error localizedRecoverySuggestion]];
@@ -42,5 +52,20 @@
   [alert show];
   [alert release];
 } // didFailLoadWithError
+
+
+#pragma mark -
+#pragma mark Memory management
+
+- (void)dealloc {
+  [reloadButton release];
+  [stopButton release];
+  
+  [backButton release];
+  [forwardButton release];
+  
+  [super dealloc];
+} // dealloc
+
 
 @end

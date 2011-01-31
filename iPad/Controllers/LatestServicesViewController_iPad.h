@@ -10,8 +10,7 @@
 
 #import "DetailViewController_iPad.h"
 
-#import "WebAccessController.h"
-
+#import "BioCatalogueClient.h"
 #import "PaginationController.h"
 
 

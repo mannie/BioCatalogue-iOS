@@ -10,6 +10,13 @@
 
 
 #pragma mark -
+#pragma mark Notifications
+
+NSString *const NetworkActivityStarted = @"NetworkActivityStartedNotification";
+NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
+
+
+#pragma mark -
 #pragma mark BioCatalogueClient
 
 NSUInteger const iPadItemsPerPage = 15;

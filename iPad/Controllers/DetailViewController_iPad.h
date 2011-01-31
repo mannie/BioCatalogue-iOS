@@ -11,12 +11,15 @@
 #import "GestureHandler_iPad.h"
 
 #import "NSUserDefaults+Helper.h"
+#import "NSDictionary+Helper.h"
 
 #import "MonitoringStatusViewController.h"
 #import "ServiceComponentsViewController.h"
 #import "WebBrowserController.h"
 
 #import "UIContentController.h"
+
+#import "BioCatalogueResourceManager.h"
 
 
 @interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
@@ -89,6 +92,8 @@
 
 -(void) startLoadingAnimation;
 -(void) stopLoadingAnimation;
+
+-(IBAction) markUnmarkServiceAsFavourite:(id)sender;
 
 -(IBAction) showProviderInfo:(id)sender;
 -(IBAction) showSubmitterInfo:(id)sender;

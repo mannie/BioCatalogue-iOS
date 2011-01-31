@@ -47,9 +47,7 @@
   
   [UIContentController setBrushedMetalBackground:self.tableView];
   
-  dispatch_async(dispatch_queue_create("Fetch services", NULL), ^{
-    [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
-  });
+  [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

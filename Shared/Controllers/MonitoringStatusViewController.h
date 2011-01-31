@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "WebAccessController.h"
+#import "BioCatalogueClient.h"
 
 
 @interface MonitoringStatusViewController : UITableViewController {

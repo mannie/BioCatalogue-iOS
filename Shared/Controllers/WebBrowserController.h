@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AppConstants.h"
 
 
 @interface WebBrowserController : NSObject <UIWebViewDelegate> {
-
+  IBOutlet UIBarButtonItem *reloadButton;
+  IBOutlet UIBarButtonItem *stopButton;
+  IBOutlet UIBarButtonItem *backButton;
+  IBOutlet UIBarButtonItem *forwardButton;
 }
 
 @end

@@ -19,12 +19,18 @@
   [image release];
 } // setBrushedMetalBackground
 
++(void) customiseTableViewCell:(UITableViewCell *)cell withService:(Service *)service {
+  cell.textLabel.text = service.name;
+  cell.detailTextLabel.text = service.about;
+  cell.imageView.image = [UIImage imageWithData:service.latestMonitoringIcon];      
+} // customiseTableViewCell:withService
+
 +(void) customiseTableViewCell:(UITableViewCell *)cell 
                 withProperties:(NSDictionary *)properties
                     givenScope:(NSString *)scope {
   if ([scope isEqualToString:ServiceResourceScope]) {
     cell.textLabel.text = [properties objectForKey:JSONNameElement];
-    cell.detailTextLabel.text = [BioCatalogueClient serviceType:properties];
+    cell.detailTextLabel.text = [properties serviceListingType];
     
     NSURL *imageURL = [NSURL URLWithString:[[properties objectForKey:JSONLatestMonitoringStatusElement] 
                                             objectForKey:JSONSmallSymbolElement]];
@@ -65,15 +71,15 @@
     monitoringStatusIcon.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
     
     // service components
-    BOOL isREST = [BioCatalogueClient serviceIsREST:listingProperties];
-    BOOL isSOAP = [BioCatalogueClient serviceIsSOAP:listingProperties];
+    BOOL isREST = [listingProperties serviceListingIsRESTService];
+    BOOL isSOAP = [listingProperties serviceListingIsSOAPService];
     
     if (isREST) {
       serviceComponents.text = RESTComponentsText;
     } else if (isSOAP) {
       serviceComponents.text = SOAPComponentsText;
     } else {
-      serviceComponents.text = [BioCatalogueClient serviceType:listingProperties];
+      serviceComponents.text = [listingProperties serviceListingType];
     }
     
     showComponentsButton.hidden = !isREST && !isSOAP;    

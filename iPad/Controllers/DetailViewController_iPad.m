@@ -43,20 +43,6 @@
                                              animated:YES];
 } // loadViewIntoContextualPopover:intoView:withViewController:withArrowFromRect:withSize
 
--(void) webBrowserActivityWatcher {
-  // FIXME: change this so that it actually stops and starts the activity update
-  // IBOutlet webBrowserActivityIndicator is currently disconnected
-  while (YES) {
-    [NSThread sleepForTimeInterval:1];
-    
-    if (webBrowser.loading) {
-      [webBrowserActivityIndicator startAnimating];
-    } else {
-      [webBrowserActivityIndicator stopAnimating];
-    }
-  }
-} // webActivityWatcher
-
 -(void) startLoadingAnimation {
   [activityIndicator startAnimating];
   [UIView animateWithDuration:0.5
@@ -147,26 +133,31 @@
                         waitUntilDone:NO];
     
     [serviceProperties release];
-    serviceProperties = [[WebAccessController documentAtPath:[resourceURL path]] retain];
+    serviceProperties = [[BioCatalogueClient documentAtPath:[resourceURL path]] retain];
     
     // submitter details
     [userProperties release];
     NSURL *userURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
-    userProperties = [[WebAccessController documentAtPath:[userURL path]] retain];
+    userProperties = [[BioCatalogueClient documentAtPath:[userURL path]] retain];
     
     [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActionsForServices)
                            withObject:nil
                         waitUntilDone:NO];
+    
+    favouriteServiceBarButtonItem.enabled = YES;
   } else if ([scope isEqualToString:UserResourceScope]) {
     [userProperties release];
     userProperties = [properties retain];
     
     [uiContentController updateUserProviderUIElementsWithProperties:properties];
+    
+    favouriteServiceBarButtonItem.enabled = NO;
   } else {
     [providerProperties release];
     providerProperties = [properties retain];
     
     [uiContentController updateProviderUIElementsWithProperties:properties];
+    favouriteServiceBarButtonItem.enabled = NO;
   }
   
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
@@ -195,6 +186,10 @@
 
 #pragma mark -
 #pragma mark IBActions
+
+-(void) markUnmarkServiceAsFavourite:(id)sender {
+  [BioCatalogueResourceManager favouriteServiceWithProperties:serviceProperties];
+} // markUnmarkServiceAsFavourite
 
 -(void) showProviderInfo:(id)sender {
   NSDictionary *currentListingProperties = [listingProperties retain];
@@ -243,12 +238,12 @@
 -(void) showMonitoringStatusInfo:(id)sender {
   if (monitoringStatusInformationAvailable) {
     NSURL *serviceURL = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
-    NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
+    NSString *path = [[[serviceURL path] stringByAppendingPathComponent:@"monitoring"] retain];
 
     dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
       [monitoringStatusViewController fetchMonitoringStatusInfo:path];
     });
-        
+    
     [self loadViewIntoContextualPopover:nil 
                                intoView:serviceDetailView
                      withViewController:monitoringStatusViewController
@@ -269,7 +264,7 @@
   NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
                                             objectForKey:JSONResourceElement]];
   NSString *path;
-  if ([BioCatalogueClient serviceIsREST:listingProperties]) {
+  if ([listingProperties serviceListingIsRESTService]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
   } else {
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
@@ -376,7 +371,7 @@
   if (!viewHasAlreadyInitialized) {
     NSDictionary *properties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LastViewedResourceKey];
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
-    
+
     if ([scope isEqualToString:ServiceResourceScope]) {
       dispatch_async(dispatch_queue_create("Load last viewed resource", NULL), ^{
         [self updateWithPropertiesForServicesScope:properties];
@@ -387,8 +382,9 @@
       [self updateWithPropertiesForProvidersScope:properties];
     } else {
       [self setContentView:defaultView forParentView:mainContentView];
+      [self stopLoadingAnimation];
     }
-    
+
     UIGestureRecognizer *recognizer;
     
     // pan recognizer for providerDetailIDCardView
@@ -424,10 +420,7 @@
     [recognizer release];
     
     [gestureHandler disableInteractionDisablingLayer:nil];
-    
-    //    FIXME: enable web browser activity watcher
-    [NSThread detachNewThreadSelector:@selector(webBrowserActivityWatcher) toTarget:self withObject:nil];
-    
+        
     viewHasAlreadyInitialized = YES;
   }
 } // viewDidLoad

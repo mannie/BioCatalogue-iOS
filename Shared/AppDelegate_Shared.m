@@ -14,6 +14,26 @@
 @synthesize window;
 
 
+-(id) init {
+  self = [super init];
+  
+  NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+  [center addObserver:self selector:@selector(incrementNetworkActivity:) name:NetworkActivityStarted object:nil];
+  [center addObserver:self selector:@selector(decrementNetworkActivity:) name:NetworkActivityStopped object:nil];
+  
+  return self;
+} // initialize
+
+-(void) incrementNetworkActivity:(NSNotification *)notification {
+  networkActivityCounter++;
+  if (networkActivityCounter > 0) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+} // incrementNetworkActivity
+
+-(void) decrementNetworkActivity:(NSNotification *)notification {
+  if (networkActivityCounter > 0) networkActivityCounter--;
+  if (networkActivityCounter == 0) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+} // decrementNetworkActivity
+
 -(BOOL) applicationStartConditionsMet {
   // TODO: check for internet connection (continously)
   // TODO: check that the API version is supported

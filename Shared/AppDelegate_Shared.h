@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-#import "WebAccessController.h"
+#import "BioCatalogueClient.h"
 
 
 @interface AppDelegate_Shared : NSObject <UIApplicationDelegate> {
@@ -19,6 +19,8 @@
   NSManagedObjectContext *managedObjectContext_;
   NSManagedObjectModel *managedObjectModel_;
   NSPersistentStoreCoordinator *persistentStoreCoordinator_;
+  
+  NSUInteger networkActivityCounter;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -27,6 +29,8 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+-(void) incrementNetworkActivity:(NSNotification *)notification;
+-(void) decrementNetworkActivity:(NSNotification *)notification;
 
 -(BOOL) applicationStartConditionsMet;
 

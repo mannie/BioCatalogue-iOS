@@ -26,4 +26,8 @@
 -(void) testURLForPathWithRepresentation;
 -(void) testPerformSearchWithScopeAndRepresentationPage;
 
+-(void) testGETdocumentAtPath;
+-(void) testGETLatestServices;
+-(void) testGETServicesAtPage;
+
 @end

@@ -50,7 +50,7 @@
 
     serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
     
-    [self updateWithProperties:[WebAccessController documentAtPath:fromPath]];
+    [self updateWithProperties:[BioCatalogueClient documentAtPath:fromPath]];
   
     [activityIndicator stopAnimating];
   }

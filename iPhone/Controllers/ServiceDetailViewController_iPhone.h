@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-#import "WebAccessController.h"
+#import "BioCatalogueClient.h"
 
 #import "UserDetailViewController_iPhone.h"
 #import "ProviderDetailViewController_iPhone.h"
 #import "MonitoringStatusViewController.h"
 #import "ServiceComponentsViewController.h"
 #import "UIContentController.h"
+
+#import "NSDictionary+Helper.h"
 
 
 @interface ServiceDetailViewController_iPhone : UIViewController {

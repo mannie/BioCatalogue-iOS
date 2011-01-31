@@ -52,12 +52,12 @@
   
   [serviceProperties release];
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
-  serviceProperties = [[WebAccessController documentAtPath:[resourceURL path]] retain];
+  serviceProperties = [[BioCatalogueClient documentAtPath:[resourceURL path]] retain];
   
   // submitter details
   [submitterProperties release];
   NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
-  submitterProperties = [[WebAccessController documentAtPath:[submitterURL path]] retain];
+  submitterProperties = [[BioCatalogueClient documentAtPath:[submitterURL path]] retain];
   
   [self performSelectorOnMainThread:@selector(postFetchActions) withObject:nil waitUntilDone:NO];
 } // updateWithProperties
@@ -116,7 +116,7 @@
   NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
                                             objectForKey:JSONResourceElement]];
   NSString *path;
-  if ([BioCatalogueClient serviceIsREST:serviceListingProperties]) {
+  if ([serviceListingProperties serviceListingIsRESTService]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
     serviceComponentsViewController.title = RESTComponentsText;
   } else {

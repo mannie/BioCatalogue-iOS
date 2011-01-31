@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "WebAccessController.h"
+#import "BioCatalogueClient.h"
 #import "UIDevice+Helper.h"
 
 

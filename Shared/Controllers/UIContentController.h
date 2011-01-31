@@ -9,9 +9,13 @@
 #import <Foundation/Foundation.h>
 
 #import "AppConstants.h"
+
 #import "NSString+Helper.h"
+#import "NSDictionary+Helper.h"
 
 #import "BioCatalogueClient.h"
+
+#import "Service.h"
 
 
 @interface UIContentController : NSObject {
@@ -40,10 +44,13 @@
 }
 
 +(void) setBrushedMetalBackground:(UITableView *)tableView;
+
++(void) customiseTableViewCell:(UITableViewCell *)cell withService:(Service *)service;
 +(void) customiseTableViewCell:(UITableViewCell *)cell 
                 withProperties:(NSDictionary *)properties
                     givenScope:(NSString *)scope;
 
+-(void) updateServiceUIElementsWithService:(Service *)service;
 -(void) updateServiceUIElementsWithProperties:(NSDictionary *)listingProperties 
                                  providerName:(NSString *)providerName 
                                 submitterName:(NSString *)submitterName 

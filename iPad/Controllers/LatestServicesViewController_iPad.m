@@ -41,9 +41,7 @@
   [UIContentController setBrushedMetalBackground:self.tableView];
   
   [detailViewController startLoadingAnimation];
-  dispatch_async(dispatch_queue_create("Fetch services", NULL), ^{
-    [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
-  });
+  [paginationController performServiceFetch:1 performingSelector:@selector(postFetchActions) onTarget:self];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -91,6 +89,7 @@
 
   [detailViewController startLoadingAnimation];
   [detailViewController dismissAuxiliaryDetailPanel:self];
+    
   dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
     [detailViewController updateWithPropertiesForServicesScope:[services objectAtIndex:indexPath.row]];
   });

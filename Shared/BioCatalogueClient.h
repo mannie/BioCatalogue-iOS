@@ -9,24 +9,37 @@
 #import <Foundation/Foundation.h>
 
 #import "AppConstants.h"
-#import "WebAccessController.h"
+
 #import "NSString+Helper.h"
+#import "NSError+Helper.h"
+
+#import "JSON.h"
+
+#import "GTMOAuthViewControllerTouch.h"
 
 
 @interface BioCatalogueClient : NSObject {
 }
 
 +(NSURL *) baseURL;
+
++(NSURL *) OAuthRequestURL;
++(NSURL *) OAuthAccessURL;
++(NSURL *) OAuthAuthorizeURL;
++(NSURL *) OAuthCallbackURL;
+
 +(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
+
++(GTMOAuthAuthentication *) clientOAuthAuthentication;
 
 +(NSDictionary *) performSearch:(NSString *)query 
                       withScope:(NSString *)scope
              withRepresentation:(NSString *)format
                            page:(NSUInteger)pageNum;
 
-+(BOOL) serviceIsREST:(NSDictionary *)listingProperties;
-+(BOOL) serviceIsSOAP:(NSDictionary *)listingProperties;
++(NSDictionary *) documentAtPath:(NSString *)path;
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 
-+(NSString *) serviceType:(NSDictionary *)listingProperties;
++(NSArray *) latestServices:(NSUInteger)limit;
 
 @end

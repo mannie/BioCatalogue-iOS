@@ -78,7 +78,7 @@
   if (serviceCurrentPage < 1) serviceCurrentPage = 1;
   
   [serviceResultsData release];
-  serviceResultsData = [[WebAccessController services:ItemsPerPage page:serviceCurrentPage] retain];
+  serviceResultsData = [[BioCatalogueClient services:ItemsPerPage page:serviceCurrentPage] retain];
   serviceLastPage = [[serviceResultsData objectForKey:JSONPagesElement] intValue];
   
   currentlyRetrievingServiceData = NO;

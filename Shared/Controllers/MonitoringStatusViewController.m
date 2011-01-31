@@ -44,7 +44,7 @@
     [lastUsedPath release];
     lastUsedPath = [fromPath retain];
     
-    [self updateWithProperties:[WebAccessController documentAtPath:fromPath]];
+    [self updateWithProperties:[BioCatalogueClient documentAtPath:fromPath]];
 
     [activityIndicator stopAnimating];
   }
