@@ -32,14 +32,20 @@
 
 +(GTMOAuthAuthentication *) clientOAuthAuthentication;
 
++(NSDictionary *) documentAtPath:(NSString *)path;
++(NSDictionary *) documentAtPath:(NSString *)path withRepresentation:(NSString *)format;
+
 +(NSDictionary *) performSearch:(NSString *)query 
                       withScope:(NSString *)scope
              withRepresentation:(NSString *)format
                            page:(NSUInteger)pageNum;
 
-+(NSDictionary *) documentAtPath:(NSString *)path;
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 
 +(NSArray *) latestServices:(NSUInteger)limit;
+
++(NSArray *) BLJSONServicesForPage:(NSUInteger)page;
++(NSArray *) BLJSONProvidersForPage:(NSUInteger)page;
++(NSArray *) BLJSONUsersForPage:(NSUInteger)page;
 
 @end

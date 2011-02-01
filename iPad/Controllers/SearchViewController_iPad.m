@@ -37,7 +37,7 @@
   [self searchBarCancelButtonClicked:mySearchBar];
   
   searchScope = ServiceResourceScope;
-  [UIContentController setBrushedMetalBackground:self.tableView];
+  [UIContentController setTableViewBackground:self.tableView];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

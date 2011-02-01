@@ -12,7 +12,7 @@
 @implementation UIContentController
 
 
-+(void) setBrushedMetalBackground:(UITableView *)tableView {
++(void) setTableViewBackground:(UITableView *)tableView {
   UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BrushedMetalBackground]];
   image.frame = tableView.frame;
   [tableView setBackgroundView:image];

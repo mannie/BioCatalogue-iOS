@@ -62,7 +62,7 @@
   dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
   
-  [UIContentController setBrushedMetalBackground:self.tableView];
+  [UIContentController setTableViewBackground:self.tableView];
   
   if (!loadingView) loadingView = [[self.tableView tableHeaderView] retain];
 } // viewDidLoad
@@ -99,8 +99,8 @@
 
   cell.textLabel.text = [NSString stringWithFormat:@"%@ on %@ at %@", 
                          [status objectForKey:JSONLabelElement], [date objectAtIndex:0], [date objectAtIndex:1]];
-  cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:
-                                                 [NSURL URLWithString:[status objectForKey:@"small_symbol"]]]];
+  cell.imageView.image = [UIImage imageNamed:
+                          [[[NSURL URLWithString:[status objectForKey:@"small_symbol"]] absoluteString] lastPathComponent]];
   
   return cell;
 } // tableView:cellForRowAtIndexPath

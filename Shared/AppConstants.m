@@ -19,7 +19,7 @@ NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 #pragma mark -
 #pragma mark BioCatalogueClient
 
-NSUInteger const iPadItemsPerPage = 15;
+NSUInteger const iPadItemsPerPage = 10;
 NSUInteger const iPhoneItemsPerPage = 10;
 NSUInteger ItemsPerPage = 10;
 
@@ -48,6 +48,7 @@ NSUInteger const ProviderResourceScopeIndex = 2;
 #pragma mark JSON Elements
 
 NSString *const JSONFormat = @"json";
+NSString *const BLJSONFormat = @"bljson";
 NSString *const XMLFormat = @"xml";
 
 NSString *const JSONNull = @"<null>";
@@ -110,6 +111,7 @@ NSString *const LastViewedResourceScopeKey = @"LastViewedResourceScope";
 
 NSString *UnknownText = @"Unknown";
 NSString *DefaultLoadingText = @"Loading, Please Wait...";
+NSString *LoadMoreItemsText = @"Load More Items...";
 
 NSString *NoDescriptionText = @"(no description available)";
 NSString *NoInformationText = @"(no information available)";

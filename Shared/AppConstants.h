@@ -45,6 +45,7 @@ extern NSUInteger const ProviderResourceScopeIndex;
 #pragma mark JSON Elements
 
 extern NSString *const JSONFormat;
+extern NSString *const BLJSONFormat;
 extern NSString *const XMLFormat;
 
 extern NSString *const JSONNull;
@@ -107,6 +108,8 @@ extern NSString *const LastViewedResourceScopeKey;
 
 extern NSString *UnknownText;
 extern NSString *DefaultLoadingText;
+extern NSString *LoadMoreItemsText;
+
 extern NSString *NoDescriptionText;
 extern NSString *NoInformationText;
 

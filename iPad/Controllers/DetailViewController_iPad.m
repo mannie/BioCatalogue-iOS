@@ -7,7 +7,6 @@
 //
 
 #import "DetailViewController_iPad.h"
-#import "LatestServicesViewController_iPad.h"
 
 
 @implementation DetailViewController_iPad

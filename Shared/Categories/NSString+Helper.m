@@ -23,7 +23,7 @@
 } // isValidJSONValue
 
 -(BOOL) isValidAPIRepresentation {
-  return [self isEqualToString:JSONFormat] || [self isEqualToString:XMLFormat];
+  return [self isEqualToString:JSONFormat] || [self isEqualToString:BLJSONFormat] || [self isEqualToString:XMLFormat];
 } // isValidAPIRepresentation
 
 -(BOOL) isValidQuery {

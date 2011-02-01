@@ -43,8 +43,9 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
   NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
   
   NSString *sanitizedPath = [[url path] lowercaseString];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:@".json" withString:@""];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:@".xml" withString:@""];
+  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", JSONFormat] withString:@""];
+  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", BLJSONFormat] withString:@""];
+  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", XMLFormat] withString:@""];
   
   if ([url query] && [format isValidAPIRepresentation]) {
     sanitizedPath = [NSString stringWithFormat:@"%@.%@?%@", sanitizedPath, format, [url query]];
@@ -76,21 +77,21 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
 #pragma mark -
 #pragma mark Web Access
 
-+(NSDictionary *) documentAtPath:(NSString *)path {
++(NSDictionary *) documentAtPath:(NSString *)path withRepresentation:(NSString *)format {
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
-
+  
   NSError *error = nil;
   NSURLResponse *response = nil;
   
   @try {
-    NSURL *url = [self URLForPath:path withRepresentation:JSONFormat];
+    NSURL *url = [self URLForPath:path withRepresentation:format];
     NSURLRequest *request = [NSURLRequest requestWithURL:url 
                                              cachePolicy:NSURLRequestReturnCacheDataElseLoad 
                                          timeoutInterval:5];
     
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) [error log];
-
+    
     id json = [data objectFromJSONDataWithParseOptions:JKParseOptionUnicodeNewlines|JKParseOptionStrict
                                                  error:&error];
     
@@ -101,13 +102,17 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
     }
   } @catch (NSException * e) {
     if (error) [error log];
-
+    
     NSLog(@"%@\n%@", [e name], [e reason]);
     return nil;
   } @finally {
     [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
   }
 } // documentAtPath
+
++(NSDictionary *) documentAtPath:(NSString *)path {
+  return [self documentAtPath:path withRepresentation:JSONFormat];
+}
 
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
   if (pageNum < 1) {
@@ -148,6 +153,21 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
     return [self documentAtPath:[NSString stringWithFormat:@"/search%@", pathQuery]];
   }
 } // performSearch:withScope:withRepresentation
+
++(NSArray *) BLJSONServicesForPage:(NSUInteger)page {
+  NSString *path = [NSString stringWithFormat:@"/services?page=%i&per_page=%i", page, ItemsPerPage];
+  return (NSArray *)[self documentAtPath:path withRepresentation:BLJSONFormat];
+} // BLJSONServicesForPage
+
++(NSArray *) BLJSONProvidersForPage:(NSUInteger)page {
+  NSString *path = [NSString stringWithFormat:@"/service_providers?page=%i&per_page=%i", page, ItemsPerPage];
+  return (NSArray *)[self documentAtPath:path withRepresentation:BLJSONFormat];
+} // BLJSONProvidersForPage
+
++(NSArray *) BLJSONUsersForPage:(NSUInteger)page {
+  NSString *path = [NSString stringWithFormat:@"/users?page=%i&per_page=%i", page, ItemsPerPage];
+  return (NSArray *)[self documentAtPath:path withRepresentation:BLJSONFormat];
+} // BLJSONUsersForPage
 
 
 @end

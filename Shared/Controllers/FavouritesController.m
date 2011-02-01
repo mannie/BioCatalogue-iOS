@@ -68,7 +68,7 @@ static NSInteger UserSubmissionsSection = 1;
 - (void)viewDidLoad {
   [super viewDidLoad];
     
-  [UIContentController setBrushedMetalBackground:self.tableView];                                                                          
+  [UIContentController setTableViewBackground:self.tableView];                                                                          
 } // viewDidLoad
 
 -(void) viewWillAppear:(BOOL)animated {

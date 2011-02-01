@@ -65,7 +65,7 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
 
-  [UIContentController setBrushedMetalBackground:self.tableView];
+  [UIContentController setTableViewBackground:self.tableView];
   if (!loadingView) loadingView = [[self.tableView tableHeaderView] retain];
 } // viewDidLoad
 

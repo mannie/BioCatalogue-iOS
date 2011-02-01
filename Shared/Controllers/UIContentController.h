@@ -43,7 +43,7 @@
   IBOutlet UITextView *providerDescription;  
 }
 
-+(void) setBrushedMetalBackground:(UITableView *)tableView;
++(void) setTableViewBackground:(UITableView *)tableView;
 
 +(void) customiseTableViewCell:(UITableViewCell *)cell withService:(Service *)service;
 +(void) customiseTableViewCell:(UITableViewCell *)cell 

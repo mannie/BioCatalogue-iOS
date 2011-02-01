@@ -46,7 +46,7 @@
   
   searchScope = ServiceResourceScope;
   
-  [UIContentController setBrushedMetalBackground:self.tableView];
+  [UIContentController setTableViewBackground:self.tableView];
   
   [activityIndicator stopAnimating];
 } // viewDidLoad
