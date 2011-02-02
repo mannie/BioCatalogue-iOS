@@ -16,6 +16,7 @@
 
 +(void) initialize {
   ItemsPerPage = iPhoneItemsPerPage;
+  AutoLoadTrigger = AutoLoadTriggerIndex * ItemsPerPage;
 } // initialize
 
 

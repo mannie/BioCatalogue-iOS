@@ -15,7 +15,8 @@
 
 
 +(void) initialize {
-  ItemsPerPage = iPadItemsPerPage;  
+  ItemsPerPage = iPadItemsPerPage;
+  AutoLoadTrigger = AutoLoadTriggerIndex * ItemsPerPage;
 } // initialize
 
 

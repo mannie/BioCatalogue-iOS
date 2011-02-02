@@ -14,14 +14,26 @@
 @synthesize iPhoneDetailViewController, iPadDetailViewController;
 
 
--(BOOL) indexPathIsLastElementInList:(NSIndexPath *)indexPath {
-  NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
-
-  BOOL isLastSection = [indexPath section] == [[paginatedServices allKeys] count] - 1;
-  BOOL isLastRow = [indexPath row] == [itemsInSection count];
+-(void) loadItemsOnNextPage {
+  if (lastLoadedPage == lastPage) return;
   
-  return isLastSection && isLastRow;
-}
+  dispatch_async(dispatch_queue_create("Load next page", NULL), ^{
+    activeFetchThreads++;
+    
+    lastLoadedPage++;
+    int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
+
+    NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:pageToLoad] retain];
+    [paginatedServices setObject:[document objectForKey:JSONResultsElement]
+                          forKey:[NSNumber numberWithInt:pageToLoad-1]];
+
+    [document release];
+    
+    [[self tableView] reloadData];
+    
+    activeFetchThreads--;
+  });
+} // loadItemsOnNextPage
 
 
 #pragma mark -
@@ -31,7 +43,7 @@
   [super viewDidLoad];
   
   [UIContentController setTableViewBackground:self.tableView];
-  
+    
   [self refreshTableViewDataSource];
 }
 
@@ -45,15 +57,18 @@
   
   [[self tableView] reloadData];
   
-  NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:1] retain];
+  lastLoadedPage = 1;
+  int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
+  
+  NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:pageToLoad] retain];
+  [paginatedServices setObject:[document objectForKey:JSONResultsElement]
+                        forKey:[NSNumber numberWithInt:pageToLoad-1]];
+
   lastPage = [[document objectForKey:JSONPagesElement] intValue];
   
-  lastLoadedPage = 0;
-  [paginatedServices setObject:[document objectForKey:JSONResultsElement]
-                        forKey:[NSNumber numberWithInt:lastLoadedPage]];
-  lastLoadedPage++;
-  
   [document release];
+
+  [[self tableView] reloadData];
 }
 
 
@@ -61,20 +76,27 @@
 #pragma mark Table view data source
 
 -(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  return [NSString stringWithFormat:@"Page %i", section + 1];
+  if (section < lastPage) {
+    return [NSString stringWithFormat:@"Page %i", section + 1];
+  } else {
+    return nil;
+  }
 } // tableView:titleForHeaderInSection
+
+-(NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
+  if (section == lastLoadedPage - 1 && activeFetchThreads > 0) {
+    return DefaultLoadingText;
+  } else {
+    return nil;
+  }
+} // tableView:titleForFooterInSection
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return lastLoadedPage;
 } // numberOfSectionsInTableView
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  int count = [[paginatedServices objectForKey:[NSNumber numberWithInt:section]] count];
-  if (section == [[paginatedServices allKeys] count] - 1) {
-    return count + 1;
-  } else {
-    return count;
-  }
+  return [[paginatedServices objectForKey:[NSNumber numberWithInt:section]] count];
 } // tableView:numberOfRowsInSection
 
 
@@ -89,64 +111,54 @@
   }
   
   // Configure the cell...
-  if ([self indexPathIsLastElementInList:indexPath]) {
-    cell.detailTextLabel.text = LoadMoreItemsText;
-    cell.textLabel.text = nil;
-    cell.imageView.image = nil;
-  } else {
-    NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
-    [UIContentController customiseTableViewCell:cell 
-                                 withProperties:[itemsInSection objectAtIndex:indexPath.row]
-                                     givenScope:ServiceResourceScope];
+  if ([indexPath section] == lastLoadedPage - 1 && [indexPath row] >= AutoLoadTrigger) {
+    // indexPath is in the last section
+    @try {
+      [self loadItemsOnNextPage];
+    } @catch (NSException * e) {
+      [e log];
+    }    
   }
   
+  NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
+  [UIContentController customiseTableViewCell:cell 
+                               withProperties:[itemsInSection objectAtIndex:indexPath.row]
+                                   givenScope:ServiceResourceScope];
+    
   return cell;
-}
+} // tableView:cellForRowAtIndexPath
 
 
 #pragma mark -
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  if ([self indexPathIsLastElementInList:indexPath]) {
+  NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
+
+  if ([[UIDevice currentDevice] isIPadDevice]) {
+    if ([iPadDetailViewController isCurrentlyBusy]) {
+      [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
+                       scrollPosition:UITableViewScrollPositionNone];
+      return;
+    }
+    
+    [iPadDetailViewController startLoadingAnimation];
+    [iPadDetailViewController dismissAuxiliaryDetailPanel:self];
+    
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:lastLoadedPage+1] retain];
-      [paginatedServices setObject:[document objectForKey:JSONResultsElement]
-                            forKey:[NSNumber numberWithInt:lastLoadedPage]];
-      lastLoadedPage++;
-      
-      [document release];
-      
-      [[self tableView] reloadData];
+      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
     });
+    
+    [lastSelectedIndexIPad release];
+    lastSelectedIndexIPad = [indexPath retain];    
   } else {
-    NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
-  
-    if ([[UIDevice currentDevice] isIPadDevice]) {
-      if ([iPadDetailViewController isCurrentlyBusy]) {
-        [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
-                         scrollPosition:UITableViewScrollPositionNone];
-        return;
-      }
-      
-      [iPadDetailViewController startLoadingAnimation];
-      [iPadDetailViewController dismissAuxiliaryDetailPanel:self];
-      
-      dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-        [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
-      });
-      
-      [lastSelectedIndexIPad release];
-      lastSelectedIndexIPad = [indexPath retain];    
-    } else {
-      dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-        [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
-      });
-      [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
-      
-      [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    } // if else ipad
-  } // display info in detail view controllers
+    dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
+    });
+    [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  } // if else ipad
 } //tableView:didSelectRowAtIndexPath
 
 

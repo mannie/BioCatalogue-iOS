@@ -12,6 +12,7 @@
 
 #import "NSString+Helper.h"
 #import "NSError+Helper.h"
+#import "NSException+Helper.h"
 
 #import "JSONKit.h"
 

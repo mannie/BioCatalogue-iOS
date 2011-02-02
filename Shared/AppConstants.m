@@ -19,9 +19,12 @@ NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 #pragma mark -
 #pragma mark BioCatalogueClient
 
-NSUInteger const iPadItemsPerPage = 10;
+NSUInteger const iPadItemsPerPage = 15;
 NSUInteger const iPhoneItemsPerPage = 10;
-NSUInteger ItemsPerPage = 10;
+NSUInteger ItemsPerPage = 10; // NOTE: this value will be replaced at runtime
+
+NSUInteger AutoLoadTrigger = 5; // NOTE: this value will be replaced at runtime
+float AutoLoadTriggerIndex = 0.3;
 
 NSString *const UserResourceScope = @"users";
 NSString *const ServiceResourceScope = @"services";
@@ -96,7 +99,7 @@ NSString *const JSONVariantsElement = @"variants";
 NSString *const DescriptionIcon = @"info";
 NSString *const ProviderIcon = @"112-group.png";
 NSString *const UserIcon = @"111-user.png";
-NSString *const BrushedMetalBackground = @"BrushedMetalBack.jpg";
+NSString *const BrushedMetalBackground = @"brushed-metal.jpg";
 
 
 #pragma mark -

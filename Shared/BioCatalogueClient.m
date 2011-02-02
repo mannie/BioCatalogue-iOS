@@ -102,8 +102,8 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
     }
   } @catch (NSException * e) {
     if (error) [error log];
-    
-    NSLog(@"%@\n%@", [e name], [e reason]);
+    [e log];
+
     return nil;
   } @finally {
     [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];

@@ -84,8 +84,10 @@
 #pragma mark Table view methods
 
 - (void)reloadTableViewDataSource{
-  [self refreshTableViewDataSource];
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+  dispatch_async(dispatch_queue_create("Search", NULL), ^{      
+    [self refreshTableViewDataSource];
+  });
+	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
 }
 
 

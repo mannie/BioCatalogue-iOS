@@ -12,12 +12,16 @@
 #import "ServiceDetailViewController_iPhone.h"
 #import "DetailViewController_iPad.h"
 
+#import "NSException+Helper.h"
+
 
 @interface BrowseByDateViewController : PullToRefreshViewController <PullToRefreshDataSource> {
   NSMutableDictionary *paginatedServices;
   
   NSUInteger lastPage;
   NSUInteger lastLoadedPage;
+    
+  NSUInteger activeFetchThreads;
 
   ServiceDetailViewController_iPhone *iPhoneDetailViewController;
   DetailViewController_iPad *iPadDetailViewController;

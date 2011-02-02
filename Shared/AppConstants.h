@@ -23,6 +23,9 @@ extern NSUInteger const iPadItemsPerPage;
 extern NSUInteger const iPhoneItemsPerPage;
 extern NSUInteger ItemsPerPage;
 
+extern NSUInteger AutoLoadTrigger;
+extern float AutoLoadTriggerIndex;
+
 extern NSString *const UserResourceScope;
 extern NSString *const ServiceResourceScope;
 extern NSString *const ProviderResourceScope;
