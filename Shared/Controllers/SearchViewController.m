@@ -18,6 +18,7 @@
 -(void) loadItemsOnNextPage {
   if (lastLoadedPage == lastPage) {
     [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+    activeFetchThreads--;
     return;
   }
     
@@ -29,8 +30,20 @@
                                                       withScope:lastSearchScope
                                              withRepresentation:JSONFormat
                                                            page:pageToLoad] retain];
-    [paginatedSearchResults setObject:[document objectForKey:JSONResultsElement]
-                               forKey:[NSNumber numberWithInt:pageToLoad-1]];
+
+    if (document) {
+      [paginatedSearchResults setObject:[document objectForKey:JSONResultsElement]
+                                 forKey:[NSNumber numberWithInt:pageToLoad-1]];
+      lastPage = [[document objectForKey:JSONPagesElement] intValue];
+      
+      [noSearchResultsLabel performSelectorOnMainThread:@selector(setHidden:)
+                                             withObject:[NSNumber numberWithBool:([[document objectForKey:JSONResultsElement] count] > 0)]
+                                          waitUntilDone:NO];
+    } else {
+      [noSearchResultsLabel performSelectorOnMainThread:@selector(setHidden:)
+                                             withObject:[NSNumber numberWithBool:NO]
+                                          waitUntilDone:NO];
+    }
     
     [document release];
     
@@ -72,43 +85,23 @@
 
 -(void) refreshTableViewDataSource {
   if (!lastSearchQuery && !lastSearchScope) return;
+  
+  [self performSelectorOnMainThread:@selector(searchBarShouldEndEditing:) withObject:mySearchBar waitUntilDone:NO];
     
   [mySearchBar performSelectorOnMainThread:@selector(setText:) withObject:lastSearchQuery waitUntilDone:NO];
   lastSearchScope = currentSearchScope;
-  
-  [self performSelectorOnMainThread:@selector(searchBarShouldEndEditing:) withObject:mySearchBar waitUntilDone:NO];
 
   [paginatedSearchResults release];
   paginatedSearchResults = [[NSMutableDictionary alloc] init];
   
   [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+
+  lastLoadedPage = 0;
+  lastPage = 1;
   
-  lastLoadedPage = 1;
-  int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
-  
-  NSDictionary *document = [[BioCatalogueClient performSearch:lastSearchQuery
-                                                    withScope:lastSearchScope
-                                           withRepresentation:JSONFormat
-                                                         page:pageToLoad] retain];
-  if (document) {
-    [paginatedSearchResults setObject:[document objectForKey:JSONResultsElement]
-                               forKey:[NSNumber numberWithInt:pageToLoad-1]];
-    lastPage = [[document objectForKey:JSONPagesElement] intValue];
-    
-    [noSearchResultsLabel performSelectorOnMainThread:@selector(setHidden:)
-                                           withObject:[NSNumber numberWithBool:([[document objectForKey:JSONResultsElement] count] > 0)]
-                                        waitUntilDone:NO];
-  } else {
-    [noSearchResultsLabel performSelectorOnMainThread:@selector(setHidden:)
-                                           withObject:[NSNumber numberWithBool:NO]
-                                        waitUntilDone:NO];
-  }
-  
-  [document release];
-  
-  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
-}
+  activeFetchThreads++;
+  [self loadItemsOnNextPage];
+} // refreshTableViewDataSource
 
 
 #pragma mark -
@@ -116,7 +109,7 @@
 
 -(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
   if (section < lastPage) {
-    return [NSString stringWithFormat:@"Page %i", section + 1];
+    return [NSString stringWithFormat:@"Page %i of %i", section + 1, lastPage];
   } else {
     return nil;
   }
@@ -158,7 +151,7 @@
   [UIContentController customiseTableViewCell:cell 
                                  withProperties:[itemsInSection objectAtIndex:indexPath.row]
                                      givenScope:lastSearchScope];
-    
+  
   return cell;
 } // tableView:cellForRowAtIndexPath
 
@@ -238,15 +231,12 @@
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
   [self searchBarShouldEndEditing:mySearchBar];
   
-  BOOL searchDidChange = !([mySearchBar.text isEqualToString:lastSearchQuery] && [currentSearchScope isEqualToString:lastSearchScope]);
-  if (searchDidChange) {
-    dispatch_async(dispatch_queue_create("Search", NULL), ^{      
-      lastSearchQuery = mySearchBar.text;
-      lastSearchScope = currentSearchScope;
-      
-      [self refreshTableViewDataSource];
-    });
-  }
+  dispatch_async(dispatch_queue_create("Search", NULL), ^{      
+    lastSearchQuery = mySearchBar.text;
+    lastSearchScope = currentSearchScope;
+    
+    [self refreshTableViewDataSource];
+  });
   
   [searchBar resignFirstResponder];
 } // searchBarSearchButtonClicked

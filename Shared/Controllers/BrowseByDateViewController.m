@@ -17,6 +17,7 @@
 -(void) loadItemsOnNextPage {
   if (lastLoadedPage == lastPage) {
     [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+    activeFetchThreads--;
     return;
   }
   
@@ -64,7 +65,7 @@
   [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
   
   lastLoadedPage = 0;
-  lastPage = 5;
+  lastPage = 1;
   
   activeFetchThreads++;
   [self loadItemsOnNextPage];
@@ -76,7 +77,7 @@
 
 -(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
   if (section < lastPage) {
-    return [NSString stringWithFormat:@"Page %i", section + 1];
+    return [NSString stringWithFormat:@"Page %i of %i", section + 1, lastPage];
   } else {
     return nil;
   }
