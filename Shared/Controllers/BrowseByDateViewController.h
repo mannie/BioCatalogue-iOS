@@ -27,6 +27,8 @@
   DetailViewController_iPad *iPadDetailViewController;
   
   NSIndexPath *lastSelectedIndexIPad;
+
+  IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *iPhoneDetailViewController;

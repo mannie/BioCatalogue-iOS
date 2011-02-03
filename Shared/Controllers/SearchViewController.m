@@ -16,11 +16,12 @@
 
 
 -(void) loadItemsOnNextPage {
-  if (lastLoadedPage == lastPage) return;
-  
+  if (lastLoadedPage == lastPage) {
+    [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+    return;
+  }
+    
   dispatch_async(dispatch_queue_create("Load next page", NULL), ^{
-    activeFetchThreads++;
-
     lastLoadedPage++;
     int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
     
@@ -31,13 +32,14 @@
     [paginatedSearchResults setObject:[document objectForKey:JSONResultsElement]
                                forKey:[NSNumber numberWithInt:pageToLoad-1]];
     
-    lastPage = [[document objectForKey:JSONPagesElement] intValue];
-    
     [document release];
     
-    [[self tableView] reloadData];
-
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    
     activeFetchThreads--;
+    if (activeFetchThreads == 0) {
+      [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+    }
   });
 } // loadItemsOnNextPage
 
@@ -51,7 +53,11 @@
   [UIContentController setTableViewBackground:self.tableView];
   
   currentSearchScope = ServiceResourceScope;
-
+  
+  [noSearchResultsLabel setHidden:YES];
+  
+  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+  
   [self refreshTableViewDataSource];
 }
 
@@ -67,15 +73,15 @@
 -(void) refreshTableViewDataSource {
   if (!lastSearchQuery && !lastSearchScope) return;
     
-  mySearchBar.text = lastSearchQuery;
+  [mySearchBar performSelectorOnMainThread:@selector(setText:) withObject:lastSearchQuery waitUntilDone:NO];
   lastSearchScope = currentSearchScope;
   
-  [self searchBarShouldEndEditing:mySearchBar];
+  [self performSelectorOnMainThread:@selector(searchBarShouldEndEditing:) withObject:mySearchBar waitUntilDone:NO];
 
   [paginatedSearchResults release];
   paginatedSearchResults = [[NSMutableDictionary alloc] init];
   
-  [[self tableView] reloadData];
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
   
   lastLoadedPage = 1;
   int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
@@ -84,14 +90,24 @@
                                                     withScope:lastSearchScope
                                            withRepresentation:JSONFormat
                                                          page:pageToLoad] retain];
-  [paginatedSearchResults setObject:[document objectForKey:JSONResultsElement]
-                             forKey:[NSNumber numberWithInt:pageToLoad-1]];
-  
-  lastPage = [[document objectForKey:JSONPagesElement] intValue];
+  if (document) {
+    [paginatedSearchResults setObject:[document objectForKey:JSONResultsElement]
+                               forKey:[NSNumber numberWithInt:pageToLoad-1]];
+    lastPage = [[document objectForKey:JSONPagesElement] intValue];
+    
+    [noSearchResultsLabel performSelectorOnMainThread:@selector(setHidden:)
+                                           withObject:[NSNumber numberWithBool:([[document objectForKey:JSONResultsElement] count] > 0)]
+                                        waitUntilDone:NO];
+  } else {
+    [noSearchResultsLabel performSelectorOnMainThread:@selector(setHidden:)
+                                           withObject:[NSNumber numberWithBool:NO]
+                                        waitUntilDone:NO];
+  }
   
   [document release];
   
-  [[self tableView] reloadData];
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
 }
 
 
@@ -105,14 +121,6 @@
     return nil;
   }
 } // tableView:titleForHeaderInSection
-
--(NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-  if (section == lastLoadedPage - 1 && activeFetchThreads > 0) {
-    return DefaultLoadingText;
-  } else {
-    return nil;
-  }
-} // tableView:titleForFooterInSection
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return lastLoadedPage;
@@ -136,7 +144,11 @@
   if ([indexPath section] == lastLoadedPage - 1 && [indexPath row] >= AutoLoadTrigger) {
     // indexPath is in the last section
     @try {
-      [self loadItemsOnNextPage];
+      if (activeFetchThreads < 3) {
+        activeFetchThreads++;
+        [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+        [self loadItemsOnNextPage];
+      }
     } @catch (NSException * e) {
       [e log];
     }    
@@ -264,6 +276,8 @@
   [userDetailViewController release];
   [providerDetailViewController release];
 
+  [noSearchResultsLabel release];
+  [activityIndicator release];
 }
 
 - (void)didReceiveMemoryWarning {

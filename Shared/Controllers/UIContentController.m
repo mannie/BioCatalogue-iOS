@@ -79,7 +79,7 @@
     } else if (isSOAP) {
       serviceComponents.text = SOAPComponentsText;
     } else {
-      serviceComponents.text = [listingProperties serviceListingType];
+      serviceComponents.text = nil;
     }
     
     showComponentsButton.hidden = !isREST && !isSOAP;    

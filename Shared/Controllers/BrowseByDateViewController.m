@@ -15,11 +15,12 @@
 
 
 -(void) loadItemsOnNextPage {
-  if (lastLoadedPage == lastPage) return;
+  if (lastLoadedPage == lastPage) {
+    [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+    return;
+  }
   
   dispatch_async(dispatch_queue_create("Load next page", NULL), ^{
-    activeFetchThreads++;
-    
     lastLoadedPage++;
     int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
 
@@ -27,11 +28,16 @@
     [paginatedServices setObject:[document objectForKey:JSONResultsElement]
                           forKey:[NSNumber numberWithInt:pageToLoad-1]];
 
+    lastPage = [[document objectForKey:JSONPagesElement] intValue];
+
     [document release];
     
-    [[self tableView] reloadData];
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     
     activeFetchThreads--;
+    if (activeFetchThreads == 0) {
+      [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+    }
   });
 } // loadItemsOnNextPage
 
@@ -55,21 +61,14 @@
   [paginatedServices release];
   paginatedServices = [[NSMutableDictionary alloc] init];
   
-  [[self tableView] reloadData];
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
   
-  lastLoadedPage = 1;
-  int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
+  lastLoadedPage = 0;
+  lastPage = 5;
   
-  NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:pageToLoad] retain];
-  [paginatedServices setObject:[document objectForKey:JSONResultsElement]
-                        forKey:[NSNumber numberWithInt:pageToLoad-1]];
-
-  lastPage = [[document objectForKey:JSONPagesElement] intValue];
-  
-  [document release];
-
-  [[self tableView] reloadData];
-}
+  activeFetchThreads++;
+  [self loadItemsOnNextPage];
+} // refreshTableViewDataSource
 
 
 #pragma mark -
@@ -82,14 +81,6 @@
     return nil;
   }
 } // tableView:titleForHeaderInSection
-
--(NSString *) tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
-  if (section == lastLoadedPage - 1 && activeFetchThreads > 0) {
-    return DefaultLoadingText;
-  } else {
-    return nil;
-  }
-} // tableView:titleForFooterInSection
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
   return lastLoadedPage;
@@ -114,7 +105,11 @@
   if ([indexPath section] == lastLoadedPage - 1 && [indexPath row] >= AutoLoadTrigger) {
     // indexPath is in the last section
     @try {
-      [self loadItemsOnNextPage];
+      if (activeFetchThreads < 3) {
+        activeFetchThreads++;
+        [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+        [self loadItemsOnNextPage];
+      }
     } @catch (NSException * e) {
       [e log];
     }    
@@ -168,6 +163,8 @@
 -(void) releaseIBOutlets {
   [iPhoneDetailViewController release];
   [iPadDetailViewController release];
+
+  [activityIndicator release];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -39,6 +39,9 @@
   ProviderDetailViewController_iPhone *providerDetailViewController;
 
   IBOutlet UISearchBar *mySearchBar;  
+  
+  IBOutlet UILabel *noSearchResultsLabel;
+  IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *serviceDetailViewController;

@@ -24,7 +24,7 @@ NSUInteger const iPhoneItemsPerPage = 10;
 NSUInteger ItemsPerPage = 10; // NOTE: this value will be replaced at runtime
 
 NSUInteger AutoLoadTrigger = 5; // NOTE: this value will be replaced at runtime
-float AutoLoadTriggerIndex = 0.3;
+float AutoLoadTriggerIndex = 0.2;
 
 NSString *const UserResourceScope = @"users";
 NSString *const ServiceResourceScope = @"services";

@@ -460,10 +460,10 @@
 		3664672312B07B8100DEACC3 /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
-				36C8A6A912F8B7870022190F /* SearchView.xib */,
 				3664672712B07BD800DEACC3 /* MonitoringStatusView.xib */,
 				3664674612B07DAD00DEACC3 /* ServiceComponentsView.xib */,
 				36C8A30812F7A8250022190F /* BrowseByDateView.xib */,
+				36C8A6A912F8B7870022190F /* SearchView.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";
