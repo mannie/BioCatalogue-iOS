@@ -49,25 +49,21 @@
 	if (refreshHeaderView == nil) {
     float height = self.tableView.bounds.size.height;
     
-//    if ([[UIDevice currentDevice] isIPadDevice]) {
-//      refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, height)];
-//      [self.tableView addSubview:refreshHeaderView];
-//    } else {
-//      refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, height)];
-//      [self.tableView addSubview:refreshHeaderView];
-//    }
+    if ([[UIDevice currentDevice] isIPadDevice]) {      
+      refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, 0.0f)];
+      [self.tableView setTableHeaderView:refreshHeaderView];
+    } else {
+      refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, height)];
+      [self.tableView addSubview:refreshHeaderView];
+    }
 
-    refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, height)];
-    [self.tableView addSubview:refreshHeaderView];
-
-		refreshHeaderView.backgroundColor = [UIColor colorWithRed:226.0/255.0 green:231.0/255.0 blue:237.0/255.0 alpha:1.0];
-
+    [refreshHeaderView setBackgroundColor:[UIColor clearColor]];
+    [UIContentController setTableViewBackground:self.tableView];
+    
 		self.tableView.showsVerticalScrollIndicator = YES;
 		
     [refreshHeaderView release];
 	}
-  
-//  NSLog(@"%@", [self.tableView subviews]);
 }
 
 // Override to allow orientations other than the default portrait orientation.
@@ -101,14 +97,13 @@
 	if (scrollView.isDragging) {
 		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
 			[refreshHeaderView setState:EGOOPullRefreshNormal];
-		} else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
+    } else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
 			[refreshHeaderView setState:EGOOPullRefreshPulling];
 		}
 	}
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-	  
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{  
 	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
     _reloading = YES;
     [self reloadTableViewDataSource];
@@ -132,7 +127,7 @@
 	[refreshHeaderView setState:EGOOPullRefreshNormal];
 	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
   
-  [[self tableView] reloadData];
+  if ([self parentShouldRefreshTableViewDataSource]) [[self tableView] reloadData];
 }
 
 #pragma mark -
@@ -140,6 +135,7 @@
 
 - (void)dealloc {
 	refreshHeaderView = nil;
+  
   [super dealloc];
 }
 

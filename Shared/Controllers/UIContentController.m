@@ -14,8 +14,12 @@
 
 +(void) setTableViewBackground:(UITableView *)tableView {
   UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BrushedMetalBackground]];
+  
   image.frame = tableView.frame;
+  
   [tableView setBackgroundView:image];
+  [tableView setBackgroundColor:[UIColor clearColor]];
+  
   [image release];
 } // setBrushedMetalBackground
 
@@ -28,7 +32,7 @@
 +(void) customiseTableViewCell:(UITableViewCell *)cell 
                 withProperties:(NSDictionary *)properties
                     givenScope:(NSString *)scope {
-  if ([scope isEqualToString:ServiceResourceScope]) {
+  if ([scope isEqualToString:ServiceResourceScope]) {    
     cell.textLabel.text = [properties objectForKey:JSONNameElement];
     cell.detailTextLabel.text = [properties serviceListingType];
     

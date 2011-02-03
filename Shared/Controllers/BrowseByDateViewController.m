@@ -48,9 +48,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  [UIContentController setTableViewBackground:self.tableView];
-    
+      
   [self refreshTableViewDataSource];
 }
 
@@ -70,6 +68,10 @@
   activeFetchThreads++;
   [self loadItemsOnNextPage];
 } // refreshTableViewDataSource
+
+-(BOOL) parentShouldRefreshTableViewDataSource {
+  return YES;
+} // parentShouldRefreshTableViewDataSource
 
 
 #pragma mark -

@@ -926,7 +926,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>ServiceDetailViewController_iPhone</string>
 					<string>UIResponder</string>
-					<string>{{598, 160}, {320, 480}}</string>
+					<string>{{583, 260}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAw7aAAA</bytes>

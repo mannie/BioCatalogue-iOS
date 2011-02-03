@@ -17,9 +17,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  [UIContentController setTableViewBackground:self.tableView];
-  
+    
   providers = [[NSMutableDictionary alloc] init];
 //  [providers setObject:[BioCatalogueClient BLJSONProvidersForPage:1] forKey:[NSNumber numberWithInt:lastLoadedPage]];
   NSString *path = [NSString stringWithFormat:@"/service_providers?page=%i&per_page=%i", 1, ItemsPerPage];

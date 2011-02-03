@@ -47,7 +47,7 @@
     
     [document release];
     
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [dataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     
     activeFetchThreads--;
     if (activeFetchThreads == 0) {
@@ -62,8 +62,6 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
-  [UIContentController setTableViewBackground:self.tableView];
   
   currentSearchScope = ServiceResourceScope;
   
@@ -94,7 +92,7 @@
   [paginatedSearchResults release];
   paginatedSearchResults = [[NSMutableDictionary alloc] init];
   
-  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  [dataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
   lastLoadedPage = 0;
   lastPage = 1;
@@ -102,6 +100,10 @@
   activeFetchThreads++;
   [self loadItemsOnNextPage];
 } // refreshTableViewDataSource
+
+-(BOOL) parentShouldRefreshTableViewDataSource {
+  return NO;
+} // parentShouldRefreshTableViewDataSource
 
 
 #pragma mark -
@@ -259,6 +261,8 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
+  [dataTableView release];
+  
   [mySearchBar release];
   [iPadDetailViewController release];
   

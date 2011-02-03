@@ -42,6 +42,8 @@
   
   IBOutlet UILabel *noSearchResultsLabel;
   IBOutlet UIActivityIndicatorView *activityIndicator;
+  
+  IBOutlet UITableView *dataTableView;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *serviceDetailViewController;

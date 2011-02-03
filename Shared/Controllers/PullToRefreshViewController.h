@@ -27,12 +27,13 @@
 
 
 #import "UIDevice+Helper.h"
+#import "UIContentController.h"
 
 
 @class EGORefreshTableHeaderView;
 @interface PullToRefreshViewController : UITableViewController  <UITableViewDelegate, UITableViewDataSource>{
 	EGORefreshTableHeaderView *refreshHeaderView;
-	
+  
 	//  Reloading should really be your tableviews model class
 	//  Putting it here for demo purposes 
 	BOOL _reloading;
@@ -46,6 +47,7 @@
 @protocol PullToRefreshDataSource
 
 -(void) refreshTableViewDataSource;
+-(BOOL) parentShouldRefreshTableViewDataSource;
 
 @end
 
