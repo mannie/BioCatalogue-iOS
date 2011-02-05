@@ -148,8 +148,8 @@
     [lastSelectedIndexIPad release];
     lastSelectedIndexIPad = [indexPath retain];    
   } else {
+    [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
       [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
     });
     [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];

@@ -201,8 +201,8 @@
   } else {
     id iPhoneDetailViewController;
     if ([lastSearchScope isEqualToString:ServiceResourceScope]) {
+      [serviceDetailViewController makeShowProvidersButtonVisible:YES];
       dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-        [serviceDetailViewController makeShowProvidersButtonVisible:YES];
         [serviceDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
       });
       iPhoneDetailViewController = serviceDetailViewController;
