@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="8"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -69,7 +68,7 @@
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="798806201">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -14497,7 +14496,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 				</object>
 				<string key="NSFrameSize">{703, 748}</string>
-				<reference key="NSSuperview"/>
 				<reference key="IBUIBackgroundColor" ref="530524"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
 					<int key="IBUIStatusBarStyle">2</int>
@@ -15235,7 +15233,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="43995413">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">272</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -15252,8 +15250,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 									<object class="IBUILabel" id="161900324">
 										<reference key="NSNextResponder" ref="70160402"/>
 										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{5, 5}, {470, 381}}</string>
+										<string key="NSFrame">{{5, 5}, {470, 339}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="901434111"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -15274,8 +15273,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 									<object class="IBUIImageView" id="706083758">
 										<reference key="NSNextResponder" ref="70160402"/>
 										<int key="NSvFlags">274</int>
-										<string key="NSFrame">{{5, 5}, {470, 381}}</string>
+										<string key="NSFrame">{{5, 5}, {470, 339}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="530524"/>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -15286,6 +15286,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">318</int>
 										<string key="NSFrame">{{5, 20}, {470, 45}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="530524"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -15307,6 +15308,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{65, 64}, {350, 1}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="855429184"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -15328,6 +15330,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{60, 73}, {63, 17}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">7</int>
@@ -15349,6 +15352,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">318</int>
 										<string key="NSFrame">{{124, 64}, {336, 280}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="530524"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -15367,6 +15371,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{124, 343}, {291, 1}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="855429184"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -15383,50 +15388,12 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="IBUIBaselineAdjustment">1</int>
 										<float key="IBUIMinimumFontSize">10</float>
 									</object>
-									<object class="IBUILabel" id="446060199">
-										<reference key="NSNextResponder" ref="70160402"/>
-										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{54, 355}, {69, 17}}</string>
-										<reference key="NSSuperview" ref="70160402"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<bool key="IBUIClipsSubviews">YES</bool>
-										<int key="IBUIContentMode">7</int>
-										<bool key="IBUIUserInteractionEnabled">NO</bool>
-										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-										<string key="IBUIText">services</string>
-										<reference key="IBUIFont" ref="1018772615"/>
-										<object class="NSColor" key="IBUITextColor">
-											<int key="NSColorSpace">1</int>
-											<bytes key="NSRGB">MCAwLjAwMzY0Mjg0ODM4MiAwLjM0NjkzODc3NTUAA</bytes>
-										</object>
-										<reference key="IBUIHighlightedColor" ref="619085445"/>
-										<int key="IBUIBaselineAdjustment">1</int>
-										<float key="IBUIMinimumFontSize">13</float>
-										<int key="IBUITextAlignment">2</int>
-									</object>
-									<object class="IBUIButton" id="720656681">
-										<reference key="NSNextResponder" ref="70160402"/>
-										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{128, 348}, {29, 31}}</string>
-										<reference key="NSSuperview" ref="70160402"/>
-										<bool key="IBUIOpaque">NO</bool>
-										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-										<int key="IBUIContentHorizontalAlignment">0</int>
-										<int key="IBUIContentVerticalAlignment">0</int>
-										<reference key="IBUIFont" ref="743036227"/>
-										<int key="IBUIButtonType">2</int>
-										<reference key="IBUIHighlightedTitleColor" ref="619085445"/>
-										<object class="NSColor" key="IBUINormalTitleColor">
-											<int key="NSColorSpace">1</int>
-											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
-										</object>
-										<reference key="IBUINormalTitleShadowColor" ref="261685771"/>
-									</object>
 									<object class="IBUIImageView" id="112861975">
 										<reference key="NSNextResponder" ref="70160402"/>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{5, 127}, {64, 64}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<reference key="IBUIImage" ref="602662468"/>
@@ -15436,6 +15403,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{5, 64}, {64, 64}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
+										<reference key="NSWindow"/>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<object class="NSCustomResource" key="IBUIImage">
@@ -15444,19 +15412,23 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										</object>
 									</object>
 								</object>
-								<string key="NSFrameSize">{480, 392}</string>
+								<string key="NSFrameSize">{480, 349}</string>
 								<reference key="NSSuperview" ref="174621908"/>
+								<reference key="NSWindow"/>
 								<reference key="IBUIBackgroundColor" ref="5450438"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 						</object>
-						<string key="NSFrame">{{20, 139}, {480, 392}}</string>
+						<string key="NSFrame">{{20, 139}, {480, 349}}</string>
 						<reference key="NSSuperview" ref="43995413"/>
+						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="530524"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{520, 704}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="IBUIBackgroundColor" ref="530524"/>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
@@ -16300,8 +16272,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<reference ref="161900324"/>
 							<reference ref="817327247"/>
 							<reference ref="729397885"/>
-							<reference ref="446060199"/>
-							<reference ref="720656681"/>
 							<reference ref="795666320"/>
 							<reference ref="112861975"/>
 							<reference ref="275602153"/>
@@ -16314,16 +16284,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="object" ref="795666320"/>
 						<reference key="parent" ref="70160402"/>
 						<string key="objectName">horizontal divider</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">211</int>
-						<reference key="object" ref="720656681"/>
-						<reference key="parent" ref="70160402"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">210</int>
-						<reference key="object" ref="446060199"/>
-						<reference key="parent" ref="70160402"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">198</int>
@@ -16676,10 +16636,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>202.IBViewBoundsToFrameTransform</string>
 					<string>204.IBPluginDependency</string>
 					<string>204.IBViewBoundsToFrameTransform</string>
-					<string>210.IBPluginDependency</string>
-					<string>210.IBViewBoundsToFrameTransform</string>
-					<string>211.IBPluginDependency</string>
-					<string>211.IBViewBoundsToFrameTransform</string>
 					<string>213.IBPluginDependency</string>
 					<string>213.IBViewBoundsToFrameTransform</string>
 					<string>233.IBEditorWindowLastContentRect</string>
@@ -16747,6 +16703,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>67.IBPluginDependency</string>
 					<string>67.IBViewBoundsToFrameTransform</string>
 					<string>67.IBViewEditorWindowController.showingBoundsRectangles</string>
+					<string>67.IBViewEditorWindowController.showingLayoutRectangles</string>
 					<string>71.IBPluginDependency</string>
 					<string>71.IBViewBoundsToFrameTransform</string>
 					<string>72.IBPluginDependency</string>
@@ -16905,14 +16862,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABCJAAAw8iAAA</bytes>
-					</object>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDCAAAw8wAAA</bytes>
-					</object>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">AUL4AABDq4AAA</bytes>
 					</object>
 					<string>{{317, 4}, {783, 852}}</string>
@@ -17007,6 +16956,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABBIAAAxAnAAA</bytes>
 					</object>
+					<boolean value="YES"/>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">

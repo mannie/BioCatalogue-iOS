@@ -1,5 +1,5 @@
 //
-//  ProviderDetailViewController_iPhone.h
+//  ProviderDetailViewController.h
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 17/10/2010.
@@ -11,15 +11,21 @@
 #import "AppConstants.h"
 #import "NSString+Helper.h"
 
+#import "ProviderServicesViewController.h"
 
-@interface ProviderDetailViewController_iPhone : UIViewController {
+
+@interface ProviderDetailViewController : UIViewController {
   IBOutlet UILabel *name;
   IBOutlet UITextView *descriptionTextView;
 
   IBOutlet UIBarButtonItem *servicesButton;
 
   NSDictionary *providerProperties;
+  
+  ProviderServicesViewController *providerServicesViewController;
 }
+
+@property(nonatomic, retain) IBOutlet ProviderServicesViewController *providerServicesViewController;
 
 -(void) updateWithProperties:(NSDictionary *)properties;
 

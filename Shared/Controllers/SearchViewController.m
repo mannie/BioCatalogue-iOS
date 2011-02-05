@@ -101,15 +101,13 @@
   [self loadItemsOnNextPage];
 } // refreshTableViewDataSource
 
--(BOOL) parentShouldRefreshTableViewDataSource {
-  return NO;
-} // parentShouldRefreshTableViewDataSource
-
 
 #pragma mark -
 #pragma mark Table view data source
 
 -(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+  if (tableView != dataTableView) return nil;
+  
   if (section < lastPage) {
     return [NSString stringWithFormat:@"Page %i of %i", section + 1, lastPage];
   } else {
@@ -118,15 +116,18 @@
 } // tableView:titleForHeaderInSection
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+  if (tableView != dataTableView) return 0;
   return lastLoadedPage;
 } // numberOfSectionsInTableView
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+  if (tableView != dataTableView) return 0;
   return [[paginatedSearchResults objectForKey:[NSNumber numberWithInt:section]] count];
 } // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (tableView != dataTableView) return nil;
   
   static NSString *CellIdentifier = @"Cell";
   
@@ -162,20 +163,24 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  if (tableView != dataTableView) return;
+  
   NSArray *itemsInSection = [paginatedSearchResults objectForKey:[NSNumber numberWithInt:[indexPath section]]];
   
   if ([[UIDevice currentDevice] isIPadDevice]) {
-    if ([iPadDetailViewController isCurrentlyBusy]) {
-      [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
-                       scrollPosition:UITableViewScrollPositionNone];
-      return;
+    if (![lastSearchScope isEqualToString:ProviderResourceScope]) {
+      if ([iPadDetailViewController isCurrentlyBusy]) {
+        [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
+                         scrollPosition:UITableViewScrollPositionNone];
+        return;
+      }
+      
+      [iPadDetailViewController startLoadingAnimation];
+      [iPadDetailViewController dismissAuxiliaryDetailPanel:self];
+      
+      [lastSelectedIndexIPad release];
+      lastSelectedIndexIPad = [indexPath retain];      
     }
-    
-    [iPadDetailViewController startLoadingAnimation];
-    [iPadDetailViewController dismissAuxiliaryDetailPanel:self];
- 
-    [lastSelectedIndexIPad release];
-    lastSelectedIndexIPad = [indexPath retain];
     
     if ([lastSearchScope isEqualToString:ServiceResourceScope]) {
       dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
@@ -184,12 +189,20 @@
     } else if ([lastSearchScope isEqualToString:UserResourceScope]) {
       [iPadDetailViewController updateWithPropertiesForUsersScope:[itemsInSection objectAtIndex:indexPath.row]];
     } else {
-      [iPadDetailViewController updateWithPropertiesForProvidersScope:[itemsInSection objectAtIndex:indexPath.row]];
+      [providerDetailViewController loadView];
+      [providerDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];      
+      
+      [providerDetailViewController makeShowServicesButtonVisible:YES];
+      
+      [self.navigationController pushViewController:providerDetailViewController animated:YES];
+      
+      [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
   } else {
     id iPhoneDetailViewController;
     if ([lastSearchScope isEqualToString:ServiceResourceScope]) {
       dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+        [serviceDetailViewController makeShowProvidersButtonVisible:YES];
         [serviceDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
       });
       iPhoneDetailViewController = serviceDetailViewController;
@@ -198,11 +211,12 @@
         iPhoneDetailViewController = userDetailViewController;
       } else {
         iPhoneDetailViewController = providerDetailViewController;
-//        [providerDetailViewController makeShowServicesButtonVisible:YES];
       }        
       
       [iPhoneDetailViewController loadView];
       [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];      
+
+      [providerDetailViewController makeShowServicesButtonVisible:YES];
     }
     
     [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];

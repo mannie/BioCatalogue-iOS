@@ -41,12 +41,11 @@
              withRepresentation:(NSString *)format
                            page:(NSUInteger)pageNum;
 
-+(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
-
 +(NSArray *) latestServices:(NSUInteger)limit;
 
-+(NSArray *) BLJSONServicesForPage:(NSUInteger)page;
-+(NSArray *) BLJSONProvidersForPage:(NSUInteger)page;
-+(NSArray *) BLJSONUsersForPage:(NSUInteger)page;
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum providerID:(NSUInteger)provID;
+
++(NSDictionary *) providers:(NSUInteger)limit page:(NSUInteger)pageNum;
 
 @end

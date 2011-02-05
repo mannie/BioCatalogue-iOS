@@ -47,7 +47,6 @@
 @protocol PullToRefreshDataSource
 
 -(void) refreshTableViewDataSource;
--(BOOL) parentShouldRefreshTableViewDataSource;
 
 @end
 

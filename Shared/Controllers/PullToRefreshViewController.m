@@ -127,7 +127,7 @@
 	[refreshHeaderView setState:EGOOPullRefreshNormal];
 	[refreshHeaderView setCurrentDate];  //  should check if data reload was successful 
   
-  if ([self parentShouldRefreshTableViewDataSource]) [[self tableView] reloadData];
+  [[self tableView] reloadData];
 }
 
 #pragma mark -

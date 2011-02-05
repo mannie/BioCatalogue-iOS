@@ -114,22 +114,6 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
   return [self documentAtPath:path withRepresentation:JSONFormat];
 }
 
-+(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
-  if (pageNum < 1) {
-    pageNum = 1;
-  }
-  
-  if (limit <= 0) {
-    limit = ItemsPerPage;
-  }
-  
-  return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
-}
-
-+(NSArray *) latestServices:(NSUInteger)limit {
-  return [[self services:limit page:1] objectForKey:JSONResultsElement];
-} // latestServices
-
 +(NSDictionary *) performSearch:(NSString *)query 
                       withScope:(NSString *)scope
              withRepresentation:(NSString *)format 
@@ -154,20 +138,30 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
   }
 } // performSearch:withScope:withRepresentation
 
-+(NSArray *) BLJSONServicesForPage:(NSUInteger)page {
-  NSString *path = [NSString stringWithFormat:@"/services?page=%i&per_page=%i", page, ItemsPerPage];
-  return (NSArray *)[self documentAtPath:path withRepresentation:BLJSONFormat];
-} // BLJSONServicesForPage
++(NSArray *) latestServices:(NSUInteger)limit {
+  return [[self services:limit page:1] objectForKey:JSONResultsElement];
+} // latestServices
 
-+(NSArray *) BLJSONProvidersForPage:(NSUInteger)page {
-  NSString *path = [NSString stringWithFormat:@"/service_providers?page=%i&per_page=%i", page, ItemsPerPage];
-  return (NSArray *)[self documentAtPath:path withRepresentation:BLJSONFormat];
-} // BLJSONProvidersForPage
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum {
+  if (pageNum < 1) pageNum = 1;
+  if (limit <= 0) limit = ItemsPerPage;
+  
+  return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i", limit, pageNum]];
+} // services:page
 
-+(NSArray *) BLJSONUsersForPage:(NSUInteger)page {
-  NSString *path = [NSString stringWithFormat:@"/users?page=%i&per_page=%i", page, ItemsPerPage];
-  return (NSArray *)[self documentAtPath:path withRepresentation:BLJSONFormat];
-} // BLJSONUsersForPage
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum providerID:(NSUInteger)provID {
+  if (pageNum < 1) pageNum = 1;
+  if (limit <= 0) limit = ItemsPerPage;
+  
+  return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i&p=[%i]", limit, pageNum, provID]];  
+} // services:page:providerID
+
++(NSDictionary *) providers:(NSUInteger)limit page:(NSUInteger)pageNum {
+  if (pageNum < 1) pageNum = 1;
+  if (limit <= 0) limit = ItemsPerPage;
+  
+  return [self documentAtPath:[NSString stringWithFormat:@"/service_providers?per_page=%i&page=%i", limit, pageNum]];
+} // providers:page
 
 
 @end

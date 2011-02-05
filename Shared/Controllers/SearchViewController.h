@@ -10,7 +10,7 @@
 
 #import "ServiceDetailViewController_iPhone.h"
 #import "UserDetailViewController_iPhone.h"
-#import "ProviderDetailViewController_iPhone.h"
+#import "ProviderDetailViewController.h"
 
 #import "DetailViewController_iPad.h"
 
@@ -36,7 +36,7 @@
   
   ServiceDetailViewController_iPhone *serviceDetailViewController;
   UserDetailViewController_iPhone *userDetailViewController;
-  ProviderDetailViewController_iPhone *providerDetailViewController;
+  ProviderDetailViewController *providerDetailViewController;
 
   IBOutlet UISearchBar *mySearchBar;  
   
@@ -48,7 +48,7 @@
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *serviceDetailViewController;
 @property (nonatomic, retain) IBOutlet UserDetailViewController_iPhone *userDetailViewController;
-@property (nonatomic, retain) IBOutlet ProviderDetailViewController_iPhone *providerDetailViewController;
+@property (nonatomic, retain) IBOutlet ProviderDetailViewController *providerDetailViewController;
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *iPadDetailViewController;
 

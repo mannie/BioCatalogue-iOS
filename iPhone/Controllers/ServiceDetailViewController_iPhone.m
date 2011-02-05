@@ -62,10 +62,6 @@
   [self performSelectorOnMainThread:@selector(postFetchActions) withObject:nil waitUntilDone:NO];
 } // updateWithProperties
 
-
-#pragma mark -
-#pragma mark View lifecycle
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 } // shouldAutorotateToInterfaceOrientation
@@ -133,12 +129,17 @@
   [self.navigationController pushViewController:serviceComponentsViewController animated:YES];
 } // showServiceComponents
 
+-(void) makeShowProvidersButtonVisible:(BOOL)visible {
+  providerButton.hidden = !visible;
+} // makeShowProvidersButtonVisible
+
 
 #pragma mark -
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
   [uiContentController release];
+  [providerButton release];
   
   [userDetailViewController release];
   [providerDetailViewController release];  

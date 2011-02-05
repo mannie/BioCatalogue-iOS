@@ -15,8 +15,8 @@
 		28EEBFDD1118E19E00187D67 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28EEBFDC1118E19E00187D67 /* CoreData.framework */; };
 		3611BE6A1268E3770076404E /* UserDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */; };
 		3611BE6B1268E3770076404E /* UserDetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611BE691268E3770076404E /* UserDetailView_iPhone.xib */; };
-		3611C01A126B2DEE0076404E /* ProviderDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */; };
-		3611C01B126B2DEE0076404E /* ProviderDetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */; };
+		3611C01A126B2DEE0076404E /* ProviderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C018126B2DEE0076404E /* ProviderDetailViewController.m */; };
+		3611C01B126B2DEE0076404E /* ProviderDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611C019126B2DEE0076404E /* ProviderDetailView.xib */; };
 		362DFD471299150200DEC892 /* AppDelegate_Shared.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCA31299150100DEC892 /* AppDelegate_Shared.m */; };
 		362DFD481299150200DEC892 /* BioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCA51299150100DEC892 /* BioCatalogueClient.m */; };
 		362DFD491299150200DEC892 /* BioMonitor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCA61299150100DEC892 /* BioMonitor.xcdatamodeld */; };
@@ -92,6 +92,9 @@
 		36C8A63912F8AC0D0022190F /* NSException+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A63812F8AC0D0022190F /* NSException+Helper.m */; };
 		36C8A6AA12F8B7870022190F /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A6A812F8B7870022190F /* SearchViewController.m */; };
 		36C8A6AB12F8B7870022190F /* SearchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36C8A6A912F8B7870022190F /* SearchView.xib */; };
+		36C8AB8112FB46870022190F /* BrowseByProviderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36C8AB8012FB46870022190F /* BrowseByProviderView.xib */; };
+		36C8ABED12FB4DF90022190F /* ProviderServicesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8ABEB12FB4DF90022190F /* ProviderServicesViewController.m */; };
+		36C8ABEE12FB4DF90022190F /* ProviderServicesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36C8ABEC12FB4DF90022190F /* ProviderServicesView.xib */; };
 		36CD0B7812959B9A00DAE156 /* TestNSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */; };
 		36F0417A12A34CDE00B9BAB2 /* UIDevice+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */; };
 		36F0425112A4787A00B9BAB2 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCAE1299150100DEC892 /* NSString+Helper.m */; };
@@ -112,9 +115,9 @@
 		3611BE671268E3770076404E /* UserDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDetailViewController_iPhone.h; sourceTree = "<group>"; };
 		3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailViewController_iPhone.m; sourceTree = "<group>"; };
 		3611BE691268E3770076404E /* UserDetailView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserDetailView_iPhone.xib; sourceTree = "<group>"; };
-		3611C017126B2DEE0076404E /* ProviderDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviderDetailViewController_iPhone.h; sourceTree = "<group>"; };
-		3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviderDetailViewController_iPhone.m; sourceTree = "<group>"; };
-		3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProviderDetailView_iPhone.xib; sourceTree = "<group>"; };
+		3611C017126B2DEE0076404E /* ProviderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviderDetailViewController.h; sourceTree = "<group>"; };
+		3611C018126B2DEE0076404E /* ProviderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviderDetailViewController.m; sourceTree = "<group>"; };
+		3611C019126B2DEE0076404E /* ProviderDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProviderDetailView.xib; sourceTree = "<group>"; };
 		362DFCA21299150100DEC892 /* AppDelegate_Shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate_Shared.h; sourceTree = "<group>"; };
 		362DFCA31299150100DEC892 /* AppDelegate_Shared.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate_Shared.m; sourceTree = "<group>"; };
 		362DFCA41299150100DEC892 /* BioCatalogueClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BioCatalogueClient.h; sourceTree = "<group>"; };
@@ -222,6 +225,10 @@
 		36C8A6A712F8B7870022190F /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
 		36C8A6A812F8B7870022190F /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		36C8A6A912F8B7870022190F /* SearchView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchView.xib; sourceTree = "<group>"; };
+		36C8AB8012FB46870022190F /* BrowseByProviderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BrowseByProviderView.xib; sourceTree = "<group>"; };
+		36C8ABEA12FB4DF90022190F /* ProviderServicesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviderServicesViewController.h; sourceTree = "<group>"; };
+		36C8ABEB12FB4DF90022190F /* ProviderServicesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviderServicesViewController.m; sourceTree = "<group>"; };
+		36C8ABEC12FB4DF90022190F /* ProviderServicesView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProviderServicesView.xib; sourceTree = "<group>"; };
 		36CD0B7612959B9A00DAE156 /* TestNSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "TestNSString+Helper.h"; sourceTree = "<group>"; };
 		36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestNSString+Helper.m"; sourceTree = "<group>"; };
 		36F0417812A34CDE00B9BAB2 /* UIDevice+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Helper.h"; sourceTree = "<group>"; };
@@ -453,6 +460,10 @@
 				36C8A2CC12F7A3D40022190F /* BrowseByDateViewController.m */,
 				36C8A6A712F8B7870022190F /* SearchViewController.h */,
 				36C8A6A812F8B7870022190F /* SearchViewController.m */,
+				3611C017126B2DEE0076404E /* ProviderDetailViewController.h */,
+				3611C018126B2DEE0076404E /* ProviderDetailViewController.m */,
+				36C8ABEA12FB4DF90022190F /* ProviderServicesViewController.h */,
+				36C8ABEB12FB4DF90022190F /* ProviderServicesViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -463,7 +474,10 @@
 				3664672712B07BD800DEACC3 /* MonitoringStatusView.xib */,
 				3664674612B07DAD00DEACC3 /* ServiceComponentsView.xib */,
 				36C8A30812F7A8250022190F /* BrowseByDateView.xib */,
+				36C8AB8012FB46870022190F /* BrowseByProviderView.xib */,
 				36C8A6A912F8B7870022190F /* SearchView.xib */,
+				36C8ABEC12FB4DF90022190F /* ProviderServicesView.xib */,
+				3611C019126B2DEE0076404E /* ProviderDetailView.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";
@@ -484,8 +498,6 @@
 				3634473A125FCED1006F3295 /* ServiceDetailViewController_iPhone.m */,
 				3611BE671268E3770076404E /* UserDetailViewController_iPhone.h */,
 				3611BE681268E3770076404E /* UserDetailViewController_iPhone.m */,
-				3611C017126B2DEE0076404E /* ProviderDetailViewController_iPhone.h */,
-				3611C018126B2DEE0076404E /* ProviderDetailViewController_iPhone.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -496,7 +508,6 @@
 				2860E389111B897F00E27156 /* MainWindow_iPhone.xib */,
 				3634473B125FCED1006F3295 /* ServiceDetailView_iPhone.xib */,
 				3611BE691268E3770076404E /* UserDetailView_iPhone.xib */,
-				3611C019126B2DEE0076404E /* ProviderDetailView_iPhone.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";
@@ -641,7 +652,7 @@
 				2860E38B111B897F00E27156 /* MainWindow_iPhone.xib in Resources */,
 				3634473D125FCED1006F3295 /* ServiceDetailView_iPhone.xib in Resources */,
 				3611BE6B1268E3770076404E /* UserDetailView_iPhone.xib in Resources */,
-				3611C01B126B2DEE0076404E /* ProviderDetailView_iPhone.xib in Resources */,
+				3611C01B126B2DEE0076404E /* ProviderDetailView.xib in Resources */,
 				368353CE12949FC60029D92A /* DetailView_iPad.xib in Resources */,
 				368353D112949FC60029D92A /* MainWindow_iPad.xib in Resources */,
 				3664672812B07BD800DEACC3 /* MonitoringStatusView.xib in Resources */,
@@ -668,6 +679,8 @@
 				36C8A55112F7D7F60022190F /* star8-sc48.png in Resources */,
 				36C8A59512F89FC60022190F /* brushed-metal.jpg in Resources */,
 				36C8A6AB12F8B7870022190F /* SearchView.xib in Resources */,
+				36C8AB8112FB46870022190F /* BrowseByProviderView.xib in Resources */,
+				36C8ABEE12FB4DF90022190F /* ProviderServicesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -704,7 +717,7 @@
 				2860E38A111B897F00E27156 /* AppDelegate_iPhone.m in Sources */,
 				3634473C125FCED1006F3295 /* ServiceDetailViewController_iPhone.m in Sources */,
 				3611BE6A1268E3770076404E /* UserDetailViewController_iPhone.m in Sources */,
-				3611C01A126B2DEE0076404E /* ProviderDetailViewController_iPhone.m in Sources */,
+				3611C01A126B2DEE0076404E /* ProviderDetailViewController.m in Sources */,
 				368353CD12949FC60029D92A /* AppDelegate_iPad.m in Sources */,
 				368353CF12949FC60029D92A /* DetailViewController_iPad.m in Sources */,
 				362DFD471299150200DEC892 /* AppDelegate_Shared.m in Sources */,
@@ -742,6 +755,7 @@
 				36C8A2CE12F7A3D40022190F /* BrowseByDateViewController.m in Sources */,
 				36C8A63912F8AC0D0022190F /* NSException+Helper.m in Sources */,
 				36C8A6AA12F8B7870022190F /* SearchViewController.m in Sources */,
+				36C8ABED12FB4DF90022190F /* ProviderServicesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

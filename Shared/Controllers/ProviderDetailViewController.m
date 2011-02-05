@@ -1,15 +1,18 @@
 //
-//  ProviderDetailViewController_iPhone.m
+//  ProviderDetailViewController.m
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 17/10/2010.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "ProviderDetailViewController_iPhone.h"
+#import "ProviderDetailViewController.h"
 
 
-@implementation ProviderDetailViewController_iPhone
+@implementation ProviderDetailViewController
+
+@synthesize providerServicesViewController;
+
 
 #pragma mark -
 #pragma mark Helpers
@@ -29,19 +32,17 @@
 #pragma mark  IBActions
 
 -(void) showServices:(id)sender {
-  
-}
+  [providerServicesViewController loadView];
+
+  NSString *providerID = [[providerProperties objectForKey:JSONResourceElement] lastPathComponent];
+  [providerServicesViewController updateWithServicesFromProviderWithID:[providerID intValue]];
+
+  [self.navigationController pushViewController:providerServicesViewController animated:YES];  
+} // showServices
 
 
 #pragma mark -
 #pragma mark View lifecycle
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-  [super viewDidLoad];
-  
-  [self makeShowServicesButtonVisible:YES];
-} // viewDidLoad
 
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -65,6 +66,8 @@
   [descriptionTextView release];
   
   [servicesButton release];
+  
+  [providerServicesViewController release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {

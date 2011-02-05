@@ -44,20 +44,10 @@
 
 -(void) startLoadingAnimation {
   [activityIndicator startAnimating];
-  [UIView animateWithDuration:0.5
-                        delay:0
-                      options:UIViewAnimationOptionBeginFromCurrentState
-                   animations:^{ serviceName.alpha = 0.1; }
-                   completion:nil];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
   [activityIndicator stopAnimating];
-  [UIView animateWithDuration:0.5
-                        delay:0
-                      options:UIViewAnimationOptionBeginFromCurrentState
-                   animations:^{ serviceName.alpha = 1; }
-                   completion:nil];
 } // stopLoadingAnimation
 
 -(void) setContentView:(UIView *)subView forParentView:(UIView *)parentView {  

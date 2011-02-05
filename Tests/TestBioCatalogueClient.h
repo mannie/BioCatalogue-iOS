@@ -31,12 +31,6 @@
 -(void) testGETLatestServices;
 -(void) testGETServicesAtPage;
 
-// TODO: BLJSON
 // TODO: XML
-
-// TODO: tests for 
-//+(NSArray *) BLJSONServicesForPage:(NSUInteger)page;
-//+(NSArray *) BLJSONProvidersForPage:(NSUInteger)page;
-//+(NSArray *) BLJSONUsersForPage:(NSUInteger)page;
 
 @end

@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="444"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -80,34 +79,28 @@
 					</object>
 					<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					<bool key="IBUIHorizontal">YES</bool>
-					<object class="IBUINavigationController" key="IBUISelectedViewController" id="457109418">
-						<string key="IBUITitle">Services</string>
-						<object class="IBUITabBarItem" key="IBUITabBarItem" id="25509463">
-							<string key="IBUITitle">Services</string>
+					<object class="IBUINavigationController" key="IBUISelectedViewController" id="233378939">
+						<string key="IBUITitle">Service Providers</string>
+						<object class="IBUITabBarItem" key="IBUITabBarItem" id="972681461">
+							<string key="IBUITitle">Providers</string>
 							<object class="NSCustomResource" key="IBUIImage">
 								<string key="NSClassName">NSImage</string>
-								<string key="NSResourceName">gear3.png</string>
+								<string key="NSResourceName">112-group.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar"/>
 						</object>
+						<reference key="IBUIToolbarItems" ref="0"/>
 						<reference key="IBUIParentViewController" ref="368978690"/>
 						<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
-						<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
-							<bool key="IBUIPrompted">NO</bool>
-						</object>
-						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
-							<int key="IBUIStatusBarStyle">2</int>
-						</object>
 						<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 							<int key="interfaceOrientation">1</int>
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIHorizontal">NO</bool>
-						<object class="IBUINavigationBar" key="IBUINavigationBar" id="498965954">
+						<object class="IBUINavigationBar" key="IBUINavigationBar" id="885001177">
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">256</int>
-							<string key="NSFrame">{{0, -44}, {0, 44}}</string>
+							<string key="NSFrameSize">{768, 44}</string>
 							<bool key="IBUIOpaque">NO</bool>
 							<bool key="IBUIClipsSubviews">YES</bool>
 							<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -115,20 +108,16 @@
 						</object>
 						<object class="NSMutableArray" key="IBUIViewControllers">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBUITableViewController" id="752683563">
-								<object class="IBUINavigationItem" key="IBUINavigationItem" id="596650816">
-									<reference key="IBUINavigationBar"/>
-									<string key="IBUITitle">Services</string>
-									<object class="IBUIBarButtonItem" key="IBUIBackBarButtonItem" id="786134871">
-										<string key="IBUITitle">Back</string>
-										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-										<int key="IBUIStyle">1</int>
-									</object>
+							<object class="IBUITableViewController" id="657468245">
+								<object class="IBUINavigationItem" key="IBUINavigationItem" id="309490080">
+									<string key="IBUITitle">Service Providers</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								</object>
-								<reference key="IBUIParentViewController" ref="457109418"/>
-								<string key="IBUINibName">BrowseByDateView</string>
-								<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+								<reference key="IBUIParentViewController" ref="233378939"/>
+								<string key="IBUINibName">BrowseByProviderView</string>
+								<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
+									<int key="IBUIStatusBarStyle">2</int>
+								</object>
 								<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
 									<int key="interfaceOrientation">1</int>
 								</object>
@@ -139,7 +128,62 @@
 					</object>
 					<object class="NSMutableArray" key="IBUIViewControllers">
 						<bool key="EncodedWithXMLCoder">YES</bool>
-						<reference ref="457109418"/>
+						<object class="IBUINavigationController" id="457109418">
+							<string key="IBUITitle">Services</string>
+							<object class="IBUITabBarItem" key="IBUITabBarItem" id="25509463">
+								<string key="IBUITitle">Services</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">gear3.png</string>
+								</object>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+							</object>
+							<reference key="IBUIParentViewController" ref="368978690"/>
+							<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
+							<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
+								<bool key="IBUIPrompted">NO</bool>
+							</object>
+							<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
+								<int key="IBUIStatusBarStyle">2</int>
+							</object>
+							<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
+								<int key="interfaceOrientation">1</int>
+							</object>
+							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+							<bool key="IBUIHorizontal">NO</bool>
+							<object class="IBUINavigationBar" key="IBUINavigationBar" id="498965954">
+								<nil key="NSNextResponder"/>
+								<int key="NSvFlags">256</int>
+								<string key="NSFrame">{{0, -44}, {0, 44}}</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIMultipleTouchEnabled">YES</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+							</object>
+							<object class="NSMutableArray" key="IBUIViewControllers">
+								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="IBUITableViewController" id="752683563">
+									<object class="IBUINavigationItem" key="IBUINavigationItem" id="596650816">
+										<string key="IBUITitle">Services</string>
+										<object class="IBUIBarButtonItem" key="IBUIBackBarButtonItem" id="786134871">
+											<string key="IBUITitle">Back</string>
+											<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+											<int key="IBUIStyle">1</int>
+										</object>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+									</object>
+									<reference key="IBUIParentViewController" ref="457109418"/>
+									<string key="IBUINibName">BrowseByDateView</string>
+									<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
+									<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
+										<int key="interfaceOrientation">1</int>
+									</object>
+									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+									<bool key="IBUIHorizontal">NO</bool>
+								</object>
+							</object>
+						</object>
+						<reference ref="233378939"/>
 						<object class="IBUINavigationController" id="215877161">
 							<string key="IBUITitle">Search</string>
 							<object class="IBUITabBarItem" key="IBUITabBarItem" id="261463830">
@@ -149,7 +193,6 @@
 									<string key="NSResourceName">magnifying-glass-ps.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIToolbarItems" ref="0"/>
 							<reference key="IBUIParentViewController" ref="368978690"/>
@@ -4631,7 +4674,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<nil key="NSNextResponder"/>
 							<int key="NSvFlags">274</int>
 							<string key="NSFrameSize">{320, 655}</string>
-							<object class="NSColor" key="IBUIBackgroundColor" id="869607344">
+							<object class="NSColor" key="IBUIBackgroundColor">
 								<int key="NSColorSpace">3</int>
 								<bytes key="NSWhite">MQA</bytes>
 							</object>
@@ -4658,65 +4701,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIHorizontal">NO</bool>
-					</object>
-				</object>
-			</object>
-			<object class="IBUINavigationController" id="1036185384">
-				<object class="IBUITabBarItem" key="IBUITabBarItem" id="740318940">
-					<string key="IBUITitle">By Provider</string>
-					<object class="NSCustomResource" key="IBUIImage">
-						<string key="NSClassName">NSImage</string>
-						<string key="NSResourceName">112-group.png</string>
-					</object>
-					<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-				</object>
-				<reference key="IBUIToolbarItems" ref="0"/>
-				<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-					<int key="interfaceOrientation">1</int>
-				</object>
-				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-				<bool key="IBUIHorizontal">NO</bool>
-				<object class="IBUINavigationBar" key="IBUINavigationBar" id="386280338">
-					<nil key="NSNextResponder"/>
-					<int key="NSvFlags">256</int>
-					<string key="NSFrameSize">{768, 44}</string>
-					<bool key="IBUIOpaque">NO</bool>
-					<bool key="IBUIClipsSubviews">YES</bool>
-					<bool key="IBUIMultipleTouchEnabled">YES</bool>
-					<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-				</object>
-				<object class="NSMutableArray" key="IBUIViewControllers">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="IBUITableViewController" id="660931224">
-						<object class="IBUITableView" key="IBUIView" id="295915153">
-							<nil key="NSNextResponder"/>
-							<int key="NSvFlags">274</int>
-							<string key="NSFrame">{{0, -22}, {320, 699}}</string>
-							<reference key="IBUIBackgroundColor" ref="869607344"/>
-							<bool key="IBUIClipsSubviews">YES</bool>
-							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<bool key="IBUIAlwaysBounceVertical">YES</bool>
-							<int key="IBUISeparatorStyle">1</int>
-							<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
-							<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
-							<float key="IBUIRowHeight">44</float>
-							<float key="IBUISectionHeaderHeight">22</float>
-							<float key="IBUISectionFooterHeight">22</float>
-						</object>
-						<object class="IBUINavigationItem" key="IBUINavigationItem" id="963415325">
-							<string key="IBUITitle">Service Providers</string>
-							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						</object>
-						<reference key="IBUIParentViewController" ref="1036185384"/>
-						<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
-							<int key="IBUIStatusBarStyle">2</int>
-						</object>
-						<object class="IBUISimulatedOrientationMetrics" key="IBUISimulatedOrientationMetrics">
-							<int key="interfaceOrientation">1</int>
-						</object>
-						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-						<bool key="IBUIHorizontal">NO</bool>
-						<bool key="IBUIClearsSelectionOnViewWillAppear">NO</bool>
 					</object>
 				</object>
 			</object>
@@ -4771,22 +4755,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="destination" ref="630430260"/>
 					</object>
 					<int key="connectionID">427</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="295915153"/>
-						<reference key="destination" ref="660931224"/>
-					</object>
-					<int key="connectionID">438</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">dataSource</string>
-						<reference key="source" ref="295915153"/>
-						<reference key="destination" ref="660931224"/>
-					</object>
-					<int key="connectionID">439</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -4856,6 +4824,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<reference ref="967163527"/>
 							<reference ref="215877161"/>
 							<reference ref="457109418"/>
+							<reference ref="233378939"/>
 						</object>
 						<reference key="parent" ref="163864487"/>
 					</object>
@@ -4917,47 +4886,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="objectID">425</int>
 						<reference key="object" ref="234593650"/>
 						<reference key="parent" ref="630430260"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">431</int>
-						<reference key="object" ref="1036185384"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="660931224"/>
-							<reference ref="386280338"/>
-							<reference ref="740318940"/>
-						</object>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">436</int>
-						<reference key="object" ref="660931224"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="963415325"/>
-							<reference ref="295915153"/>
-						</object>
-						<reference key="parent" ref="1036185384"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">435</int>
-						<reference key="object" ref="386280338"/>
-						<reference key="parent" ref="1036185384"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">432</int>
-						<reference key="object" ref="740318940"/>
-						<reference key="parent" ref="1036185384"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">440</int>
-						<reference key="object" ref="963415325"/>
-						<reference key="parent" ref="660931224"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">437</int>
-						<reference key="object" ref="295915153"/>
-						<reference key="parent" ref="660931224"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">441</int>
@@ -5038,6 +4966,41 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="object" ref="293279683"/>
 						<reference key="parent" ref="62479744"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">454</int>
+						<reference key="object" ref="233378939"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="885001177"/>
+							<reference ref="657468245"/>
+							<reference ref="972681461"/>
+						</object>
+						<reference key="parent" ref="368978690"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">455</int>
+						<reference key="object" ref="972681461"/>
+						<reference key="parent" ref="233378939"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">456</int>
+						<reference key="object" ref="885001177"/>
+						<reference key="parent" ref="233378939"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">457</int>
+						<reference key="object" ref="657468245"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="309490080"/>
+						</object>
+						<reference key="parent" ref="233378939"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">458</int>
+						<reference key="object" ref="309490080"/>
+						<reference key="parent" ref="657468245"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -5058,12 +5021,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>2.IBPluginDependency</string>
 					<string>320.CustomClassName</string>
 					<string>320.IBPluginDependency</string>
+					<string>419.IBEditorWindowLastContentRect</string>
 					<string>424.CustomClassName</string>
 					<string>424.IBPluginDependency</string>
 					<string>425.IBPluginDependency</string>
-					<string>436.CustomClassName</string>
-					<string>436.IBPluginDependency</string>
-					<string>437.IBPluginDependency</string>
 					<string>441.IBEditorWindowLastContentRect</string>
 					<string>441.IBPluginDependency</string>
 					<string>442.IBPluginDependency</string>
@@ -5071,6 +5032,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>444.CustomClassName</string>
 					<string>444.IBPluginDependency</string>
 					<string>450.CustomClassName</string>
+					<string>457.CustomClassName</string>
+					<string>457.IBPluginDependency</string>
 					<string>6.CustomClassName</string>
 					<string>6.IBPluginDependency</string>
 				</object>
@@ -5092,10 +5055,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>GestureHandler_iPad</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>{{0, 4}, {783, 852}}</string>
 					<string>FavouritesController</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>BrowseByProviderViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{375, 375}, {320, 480}}</string>
@@ -5107,6 +5068,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>BrowseByDateViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>SearchViewController</string>
+					<string>BrowseByProviderViewController</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>AppDelegate_iPad</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -5127,7 +5090,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">453</int>
+			<int key="maxID">460</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5220,6 +5183,45 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">BrowseByProviderViewController</string>
 					<string key="superclassName">PullToRefreshViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
+							<string>iPadDetailViewController</string>
+							<string>providerDetailViewController</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIActivityIndicatorView</string>
+							<string>DetailViewController_iPad</string>
+							<string>ProviderDetailViewController</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
+							<string>iPadDetailViewController</string>
+							<string>providerDetailViewController</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">activityIndicator</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">iPadDetailViewController</string>
+								<string key="candidateClassName">DetailViewController_iPad</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">providerDetailViewController</string>
+								<string key="candidateClassName">ProviderDetailViewController</string>
+							</object>
+						</object>
+					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Shared/Controllers/BrowseByProviderViewController.h</string>
@@ -5639,7 +5641,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">ProviderDetailViewController_iPhone</string>
+					<string key="className">ProviderDetailViewController</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
 						<string key="NS.key.0">showServices:</string>
@@ -5658,12 +5660,14 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>descriptionTextView</string>
 							<string>name</string>
+							<string>providerServicesViewController</string>
 							<string>servicesButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UITextView</string>
 							<string>UILabel</string>
+							<string>ProviderServicesViewController</string>
 							<string>UIBarButtonItem</string>
 						</object>
 					</object>
@@ -5673,6 +5677,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>descriptionTextView</string>
 							<string>name</string>
+							<string>providerServicesViewController</string>
 							<string>servicesButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -5686,14 +5691,72 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">providerServicesViewController</string>
+								<string key="candidateClassName">ProviderServicesViewController</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">servicesButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">iPhone/Controllers/ProviderDetailViewController_iPhone.h</string>
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ProviderServicesViewController</string>
+					<string key="superclassName">PullToRefreshViewController</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
+							<string>iPadDetailViewController</string>
+							<string>iPhoneDetailViewController</string>
+							<string>noServicesLabel</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIActivityIndicatorView</string>
+							<string>DetailViewController_iPad</string>
+							<string>ServiceDetailViewController_iPhone</string>
+							<string>UILabel</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>activityIndicator</string>
+							<string>iPadDetailViewController</string>
+							<string>iPhoneDetailViewController</string>
+							<string>noServicesLabel</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">activityIndicator</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">iPadDetailViewController</string>
+								<string key="candidateClassName">DetailViewController_iPad</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">iPhoneDetailViewController</string>
+								<string key="candidateClassName">ServiceDetailViewController_iPhone</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">noServicesLabel</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -5712,6 +5775,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
+							<string>dataTableView</string>
 							<string>iPadDetailViewController</string>
 							<string>mySearchBar</string>
 							<string>noSearchResultsLabel</string>
@@ -5722,10 +5786,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIActivityIndicatorView</string>
+							<string>UITableView</string>
 							<string>DetailViewController_iPad</string>
 							<string>UISearchBar</string>
 							<string>UILabel</string>
-							<string>ProviderDetailViewController_iPhone</string>
+							<string>ProviderDetailViewController</string>
 							<string>ServiceDetailViewController_iPhone</string>
 							<string>UserDetailViewController_iPhone</string>
 						</object>
@@ -5735,6 +5800,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
+							<string>dataTableView</string>
 							<string>iPadDetailViewController</string>
 							<string>mySearchBar</string>
 							<string>noSearchResultsLabel</string>
@@ -5747,6 +5813,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">activityIndicator</string>
 								<string key="candidateClassName">UIActivityIndicatorView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">dataTableView</string>
+								<string key="candidateClassName">UITableView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">iPadDetailViewController</string>
@@ -5762,7 +5832,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">providerDetailViewController</string>
-								<string key="candidateClassName">ProviderDetailViewController_iPhone</string>
+								<string key="candidateClassName">ProviderDetailViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">serviceDetailViewController</string>
@@ -5881,6 +5951,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>monitoringStatusViewController</string>
 							<string>myTableView</string>
+							<string>providerButton</string>
 							<string>providerDetailViewController</string>
 							<string>serviceComponentsViewController</string>
 							<string>uiContentController</string>
@@ -5890,7 +5961,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>MonitoringStatusViewController</string>
 							<string>UITableView</string>
-							<string>ProviderDetailViewController_iPhone</string>
+							<string>UIButton</string>
+							<string>ProviderDetailViewController</string>
 							<string>ServiceComponentsViewController</string>
 							<string>UIContentController</string>
 							<string>UserDetailViewController_iPhone</string>
@@ -5902,6 +5974,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>monitoringStatusViewController</string>
 							<string>myTableView</string>
+							<string>providerButton</string>
 							<string>providerDetailViewController</string>
 							<string>serviceComponentsViewController</string>
 							<string>uiContentController</string>
@@ -5918,8 +5991,12 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="candidateClassName">UITableView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">providerButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">providerDetailViewController</string>
-								<string key="candidateClassName">ProviderDetailViewController_iPhone</string>
+								<string key="candidateClassName">ProviderDetailViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">serviceComponentsViewController</string>

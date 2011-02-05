@@ -1,64 +1,58 @@
 //
-//  BrowseByDateViewController.m
+//  ProviderServicesViewController.m
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 01/02/2011.
+//  Created by Mannie Tagarira on 03/02/2011.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "BrowseByDateViewController.h"
+#import "ProviderServicesViewController.h"
 
 
-@implementation BrowseByDateViewController
+@implementation ProviderServicesViewController
 
-@synthesize iPhoneDetailViewController, iPadDetailViewController;
+@synthesize iPhoneDetailViewController;
 
+
+-(void) updateTableViewFooterView {
+  NSNumber *shouldHide = [NSNumber numberWithBool:([[paginatedServices objectForKey:[NSNumber numberWithInt:0]] count] != 0)];
+  [noServicesLabel performSelectorOnMainThread:@selector(setHidden:) withObject:shouldHide waitUntilDone:NO];
+  
+  if (activeFetchThreads == 0) {
+    [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+  }
+}
 
 -(void) loadItemsOnNextPage {
   if (lastLoadedPage == lastPage) {
-    [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
     activeFetchThreads--;
+    [self updateTableViewFooterView];
     return;
   }
   
   dispatch_async(dispatch_queue_create("Load next page", NULL), ^{
     lastLoadedPage++;
     int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
-
-    NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:pageToLoad] retain];
+    
+    NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:pageToLoad providerID:currentProviderID] retain];
     [paginatedServices setObject:[document objectForKey:JSONResultsElement]
                           forKey:[NSNumber numberWithInt:pageToLoad-1]];
-
+    
     lastPage = [[document objectForKey:JSONPagesElement] intValue];
-
+    
     [document release];
     
     [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     
     activeFetchThreads--;
-    if (activeFetchThreads == 0) {
-      [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
-    }
+    
+    [self updateTableViewFooterView];    
   });
 } // loadItemsOnNextPage
 
-
-#pragma mark -
-#pragma mark View lifecycle
-
-- (void)viewDidLoad {
-  [super viewDidLoad];
-      
-  [self refreshTableViewDataSource];
-  
-  [iPhoneDetailViewController loadView];
-}
-
-
-#pragma mark -
-#pragma mark PullToRefreshDataSource
-
 -(void) refreshTableViewDataSource {
+  [activityIndicator startAnimating];
+  
   [paginatedServices release];
   paginatedServices = [[NSMutableDictionary alloc] init];
   
@@ -70,6 +64,38 @@
   activeFetchThreads++;
   [self loadItemsOnNextPage];
 } // refreshTableViewDataSource
+
+-(void) updateWithServicesFromProviderWithID:(NSUInteger)providerID {
+  currentProviderID = providerID;
+  dispatch_async(dispatch_queue_create("Load provider services", NULL), ^{
+    [self refreshTableViewDataSource];
+  });
+  
+  if ([[UIDevice currentDevice] isIPadDevice]) {
+    if (!iPadDetailViewController) {
+      AppDelegate_iPad *delegate = (AppDelegate_iPad *)[[UIApplication sharedApplication] delegate];
+      for (UIViewController *viewController in [[delegate splitViewController] viewControllers]) {
+        if ([viewController isMemberOfClass:[DetailViewController_iPad class]]) {
+          iPadDetailViewController = [viewController retain];
+          break;
+        }
+      }      
+    }
+  } else {
+    [iPhoneDetailViewController loadView];
+  }
+} // updateWithServicesFromProviderWithID
+
+
+#pragma mark -
+#pragma mark View lifecycle
+
+-(void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+
+  [UIContentController setTableViewBackground:self.tableView];
+  noServicesLabel.hidden = YES;
+}
 
 
 #pragma mark -
@@ -89,8 +115,7 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return [[paginatedServices objectForKey:[NSNumber numberWithInt:section]] count];
-} // tableView:numberOfRowsInSection
-
+} // tableView:titleForHeaderInSection
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -120,7 +145,7 @@
   [UIContentController customiseTableViewCell:cell 
                                withProperties:[itemsInSection objectAtIndex:indexPath.row]
                                    givenScope:ServiceResourceScope];
-    
+  
   return cell;
 } // tableView:cellForRowAtIndexPath
 
@@ -130,7 +155,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
-
+  
   if ([[UIDevice currentDevice] isIPadDevice]) {
     if ([iPadDetailViewController isCurrentlyBusy]) {
       [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
@@ -149,7 +174,7 @@
     lastSelectedIndexIPad = [indexPath retain];    
   } else {
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
+      [iPhoneDetailViewController makeShowProvidersButtonVisible:NO];
       [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
     });
     [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
@@ -165,8 +190,9 @@
 -(void) releaseIBOutlets {
   [iPhoneDetailViewController release];
   [iPadDetailViewController release];
-
+  
   [activityIndicator release];
+  [noServicesLabel release];
 }
 
 - (void)didReceiveMemoryWarning {

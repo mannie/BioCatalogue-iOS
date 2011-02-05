@@ -9,11 +9,27 @@
 #import "PullToRefreshViewController.h"
 #import "UIContentController.h"
 
+#import "ProviderDetailViewController.h"
+#import "DetailViewController_iPad.h"
+
+#import "NSException+Helper.h"
+
 
 @interface BrowseByProviderViewController : PullToRefreshViewController <PullToRefreshDataSource> {
-  NSMutableDictionary *providers;
+  NSMutableDictionary *paginatedProviders;
   
+  NSUInteger lastPage;
   NSUInteger lastLoadedPage;
+  
+  NSUInteger activeFetchThreads;
+  
+  ProviderDetailViewController *providerDetailViewController;
+  
+  NSIndexPath *lastSelectedIndexIPad;
+  
+  IBOutlet UIActivityIndicatorView *activityIndicator;
 }
+
+@property (nonatomic, retain) IBOutlet ProviderDetailViewController *providerDetailViewController;
 
 @end
