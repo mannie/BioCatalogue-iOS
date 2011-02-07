@@ -12,51 +12,45 @@
 
 @implementation ServiceComponentsViewController
 
+@synthesize detailViewController, iPhoneWebViewController;
+
 
 #pragma mark -
 #pragma mark Helpers
 
--(void) updateWithProperties:(NSDictionary *)properties {  
-  [componentsProperties release];
-  componentsProperties = [properties retain];
+-(void) updateWithServiceComponentsForPath:(NSString *)path {
+  if ([currentPath isEqualToString:path]) return;
   
-  [serviceComponents release];
-  if (serviceIsREST) {
-    serviceComponents = [[properties objectForKey:JSONMethodsElement] retain];
-  } else {
-    serviceComponents = [[properties objectForKey:JSONOperationsElement] retain];
-  }  
-
-  [self.tableView reloadData];
-} // updateWithProperties
-
--(void) fetchServiceComponents:(NSString *)fromPath {  
-  if (![lastUsedPath isEqualToString:fromPath]) {
-    [activityIndicator performSelectorOnMainThread:@selector(startAnimating)
-                                        withObject:nil
-                                     waitUntilDone:NO];
-    [self.tableView performSelectorOnMainThread:@selector(setTableHeaderView:) 
-                                     withObject:loadingView
-                                  waitUntilDone:NO];
+  [currentPath release];
+  currentPath = [path retain];
+  
+  dispatch_async(dispatch_queue_create("Load provider services", NULL), ^{
+    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+    
+    [serviceComponentsInfo release];
+    serviceComponentsInfo = [[NSMutableDictionary alloc] init];
+    
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    
+    serviceComponentsInfo = [[BioCatalogueClient documentAtPath:path] retain];
+              
+    serviceIsREST = [[path lastPathComponent] isEqualToString:@"methods"];
 
     [serviceComponents release];
-    serviceComponents = [[NSArray array] retain];
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) 
-                                     withObject:nil 
-                                  waitUntilDone:NO];
-
-    [lastUsedPath release];
-    lastUsedPath = [[NSString stringWithString:fromPath] retain];
-
-    serviceIsREST = [[fromPath lastPathComponent] isEqualToString:@"methods"];
+    if (serviceIsREST) {
+      serviceComponents = [[serviceComponentsInfo objectForKey:JSONMethodsElement] retain];
+    } else {
+      serviceComponents = [[serviceComponentsInfo objectForKey:JSONOperationsElement] retain];
+    }  
     
-    [self updateWithProperties:[BioCatalogueClient documentAtPath:fromPath]];
-  
-    [activityIndicator stopAnimating];
-  }
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
-  [self.tableView setTableHeaderView:nil];  
-} // fetchServiceComponents
+    NSNumber *shouldHide = [NSNumber numberWithBool:([serviceComponents count] != 0)];
+    [noComponentsLabel performSelectorOnMainThread:@selector(setHidden:) withObject:shouldHide waitUntilDone:NO];  
+
+    [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+});
+} // updateWithServiceComponentsForPath
 
 
 #pragma mark -
@@ -66,7 +60,7 @@
   [super viewDidLoad];
 
   [UIContentController setTableViewBackground:self.tableView];
-  if (!loadingView) loadingView = [[self.tableView tableHeaderView] retain];
+  noComponentsLabel.hidden = YES;
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -112,18 +106,27 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:indexPath.row] 
-                                     objectForKey:JSONResourceElement]];
-  
-  if ([[UIDevice currentDevice] isIPadDevice]) {
-    [iPadDetailViewController showResourceInBioCatalogue:url];
+/*
+  TODO: implement
+ 
+  NSLog(@"%@", [serviceComponents objectAtIndex:indexPath.row]);
+  if (serviceIsREST) {
+    [detailViewController loadRESTMethodDetailView];
   } else {
-    NSURLRequest *request = [NSURLRequest requestWithURL:url
-                                             cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                         timeoutInterval:10];
-    [(UIWebView *)iPhoneWebViewController.view loadRequest:request];
-    [self.navigationController pushViewController:iPhoneWebViewController animated:YES];
+    [detailViewController loadSOAPOperationDetailView];
   }
+
+ 
+  [self.navigationController pushViewController:detailViewController animated:YES];
+*/
+
+  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:indexPath.row] 
+                                     objectForKey:JSONResourceElement]];  
+  NSURLRequest *request = [NSURLRequest requestWithURL:url
+                                           cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                       timeoutInterval:5];
+  [(UIWebView *)iPhoneWebViewController.view loadRequest:request];
+  [self.navigationController pushViewController:iPhoneWebViewController animated:YES];
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
@@ -133,10 +136,12 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [iPadDetailViewController release];
-  [iPhoneWebViewController release];
-
   [activityIndicator release];
+  [noComponentsLabel release];
+  
+  [detailViewController release];
+  
+  [iPhoneWebViewController release];
 } // releaseIBOutlets
 
 - (void)didReceiveMemoryWarning {
@@ -153,10 +158,10 @@
 
 - (void)dealloc {
   [self releaseIBOutlets];
-  
-  [componentsProperties release];
+
+  [serviceComponentsInfo release];
   [serviceComponents release];
-  [lastUsedPath release];
+  [currentPath release];
 
   [super dealloc];
 } // dealloc

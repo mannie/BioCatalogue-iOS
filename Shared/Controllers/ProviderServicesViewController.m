@@ -14,6 +14,9 @@
 @synthesize iPhoneDetailViewController;
 
 
+#pragma mark -
+#pragma mark Helpers
+
 -(void) updateTableViewFooterView {
   NSNumber *shouldHide = [NSNumber numberWithBool:([[paginatedServices objectForKey:[NSNumber numberWithInt:0]] count] != 0)];
   [noServicesLabel performSelectorOnMainThread:@selector(setHidden:) withObject:shouldHide waitUntilDone:NO];

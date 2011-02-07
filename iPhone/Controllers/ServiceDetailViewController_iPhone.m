@@ -91,11 +91,10 @@
 
 -(void) showMonitoringStatusInfo:(id)sender {
   if (monitoringStatusInformationAvailable) {
-    NSURL *serviceURL = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
-    NSString *path = [[serviceURL path] stringByAppendingPathComponent:@"monitoring"];
-    
+    if (![monitoringStatusViewController view]) [monitoringStatusViewController loadView];
     dispatch_async(dispatch_queue_create("Fetch monitoring statuses", NULL), ^{
-      [monitoringStatusViewController fetchMonitoringStatusInfo:path];
+      NSString *serviceID = [[serviceListingProperties objectForKey:JSONResourceElement] lastPathComponent];
+      [monitoringStatusViewController updateWithMonitoringStatusInfoForServiceWithID:[serviceID intValue]];
     });
     
     [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
@@ -122,8 +121,9 @@
     serviceComponentsViewController.title = SOAPComponentsText;
   }
   
+  if (![serviceComponentsViewController view]) [serviceComponentsViewController loadView];
   dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
-    [serviceComponentsViewController fetchServiceComponents:path];
+    [serviceComponentsViewController updateWithServiceComponentsForPath:path];
   });
   
   [self.navigationController pushViewController:serviceComponentsViewController animated:YES];

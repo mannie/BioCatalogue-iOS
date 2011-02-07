@@ -16,41 +16,25 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) updateWithProperties:(NSDictionary *)properties {
-  [monitoringProperties release];
-  monitoringProperties = [properties retain];
+-(void) updateWithMonitoringStatusInfoForServiceWithID:(NSUInteger)serviceID {
+  if (currentServiceID == serviceID) return;
   
-  [monitoringStatuses release];
-  monitoringStatuses = [[properties objectForKey:JSONServiceTestsElement] retain];
-
-  [self.tableView reloadData];
-} // updateWithProperties
-
--(void) fetchMonitoringStatusInfo:(NSString *)fromPath {
-  if (![lastUsedPath isEqualToString:fromPath]) {
-    [activityIndicator performSelectorOnMainThread:@selector(startAnimating)
-                                        withObject:nil
-                                     waitUntilDone:NO];
-    [self.tableView performSelectorOnMainThread:@selector(setTableHeaderView:) 
-                                     withObject:loadingView
-                                  waitUntilDone:NO];
+  currentServiceID = serviceID;
+  
+  dispatch_async(dispatch_queue_create("Load provider services", NULL), ^{
+    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
     
-    [monitoringStatuses release];
-    monitoringStatuses = [[NSArray array] retain];
-    [self.tableView performSelectorOnMainThread:@selector(reloadData) 
-                                     withObject:nil 
-                                  waitUntilDone:NO];
-
-    [lastUsedPath release];
-    lastUsedPath = [fromPath retain];
+    [monitoringInfo release];
+    monitoringInfo = [[NSMutableDictionary alloc] init];
     
-    [self updateWithProperties:[BioCatalogueClient documentAtPath:fromPath]];
-
-    [activityIndicator stopAnimating];
-  }
-
-  [self.tableView setTableHeaderView:nil];
-} // fetchMonitoringStatusInfo
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    
+    monitoringInfo = [[BioCatalogueClient monitoringStatusesForServiceWithID:currentServiceID] retain];
+    
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+  });
+} // updateWithMonitoringStausInfoForServiceWithID
 
 
 #pragma mark -
@@ -62,9 +46,7 @@
   dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
   
-  [UIContentController setTableViewBackground:self.tableView];
-  
-  if (!loadingView) loadingView = [[self.tableView tableHeaderView] retain];
+  [UIContentController setTableViewBackground:[self tableView]];
 } // viewDidLoad
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -76,7 +58,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [monitoringStatuses count];
+  return [[monitoringInfo objectForKey:JSONServiceTestsElement] count];
 } // tableView:numberOfRowsInSection
 
 
@@ -92,7 +74,7 @@
   }
   
   // Configure the cell...
-  id status = [[monitoringStatuses objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
+  id status = [[[monitoringInfo objectForKey:JSONServiceTestsElement] objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
 
   NSArray *date = [[[dateFormatter dateFromString:[status objectForKey:JSONLastCheckedElement]] description] 
                    componentsSeparatedByString:@" "];
@@ -110,11 +92,10 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  id status = [monitoringStatuses objectAtIndex:indexPath.row];
+  id status = [[monitoringInfo objectForKey:JSONServiceTestsElement] objectAtIndex:indexPath.row];
   
   NSString *message = [NSString stringWithFormat:@"A URL monitoring test was performed on the endpoint: \n\n %@", 
-                       [[[status objectForKey:JSONTestTypeElement] objectForKey:JSONURLMonitorElement] 
-                        objectForKey:JSONURLElement]];
+                       [[[status objectForKey:JSONTestTypeElement] objectForKey:JSONURLMonitorElement] objectForKey:JSONURLElement]];
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
                                                   message:message
                                                  delegate:self 
@@ -150,10 +131,7 @@
 - (void)dealloc {
   [self releaseIBOutlets];
   
-  [monitoringProperties release];
-  [monitoringStatuses release];
-  
-  [lastUsedPath release];
+  [monitoringInfo release];
   
   [super dealloc];
 } // dealloc

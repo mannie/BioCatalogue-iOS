@@ -156,6 +156,10 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
   return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i&p=[%i]", limit, pageNum, provID]];  
 } // services:page:providerID
 
++(NSDictionary *) monitoringStatusesForServiceWithID:(NSUInteger)serviceID {
+  return [self documentAtPath:[NSString stringWithFormat:@"/services/%i/monitoring", serviceID]];  
+} // monitoringStatusesForServiceWithID
+
 +(NSDictionary *) providers:(NSUInteger)limit page:(NSUInteger)pageNum {
   if (pageNum < 1) pageNum = 1;
   if (limit <= 0) limit = ItemsPerPage;

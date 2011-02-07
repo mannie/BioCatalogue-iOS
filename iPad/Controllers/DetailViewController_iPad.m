@@ -228,11 +228,9 @@
 
 -(void) showMonitoringStatusInfo:(id)sender {
   if (monitoringStatusInformationAvailable) {
-    NSURL *serviceURL = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
-    NSString *path = [[[serviceURL path] stringByAppendingPathComponent:@"monitoring"] retain];
-
     dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
-      [monitoringStatusViewController fetchMonitoringStatusInfo:path];
+      NSString *serviceID = [[listingProperties objectForKey:JSONResourceElement] lastPathComponent];
+      [monitoringStatusViewController updateWithMonitoringStatusInfoForServiceWithID:[serviceID intValue]];
     });
     
     [self loadViewIntoContextualPopover:nil 
@@ -262,14 +260,15 @@
   }
   
   dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
-    [serviceComponentsViewController fetchServiceComponents:path];
+    [serviceComponentsViewController updateWithServiceComponentsForPath:path];
   });
 
+  UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:serviceComponentsViewController];
   [self loadViewIntoContextualPopover:nil 
                              intoView:serviceDetailView
-                   withViewController:serviceComponentsViewController
+                   withViewController:navController
                     withArrowFromRect:[sender frame]
-                             withSize:CGSizeMake(500, 440)];
+                             withSize:CGSizeMake(500, 460)];
 }
 
 -(void) dismissAuxiliaryDetailPanel:(id)sender {

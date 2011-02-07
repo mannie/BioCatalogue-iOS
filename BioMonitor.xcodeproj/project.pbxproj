@@ -100,6 +100,8 @@
 		36F0425112A4787A00B9BAB2 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCAE1299150100DEC892 /* NSString+Helper.m */; };
 		36F0425212A4787C00B9BAB2 /* NSUserDefaults+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCB01299150100DEC892 /* NSUserDefaults+Helper.m */; };
 		36F0425C12A478CA00B9BAB2 /* BioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFCA51299150100DEC892 /* BioCatalogueClient.m */; };
+		36F98B7012FF8CAD00B3B128 /* ServiceComponentsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F98B6E12FF8CAD00B3B128 /* ServiceComponentsDetailViewController.m */; };
+		36F98B7112FF8CAD00B3B128 /* ServiceComponentsDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36F98B6F12FF8CAD00B3B128 /* ServiceComponentsDetailView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -233,6 +235,9 @@
 		36CD0B7712959B9A00DAE156 /* TestNSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TestNSString+Helper.m"; sourceTree = "<group>"; };
 		36F0417812A34CDE00B9BAB2 /* UIDevice+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Helper.h"; sourceTree = "<group>"; };
 		36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+Helper.m"; sourceTree = "<group>"; };
+		36F98B6D12FF8CAD00B3B128 /* ServiceComponentsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceComponentsDetailViewController.h; sourceTree = "<group>"; };
+		36F98B6E12FF8CAD00B3B128 /* ServiceComponentsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceComponentsDetailViewController.m; sourceTree = "<group>"; };
+		36F98B6F12FF8CAD00B3B128 /* ServiceComponentsDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServiceComponentsDetailView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +451,8 @@
 				3664652812B0505000DEACC3 /* MonitoringStatusViewController.m */,
 				3664652B12B0505000DEACC3 /* ServiceComponentsViewController.h */,
 				3664652C12B0505000DEACC3 /* ServiceComponentsViewController.m */,
+				36F98B6D12FF8CAD00B3B128 /* ServiceComponentsDetailViewController.h */,
+				36F98B6E12FF8CAD00B3B128 /* ServiceComponentsDetailViewController.m */,
 				3664654E12B051C900DEACC3 /* UIContentController.h */,
 				3664654F12B051C900DEACC3 /* UIContentController.m */,
 				3644C93812B1C65B005607EB /* WebBrowserController.h */,
@@ -473,6 +480,7 @@
 			children = (
 				3664672712B07BD800DEACC3 /* MonitoringStatusView.xib */,
 				3664674612B07DAD00DEACC3 /* ServiceComponentsView.xib */,
+				36F98B6F12FF8CAD00B3B128 /* ServiceComponentsDetailView.xib */,
 				36C8A30812F7A8250022190F /* BrowseByDateView.xib */,
 				36C8AB8012FB46870022190F /* BrowseByProviderView.xib */,
 				36C8A6A912F8B7870022190F /* SearchView.xib */,
@@ -681,6 +689,7 @@
 				36C8A6AB12F8B7870022190F /* SearchView.xib in Resources */,
 				36C8AB8112FB46870022190F /* BrowseByProviderView.xib in Resources */,
 				36C8ABEE12FB4DF90022190F /* ProviderServicesView.xib in Resources */,
+				36F98B7112FF8CAD00B3B128 /* ServiceComponentsDetailView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,6 +765,7 @@
 				36C8A63912F8AC0D0022190F /* NSException+Helper.m in Sources */,
 				36C8A6AA12F8B7870022190F /* SearchViewController.m in Sources */,
 				36C8ABED12FB4DF90022190F /* ProviderServicesViewController.m in Sources */,
+				36F98B7012FF8CAD00B3B128 /* ServiceComponentsDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

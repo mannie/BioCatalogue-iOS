@@ -9,36 +9,37 @@
 #import <UIKit/UIKit.h>
 
 #import "BioCatalogueClient.h"
+#import "ServiceComponentsDetailViewController.h"
 
 
-@class DetailViewController_iPad;
+@class WebViewController_iPhone;
 
 
 @interface ServiceComponentsViewController : UITableViewController {
-  NSDictionary *componentsProperties;
+  NSString *currentPath;
+  
+  NSMutableDictionary *serviceComponentsInfo;
   NSArray *serviceComponents;
   
-  UIView *loadingView;
-  
-  IBOutlet DetailViewController_iPad *iPadDetailViewController;
-
-  IBOutlet UIViewController *iPhoneWebViewController;
-
   IBOutlet UIActivityIndicatorView *activityIndicator;
-
-  BOOL serviceIsREST;
+  IBOutlet UILabel *noComponentsLabel;
   
-  NSString *lastUsedPath;
+  BOOL serviceIsREST;
+
+  ServiceComponentsDetailViewController *detailViewController;
+  WebViewController_iPhone *iPhoneWebViewController;
 }
 
--(void) fetchServiceComponents:(NSString *)fromPath;
+-(void) updateWithServiceComponentsForPath:(NSString *)path;
+
+@property (nonatomic, retain) IBOutlet ServiceComponentsDetailViewController *detailViewController;
+@property (nonatomic, retain) IBOutlet WebViewController_iPhone *iPhoneWebViewController;
 
 @end
 
 
 
-@interface WebViewController_iPhone : UIViewController {
-}
+@interface WebViewController_iPhone : UIViewController
 @end
 
 

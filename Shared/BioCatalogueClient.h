@@ -46,6 +46,8 @@
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum providerID:(NSUInteger)provID;
 
++(NSDictionary *) monitoringStatusesForServiceWithID:(NSUInteger)serviceID;
+
 +(NSDictionary *) providers:(NSUInteger)limit page:(NSUInteger)pageNum;
 
 @end

@@ -12,18 +12,15 @@
 
 
 @interface MonitoringStatusViewController : UITableViewController {
-  NSDictionary *monitoringProperties;
-  NSArray *monitoringStatuses;
+  NSUInteger currentServiceID;
+  
+  NSMutableDictionary *monitoringInfo;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-  
-  NSString *lastUsedPath;
-  
+    
   NSDateFormatter *dateFormatter;
-  
-  UIView *loadingView;
 }
 
--(void) fetchMonitoringStatusInfo:(NSString *)fromPath;
+-(void) updateWithMonitoringStatusInfoForServiceWithID:(NSUInteger)serviceID;
 
 @end

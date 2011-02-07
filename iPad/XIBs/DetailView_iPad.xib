@@ -15233,7 +15233,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="43995413">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">272</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -15252,7 +15252,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">274</int>
 										<string key="NSFrame">{{5, 5}, {470, 339}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="901434111"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -15275,7 +15274,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">274</int>
 										<string key="NSFrame">{{5, 5}, {470, 339}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="530524"/>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -15286,7 +15284,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">318</int>
 										<string key="NSFrame">{{5, 20}, {470, 45}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="530524"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -15308,7 +15305,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{65, 64}, {350, 1}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="855429184"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -15330,7 +15326,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{60, 73}, {63, 17}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<int key="IBUIContentMode">7</int>
@@ -15352,7 +15347,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">318</int>
 										<string key="NSFrame">{{124, 64}, {336, 280}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="530524"/>
 										<bool key="IBUIClipsSubviews">YES</bool>
 										<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -15371,7 +15365,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{124, 343}, {291, 1}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<reference key="IBUIBackgroundColor" ref="855429184"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -15393,7 +15386,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{5, 127}, {64, 64}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<reference key="IBUIImage" ref="602662468"/>
@@ -15403,7 +15395,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{5, 64}, {64, 64}}</string>
 										<reference key="NSSuperview" ref="70160402"/>
-										<reference key="NSWindow"/>
 										<bool key="IBUIUserInteractionEnabled">NO</bool>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<object class="NSCustomResource" key="IBUIImage">
@@ -15414,21 +15405,17 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								</object>
 								<string key="NSFrameSize">{480, 349}</string>
 								<reference key="NSSuperview" ref="174621908"/>
-								<reference key="NSWindow"/>
 								<reference key="IBUIBackgroundColor" ref="5450438"/>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 							</object>
 						</object>
 						<string key="NSFrame">{{20, 139}, {480, 349}}</string>
 						<reference key="NSSuperview" ref="43995413"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="530524"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{520, 704}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="IBUIBackgroundColor" ref="530524"/>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
@@ -15709,14 +15696,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">364</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">iPadDetailViewController</string>
-						<reference key="source" ref="970099645"/>
-						<reference key="destination" ref="841351856"/>
-					</object>
-					<int key="connectionID">367</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -17458,14 +17437,12 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
-							<string>iPadDetailViewController</string>
-							<string>iPhoneWebViewController</string>
+							<string>noComponentsLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIActivityIndicatorView</string>
-							<string>DetailViewController_iPad</string>
-							<string>UIViewController</string>
+							<string>UILabel</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -17473,8 +17450,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
-							<string>iPadDetailViewController</string>
-							<string>iPhoneWebViewController</string>
+							<string>noComponentsLabel</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -17483,12 +17459,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="candidateClassName">UIActivityIndicatorView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">iPadDetailViewController</string>
-								<string key="candidateClassName">DetailViewController_iPad</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">iPhoneWebViewController</string>
-								<string key="candidateClassName">UIViewController</string>
+								<string key="name">noComponentsLabel</string>
+								<string key="candidateClassName">UILabel</string>
 							</object>
 						</object>
 					</object>
