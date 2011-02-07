@@ -19,6 +19,8 @@ extern NSString *const NetworkActivityStopped;
 #pragma mark -
 #pragma mark BioCatalogueClient
 
+extern NSUInteger const DaysBeforeExpiringUnreadAnnouncements;
+
 extern NSUInteger const iPadItemsPerPage;
 extern NSUInteger const iPhoneItemsPerPage;
 extern NSUInteger ItemsPerPage;
@@ -29,6 +31,8 @@ extern float AutoLoadTriggerIndex;
 extern NSString *const UserResourceScope;
 extern NSString *const ServiceResourceScope;
 extern NSString *const ProviderResourceScope;
+
+extern NSString *const AnnouncementResourceScope;
 
 extern NSString *const RESTService;
 extern NSString *const SOAPService;
@@ -93,10 +97,17 @@ extern NSString *const JSONVariantsElement;
 #pragma mark -
 #pragma mark Image Names
 
+extern NSString *const BrushedMetalBackground;
+
 extern NSString *const DescriptionIcon;
 extern NSString *const ProviderIcon;
 extern NSString *const UserIcon;
-extern NSString *const BrushedMetalBackground;
+
+extern NSString *const AnnouncementReadIcon;
+extern NSString *const AnnouncementUnreadIcon;
+
+extern NSString *const BrowserRefreshIcon;
+extern NSString *const BrowserStopIcon;
 
 
 #pragma mark -
@@ -110,6 +121,7 @@ extern NSString *const LastViewedResourceScopeKey;
 #pragma mark Text Placeholders
 
 extern NSString *UnknownText;
+extern NSString *UnknownAffiliationText;
 extern NSString *DefaultLoadingText;
 extern NSString *LoadMoreItemsText;
 

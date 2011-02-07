@@ -382,7 +382,7 @@
 					</object>
 					<object class="IBUIButton" id="153522499">
 						<reference key="NSNextResponder" ref="560820470"/>
-						<int key="NSvFlags">289</int>
+						<int key="NSvFlags">-2147483351</int>
 						<string key="NSFrame">{{274, 262}, {29, 31}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
 						<reference key="NSWindow"/>
@@ -537,7 +537,6 @@
 							<reference ref="16182110"/>
 							<reference ref="553879096"/>
 							<reference ref="295922169"/>
-							<reference ref="153522499"/>
 							<reference ref="240758303"/>
 							<reference ref="103033079"/>
 							<reference ref="1060630272"/>
@@ -549,6 +548,7 @@
 							<reference ref="77005046"/>
 							<reference ref="500235377"/>
 							<reference ref="441887345"/>
+							<reference ref="153522499"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -692,14 +692,14 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UserDetailViewController_iPhone</string>
 					<string>UIResponder</string>
-					<string>{{558, 296}, {320, 480}}</string>
+					<string>{{318, 56}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAw7aAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">AUOJAABDoAAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDiQAAw5GAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">

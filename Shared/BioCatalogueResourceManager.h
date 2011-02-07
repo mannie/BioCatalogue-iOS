@@ -12,19 +12,25 @@
 #import "BioCatalogue.h"
 #import "User.h"
 #import "Service.h"
+#import "Announcement.h"
 
 
 @interface BioCatalogueResourceManager : NSObject {
 }
 
++(void) commmitChanges;
 
 +(BioCatalogue *) currentBioCatalogue;
 +(User *) currentUser;
 
++(NSArray *) currentBioCatalogueAnnouncements;
+
 +(NSArray *) currentUserSubmittedServices;
 +(NSArray *) currentUserFavouritedServices;
 
++(Announcement *) announcementWithUniqueID:(NSInteger)uniqueID;
 +(Service *) serviceWithUniqueID:(NSInteger)uniqueID;
+
 +(void) favouriteServiceWithProperties:(NSDictionary *)properties;
 
 @end

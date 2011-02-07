@@ -23,6 +23,7 @@
 }
 
 +(NSURL *) baseURL;
++(NSURL *) announcementsFeedURL;
 
 +(NSURL *) OAuthRequestURL;
 +(NSURL *) OAuthAccessURL;

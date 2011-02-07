@@ -100,6 +100,10 @@
   noServicesLabel.hidden = YES;
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+  return YES;
+} // shouldAutorotateToInterfaceOrientation
+
 
 #pragma mark -
 #pragma mark Table view data source
@@ -159,10 +163,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
   
-  if ([[UIDevice currentDevice] isIPadDevice] && lastSelectedIndexIPad) {
-    if ([iPadDetailViewController isCurrentlyBusy]) {
+  if ([[UIDevice currentDevice] isIPadDevice]) {
+    if ([iPadDetailViewController isCurrentlyBusy] && lastSelectedIndexIPad) {
       [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
-                       scrollPosition:UITableViewScrollPositionNone];
+                       scrollPosition:UITableViewScrollPositionMiddle];
       return;
     }
     
@@ -173,7 +177,9 @@
     });
     
     [lastSelectedIndexIPad release];
-    lastSelectedIndexIPad = [indexPath retain];    
+    lastSelectedIndexIPad = [indexPath retain];
+    
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   } else {
     [iPhoneDetailViewController makeShowProvidersButtonVisible:NO];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{

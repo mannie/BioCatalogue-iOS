@@ -19,6 +19,8 @@ NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 #pragma mark -
 #pragma mark BioCatalogueClient
 
+NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 90;
+
 NSUInteger const iPadItemsPerPage = 15;
 NSUInteger const iPhoneItemsPerPage = 10;
 NSUInteger ItemsPerPage = 10; // NOTE: this value will be replaced at runtime
@@ -29,6 +31,8 @@ float AutoLoadTriggerIndex = 0.3;
 NSString *const UserResourceScope = @"users";
 NSString *const ServiceResourceScope = @"services";
 NSString *const ProviderResourceScope = @"providers";
+
+NSString *const AnnouncementResourceScope = @"announcements";
 
 NSString *const RESTService = @"REST";
 NSString *const SOAPService = @"SOAP";
@@ -96,10 +100,17 @@ NSString *const JSONVariantsElement = @"variants";
 #pragma mark -
 #pragma mark Image Names
 
+NSString *const BrushedMetalBackground = @"brushed-metal.jpg";
+
 NSString *const DescriptionIcon = @"info";
 NSString *const ProviderIcon = @"112-group.png";
 NSString *const UserIcon = @"111-user.png";
-NSString *const BrushedMetalBackground = @"brushed-metal.jpg";
+
+NSString *const AnnouncementReadIcon = @"check-mark.png";
+NSString *const AnnouncementUnreadIcon = @"exclamation-point-ps.png";
+
+NSString *const BrowserRefreshIcon = @"arrow-circle-refresh.png";
+NSString *const BrowserStopIcon = @"letter-x.png";
 
 
 #pragma mark -
@@ -113,6 +124,7 @@ NSString *const LastViewedResourceScopeKey = @"LastViewedResourceScope";
 #pragma mark Text Placeholders
 
 NSString *UnknownText = @"Unknown";
+NSString *UnknownAffiliationText = @"Unknown Affiliation";
 NSString *DefaultLoadingText = @"Loading, Please Wait...";
 NSString *LoadMoreItemsText = @"Load More Items...";
 

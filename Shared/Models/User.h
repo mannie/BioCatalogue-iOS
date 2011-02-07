@@ -2,8 +2,8 @@
 //  User.h
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 14/12/2010.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Mannie Tagarira on 07/02/2011.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import <CoreData/CoreData.h>
@@ -22,9 +22,9 @@
 @property (nonatomic, retain) NSString * affiliation;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) Location * location;
-@property (nonatomic, retain) BioCatalogue * biocatalogue;
 @property (nonatomic, retain) NSSet* services;
 @property (nonatomic, retain) NSSet* favourites;
+@property (nonatomic, retain) BioCatalogue * catalogue;
 
 @end
 

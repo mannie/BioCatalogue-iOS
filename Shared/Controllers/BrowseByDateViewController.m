@@ -26,12 +26,14 @@
     int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
 
     NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:pageToLoad] retain];
-    [paginatedServices setObject:[document objectForKey:JSONResultsElement]
-                          forKey:[NSNumber numberWithInt:pageToLoad-1]];
-
-    lastPage = [[document objectForKey:JSONPagesElement] intValue];
-
-    [document release];
+    if (document) {
+      [paginatedServices setObject:[document objectForKey:JSONResultsElement]
+                            forKey:[NSNumber numberWithInt:pageToLoad-1]];
+      
+      lastPage = [[document objectForKey:JSONPagesElement] intValue];
+      
+      [document release];      
+    }
     
     [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     
@@ -134,7 +136,7 @@
   if ([[UIDevice currentDevice] isIPadDevice]) {
     if ([iPadDetailViewController isCurrentlyBusy] && lastSelectedIndexIPad) {
       [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
-                       scrollPosition:UITableViewScrollPositionNone];
+                       scrollPosition:UITableViewScrollPositionMiddle];
       return;
     }
     
@@ -145,7 +147,9 @@
     });
     
     [lastSelectedIndexIPad release];
-    lastSelectedIndexIPad = [indexPath retain];    
+    lastSelectedIndexIPad = [indexPath retain];
+
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   } else {
     [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{

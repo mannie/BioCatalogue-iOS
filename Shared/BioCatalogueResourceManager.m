@@ -23,6 +23,11 @@ static User* _currentUser;
   managedObjectContext = delegate.managedObjectContext;
 } // initialize
 
++(void) commmitChanges {
+  NSError *error = nil;
+  [managedObjectContext save:&error];
+  if (error) [error log];
+}
 
 +(BioCatalogue *) currentBioCatalogue {
   if (_currentBioCatalogue) return _currentBioCatalogue;
@@ -39,13 +44,11 @@ static User* _currentUser;
   if (error) [error log];
   if (_currentBioCatalogue) return _currentBioCatalogue;
 
-  error = nil;
   _currentBioCatalogue = [[NSEntityDescription insertNewObjectForEntityForName:@"BioCatalogue" 
                                                         inManagedObjectContext:managedObjectContext] retain];
   _currentBioCatalogue.hostname = BioCatalogueHostname;
   
-  [managedObjectContext save:&error];
-  if (error) [error log];
+  [self commmitChanges];
   
   return _currentBioCatalogue;
 } // currentBioCatalogue
@@ -56,15 +59,18 @@ static User* _currentUser;
   _currentUser = [[[[self currentBioCatalogue] users] anyObject] retain];
   if (_currentUser) return _currentUser;
   
-  NSError *error = nil;
   _currentUser = [[NSEntityDescription insertNewObjectForEntityForName:@"User"
                                                 inManagedObjectContext:managedObjectContext] retain];
   
-  [managedObjectContext save:&error];
-  if (error) [error log];
+  [self commmitChanges];
   
   return _currentUser;
 } // currentUser
+
++(NSArray *) currentBioCatalogueAnnouncements {
+  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
+  return [[[self currentBioCatalogue] announcements] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
+} // currentBioCatalogueAnnouncements
 
 +(NSArray *) currentUserSubmittedServices {
   NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
@@ -75,6 +81,29 @@ static User* _currentUser;
   NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
   return [[[self currentUser] favourites] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
 } // currentUserFavouritedServices
+
++(Announcement *) announcementWithUniqueID:(NSInteger)uniqueID {
+  NSError *error = nil;
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"Announcement"
+                                            inManagedObjectContext:managedObjectContext];
+  NSFetchRequest *request = [[NSFetchRequest alloc] init];
+  [request setEntity:entity];
+  [request setFetchLimit:1];
+  [request setPredicate:[NSPredicate predicateWithFormat:@"uniqueID = %i", uniqueID]];
+  
+  Announcement *announcement = [[managedObjectContext executeFetchRequest:[request autorelease] error:&error] lastObject];
+  if (error) [error log];
+  
+  if (announcement) return announcement;
+  
+  announcement = [NSEntityDescription insertNewObjectForEntityForName:@"Announcement" inManagedObjectContext:managedObjectContext];
+  announcement.uniqueID = [NSNumber numberWithInt:uniqueID];
+  announcement.catalogue = [self currentBioCatalogue];
+
+  [self commmitChanges];
+  
+  return announcement;
+} // announcementWithUniqueID
 
 +(Service *) serviceWithUniqueID:(NSInteger)uniqueID {
   NSError *error = nil;
@@ -93,11 +122,10 @@ static User* _currentUser;
   service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" inManagedObjectContext:managedObjectContext];
   service.uniqueID = [NSNumber numberWithInt:uniqueID];
   
-  [managedObjectContext save:&error];
-  if (error) [error log];
+  [self commmitChanges];
   
   return service;
-}
+} // serviceWithUniqueID
 
 +(void) favouriteServiceWithProperties:(NSDictionary *)properties {
   NSString *uniqueID = [[properties objectForKey:JSONSelfElement] lastPathComponent];  
@@ -111,9 +139,7 @@ static User* _currentUser;
 
   [[self currentUser] addFavouritesObject:service];
   
-  NSError *error = nil;
-  [managedObjectContext save:&error];
-  if (error) [error log];
+  [self commmitChanges];
 } // favouriteServiceWithProperties
 
 

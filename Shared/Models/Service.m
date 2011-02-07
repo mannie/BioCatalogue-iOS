@@ -2,8 +2,8 @@
 //  Service.m
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 14/12/2010.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//  Created by Mannie Tagarira on 07/02/2011.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "Service.h"
@@ -15,20 +15,14 @@
 
 @implementation Service 
 
-@dynamic name;
 @dynamic uniqueID;
 @dynamic type;
 @dynamic latestMonitoringIcon;
+@dynamic name;
 @dynamic about;
+@dynamic submitter;
 @dynamic provider;
 @dynamic monitoringUpdates;
 @dynamic components;
-@dynamic submitter;
-
--(NSData *) latestMonitoringIcon {
-  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"timestamp" ascending:YES];
-  NSArray *updates = [[self monitoringUpdates] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-  return [[updates lastObject] icon];
-}
 
 @end

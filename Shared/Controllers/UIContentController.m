@@ -11,6 +11,8 @@
 
 @implementation UIContentController
 
+@synthesize iPadDetailViewController;
+
 
 +(void) setTableViewBackground:(UITableView *)tableView {
   UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BrushedMetalBackground]];
@@ -41,13 +43,19 @@
     cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];    
   } else if ([scope isEqualToString:UserResourceScope]) {
     cell.textLabel.text = [properties objectForKey:JSONNameElement];
-    cell.detailTextLabel.text = nil;
+
+    NSString *affiliation = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONAffiliationElement]];
+    cell.detailTextLabel.text = ([affiliation isValidJSONValue] ? affiliation : UnknownAffiliationText);  
 
     cell.imageView.image = [UIImage imageNamed:UserIcon];
   } else if ([scope isEqualToString:ProviderResourceScope]) {
     cell.textLabel.text = [properties objectForKey:JSONNameElement];
+
+//    NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
+//    description = [NSString stringWithFormat:@"About: %@", ([description isValidJSONValue] ? description : NoInformationText)];
+//    cell.detailTextLabel.text = description;  
+
     cell.detailTextLabel.text = nil;
-    
     cell.imageView.image = [UIImage imageNamed:ProviderIcon];
   }
 } // customiseTableViewCell:withProperties:givenScope
@@ -60,12 +68,16 @@
                                  providerName:(NSString *)provider 
                                 submitterName:(NSString *)submitter 
                               showLoadingText:(BOOL)isBusy {
+  serviceDescription.delegate = self;
+
   if (isBusy) {
     serviceName.text = [listingProperties objectForKey:JSONNameElement];
     
     NSString *description = [NSString stringWithFormat:@"%@", [listingProperties objectForKey:JSONDescriptionElement]];
-    serviceDescription.text = ([description isValidJSONValue] ? description : NoDescriptionText);
-    
+    description = ([description isValidJSONValue] ? description : NoDescriptionText);
+    [serviceDescription loadHTMLString:description baseURL:nil];
+    [serviceDescription setBackgroundColor:[UIColor clearColor]];
+
     serviceProviderName.text = DefaultLoadingText;
     serviceSubmitterName.text = DefaultLoadingText;
 
@@ -87,14 +99,13 @@
     }
     
     showComponentsButton.hidden = !isREST && !isSOAP;    
-    
   } else {
     serviceProviderName.text = provider;
     serviceSubmitterName.text = submitter;
   }
 } // updateServiceUIElementsWithProperties:showLoadingText
 
--(void) updateUserProviderUIElementsWithProperties:(NSDictionary *)properties {
+-(void) updateUserUIElementsWithProperties:(NSDictionary *)properties {
   userName.text = [properties objectForKey:JSONNameElement];
   
   NSString *detailItem = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONAffiliationElement]];
@@ -122,17 +133,63 @@
 } // updateUserProviderUIElementsWithProperties
 
 -(void) updateProviderUIElementsWithProperties:(NSDictionary *)properties {
+  providerDescription.delegate = self;
+
   providerName.text = [properties objectForKey:JSONNameElement];
   
   NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
-  providerDescription.text = ([description isValidJSONValue] ? description : NoInformationText);  
+  description = ([description isValidJSONValue] ? description : NoInformationText);  
+  [providerDescription loadHTMLString:description baseURL:nil];
+  [providerDescription setBackgroundColor:[UIColor clearColor]];
 } // updateProviderUIElementsWithProperties
+
+-(void) updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID {  
+  announcementSummary.delegate = self;
+
+  Announcement *announcement = [BioCatalogueResourceManager announcementWithUniqueID:announcementID];
+  
+  [announcementSummary loadHTMLString:announcement.summary baseURL:nil];
+  [announcementSummary setBackgroundColor:[UIColor clearColor]];
+  
+  announcementTitle.text = announcement.title;
+  
+  NSArray *date = [[announcement.date description] componentsSeparatedByString:@" "];
+  announcementDate.text = [NSString stringWithFormat:@"%@ at %@", [date objectAtIndex:0], [date objectAtIndex:1]];
+  
+  if ([announcement.isUnread boolValue]) {
+    announcement.isUnread = [NSNumber numberWithBool:![announcement.isUnread boolValue]];
+    [BioCatalogueResourceManager commmitChanges];  
+  }
+} // updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID
+
+
+#pragma mark -
+#pragma mark UI Web View Delegate
+
+-(BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+  BOOL isMyRequest = [[[request mainDocumentURL] scheme] isEqualToString:@"about"];
+  
+  if (isMyRequest) {
+    return YES;
+  } else {
+    if ([[UIDevice currentDevice] isIPadDevice]) {
+      [iPadDetailViewController showResourceInPullOutBrowser:[request mainDocumentURL]];
+    } else {
+      [[UIApplication sharedApplication] openURL:[request mainDocumentURL]];
+    }
+
+    return NO;
+  }
+}
+
 
 
 #pragma mark -
 #pragma mark Memory Management
 
 -(void) dealloc {
+  [iPadDetailViewController release];
+  
   // service detail outlets  
   [serviceName release];
   [serviceDescription release];
@@ -155,7 +212,12 @@
   // provider detail outlets
   [providerName release];
   [providerDescription release];
-  
+    
+  // announcements
+  [announcementTitle release];
+  [announcementDate release];
+  [announcementSummary release];
+
   [super dealloc];
 } // dealloc
 

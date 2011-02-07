@@ -171,14 +171,16 @@
     if (![lastSearchScope isEqualToString:ProviderResourceScope]) {
       if ([iPadDetailViewController isCurrentlyBusy] && lastSelectedIndexIPad) {
         [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
-                         scrollPosition:UITableViewScrollPositionNone];
+                         scrollPosition:UITableViewScrollPositionMiddle];
         return;
       }
       
       [iPadDetailViewController startLoadingAnimation];
       
       [lastSelectedIndexIPad release];
-      lastSelectedIndexIPad = [indexPath retain];      
+      lastSelectedIndexIPad = [indexPath retain];
+      
+      [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     }
     
     if ([lastSearchScope isEqualToString:ServiceResourceScope]) {

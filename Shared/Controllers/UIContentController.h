@@ -12,16 +12,21 @@
 
 #import "NSString+Helper.h"
 #import "NSDictionary+Helper.h"
+#import "UIDevice+Helper.h"
 
 #import "BioCatalogueClient.h"
 
-#import "Service.h"
+#import "BioCatalogueResourceManager.h"
+
+@class DetailViewController_iPad;
 
 
-@interface UIContentController : NSObject {
+@interface UIContentController : NSObject <UIWebViewDelegate> {
+  DetailViewController_iPad* iPadDetailViewController;
+  
   // the service view
   IBOutlet UILabel *serviceName;
-  IBOutlet UITextView *serviceDescription;
+  IBOutlet UIWebView *serviceDescription;
   IBOutlet UILabel *serviceProviderName;
   IBOutlet UILabel *serviceSubmitterName;
   
@@ -40,8 +45,15 @@
   
   // provider details
   IBOutlet UILabel *providerName;
-  IBOutlet UITextView *providerDescription;  
+  IBOutlet UIWebView *providerDescription;
+
+  // announcements
+  IBOutlet UILabel *announcementTitle;
+  IBOutlet UILabel *announcementDate;
+  IBOutlet UIWebView *announcementSummary;
 }
+
+@property(nonatomic, retain) IBOutlet DetailViewController_iPad* iPadDetailViewController;
 
 +(void) setTableViewBackground:(UITableView *)tableView;
 
@@ -55,7 +67,8 @@
                                  providerName:(NSString *)providerName 
                                 submitterName:(NSString *)submitterName 
                               showLoadingText:(BOOL)isBusy;
--(void) updateUserProviderUIElementsWithProperties:(NSDictionary *)properties;
+-(void) updateUserUIElementsWithProperties:(NSDictionary *)properties;
 -(void) updateProviderUIElementsWithProperties:(NSDictionary *)properties;
+-(void) updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID;
 
 @end

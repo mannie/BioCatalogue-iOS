@@ -12,8 +12,17 @@
 @implementation WebBrowserController
 
 -(void) updateNavigationButtons:(UIWebView *)webView {
-  reloadButton.enabled = !webView.loading;
-  stopButton.enabled = webView.loading;
+  UIImage *stopRefreshButtonImage;
+  if (webView.loading) {
+    stopRefreshButtonImage = [UIImage imageNamed:BrowserStopIcon];
+    [stopRefreshButton setAction:@selector(stopLoading)];
+  } else {
+    stopRefreshButtonImage = [UIImage imageNamed:BrowserRefreshIcon];
+    [stopRefreshButton setAction:@selector(reload)];
+  }
+
+  UIImageView *imageView = [[UIImageView alloc] initWithImage:stopRefreshButtonImage];
+  [stopRefreshButton setCustomView:[imageView autorelease]];
 
   backButton.enabled = webView.canGoBack;
   forwardButton.enabled = webView.canGoForward;
@@ -58,8 +67,7 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-  [reloadButton release];
-  [stopButton release];
+  [stopRefreshButton release];
   
   [backButton release];
   [forwardButton release];

@@ -296,7 +296,7 @@
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showMonitoringStatusInfo:</string>
 							<string>showProviderInfo:</string>
-							<string>showResourceInBioCatalogue:</string>
+							<string>showResourceInPullOutBrowser:</string>
 							<string>showServiceComponents:</string>
 							<string>showSubmitterInfo:</string>
 						</object>
@@ -323,7 +323,7 @@
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showMonitoringStatusInfo:</string>
 							<string>showProviderInfo:</string>
-							<string>showResourceInBioCatalogue:</string>
+							<string>showResourceInPullOutBrowser:</string>
 							<string>showServiceComponents:</string>
 							<string>showSubmitterInfo:</string>
 						</object>
@@ -354,7 +354,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">showResourceInBioCatalogue:</string>
+								<string key="name">showResourceInPullOutBrowser:</string>
 								<string key="candidateClassName">NSURL</string>
 							</object>
 							<object class="IBActionInfo">
@@ -1185,7 +1185,7 @@
 							<string>backButton</string>
 							<string>forwardButton</string>
 							<string>reloadButton</string>
-							<string>stopButton</string>
+							<string>stopRefreshButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1202,7 +1202,7 @@
 							<string>backButton</string>
 							<string>forwardButton</string>
 							<string>reloadButton</string>
-							<string>stopButton</string>
+							<string>stopRefreshButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1219,7 +1219,7 @@
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">stopButton</string>
+								<string key="name">stopRefreshButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 						</object>

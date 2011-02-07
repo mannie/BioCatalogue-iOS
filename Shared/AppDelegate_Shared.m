@@ -11,7 +11,7 @@
 
 @implementation AppDelegate_Shared
 
-@synthesize window;
+@synthesize window, announcementsTabBarItem;
 
 
 -(id) init {
@@ -188,6 +188,7 @@
   [persistentStoreCoordinator_ release];
   
   [window release];
+  [announcementsTabBarItem release];
   
   [super dealloc];
 }

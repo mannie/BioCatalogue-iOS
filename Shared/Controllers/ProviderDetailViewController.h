@@ -12,11 +12,11 @@
 #import "NSString+Helper.h"
 
 #import "ProviderServicesViewController.h"
+#import "UIContentController.h"
 
 
 @interface ProviderDetailViewController : UIViewController {
-  IBOutlet UILabel *name;
-  IBOutlet UITextView *descriptionTextView;
+  IBOutlet UIContentController *uiContentController;
 
   IBOutlet UIBarButtonItem *servicesButton;
 

@@ -17,14 +17,14 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) updateWithProperties:(NSDictionary *)properties {  
-  name.text = [properties objectForKey:JSONNameElement];
-  
-  NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
-  descriptionTextView.text = ([description isValidJSONValue] ? description : NoInformationText);
-  
+-(void) updateWithProperties:(NSDictionary *)properties {    
   [providerProperties release];
   providerProperties = [properties retain];
+  
+  [uiContentController updateProviderUIElementsWithProperties:properties];
+  
+  [self.view setNeedsDisplay];  
+  
 } // updateWithProperties
 
 
@@ -44,7 +44,6 @@
 #pragma mark -
 #pragma mark View lifecycle
 
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 } // shouldAutorotateToInterfaceOrientation
@@ -62,10 +61,8 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [name release];
-  [descriptionTextView release];
-  
   [servicesButton release];
+  [uiContentController release];
   
   [providerServicesViewController release];
 } // releaseIBOutlets

@@ -18,6 +18,12 @@
 #pragma mark -
 #pragma mark Helpers
 
+-(void) touchToolbar:(UIToolbar *)toolbar {  
+  NSArray *items = [toolbar items];
+  [toolbar performSelectorOnMainThread:@selector(setItems:animated:) withObject:nil waitUntilDone:NO];
+  [toolbar performSelectorOnMainThread:@selector(setItems:animated:) withObject:items waitUntilDone:NO];  
+} // touchToolbar
+
 -(BOOL) isCurrentlyBusy {
   return controllerIsCurrentlyBusy;
 } // isCurrentlyBusy
@@ -104,7 +110,7 @@
                                              showLoadingText:NO];
   
   [self setContentView:serviceDetailView forParentView:mainContentView];
-  
+
   [self.view setNeedsDisplay];  
   [self stopLoadingAnimation];
 } // postUpdateWithPropertiesActionsForServices
@@ -134,45 +140,54 @@
     [self performSelectorOnMainThread:@selector(postUpdateWithPropertiesActionsForServices)
                            withObject:nil
                         waitUntilDone:NO];
-    
-    favouriteServiceBarButtonItem.enabled = YES;
   } else if ([scope isEqualToString:UserResourceScope]) {
     [userProperties release];
     userProperties = [properties retain];
     
-    [uiContentController updateUserProviderUIElementsWithProperties:properties];
-    
-    favouriteServiceBarButtonItem.enabled = NO;
+    [uiContentController updateUserUIElementsWithProperties:properties];
   } else {
     [providerProperties release];
     providerProperties = [properties retain];
     
     [uiContentController updateProviderUIElementsWithProperties:properties];
-    favouriteServiceBarButtonItem.enabled = NO;
   }
   
   [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
   
   [self stopLoadingAnimation];
   controllerIsCurrentlyBusy = NO;
+  
+  [self touchToolbar:mainToolbar];
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
+  favouriteServiceBarButtonItem.enabled = YES;
   [self updateWithProperties:properties withScope:ServiceResourceScope];
   scopeOfResourceBeingViewed = ServiceResourceScope;
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
+  favouriteServiceBarButtonItem.enabled = NO;
   [self updateWithProperties:properties withScope:UserResourceScope];  
   [self setContentView:userDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = UserResourceScope;
 } // updateWithPropertiesForUsersScope
 
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties {
+  favouriteServiceBarButtonItem.enabled = NO;
   [self updateWithProperties:properties withScope:ProviderResourceScope];  
   [self setContentView:providerDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = ProviderResourceScope;
 } // updateWithPropertiesForProvidersScope
+
+-(void) updateWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID {
+  lastAnnouncementID = announcementID;
+  favouriteServiceBarButtonItem.enabled = NO;
+  [self setContentView:announcementDetailView forParentView:mainContentView];
+  [uiContentController updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:announcementID];
+  scopeOfResourceBeingViewed = AnnouncementResourceScope;
+  [self touchToolbar:mainToolbar];
+} // updateWithPropertiesForAnnouncementWithID
 
 
 #pragma mark -
@@ -284,12 +299,7 @@
   [gestureHandler rolloutAuxiliaryDetailPanel:[recognizer autorelease]];
 } // exposeAuxiliaryDetailPanel
 
--(void) showCurrentResourceInBioCatalogue:(id)sender {  
-  NSURL *url = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
-  [self showResourceInBioCatalogue:url];
-} // showCurrentResourceInBioCatalogue
-
--(void) showResourceInBioCatalogue:(NSURL *)url {
+-(void) showResourceInPullOutBrowser:(NSURL *)url {
   NSURLRequest *request = [NSURLRequest requestWithURL:url
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                        timeoutInterval:10];
@@ -301,6 +311,20 @@
   
   [self setContentView:webBrowser forParentView:auxiliaryDetailPanel];  
 } // showResourceInBioCatalogue
+
+-(void) showCurrentResourceInBioCatalogue:(id)sender {
+  if (!scopeOfResourceBeingViewed) return;
+  
+  NSURL *url;
+  if ([scopeOfResourceBeingViewed isEqualToString:AnnouncementResourceScope]) {
+    url = [BioCatalogueClient URLForPath:[NSString stringWithFormat:@"/%@/%i", AnnouncementResourceScope, lastAnnouncementID]
+                      withRepresentation:nil];
+  } else {
+    url = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
+  }
+
+  [self showResourceInPullOutBrowser:url];
+} // showCurrentResourceInBioCatalogue
 
 
 #pragma mark -
@@ -314,8 +338,6 @@
   barButtonItem.title = @"Main Menu";
   
   NSMutableArray *items = [[mainToolbar items] mutableCopy];
-  
-  favouriteServiceBarButtonItem.enabled = [scopeOfResourceBeingViewed isEqualToString:ServiceResourceScope];
   
   [items insertObject:barButtonItem atIndex:0];
   [mainToolbar setItems:items animated:YES];
@@ -359,6 +381,9 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  favouriteServiceBarButtonItem.enabled = NO;
+  [self touchToolbar:mainToolbar];
   
   if (!viewHasAlreadyInitialized) {
     NSDictionary *properties = [[NSUserDefaults standardUserDefaults] dictionaryForKey:LastViewedResourceKey];
@@ -462,6 +487,8 @@
   [monitoringStatusViewController release];
   [webBrowserController release];
   
+  [announcementDetailView release];
+  
   [uiContentController release];
 } // releaseIBOutlets
 
@@ -476,7 +503,7 @@
   // Release any retained subviews of the main view.
   [defaultPopoverController release];
   [contextualPopoverController release];
-  
+
   [self releaseIBOutlets];
 } // viewDidUnload
 

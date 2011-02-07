@@ -23,6 +23,11 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
   return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", BioCatalogueHostname]];
 } // baseURL
 
++(NSURL *) announcementsFeedURL {
+  NSURL *feedBase = [NSURL URLWithString:[NSString stringWithFormat:@"feed://%@", BioCatalogueHostname]];
+  return [feedBase URLByAppendingPathComponent:@"announcements.atom"];
+}
+
 +(NSURL *) OAuthRequestURL {
   return [NSURL URLWithString:@"/oauth/request_token" relativeToURL:[self baseURL]];
 } // OAuthRequestURL

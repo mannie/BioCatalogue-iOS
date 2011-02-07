@@ -11,6 +11,7 @@
 
 @implementation FavouritesController
 
+typedef enum { UserFavourites, UserSubmissions } Section;
 
 static NSInteger UserFavouritesSection = 0;
 static NSInteger UserSubmissionsSection = 1;
@@ -94,7 +95,7 @@ static NSInteger UserSubmissionsSection = 1;
 } // numberOfSectionsInTableView
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (section == UserFavouritesSection) {
+  if (section == UserFavourites) {
     return [favouritedServices count];
   } else {
     return [submittedServices count];
@@ -113,7 +114,7 @@ static NSInteger UserSubmissionsSection = 1;
   
   // Configure the cell...
   Service *service;
-  if (indexPath.section == UserFavouritesSection) {
+  if (indexPath.section == UserFavourites) {
     service = [favouritedServices objectAtIndex:indexPath.row];
   } else {
     service = [submittedServices objectAtIndex:indexPath.row];
@@ -125,7 +126,7 @@ static NSInteger UserSubmissionsSection = 1;
 } // tableView:cellForRowAtIndexPath
 
 -(NSString *) tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-  return (section == UserFavouritesSection ? @"My Favourite Services" : @"Services I Submitted");
+  return (section == UserFavourites ? @"My Favourite Services" : @"Services I Submitted");
 } // tableView:titleForHeaderInSection
 
 
@@ -133,6 +134,8 @@ static NSInteger UserSubmissionsSection = 1;
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+  [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
 

@@ -23,6 +23,8 @@
 
 
 @interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
+  NSUInteger lastAnnouncementID;
+  
   UIPopoverController *defaultPopoverController;
   UIPopoverController *contextualPopoverController;
   
@@ -78,6 +80,9 @@
   IBOutlet UIView *providerDetailView;
   IBOutlet UIView *providerIDCard;
   IBOutlet UIView *providerIDCardContainer;
+  
+  // announcements
+  IBOutlet UIView *announcementDetailView;  
 }
 
 @property (nonatomic, retain) IBOutlet MonitoringStatusViewController *monitoringStatusViewController;
@@ -89,6 +94,8 @@
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties;
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties;
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties;
+
+-(void) updateWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID;
 
 -(void) startLoadingAnimation;
 -(void) stopLoadingAnimation;
@@ -103,7 +110,7 @@
 -(IBAction) dismissAuxiliaryDetailPanel:(id)sender;
 -(IBAction) exposeAuxiliaryDetailPanel:(id)sender;
 
+-(IBAction) showResourceInPullOutBrowser:(NSURL *)url;
 -(IBAction) showCurrentResourceInBioCatalogue:(id)sender;
--(IBAction) showResourceInBioCatalogue:(NSURL *)url;
 
 @end
