@@ -44,6 +44,8 @@
 
 -(void) startLoadingAnimation {
   [activityIndicator startAnimating];
+  [defaultPopoverController dismissPopoverAnimated:YES];
+  [self dismissAuxiliaryDetailPanel:self];
 } // startLoadingAnimation
 
 -(void) stopLoadingAnimation {
@@ -276,6 +278,8 @@
 } // dismissAuxiliaryDetailPanel
 
 -(void) exposeAuxiliaryDetailPanel:(id)sender {
+  [defaultPopoverController dismissPopoverAnimated:YES];
+  
   UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] init];
   recognizer.direction = UISwipeGestureRecognizerDirectionLeft;
   [gestureHandler rolloutAuxiliaryDetailPanel:[recognizer autorelease]];

@@ -169,14 +169,13 @@
   
   if ([[UIDevice currentDevice] isIPadDevice]) {
     if (![lastSearchScope isEqualToString:ProviderResourceScope]) {
-      if ([iPadDetailViewController isCurrentlyBusy]) {
+      if ([iPadDetailViewController isCurrentlyBusy] && lastSelectedIndexIPad) {
         [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
                          scrollPosition:UITableViewScrollPositionNone];
         return;
       }
       
       [iPadDetailViewController startLoadingAnimation];
-      [iPadDetailViewController dismissAuxiliaryDetailPanel:self];
       
       [lastSelectedIndexIPad release];
       lastSelectedIndexIPad = [indexPath retain];      

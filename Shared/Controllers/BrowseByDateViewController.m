@@ -132,14 +132,13 @@
   NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
 
   if ([[UIDevice currentDevice] isIPadDevice]) {
-    if ([iPadDetailViewController isCurrentlyBusy]) {
+    if ([iPadDetailViewController isCurrentlyBusy] && lastSelectedIndexIPad) {
       [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
                        scrollPosition:UITableViewScrollPositionNone];
       return;
     }
     
     [iPadDetailViewController startLoadingAnimation];
-    [iPadDetailViewController dismissAuxiliaryDetailPanel:self];
     
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
       [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];

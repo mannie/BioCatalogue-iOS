@@ -156,7 +156,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];
   
-  if ([[UIDevice currentDevice] isIPadDevice]) {
+  if ([[UIDevice currentDevice] isIPadDevice] && lastSelectedIndexIPad) {
     if ([iPadDetailViewController isCurrentlyBusy]) {
       [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
                        scrollPosition:UITableViewScrollPositionNone];
@@ -164,7 +164,6 @@
     }
     
     [iPadDetailViewController startLoadingAnimation];
-    [iPadDetailViewController dismissAuxiliaryDetailPanel:self];
     
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
       [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
