@@ -145,7 +145,9 @@
     
 //  NSArray *date = [[announcement.date description] componentsSeparatedByString:@" "];
 //  cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ at %@", [date objectAtIndex:0], [date objectAtIndex:1]];
-  cell.detailTextLabel.text = [announcement.summary stringByConvertingHTMLToPlainText];
+  NSRange range = NSMakeRange(90, [announcement.summary length]-90);
+  cell.detailTextLabel.text = [[announcement.summary stringByReplacingCharactersInRange:range withString:@""] 
+                               stringByConvertingHTMLToPlainText];
   
   if ([announcement.isUnread boolValue]) {
     cell.imageView.image = [UIImage imageNamed:AnnouncementUnreadIcon];
