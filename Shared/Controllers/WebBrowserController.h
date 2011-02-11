@@ -11,7 +11,11 @@
 
 
 @interface WebBrowserController : NSObject <UIWebViewDelegate> {
-  IBOutlet UIBarButtonItem *stopRefreshButton;
+  IBOutlet UIToolbar *browserToolbar;
+  IBOutlet UIActivityIndicatorView *webBrowserActivityIndicator;
+
+  IBOutlet UIBarButtonItem *refreshButton;
+  IBOutlet UIBarButtonItem *stopButton;
   IBOutlet UIBarButtonItem *backButton;
   IBOutlet UIBarButtonItem *forwardButton;
 }

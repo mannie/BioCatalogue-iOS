@@ -11,16 +11,33 @@
 
 @implementation DetailViewController_iPad
 
-
 @synthesize monitoringStatusViewController, serviceComponentsViewController, webBrowserController;
+
+typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 
 
 #pragma mark -
 #pragma mark Helpers
 
+-(NSURL *) URLOfResourceBeingViewed {
+  NSURL *url;
+  if ([scopeOfResourceBeingViewed isEqualToString:AnnouncementResourceScope]) {
+    url = [BioCatalogueClient URLForPath:[NSString stringWithFormat:@"/%@/%i", AnnouncementResourceScope, lastAnnouncementID]
+                      withRepresentation:nil];
+  } else {
+    url = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
+  }
+  
+  return [url absoluteURL];
+} // URLOfResourceBeingViewed
+
 -(void) touchToolbar:(UIToolbar *)toolbar {  
+  if (toolbar == mainToolbar) {
+    viewCurrentResourceBarButtonItem.enabled = scopeOfResourceBeingViewed != nil;
+  }
+  
   NSArray *items = [toolbar items];
-  [toolbar performSelectorOnMainThread:@selector(setItems:animated:) withObject:nil waitUntilDone:NO];
+  [toolbar performSelectorOnMainThread:@selector(setItems:) withObject:nil waitUntilDone:NO];
   [toolbar performSelectorOnMainThread:@selector(setItems:animated:) withObject:items waitUntilDone:NO];  
 } // touchToolbar
 
@@ -274,6 +291,7 @@
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
   }
   
+  if (![serviceComponentsViewController view]) [serviceComponentsViewController loadView];
   dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
     [serviceComponentsViewController updateWithServiceComponentsForPath:path];
   });
@@ -299,7 +317,7 @@
   [gestureHandler rolloutAuxiliaryDetailPanel:[recognizer autorelease]];
 } // exposeAuxiliaryDetailPanel
 
--(void) showResourceInPullOutBrowser:(NSURL *)url {
+-(IBAction) showResourceInPullOutBrowser:(NSURL *)url {
   NSURLRequest *request = [NSURLRequest requestWithURL:url
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                        timeoutInterval:10];
@@ -312,19 +330,27 @@
   [self setContentView:webBrowser forParentView:auxiliaryDetailPanel];  
 } // showResourceInBioCatalogue
 
--(void) showCurrentResourceInBioCatalogue:(id)sender {
-  if (!scopeOfResourceBeingViewed) return;
-  
-  NSURL *url;
-  if ([scopeOfResourceBeingViewed isEqualToString:AnnouncementResourceScope]) {
-    url = [BioCatalogueClient URLForPath:[NSString stringWithFormat:@"/%@/%i", AnnouncementResourceScope, lastAnnouncementID]
-                      withRepresentation:nil];
-  } else {
-    url = [NSURL URLWithString:[listingProperties objectForKey:JSONResourceElement]];
-  }
+-(IBAction) showCurrentPullOutBrowserContentInSafari:(id)sender {
+  [[UIApplication sharedApplication] openURL:[webBrowser.request URL]];
+} // showCurrentPullOutBrowserContentInSafari
 
-  [self showResourceInPullOutBrowser:url];
+-(IBAction) showCurrentResourceInBioCatalogue:(id)sender {
+  [self showResourceInPullOutBrowser:[self URLOfResourceBeingViewed]];
 } // showCurrentResourceInBioCatalogue
+
+-(IBAction) showCurrentResourceInSafari:(id)sender {
+  [[UIApplication sharedApplication] openURL:[self URLOfResourceBeingViewed]];
+} // showCurrentResourceInSafari
+
+-(void) showActionSheetForCurrentResource:(id)sender {
+  UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:nil
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:@"View In BioCatalogue", @"Open Item In Safari", nil];
+  [actionSheet showFromBarButtonItem:sender animated:YES];
+  [actionSheet release];
+} // showActionSheetForCurrentResource
 
 
 #pragma mark -
@@ -352,12 +378,24 @@
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
   
   NSMutableArray *items = [[mainToolbar items] mutableCopy];
-  [items removeObjectAtIndex:0]; 
+  if ([items objectAtIndex:0] != spaceAfterMainMenu) [items removeObjectAtIndex:0]; 
   [mainToolbar setItems:items animated:YES];  
   [items release];
   
   defaultPopoverController = nil;
 } // splitViewController:willShowViewController:invalidatingBarButtonItem
+
+
+#pragma mark -
+#pragma mark UIActionSheetDelegate
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+  switch (buttonIndex) {
+    case OpenInSafari: return [self showCurrentResourceInSafari:self];
+    case OpenInBioCatalogue: return [self showCurrentResourceInBioCatalogue:self];
+    default: return;
+  }
+} // actionSheet:clickedButtonAtIndex
 
 
 #pragma mark -
@@ -403,13 +441,7 @@
     }
 
     UIGestureRecognizer *recognizer;
-    
-    // pan recognizer for providerDetailIDCardView
-    recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
-                                                         action:@selector(panViewButResetPositionAfterwards:)];
-    [providerIDCardContainer addGestureRecognizer:recognizer];
-    [recognizer release];
-    
+        
     // pan recognizer for userDetailIDCardView
     recognizer = [[UIPanGestureRecognizer alloc] initWithTarget:gestureHandler 
                                                          action:@selector(panViewButResetPositionAfterwards:)];
@@ -458,12 +490,11 @@
   [mainContentView release];
   [webBrowser release];
   [webBrowserToolbar release];
-  [webBrowserActivityIndicator release];
   
   [favouriteServiceBarButtonItem release];
-  [viewResourceInBioCatalogueBarButtonItem release];
+  [viewCurrentResourceBarButtonItem release];
+  [spaceAfterMainMenu release];
   
-  [auxiliaryToolbar release];
   [auxiliaryDetailPanel release];
   [interactionDisablingLayer release];
   
@@ -492,19 +523,10 @@
   [uiContentController release];
 } // releaseIBOutlets
 
-- (void)didReceiveMemoryWarning {
-  // Releases the view if it doesn't have a superview.
-  [super didReceiveMemoryWarning];
-  
-  // Release any cached data, images, etc that aren't in use.
-} // didReceiveMemoryWarning
-
 - (void)viewDidUnload {
-  // Release any retained subviews of the main view.
   [defaultPopoverController release];
   [contextualPopoverController release];
-
-  [self releaseIBOutlets];
+	[super viewDidUnload];
 } // viewDidUnload
 
 - (void)dealloc {

@@ -75,6 +75,7 @@
 
 - (void)viewDidUnload {
 	refreshHeaderView=nil;
+	[super viewDidUnload];
 }
 
 

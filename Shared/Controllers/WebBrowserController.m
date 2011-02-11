@@ -11,18 +11,21 @@
 
 @implementation WebBrowserController
 
+
 -(void) updateNavigationButtons:(UIWebView *)webView {
-  UIImage *stopRefreshButtonImage;
+  NSMutableArray *items = [[browserToolbar items] mutableCopy];
+  NSUInteger indexToUpdate = [items count] - 1;
+
+  [items removeObjectAtIndex:indexToUpdate]; 
+  
   if (webView.loading) {
-    stopRefreshButtonImage = [UIImage imageNamed:BrowserStopIcon];
-    [stopRefreshButton setAction:@selector(stopLoading)];
+    [items insertObject:stopButton atIndex:indexToUpdate];
   } else {
-    stopRefreshButtonImage = [UIImage imageNamed:BrowserRefreshIcon];
-    [stopRefreshButton setAction:@selector(reload)];
+    [items insertObject:refreshButton atIndex:indexToUpdate];
   }
 
-  UIImageView *imageView = [[UIImageView alloc] initWithImage:stopRefreshButtonImage];
-  [stopRefreshButton setCustomView:[imageView autorelease]];
+  [browserToolbar setItems:items animated:YES];  
+  [items release];
 
   backButton.enabled = webView.canGoBack;
   forwardButton.enabled = webView.canGoForward;
@@ -32,34 +35,34 @@
   [self updateNavigationButtons:webView];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
 
-  NSLog(@"webViewDidStartLoad: %@", webView);  
+  [webBrowserActivityIndicator startAnimating];
 } // webViewDidStartLoad
 
 -(void) webViewDidFinishLoad:(UIWebView *)webView {
   [self updateNavigationButtons:webView];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
 
-  NSLog(@"webViewDidFinishLoad: %@", webView);
+  [webBrowserActivityIndicator stopAnimating];
 } // webViewDidFinishLoad
 
 -(void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-  NSLog(@"didFailLoadWithError: %@", error);
-  
-  return;
-  
-  NSString *message = [NSString stringWithFormat:@"%@\n\n%@", 
-                       [error localizedDescription], [error localizedRecoverySuggestion]];
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[error domain]
-                                                  message:message 
-                                                 delegate:self
-                                        cancelButtonTitle:@"Cancel"
-                                        otherButtonTitles:nil];
-  for (NSString *title in [error localizedRecoveryOptions]) {
-    [alert addButtonWithTitle:title];
+  if ([error code] == -999) { // user stopped the browser from loading the current page
+    [self webViewDidFinishLoad:webView];
+    return;
   }
   
+  NSLog(@"didFailLoadWithError: %@", error);
+  
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[error domain]
+                                                  message:[NSString stringWithFormat:@"%@", [error localizedDescription]] 
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
   [alert show];
   [alert release];
+
+  [self webViewDidFinishLoad:webView];
+  return;
 } // didFailLoadWithError
 
 
@@ -67,11 +70,15 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-  [stopRefreshButton release];
+  [refreshButton release];
+  [stopButton release];
   
   [backButton release];
   [forwardButton release];
   
+  [browserToolbar release];
+  [webBrowserActivityIndicator release];
+ 
   [super dealloc];
 } // dealloc
 

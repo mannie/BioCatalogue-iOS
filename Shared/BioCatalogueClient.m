@@ -12,8 +12,8 @@
 @implementation BioCatalogueClient
 
 
-static NSString *const OAuthConsumerKey = @"akIGZJtdGT0k0QtrzwE8";
-static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjSJH87vGb";
+static NSString *const OAuthConsumerKey = @"3W1Pq2RQ0wxlAHdt0TCQ";
+static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n0QDRhKc";
 
 
 #pragma mark -
@@ -27,6 +27,29 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
   NSURL *feedBase = [NSURL URLWithString:[NSString stringWithFormat:@"feed://%@", BioCatalogueHostname]];
   return [feedBase URLByAppendingPathComponent:@"announcements.atom"];
 }
+
++(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format {
+  NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
+  
+  NSString *sanitizedPath = [[url path] lowercaseString];
+  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", JSONFormat] withString:@""];
+  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", BLJSONFormat] withString:@""];
+  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", XMLFormat] withString:@""];
+  
+  if ([url query] && [format isValidAPIRepresentation]) {
+    sanitizedPath = [NSString stringWithFormat:@"%@.%@?%@", sanitizedPath, format, [url query]];
+  } else if ([url query]) {
+    sanitizedPath = [NSString stringWithFormat:@"%@?%@", sanitizedPath, [url query]];
+  } else if (format) {
+    sanitizedPath = [NSString stringWithFormat:@"%@.%@", sanitizedPath, format];
+  }
+  
+  return [NSURL URLWithString:sanitizedPath relativeToURL:[self baseURL]];
+} // URLForPath:withRepresentation
+
+
+#pragma mark -
+#pragma mark OAuth Helper URLs
 
 +(NSURL *) OAuthRequestURL {
   return [NSURL URLWithString:@"/oauth/request_token" relativeToURL:[self baseURL]];
@@ -44,39 +67,28 @@ static NSString *const OAuthConsumerSecret = @"sqgsA1EFG8NCmVAA1oTndA8vHYaKBTKjS
   return [self baseURL];
 } // OAuthCallbackURL
 
-+(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format {
-  NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
-  
-  NSString *sanitizedPath = [[url path] lowercaseString];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", JSONFormat] withString:@""];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", BLJSONFormat] withString:@""];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", XMLFormat] withString:@""];
-  
-  if ([url query] && [format isValidAPIRepresentation]) {
-    sanitizedPath = [NSString stringWithFormat:@"%@.%@?%@", sanitizedPath, format, [url query]];
-  } else if ([url query]) {
-    sanitizedPath = [NSString stringWithFormat:@"%@?%@", sanitizedPath, [url query]];
-  } else if (format) {
-    sanitizedPath = [NSString stringWithFormat:@"%@.%@", sanitizedPath, format];
-  }
-
-  return [NSURL URLWithString:sanitizedPath relativeToURL:[self baseURL]];
-} // URLForPath:withRepresentation
-
 
 #pragma mark -
 #pragma mark OAuthConsumer
 
-+(GTMOAuthAuthentication *) clientOAuthAuthentication {  
++(GTMOAuthAuthentication *) OAuthAuthentication {  
   GTMOAuthAuthentication *auth = [[GTMOAuthAuthentication alloc] initWithSignatureMethod:kGTMOAuthSignatureMethodHMAC_SHA1
                                                                              consumerKey:OAuthConsumerKey
                                                                               privateKey:OAuthConsumerSecret];
   
   // setting the service name lets us inspect the auth object later to know what service it is for
-  auth.serviceProvider = @"BioCatalogue Auth Service";
+  auth.serviceProvider = @"BioCatalogue OAuth Service";
   
   return [auth autorelease];
 } // clientOAuthAuthentication
+
++(void) signInToBioCatalogue {
+  
+} // signInToBioCatalogue
+
++(void) signOutOfBioCatalogue {
+  [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:OAuthAppServiceName];
+} // signOutOfBioCatalogue
 
 
 #pragma mark -

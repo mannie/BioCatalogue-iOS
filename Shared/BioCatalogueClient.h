@@ -25,14 +25,17 @@
 +(NSURL *) baseURL;
 +(NSURL *) announcementsFeedURL;
 
++(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
+
 +(NSURL *) OAuthRequestURL;
 +(NSURL *) OAuthAccessURL;
 +(NSURL *) OAuthAuthorizeURL;
 +(NSURL *) OAuthCallbackURL;
 
-+(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
++(GTMOAuthAuthentication *) OAuthAuthentication;
 
-+(GTMOAuthAuthentication *) clientOAuthAuthentication;
++(void) signInToBioCatalogue;
++(void) signOutOfBioCatalogue;
 
 +(NSDictionary *) documentAtPath:(NSString *)path;
 +(NSDictionary *) documentAtPath:(NSString *)path withRepresentation:(NSString *)format;

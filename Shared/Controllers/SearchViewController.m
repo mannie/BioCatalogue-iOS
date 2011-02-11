@@ -82,7 +82,7 @@
 #pragma mark PullToRefreshDataSource
 
 -(void) refreshTableViewDataSource {
-  if (!lastSearchQuery && !lastSearchScope) return;
+  if (!lastSearchQuery) return;
   
   [self performSelectorOnMainThread:@selector(searchBarShouldEndEditing:) withObject:mySearchBar waitUntilDone:NO];
     
@@ -249,7 +249,8 @@
   [self searchBarShouldEndEditing:mySearchBar];
   
   dispatch_async(dispatch_queue_create("Search", NULL), ^{      
-    lastSearchQuery = mySearchBar.text;
+    [lastSearchQuery release];
+    lastSearchQuery = [mySearchBar.text retain];
     lastSearchScope = currentSearchScope;
     
     [self refreshTableViewDataSource];
@@ -289,21 +290,10 @@
   [activityIndicator release];
 }
 
-- (void)didReceiveMemoryWarning {
-  // Releases the view if it doesn't have a superview.
-  [super didReceiveMemoryWarning];
-  
-  // Relinquish ownership any cached data, images, etc. that aren't in use.
-}
-
-- (void)viewDidUnload {
-  // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-  [self releaseIBOutlets];
-}
-
 - (void)dealloc {
   [self releaseIBOutlets];
-
+  
+  [lastSearchQuery release];
   [paginatedSearchResults release];
   
   [super dealloc];

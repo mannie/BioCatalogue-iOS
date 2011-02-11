@@ -22,7 +22,7 @@
 #import "BioCatalogueResourceManager.h"
 
 
-@interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
+@interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate, UIActionSheetDelegate> {
   NSUInteger lastAnnouncementID;
   
   UIPopoverController *defaultPopoverController;
@@ -46,16 +46,15 @@
   IBOutlet UIView *interactionDisablingLayer;
   
   IBOutlet UIToolbar *mainToolbar;
-  IBOutlet UIToolbar *auxiliaryToolbar;
   IBOutlet UIToolbar *webBrowserToolbar;
 
   IBOutlet UIWebView *webBrowser;
 
+  IBOutlet UIBarButtonItem *spaceAfterMainMenu;
   IBOutlet UIBarButtonItem *favouriteServiceBarButtonItem;
-  IBOutlet UIBarButtonItem *viewResourceInBioCatalogueBarButtonItem;
+  IBOutlet UIBarButtonItem *viewCurrentResourceBarButtonItem;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-  IBOutlet UIActivityIndicatorView *webBrowserActivityIndicator;
 
   UIView *currentMainContentView;
   UIView *currentAuxiliaryPanelView;
@@ -111,6 +110,11 @@
 -(IBAction) exposeAuxiliaryDetailPanel:(id)sender;
 
 -(IBAction) showResourceInPullOutBrowser:(NSURL *)url;
+-(IBAction) showCurrentPullOutBrowserContentInSafari:(id)sender;
+
 -(IBAction) showCurrentResourceInBioCatalogue:(id)sender;
+-(IBAction) showCurrentResourceInSafari:(id)sender;
+
+-(IBAction) showActionSheetForCurrentResource:(id)sender;
 
 @end

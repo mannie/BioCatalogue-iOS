@@ -396,7 +396,7 @@
 							<string>userDetailView</string>
 							<string>userIDCard</string>
 							<string>userIDCardContainer</string>
-							<string>viewResourceInBioCatalogueBarButtonItem</string>
+							<string>viewCurrentResourceBarButtonItem</string>
 							<string>webBrowser</string>
 							<string>webBrowserActivityIndicator</string>
 							<string>webBrowserController</string>
@@ -455,7 +455,7 @@
 							<string>userDetailView</string>
 							<string>userIDCard</string>
 							<string>userIDCardContainer</string>
-							<string>viewResourceInBioCatalogueBarButtonItem</string>
+							<string>viewCurrentResourceBarButtonItem</string>
 							<string>webBrowser</string>
 							<string>webBrowserActivityIndicator</string>
 							<string>webBrowserController</string>
@@ -544,7 +544,7 @@
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">viewResourceInBioCatalogueBarButtonItem</string>
+								<string key="name">viewCurrentResourceBarButtonItem</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -1120,8 +1120,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButton</string>
 							<string>forwardButton</string>
+							<string>refreshButton</string>
 							<string>reloadButton</string>
-							<string>stopRefreshButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1137,8 +1137,8 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backButton</string>
 							<string>forwardButton</string>
+							<string>refreshButton</string>
 							<string>reloadButton</string>
-							<string>stopRefreshButton</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1151,11 +1151,11 @@
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">reloadButton</string>
+								<string key="name">refreshButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">stopRefreshButton</string>
+								<string key="name">reloadButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
 							</object>
 						</object>

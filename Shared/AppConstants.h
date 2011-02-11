@@ -19,6 +19,8 @@ extern NSString *const NetworkActivityStopped;
 #pragma mark -
 #pragma mark BioCatalogueClient
 
+extern NSString *const OAuthAppServiceName;
+
 extern NSUInteger const DaysBeforeExpiringUnreadAnnouncements;
 
 extern NSUInteger const iPadItemsPerPage;
@@ -105,9 +107,6 @@ extern NSString *const UserIcon;
 
 extern NSString *const AnnouncementReadIcon;
 extern NSString *const AnnouncementUnreadIcon;
-
-extern NSString *const BrowserRefreshIcon;
-extern NSString *const BrowserStopIcon;
 
 
 #pragma mark -

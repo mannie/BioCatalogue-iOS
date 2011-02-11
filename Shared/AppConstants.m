@@ -19,6 +19,8 @@ NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 #pragma mark -
 #pragma mark BioCatalogueClient
 
+NSString *const OAuthAppServiceName = @"iOS BioCatalogue: BioMonitor";
+
 NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 90;
 
 NSUInteger const iPadItemsPerPage = 15;
@@ -108,9 +110,6 @@ NSString *const UserIcon = @"111-user.png";
 
 NSString *const AnnouncementReadIcon = @"check-mark.png";
 NSString *const AnnouncementUnreadIcon = @"exclamation-point-ps.png";
-
-NSString *const BrowserRefreshIcon = @"arrow-circle-refresh.png";
-NSString *const BrowserStopIcon = @"letter-x.png";
 
 
 #pragma mark -

@@ -85,11 +85,7 @@ NSTimeInterval gestureAnimationDuration = 0.5;
 } // panViewButResetPositionAfterwards
 
 -(void) rolloutAuxiliaryDetailPanel:(UISwipeGestureRecognizer *)recognizer {
-  NSArray *visibleSubviewsInAuxiliaryPanel = [auxiliaryDetailPanel.subviews filteredArrayUsingPredicate:
-                                              [NSPredicate predicateWithFormat:@"hidden == NO"]];
-  if (!auxiliaryDetailPanelIsExposed && [visibleSubviewsInAuxiliaryPanel count] <= 1) {
-    return;
-  }
+  if (!auxiliaryDetailPanelIsExposed && webBrowser.hidden) return;
   
   CGPoint center = CGPointMake(auxiliaryDetailPanel.center.x, auxiliaryDetailPanel.center.y);
   CGFloat horizontalShiftOfAuxiliaryDetailPanel = 450; // 480
@@ -119,8 +115,7 @@ NSTimeInterval gestureAnimationDuration = 0.5;
                       options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
                    animations:^{ 
                      interactionDisablingLayer.alpha = 0.8;
-                     
-                     auxiliaryToolbar.alpha = 0;
+                     webBrowser.alpha = 1;                     
                      webBrowserToolbar.alpha = 1;
                    }
                    completion:nil];  
@@ -137,8 +132,7 @@ NSTimeInterval gestureAnimationDuration = 0.5;
                         options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
                      animations:^{ 
                        interactionDisablingLayer.alpha = 0;
-                       
-                       auxiliaryToolbar.alpha = 1;
+                       webBrowser.alpha = 0;
                        webBrowserToolbar.alpha = 0;
                      }
                      completion:nil];
@@ -152,10 +146,10 @@ NSTimeInterval gestureAnimationDuration = 0.5;
 -(void) releaseIBOutlets {
   [interactionDisablingLayer release];
   [auxiliaryDetailPanel release];
-  
-  [auxiliaryToolbar release];
-  [webBrowserToolbar release];
 
+  [webBrowserToolbar release];
+  [webBrowser release];
+  
   // default view outlets
   [defaultView release];  
   
