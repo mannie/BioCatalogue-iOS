@@ -14,49 +14,84 @@
 @synthesize iPadDetailViewController;
 
 
-+(void) setTableViewBackground:(UITableView *)tableView {
-  UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BrushedMetalBackground]];
-  
-  image.frame = tableView.frame;
-  
-  [tableView setBackgroundView:image];
++(void) customiseTableView:(UITableView *)tableView {
+  UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BrushedMetalBackground]];
+    
+  [tableView setBackgroundView:imageView];
   [tableView setBackgroundColor:[UIColor clearColor]];
   
-  [image release];
+  [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+
+  [tableView setRowHeight:50];
+  
+  [imageView release];
 } // setBrushedMetalBackground
 
-+(void) customiseTableViewCell:(UITableViewCell *)cell withService:(Service *)service {
++(void) customiseTableViewCell:(UITableViewCell *)cell {
+  UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellBackground]];
+  [backgroundView setAlpha:0.25];
+  [cell setBackgroundView:backgroundView];
+  [backgroundView release];
+  
+  UIImageView *selectionView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellSelectedBackground]];
+  [cell setSelectedBackgroundView:selectionView];
+  [selectionView release];  
+} // customiseTableViewCell
+
++(void) populateTableViewCell:(UITableViewCell *)cell withService:(Service *)service {
   cell.textLabel.text = service.name;
   cell.detailTextLabel.text = service.about;
   cell.imageView.image = [UIImage imageWithData:service.latestMonitoringIcon];      
 } // customiseTableViewCell:withService
 
-+(void) customiseTableViewCell:(UITableViewCell *)cell 
-                withProperties:(NSDictionary *)properties
-                    givenScope:(NSString *)scope {
-  if ([scope isEqualToString:ServiceResourceScope]) {    
-    cell.textLabel.text = [properties objectForKey:JSONNameElement];
-    cell.detailTextLabel.text = [properties serviceListingType];
++(void) populateTableViewCell:(UITableViewCell *)cell withObject:(id)object givenScope:(NSString *)scope {
+  [self customiseTableViewCell:cell];
+  
+  if ([scope isEqualToString:ServiceResourceScope]) { // --- ServiceResourceScope
+    NSDictionary *serviceProperties = (NSDictionary *)object;
+
+    cell.textLabel.text = [serviceProperties objectForKey:JSONNameElement];
+    cell.detailTextLabel.text = [serviceProperties serviceListingType];
     
-    NSURL *imageURL = [NSURL URLWithString:[[properties objectForKey:JSONLatestMonitoringStatusElement] 
+    NSURL *imageURL = [NSURL URLWithString:[[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] 
                                             objectForKey:JSONSmallSymbolElement]];
     cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];    
-  } else if ([scope isEqualToString:UserResourceScope]) {
-    cell.textLabel.text = [properties objectForKey:JSONNameElement];
+  } else if ([scope isEqualToString:UserResourceScope]) { // --- UserResourceScope
+    NSDictionary *userProperties = (NSDictionary *)object;
+    
+    cell.textLabel.text = [userProperties objectForKey:JSONNameElement];
 
-    NSString *affiliation = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONAffiliationElement]];
+    NSString *affiliation = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
     cell.detailTextLabel.text = ([affiliation isValidJSONValue] ? affiliation : UnknownAffiliationText);  
 
     cell.imageView.image = [UIImage imageNamed:UserIcon];
-  } else if ([scope isEqualToString:ProviderResourceScope]) {
-    cell.textLabel.text = [properties objectForKey:JSONNameElement];
+  } else if ([scope isEqualToString:ProviderResourceScope]) { // --- ProviderResourceScope
+    NSDictionary *providerProperties = (NSDictionary *)object;
+    
+    cell.textLabel.text = [providerProperties objectForKey:JSONNameElement];
 
-//    NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
+//    NSString *description = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
 //    description = [NSString stringWithFormat:@"About: %@", ([description isValidJSONValue] ? description : NoInformationText)];
 //    cell.detailTextLabel.text = description;  
 
     cell.detailTextLabel.text = nil;
     cell.imageView.image = [UIImage imageNamed:ProviderIcon];
+  } else if ([scope isEqualToString:AnnouncementResourceScope]) { // --- AnnouncementResourceScope
+    Announcement *announcement = (Announcement *)object;
+    cell.textLabel.text = announcement.title;
+    
+//    NSArray *date = [[announcement.date description] componentsSeparatedByString:@" "];
+//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ at %@", [date objectAtIndex:0], [date objectAtIndex:1]];
+    NSRange range = NSMakeRange(90, [announcement.summary length]-90);
+    cell.detailTextLabel.text = [[announcement.summary stringByReplacingCharactersInRange:range withString:@""] stringByConvertingHTMLToPlainText];
+    
+    if ([announcement.isUnread boolValue]) {
+      cell.imageView.image = [UIImage imageNamed:AnnouncementUnreadIcon];
+      cell.imageView.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
+    } else {
+      cell.imageView.image = [UIImage imageNamed:AnnouncementReadIcon];
+      cell.imageView.backgroundColor = [UIColor clearColor];
+    }
   }
 } // customiseTableViewCell:withProperties:givenScope
 

@@ -62,6 +62,20 @@
   [self performSelectorOnMainThread:@selector(postFetchActions) withObject:nil waitUntilDone:NO];
 } // updateWithProperties
 
+
+#pragma mark -
+#pragma mark View lifecycle
+
+-(void) viewWillAppear:(BOOL)animated {
+  if (!viewHasBeenUpdated && serviceListingProperties) [self updateWithProperties:serviceListingProperties];
+  [super viewWillAppear:animated];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+  viewHasBeenUpdated = NO;
+  [super viewWillDisappear:animated];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 } // shouldAutorotateToInterfaceOrientation

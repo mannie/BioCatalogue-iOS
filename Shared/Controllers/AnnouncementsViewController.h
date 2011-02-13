@@ -10,7 +10,6 @@
 #import "PullToRefreshViewController.h"
 
 #import "MWFeedParser.h"
-#import "NSString+HTML.h"
 
 #import "BioCatalogueResourceManager.h"
 #import "AppDelegate_Shared.h"
@@ -21,6 +20,8 @@
 @interface AnnouncementsViewController : PullToRefreshViewController <PullToRefreshDataSource, MWFeedParserDelegate> {
 	MWFeedParser *feedParser;
 	NSMutableArray *announcements;
+  
+  IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *iPadDetailViewController;

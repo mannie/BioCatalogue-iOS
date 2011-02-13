@@ -98,7 +98,7 @@
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
 
-  [UIContentController setTableViewBackground:self.tableView];
+  [UIContentController customiseTableView:self.tableView];
   noServicesLabel.hidden = YES;
 }
 
@@ -151,8 +151,8 @@
   }
   
   NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
-  [UIContentController customiseTableViewCell:cell 
-                               withProperties:[itemsInSection objectAtIndex:indexPath.row]
+  [UIContentController populateTableViewCell:cell 
+                               withObject:[itemsInSection objectAtIndex:indexPath.row]
                                    givenScope:ServiceResourceScope];
   
   return cell;

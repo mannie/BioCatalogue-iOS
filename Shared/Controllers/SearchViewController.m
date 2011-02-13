@@ -63,13 +63,17 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  [UIContentController customiseTableView:dataTableView];
+  
   currentSearchScope = ServiceResourceScope;
   
   [noSearchResultsLabel setHidden:YES];
   
   [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
   
-  [self refreshTableViewDataSource];
+  dispatch_async(dispatch_queue_create("Load content", NULL), ^{
+    [self refreshTableViewDataSource];
+  });
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -151,8 +155,8 @@
   }
   
   NSArray *itemsInSection = [paginatedSearchResults objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
-  [UIContentController customiseTableViewCell:cell 
-                                 withProperties:[itemsInSection objectAtIndex:indexPath.row]
+  [UIContentController populateTableViewCell:cell 
+                                 withObject:[itemsInSection objectAtIndex:indexPath.row]
                                      givenScope:lastSearchScope];
   
   return cell;

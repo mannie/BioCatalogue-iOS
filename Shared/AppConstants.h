@@ -54,7 +54,6 @@ extern NSUInteger const ProviderResourceScopeIndex;
 #pragma mark JSON Elements
 
 extern NSString *const JSONFormat;
-extern NSString *const BLJSONFormat;
 extern NSString *const XMLFormat;
 
 extern NSString *const JSONNull;
@@ -100,6 +99,9 @@ extern NSString *const JSONVariantsElement;
 #pragma mark Image Names
 
 extern NSString *const BrushedMetalBackground;
+
+extern NSString *const TableCellBackground;
+extern NSString *const TableCellSelectedBackground;
 
 extern NSString *const DescriptionIcon;
 extern NSString *const ProviderIcon;

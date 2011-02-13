@@ -40,6 +40,16 @@
 #pragma mark -
 #pragma mark View lifecycle
 
+-(void) viewWillAppear:(BOOL)animated {
+  if (!viewHasBeenUpdated && userProperties) [self updateWithProperties:userProperties];
+  [super viewWillAppear:animated];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+  viewHasBeenUpdated = NO;
+  [super viewWillDisappear:animated];
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
 } // shouldAutorotateToInterfaceOrientation

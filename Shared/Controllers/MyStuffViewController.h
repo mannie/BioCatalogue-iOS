@@ -11,6 +11,8 @@
 #import "UIContentController.h"
 #import "BioCatalogueClient.h"
 
+#import "NSString+Helper.h"
+
 
 @interface MyStuffViewController : UITableViewController <UITextFieldDelegate> {
   NSArray *userFavourites;
@@ -22,8 +24,10 @@
   IBOutlet UIView *loginView;
   IBOutlet UITextField *usernameField;
   IBOutlet UITextField *passwordField;
-  IBOutlet UIButton *loginButton;
+  IBOutlet UIButton *signInButton;
   IBOutlet UIActivityIndicatorView *activityIndicator;
 }
+
+-(IBAction) signInToBioCatalogue;
 
 @end

@@ -28,7 +28,7 @@ NSUInteger const iPhoneItemsPerPage = 10;
 NSUInteger ItemsPerPage = 10; // NOTE: this value will be replaced at runtime
 
 NSUInteger AutoLoadTrigger = 5; // NOTE: this value will be replaced at runtime
-float AutoLoadTriggerIndex = 0.3;
+float AutoLoadTriggerIndex = 0.5;
 
 NSString *const UserResourceScope = @"users";
 NSString *const ServiceResourceScope = @"services";
@@ -57,7 +57,6 @@ NSUInteger const ProviderResourceScopeIndex = 2;
 #pragma mark JSON Elements
 
 NSString *const JSONFormat = @"json";
-NSString *const BLJSONFormat = @"bljson";
 NSString *const XMLFormat = @"xml";
 
 NSString *const JSONNull = @"<null>";
@@ -103,6 +102,9 @@ NSString *const JSONVariantsElement = @"variants";
 #pragma mark Image Names
 
 NSString *const BrushedMetalBackground = @"brushed-metal.jpg";
+
+NSString *const TableCellBackground = @"cellRow.png";
+NSString *const TableCellSelectedBackground = @"cellRowSelected.png";
 
 NSString *const DescriptionIcon = @"info";
 NSString *const ProviderIcon = @"112-group.png";

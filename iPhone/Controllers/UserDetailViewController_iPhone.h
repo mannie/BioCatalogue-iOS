@@ -21,6 +21,8 @@
   IBOutlet UILabel *joinedLabel;
   
   NSDictionary *userProperties;
+
+  BOOL viewHasBeenUpdated;
 }
 
 -(void) updateWithProperties:(NSDictionary *)properties;

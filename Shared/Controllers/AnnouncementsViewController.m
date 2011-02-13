@@ -46,6 +46,9 @@
 
   [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
   [self updateApplicationBadges];
+  
+  [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
 }
 
 - (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info {
@@ -93,6 +96,9 @@
   
 	[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
   [self updateApplicationBadges];
+  
+  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
 }
 
 - (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error {
@@ -101,6 +107,9 @@
 
 	[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
   [self updateApplicationBadges];
+ 
+  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
 }
 
 
@@ -117,7 +126,9 @@
   
   announcements = [[NSMutableArray alloc] init];
   
-  [self refreshTableViewDataSource];
+  dispatch_async(dispatch_queue_create("Load content", NULL), ^{
+    [self refreshTableViewDataSource];
+  });
 } // viewDidLoad
 
 
@@ -139,23 +150,10 @@
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
   }
   
-  // Configure the cell...
-  Announcement *announcement = [announcements objectAtIndex:indexPath.row];
-  cell.textLabel.text = announcement.title;
-    
-//  NSArray *date = [[announcement.date description] componentsSeparatedByString:@" "];
-//  cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ at %@", [date objectAtIndex:0], [date objectAtIndex:1]];
-  NSRange range = NSMakeRange(90, [announcement.summary length]-90);
-  cell.detailTextLabel.text = [[announcement.summary stringByReplacingCharactersInRange:range withString:@""] 
-                               stringByConvertingHTMLToPlainText];
-  
-  if ([announcement.isUnread boolValue]) {
-    cell.imageView.image = [UIImage imageNamed:AnnouncementUnreadIcon];
-    cell.imageView.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
-  } else {
-    cell.imageView.image = [UIImage imageNamed:AnnouncementReadIcon];
-    cell.imageView.backgroundColor = [UIColor clearColor];
-  }
+  // Configure the cell...  
+  [UIContentController populateTableViewCell:cell
+                                  withObject:[announcements objectAtIndex:indexPath.row]
+                                  givenScope:AnnouncementResourceScope];
   
   return cell;
 }
@@ -179,7 +177,9 @@
 
 // [[self tableView] reloadData];
 //  [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  
   [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+  
   [self updateApplicationBadges];
 }
 
@@ -190,6 +190,7 @@
 -(void) releaseIBOutlets {
   [iPhoneDetailViewController release];
   [iPadDetailViewController release];
+  [activityIndicator release];
 }
 
 - (void)viewDidUnload {

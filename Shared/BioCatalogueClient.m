@@ -11,7 +11,6 @@
 
 @implementation BioCatalogueClient
 
-
 static NSString *const OAuthConsumerKey = @"3W1Pq2RQ0wxlAHdt0TCQ";
 static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n0QDRhKc";
 
@@ -33,7 +32,6 @@ static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n
   
   NSString *sanitizedPath = [[url path] lowercaseString];
   sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", JSONFormat] withString:@""];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", BLJSONFormat] withString:@""];
   sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", XMLFormat] withString:@""];
   
   if ([url query] && [format isValidAPIRepresentation]) {
@@ -51,13 +49,13 @@ static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n
 #pragma mark -
 #pragma mark OAuth Helper URLs
 
-+(NSURL *) OAuthRequestURL {
++(NSURL *) OAuthRequestTokenURL {
   return [NSURL URLWithString:@"/oauth/request_token" relativeToURL:[self baseURL]];
-} // OAuthRequestURL
+} // OAuthRequestTokenURL
 
-+(NSURL *) OAuthAccessURL {
++(NSURL *) OAuthAccessTokenURL {
   return [NSURL URLWithString:@"/oauth/access_token" relativeToURL:[self baseURL]];
-} // OAuthAccessURL
+} // OAuthAccessTokenURL
 
 +(NSURL *) OAuthAuthorizeURL {
   return [NSURL URLWithString:@"/oauth/authorize" relativeToURL:[self baseURL]];
@@ -82,9 +80,10 @@ static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n
   return [auth autorelease];
 } // clientOAuthAuthentication
 
-+(void) signInToBioCatalogue {
-  
-} // signInToBioCatalogue
++(BOOL) signInWithUsername:(NSString *)username withPassword:(NSString *)password {
+  NSLog(@"%@:%@", username, password);
+  return NO;
+} // signInWithUsername:withPassword
 
 +(void) signOutOfBioCatalogue {
   [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:OAuthAppServiceName];

@@ -16,6 +16,7 @@
 #pragma mark Helpers
 
 -(void) updateWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID {
+  currentAnnouncementID = announcementID;
   [uiContentController updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:announcementID];
 } // updateWithPropertiesForAnnouncementWithID
 
@@ -26,6 +27,16 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;;
+}
+
+-(void) viewWillAppear:(BOOL)animated {
+  if (!viewHasBeenUpdated && currentAnnouncementID) [self updateWithPropertiesForAnnouncementWithID:currentAnnouncementID];
+  [super viewWillAppear:animated];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+  viewHasBeenUpdated = NO;
+  [super viewWillDisappear:animated];
 }
 
 

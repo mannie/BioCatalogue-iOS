@@ -17,6 +17,7 @@
 #import "BioCatalogueClient.h"
 
 #import "BioCatalogueResourceManager.h"
+#import "NSString+HTML.h"
 
 @class DetailViewController_iPad;
 
@@ -55,12 +56,10 @@
 
 @property(nonatomic, retain) IBOutlet DetailViewController_iPad* iPadDetailViewController;
 
-+(void) setTableViewBackground:(UITableView *)tableView;
++(void) customiseTableView:(UITableView *)tableView;
 
-+(void) customiseTableViewCell:(UITableViewCell *)cell withService:(Service *)service;
-+(void) customiseTableViewCell:(UITableViewCell *)cell 
-                withProperties:(NSDictionary *)properties
-                    givenScope:(NSString *)scope;
++(void) populateTableViewCell:(UITableViewCell *)cell withService:(Service *)service;
++(void) populateTableViewCell:(UITableViewCell *)cell withObject:(id)object givenScope:(NSString *)scope;
 
 -(void) updateServiceUIElementsWithService:(Service *)service;
 -(void) updateServiceUIElementsWithProperties:(NSDictionary *)listingProperties 

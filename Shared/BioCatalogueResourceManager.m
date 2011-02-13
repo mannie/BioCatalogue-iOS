@@ -14,8 +14,8 @@
 
 static NSManagedObjectContext *managedObjectContext;
 
-static BioCatalogue* _currentBioCatalogue;
-static User* _currentUser;
+static BioCatalogue *_currentBioCatalogue;
+static User *_currentUser;
 
 
 +(void) initialize {

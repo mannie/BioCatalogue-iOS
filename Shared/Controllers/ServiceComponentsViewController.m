@@ -59,9 +59,21 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
 
-  [UIContentController setTableViewBackground:self.tableView];
+  [UIContentController customiseTableView:self.tableView];
   noComponentsLabel.hidden = YES;
 } // viewDidLoad
+
+-(void) viewWillAppear:(BOOL)animated {
+  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+
+  if (!viewHasBeenUpdated && currentPath) [self updateWithServiceComponentsForPath:currentPath];
+  [super viewWillAppear:animated];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+  viewHasBeenUpdated = NO;
+  [super viewWillDisappear:animated];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -97,6 +109,8 @@
     cell.textLabel.text = [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
     cell.detailTextLabel.text = nil;
   }
+
+  [UIContentController customiseTableViewCell:cell];  
   
   return cell;
 } // tableView:cellForRowAtIndexPath

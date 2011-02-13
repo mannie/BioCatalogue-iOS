@@ -35,6 +35,8 @@
   
   BOOL monitoringStatusInformationAvailable;
   BOOL descriptionAvailable;
+  
+  BOOL viewHasBeenUpdated;
 }
 
 @property (nonatomic, retain) IBOutlet UserDetailViewController_iPhone *userDetailViewController;

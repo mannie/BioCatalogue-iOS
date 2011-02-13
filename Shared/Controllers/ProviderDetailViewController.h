@@ -23,6 +23,8 @@
   NSDictionary *providerProperties;
   
   ProviderServicesViewController *providerServicesViewController;
+  
+  BOOL viewHasBeenUpdated;
 }
 
 @property(nonatomic, retain) IBOutlet ProviderServicesViewController *providerServicesViewController;

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "BioCatalogueClient.h"
+#import "UIContentController.h"
 
 
 @interface MonitoringStatusViewController : UITableViewController {
@@ -19,6 +20,8 @@
   IBOutlet UIActivityIndicatorView *activityIndicator;
     
   NSDateFormatter *dateFormatter;
+
+  BOOL viewHasBeenUpdated;
 }
 
 -(void) updateWithMonitoringStatusInfoForServiceWithID:(NSUInteger)serviceID;

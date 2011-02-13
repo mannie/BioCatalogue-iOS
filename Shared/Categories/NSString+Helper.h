@@ -15,5 +15,6 @@
 -(BOOL) isValidJSONValue;
 -(BOOL) isValidAPIRepresentation;
 -(BOOL) isValidQuery;
+-(BOOL) isValidEmailAddress;
 
 @end

@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="8"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -37,7 +38,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUITableView" id="873029372">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -51,7 +52,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{20, 20}, {280, 31}}</string>
 								<reference key="NSSuperview" ref="968488497"/>
-								<object class="NSColor" key="IBUIBackgroundColor" id="577746862">
+								<object class="NSColor" key="IBUIBackgroundColor" id="578649828">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MCAwAA</bytes>
 								</object>
@@ -59,7 +60,7 @@
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentVerticalAlignment">0</int>
-								<string key="IBUIText"/>
+								<string key="IBUIText">mannie@mygrid.org.uk</string>
 								<int key="IBUIBorderStyle">3</int>
 								<string key="IBUIPlaceholder">BioCatalogue Username (email)</string>
 								<object class="NSColor" key="IBUITextColor">
@@ -69,7 +70,7 @@
 										<int key="NSID">2</int>
 									</object>
 								</object>
-								<object class="NSFont" key="IBUIFont" id="853703376">
+								<object class="NSFont" key="IBUIFont" id="378801979">
 									<string key="NSName">Helvetica</string>
 									<double key="NSSize">12</double>
 									<int key="NSfFlags">16</int>
@@ -87,7 +88,7 @@
 								<int key="NSvFlags">298</int>
 								<string key="NSFrame">{{20, 59}, {280, 31}}</string>
 								<reference key="NSSuperview" ref="968488497"/>
-								<reference key="IBUIBackgroundColor" ref="577746862"/>
+								<reference key="IBUIBackgroundColor" ref="578649828"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUITag">1</int>
@@ -101,11 +102,10 @@
 									<bytes key="NSWhite">MAA</bytes>
 									<reference key="NSCustomColorSpace" ref="440400871"/>
 								</object>
-								<reference key="IBUIFont" ref="853703376"/>
+								<reference key="IBUIFont" ref="378801979"/>
 								<bool key="IBUIAdjustsFontSizeToFit">YES</bool>
 								<float key="IBUIMinimumFontSize">17</float>
 								<object class="IBUITextInputTraits" key="IBUITextInputTraits">
-									<int key="IBUIReturnKeyType">9</int>
 									<bool key="IBUIEnablesReturnKeyAutomatically">YES</bool>
 									<bool key="IBUISecureTextEntry">YES</bool>
 									<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -116,7 +116,7 @@
 								<int key="NSvFlags">271</int>
 								<string key="NSFrame">{{124, 98}, {72, 37}}</string>
 								<reference key="NSSuperview" ref="968488497"/>
-								<reference key="IBUIBackgroundColor" ref="577746862"/>
+								<reference key="IBUIBackgroundColor" ref="578649828"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<int key="IBUITag">2</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -128,7 +128,7 @@
 									<int key="NSfFlags">16</int>
 								</object>
 								<int key="IBUIButtonType">1</int>
-								<string key="IBUINormalTitle">Login</string>
+								<string key="IBUINormalTitle">Sign In</string>
 								<object class="NSColor" key="IBUIHighlightedTitleColor" id="548086672">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MQA</bytes>
@@ -142,23 +142,24 @@
 									<bytes key="NSWhite">MC41AA</bytes>
 								</object>
 							</object>
-							<object class="IBUIActivityIndicatorView" id="947233091">
+							<object class="IBUIActivityIndicatorView" id="356236498">
 								<reference key="NSNextResponder" ref="968488497"/>
 								<int key="NSvFlags">-2147483356</int>
-								<string key="NSFrame">{{141, 98}, {37, 37}}</string>
+								<string key="NSFrame">{{141, 143}, {37, 37}}</string>
 								<reference key="NSSuperview" ref="968488497"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIStyle">0</int>
 							</object>
 						</object>
-						<string key="NSFrameSize">{320, 155}</string>
+						<string key="NSFrameSize">{320, 200}</string>
 						<reference key="NSSuperview" ref="873029372"/>
-						<reference key="IBUIBackgroundColor" ref="577746862"/>
+						<reference key="IBUIBackgroundColor" ref="578649828"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 460}</string>
+				<reference key="NSSuperview"/>
 				<reference key="IBUIBackgroundColor" ref="548086672"/>
 				<bool key="IBUIOpaque">NO</bool>
 				<bool key="IBUIClipsSubviews">YES</bool>
@@ -246,17 +247,26 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">activityIndicator</string>
 						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="947233091"/>
+						<reference key="destination" ref="356236498"/>
 					</object>
 					<int key="connectionID">20</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">signInToBioCatalogue</string>
+						<reference key="source" ref="38530781"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">22</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">loginButton</string>
+						<string key="label">signInButton</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="38530781"/>
 					</object>
-					<int key="connectionID">21</int>
+					<int key="connectionID">23</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -296,7 +306,7 @@
 							<reference ref="107062171"/>
 							<reference ref="852317442"/>
 							<reference ref="38530781"/>
-							<reference ref="947233091"/>
+							<reference ref="356236498"/>
 						</object>
 						<reference key="parent" ref="873029372"/>
 						<string key="objectName">Login View</string>
@@ -318,7 +328,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">19</int>
-						<reference key="object" ref="947233091"/>
+						<reference key="object" ref="356236498"/>
 						<reference key="parent" ref="968488497"/>
 					</object>
 				</object>
@@ -334,6 +344,7 @@
 					<string>11.IBPluginDependency</string>
 					<string>11.IBViewBoundsToFrameTransform</string>
 					<string>19.IBPluginDependency</string>
+					<string>19.IBViewBoundsToFrameTransform</string>
 					<string>4.IBEditorWindowLastContentRect</string>
 					<string>4.IBPluginDependency</string>
 					<string>8.IBEditorWindowLastContentRect</string>
@@ -355,6 +366,9 @@
 						<bytes key="NSTransformStruct">P4AAAL+AAABC+AAAwzAAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDDQAAwwUAAA</bytes>
+					</object>
 					<string>{{329, 376}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{412, 701}, {320, 155}}</string>
@@ -384,7 +398,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">21</int>
+			<int key="maxID">23</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -392,22 +406,33 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">MyStuffViewController</string>
 					<string key="superclassName">UITableViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">signInToBioCatalogue</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">signInToBioCatalogue</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">signInToBioCatalogue</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
-							<string>loginButton</string>
 							<string>loginView</string>
 							<string>passwordField</string>
+							<string>signInButton</string>
 							<string>usernameField</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIActivityIndicatorView</string>
-							<string>UIButton</string>
 							<string>UIView</string>
 							<string>UITextField</string>
+							<string>UIButton</string>
 							<string>UITextField</string>
 						</object>
 					</object>
@@ -416,9 +441,9 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
-							<string>loginButton</string>
 							<string>loginView</string>
 							<string>passwordField</string>
+							<string>signInButton</string>
 							<string>usernameField</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -428,16 +453,16 @@
 								<string key="candidateClassName">UIActivityIndicatorView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
-								<string key="name">loginButton</string>
-								<string key="candidateClassName">UIButton</string>
-							</object>
-							<object class="IBToOneOutletInfo">
 								<string key="name">loginView</string>
 								<string key="candidateClassName">UIView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">passwordField</string>
 								<string key="candidateClassName">UITextField</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">signInButton</string>
+								<string key="candidateClassName">UIButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">usernameField</string>

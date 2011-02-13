@@ -23,7 +23,7 @@
 } // isValidJSONValue
 
 -(BOOL) isValidAPIRepresentation {
-  return [self isEqualToString:JSONFormat] || [self isEqualToString:BLJSONFormat] || [self isEqualToString:XMLFormat];
+  return [self isEqualToString:JSONFormat] || [self isEqualToString:XMLFormat];
 } // isValidAPIRepresentation
 
 -(BOOL) isValidQuery {
@@ -44,5 +44,17 @@
   
   return YES;  
 } // isValidQuery
+
+-(BOOL) isValidEmailAddress {
+  /*
+   This code was insprired by the DHValidation module by Ben McRedmond;
+   http://github.com/benofsky/DHValidation/blob/master/DHValidation.m
+   */
+  
+  NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"; 
+  NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex]; 
+  
+  return [emailTest evaluateWithObject:self];
+} // isValidEmailAddress
 
 @end

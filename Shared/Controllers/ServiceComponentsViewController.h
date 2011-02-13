@@ -11,6 +11,8 @@
 #import "BioCatalogueClient.h"
 #import "ServiceComponentsDetailViewController.h"
 
+#import "UIContentController.h"
+
 
 @class WebViewController_iPhone;
 
@@ -28,6 +30,8 @@
 
   ServiceComponentsDetailViewController *detailViewController;
   WebViewController_iPhone *iPhoneWebViewController;
+  
+  BOOL viewHasBeenUpdated;
 }
 
 -(void) updateWithServiceComponentsForPath:(NSString *)path;

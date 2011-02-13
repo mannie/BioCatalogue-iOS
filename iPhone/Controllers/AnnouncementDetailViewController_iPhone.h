@@ -14,6 +14,8 @@
 @interface AnnouncementDetailViewController_iPhone : UIViewController {
   IBOutlet UIContentController *uiContentController;
 
+  BOOL viewHasBeenUpdated;
+  NSUInteger currentAnnouncementID;
 }
 
 -(void) updateWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID;

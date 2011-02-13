@@ -17,15 +17,31 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) updateWithProperties:(NSDictionary *)properties {    
+-(void) updateWithProperties:(NSDictionary *)properties {
+  if (!self.view) [self performSelectorOnMainThread:@selector(loadView) withObject:nil waitUntilDone:YES];
+  
   [providerProperties release];
   providerProperties = [properties retain];
   
   [uiContentController updateProviderUIElementsWithProperties:properties];
   
-  [self.view setNeedsDisplay];  
-  
+  viewHasBeenUpdated = YES;
+  [self.view setNeedsDisplay];
 } // updateWithProperties
+
+
+#pragma mark -
+#pragma mark View lifecycle
+
+-(void) viewWillAppear:(BOOL)animated {
+  if (!viewHasBeenUpdated && providerProperties) [self updateWithProperties:providerProperties];
+  [super viewWillAppear:animated];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+  viewHasBeenUpdated = NO;
+  [super viewWillDisappear:animated];
+}
 
 
 #pragma mark -

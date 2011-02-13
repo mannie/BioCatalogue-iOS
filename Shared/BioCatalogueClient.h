@@ -27,14 +27,14 @@
 
 +(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
 
-+(NSURL *) OAuthRequestURL;
-+(NSURL *) OAuthAccessURL;
++(NSURL *) OAuthRequestTokenURL;
++(NSURL *) OAuthAccessTokenURL;
 +(NSURL *) OAuthAuthorizeURL;
 +(NSURL *) OAuthCallbackURL;
 
 +(GTMOAuthAuthentication *) OAuthAuthentication;
 
-+(void) signInToBioCatalogue;
++(BOOL) signInWithUsername:(NSString *)username withPassword:(NSString *)password;
 +(void) signOutOfBioCatalogue;
 
 +(NSDictionary *) documentAtPath:(NSString *)path;

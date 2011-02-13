@@ -51,7 +51,9 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  [self refreshTableViewDataSource];
+  dispatch_async(dispatch_queue_create("Load content", NULL), ^{
+    [self refreshTableViewDataSource];
+  });
 }
 
 
@@ -117,8 +119,8 @@
   }
   
   NSArray *itemsInSection = [paginatedProviders objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
-  [UIContentController customiseTableViewCell:cell 
-                               withProperties:[itemsInSection objectAtIndex:indexPath.row]
+  [UIContentController populateTableViewCell:cell 
+                               withObject:[itemsInSection objectAtIndex:indexPath.row]
                                    givenScope:ProviderResourceScope];
   
   return cell;

@@ -15,22 +15,65 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 
 
 #pragma mark -
-#pragma mark OAuth
+#pragma mark Helpers
 
-- (void)signInToBioCatalogue {
-  usernameField.enabled = NO;
-  passwordField.enabled = NO;
-  loginButton.enabled = NO;
-  loginButton.hidden = YES;
-  [activityIndicator startAnimating];
+-(void) setEnabledForUILoginElements:(NSNumber *)enabled {
+  float newLoginElementsAlpha;
+  if ([enabled boolValue]) {
+    [activityIndicator stopAnimating];
+    newLoginElementsAlpha = 1;
+  } else {
+    [activityIndicator startAnimating];
+    newLoginElementsAlpha = 0.4;
+  }
   
-  [NSThread sleepForTimeInterval:3];
+  [UIView animateWithDuration:0.3 animations:^{
+    usernameField.alpha = newLoginElementsAlpha;
+    passwordField.alpha = newLoginElementsAlpha;
+    signInButton.alpha = newLoginElementsAlpha;
+  }];
+  
+  usernameField.enabled = [enabled boolValue];
+  passwordField.enabled = [enabled boolValue];
+  signInButton.enabled = [enabled boolValue];  
+} // setEnabledForUILoginElements
 
-  usernameField.enabled = YES;
-  passwordField.enabled = YES;
-  loginButton.enabled = YES;
-  loginButton.hidden = NO;
-  [activityIndicator stopAnimating];
+-(void) showUIAlertViewWithErrorMessage:(NSString *)message {
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                  message:message
+                                                 delegate:self
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
+  [alert release];
+} // showUIAlertViewWithErrorMessage
+
+
+#pragma mark -
+#pragma mark IBActions
+
+-(IBAction) signInToBioCatalogue {
+  if (![usernameField.text isValidEmailAddress]) {
+    [self showUIAlertViewWithErrorMessage:@"Please enter a valid email address"];
+  } else if (![passwordField.text isValidJSONValue]) {
+    [self showUIAlertViewWithErrorMessage:@"Please enter a valid password"];
+  } else {    
+    [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
+    
+    dispatch_async(dispatch_queue_create("Login", NULL), ^{
+      userDidAuthorize = [BioCatalogueClient signInWithUsername:usernameField.text withPassword:passwordField.text];
+      if (!userDidAuthorize) {
+        NSString *message = [NSString stringWithFormat:@"%@\n\n%@", 
+                             @"Could not sign into the BioCatalogue.",
+                             @"Please check your username and password, and try again."];
+        [self performSelectorOnMainThread:@selector(showUIAlertViewWithErrorMessage:) withObject:message waitUntilDone:NO];
+        
+        [self performSelectorOnMainThread:@selector(setEnabledForUILoginElements:) 
+                               withObject:[NSNumber numberWithBool:YES]
+                            waitUntilDone:NO];      
+      }
+    });
+  }
 } // signInToBioCatalogue
 
 
@@ -57,7 +100,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  [UIContentController setTableViewBackground:self.tableView];
+  [UIContentController customiseTableView:self.tableView];
 //  if (!userDidAuthorize) [self signInToBioCatalogue];
 } // viewDidLoad
 
@@ -139,11 +182,6 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 #pragma mark -
 #pragma mark Text Field delegate
 
--(void) textFieldDidEndEditing:(UITextField *)textField {
-  if ([usernameField.text isValidJSONValue] && [passwordField.text isValidJSONValue])
-    [self signInToBioCatalogue];
-}
-
 -(BOOL) textFieldShouldReturn:(UITextField *)textField {
   [textField resignFirstResponder];
   return YES;
@@ -157,7 +195,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
   [loginView release];
   [usernameField release];
   [passwordField release];
-  [loginButton release];
+  [signInButton release];
   [activityIndicator release];
 }
 

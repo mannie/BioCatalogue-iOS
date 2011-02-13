@@ -46,8 +46,20 @@
   dateFormatter = [[NSDateFormatter alloc] init];
   [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
   
-  [UIContentController setTableViewBackground:[self tableView]];
+  [UIContentController customiseTableView:[self tableView]];
 } // viewDidLoad
+
+-(void) viewWillAppear:(BOOL)animated {
+  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+
+  if (!viewHasBeenUpdated && currentServiceID) [self updateWithMonitoringStatusInfoForServiceWithID:currentServiceID];
+  [super viewWillAppear:animated];
+}
+
+-(void) viewWillDisappear:(BOOL)animated {
+  viewHasBeenUpdated = NO;
+  [super viewWillDisappear:animated];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   return YES;
@@ -83,6 +95,8 @@
                          [status objectForKey:JSONLabelElement], [date objectAtIndex:0], [date objectAtIndex:1]];
   cell.imageView.image = [UIImage imageNamed:
                           [[[NSURL URLWithString:[status objectForKey:@"small_symbol"]] absoluteString] lastPathComponent]];
+  
+  [UIContentController customiseTableViewCell:cell];
   
   return cell;
 } // tableView:cellForRowAtIndexPath

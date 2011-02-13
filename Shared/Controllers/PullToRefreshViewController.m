@@ -59,7 +59,7 @@
     }
 
     [refreshHeaderView setBackgroundColor:[UIColor clearColor]];
-    [UIContentController setTableViewBackground:self.tableView];
+    [UIContentController customiseTableView:self.tableView];
     
 		self.tableView.showsVerticalScrollIndicator = YES;
 		
