@@ -211,7 +211,18 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 #pragma mark IBActions
 
 -(void) markUnmarkServiceAsFavourite:(id)sender {
-  [BioCatalogueResourceManager favouriteServiceWithProperties:serviceProperties];
+  // TODO: implement
+  /*
+   service = get service with uniqueID (use serviceProperties)
+   
+   if user has service in favourites
+     remove from favourites
+   else
+     add to favourites
+   
+   commit changes
+  */
+  
 } // markUnmarkServiceAsFavourite
 
 -(void) showProviderInfo:(id)sender {
@@ -320,7 +331,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 -(IBAction) showResourceInPullOutBrowser:(NSURL *)url {
   NSURLRequest *request = [NSURLRequest requestWithURL:url
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                       timeoutInterval:10];
+                                       timeoutInterval:APIRequestTimeout];
   [webBrowser loadRequest:request];
   
   if (contextualPopoverController && [contextualPopoverController isPopoverVisible]) {

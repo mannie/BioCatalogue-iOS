@@ -19,7 +19,7 @@ extern NSString *const NetworkActivityStopped;
 #pragma mark -
 #pragma mark BioCatalogueClient
 
-extern NSString *const OAuthAppServiceName;
+extern NSString *const AppServiceName;
 
 extern NSUInteger const DaysBeforeExpiringUnreadAnnouncements;
 
@@ -29,6 +29,8 @@ extern NSUInteger ItemsPerPage;
 
 extern NSUInteger AutoLoadTrigger;
 extern float AutoLoadTriggerIndex;
+
+extern NSTimeInterval const APIRequestTimeout;
 
 extern NSString *const UserResourceScope;
 extern NSString *const ServiceResourceScope;
@@ -59,6 +61,7 @@ extern NSString *const XMLFormat;
 extern NSString *const JSONNull;
 
 extern NSString *const JSONAffiliationElement;
+extern NSString *const JSONArchivedAtElement;
 extern NSString *const JSONCityElement;
 extern NSString *const JSONCountryCodeElement;
 extern NSString *const JSONCountryElement;
@@ -92,6 +95,7 @@ extern NSString *const JSONTestTypeElement;
 extern NSString *const JSONTotalElement;
 extern NSString *const JSONURLElement;
 extern NSString *const JSONURLMonitorElement;
+extern NSString *const JSONUserElement;
 extern NSString *const JSONVariantsElement;
 
 
@@ -116,7 +120,7 @@ extern NSString *const AnnouncementUnreadIcon;
 
 extern NSString *const LastViewedResourceKey;
 extern NSString *const LastViewedResourceScopeKey;
-
+extern NSString *const LastLoggedInUserKey;
 
 #pragma mark -
 #pragma mark Text Placeholders

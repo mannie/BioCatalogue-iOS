@@ -17,4 +17,6 @@
 -(BOOL) isValidQuery;
 -(BOOL) isValidEmailAddress;
 
+-(NSString *) stringByAddingPercentEscapes;
+
 @end

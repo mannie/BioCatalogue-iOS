@@ -19,7 +19,7 @@ NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 #pragma mark -
 #pragma mark BioCatalogueClient
 
-NSString *const OAuthAppServiceName = @"iOS BioCatalogue: BioMonitor";
+NSString *const AppServiceName = @"iOS BioCatalogue: BioMonitor";
 
 NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 90;
 
@@ -29,6 +29,8 @@ NSUInteger ItemsPerPage = 10; // NOTE: this value will be replaced at runtime
 
 NSUInteger AutoLoadTrigger = 5; // NOTE: this value will be replaced at runtime
 float AutoLoadTriggerIndex = 0.5;
+
+NSTimeInterval const APIRequestTimeout = 5;
 
 NSString *const UserResourceScope = @"users";
 NSString *const ServiceResourceScope = @"services";
@@ -62,6 +64,7 @@ NSString *const XMLFormat = @"xml";
 NSString *const JSONNull = @"<null>";
 
 NSString *const JSONAffiliationElement = @"affiliation";
+NSString *const JSONArchivedAtElement = @"archived_at";
 NSString *const JSONCityElement = @"city";
 NSString *const JSONCountryCodeElement = @"country_code";
 NSString *const JSONCountryElement = @"country";
@@ -95,6 +98,7 @@ NSString *const JSONTestTypeElement = @"test_type";
 NSString *const JSONTotalElement = @"total";
 NSString *const JSONURLElement = @"url";
 NSString *const JSONURLMonitorElement = @"url_monitor";
+NSString *const JSONUserElement = @"user";
 NSString *const JSONVariantsElement = @"variants";
 
 
@@ -119,6 +123,7 @@ NSString *const AnnouncementUnreadIcon = @"exclamation-point-ps.png";
 
 NSString *const LastViewedResourceKey = @"LastViewedResource";
 NSString *const LastViewedResourceScopeKey = @"LastViewedResourceScope";
+NSString *const LastLoggedInUserKey = @"LastLoggedInUser";
 
 
 #pragma mark -

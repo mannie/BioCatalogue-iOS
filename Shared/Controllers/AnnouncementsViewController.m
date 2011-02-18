@@ -45,7 +45,7 @@
   announcements = [[NSMutableArray alloc] init];
 
   [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  [self updateApplicationBadges];
+  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
   
   [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
@@ -95,7 +95,7 @@
   [BioCatalogueResourceManager commmitChanges];
   
 	[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  [self updateApplicationBadges];
+  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
   
   [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
@@ -106,7 +106,7 @@
 	[announcements removeAllObjects];
 
 	[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  [self updateApplicationBadges];
+  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
  
   [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
@@ -180,7 +180,7 @@
   
   [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   
-  [self updateApplicationBadges];
+  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
 }
 
 

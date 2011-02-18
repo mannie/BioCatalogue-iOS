@@ -14,7 +14,10 @@
 #import "NSError+Helper.h"
 #import "NSException+Helper.h"
 
+#import "BioCatalogueResourceManager.h"
+
 #import "JSONKit.h"
+#import "SFHFKeychainUtils.h"
 
 #import "GTMOAuthViewControllerTouch.h"
 
@@ -23,6 +26,9 @@
 }
 
 +(NSURL *) baseURL;
++(NSURL *) baseURLWithUsername:(NSString *)username andPassword:(NSString *)password;
++(NSURL *) whoAmIURLWithUsername:(NSString *)username andPassword:(NSString *)password;
+
 +(NSURL *) announcementsFeedURL;
 
 +(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
@@ -36,6 +42,7 @@
 
 +(BOOL) signInWithUsername:(NSString *)username withPassword:(NSString *)password;
 +(void) signOutOfBioCatalogue;
++(BOOL) userIsAuthenticated;
 
 +(NSDictionary *) documentAtPath:(NSString *)path;
 +(NSDictionary *) documentAtPath:(NSString *)path withRepresentation:(NSString *)format;
@@ -49,6 +56,7 @@
 
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum providerID:(NSUInteger)provID;
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum submittingUserID:(NSUInteger)uID;
 
 +(NSDictionary *) monitoringStatusesForServiceWithID:(NSUInteger)serviceID;
 

@@ -83,7 +83,7 @@
 
 - (void)reloadTableViewDataSource{
   dispatch_async(dispatch_queue_create("Search", NULL), ^{      
-    [self refreshTableViewDataSource];
+    if ([self respondsToSelector:@selector(refreshTableViewDataSource)]) [self refreshTableViewDataSource];
   });
 	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
 }

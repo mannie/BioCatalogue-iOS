@@ -8,6 +8,8 @@
 
 #import "ProviderServicesViewController.h"
 
+#import "ServiceDetailViewController_iPhone.h"
+
 
 @implementation ProviderServicesViewController
 

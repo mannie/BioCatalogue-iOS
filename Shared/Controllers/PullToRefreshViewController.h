@@ -31,7 +31,7 @@
 
 
 @class EGORefreshTableHeaderView;
-@interface PullToRefreshViewController : UITableViewController  <UITableViewDelegate, UITableViewDataSource>{
+@interface PullToRefreshViewController : UITableViewController {
 	EGORefreshTableHeaderView *refreshHeaderView;
   
 	//  Reloading should really be your tableviews model class
@@ -44,7 +44,7 @@
 @end
 
 
-@protocol PullToRefreshDataSource
+@protocol PullToRefreshDataSource <UITableViewDelegate, UITableViewDataSource>
 
 -(void) refreshTableViewDataSource;
 

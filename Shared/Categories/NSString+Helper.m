@@ -57,4 +57,11 @@
   return [emailTest evaluateWithObject:self];
 } // isValidEmailAddress
 
+-(NSString *) stringByAddingPercentEscapes {
+  NSString *processedString = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+  processedString = [processedString stringByReplacingOccurrencesOfString:@"@" withString:@"\%40"];
+  return processedString;
+} // stringByAddingPercentEscapes
+
+
 @end

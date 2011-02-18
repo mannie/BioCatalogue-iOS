@@ -11,110 +11,94 @@
 
 @implementation MyStuffViewController
 
+@synthesize iPadDetailViewController, iPhoneDetailViewController;
+
+
 typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 
 
 #pragma mark -
-#pragma mark Helpers
+#pragma mark Data Source Helpers
 
--(void) setEnabledForUILoginElements:(NSNumber *)enabled {
-  float newLoginElementsAlpha;
-  if ([enabled boolValue]) {
-    [activityIndicator stopAnimating];
-    newLoginElementsAlpha = 1;
-  } else {
-    [activityIndicator startAnimating];
-    newLoginElementsAlpha = 0.4;
+-(void) checkForUpdates:(Section)section {
+  NSArray *services;
+  switch (section) {
+    case UserSubmissions: services = userSubmissions; break;
+    case UserFavourites: services = userFavourites; break;
+    case UserResponsibilities: services = userResponsibilities; break;
+    default: return;
+  }
+
+  for (NSDictionary *serviceProperties in services) {
+    NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
+    Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
+    if (!service.lastUpdated) service.lastUpdated = [NSDate date];
+    NSLog(@"%@", service);
+  }
+}
+
+-(void) stopAnimatingActivityIndicator {
+  if (activeFetchThreadsForUserSubmissions == 0) {
+    [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+  }
+} // stopAnimatingActivityIndicator
+
+-(void) loadUserSubmissionsForNextPage {
+  if (lastLoadedPageOfUserSubmissions == lastPageOfUserSubmissions) {
+    activeFetchThreadsForUserSubmissions--;
+    [self stopAnimatingActivityIndicator];
+    return;
   }
   
-  [UIView animateWithDuration:0.3 animations:^{
-    usernameField.alpha = newLoginElementsAlpha;
-    passwordField.alpha = newLoginElementsAlpha;
-    signInButton.alpha = newLoginElementsAlpha;
-  }];
-  
-  usernameField.enabled = [enabled boolValue];
-  passwordField.enabled = [enabled boolValue];
-  signInButton.enabled = [enabled boolValue];  
-} // setEnabledForUILoginElements
-
--(void) showUIAlertViewWithErrorMessage:(NSString *)message {
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                  message:message
-                                                 delegate:self
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  [alert show];
-  [alert release];
-} // showUIAlertViewWithErrorMessage
-
-
-#pragma mark -
-#pragma mark IBActions
-
--(IBAction) signInToBioCatalogue {
-  if (![usernameField.text isValidEmailAddress]) {
-    [self showUIAlertViewWithErrorMessage:@"Please enter a valid email address"];
-  } else if (![passwordField.text isValidJSONValue]) {
-    [self showUIAlertViewWithErrorMessage:@"Please enter a valid password"];
-  } else {    
-    [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
+  dispatch_async(dispatch_queue_create("Load next page", NULL), ^{
+    lastLoadedPageOfUserSubmissions++;
+    int pageToLoad = lastLoadedPageOfUserSubmissions; // use local var to reduce contention when loading in multiple threads
     
-    dispatch_async(dispatch_queue_create("Login", NULL), ^{
-      userDidAuthorize = [BioCatalogueClient signInWithUsername:usernameField.text withPassword:passwordField.text];
-      if (!userDidAuthorize) {
-        NSString *message = [NSString stringWithFormat:@"%@\n\n%@", 
-                             @"Could not sign into the BioCatalogue.",
-                             @"Please check your username and password, and try again."];
-        [self performSelectorOnMainThread:@selector(showUIAlertViewWithErrorMessage:) withObject:message waitUntilDone:NO];
-        
-        [self performSelectorOnMainThread:@selector(setEnabledForUILoginElements:) 
-                               withObject:[NSNumber numberWithBool:YES]
-                            waitUntilDone:NO];      
-      }
-    });
-  }
-} // signInToBioCatalogue
+    NSUInteger currentUserID = [[[BioCatalogueResourceManager catalogueUser] uniqueID] intValue];
+    NSDictionary *document = [[BioCatalogueClient services:ItemsPerPage page:pageToLoad submittingUserID:currentUserID] retain];
+    if (document) {
+      [userSubmissions addObjectsFromArray:[document objectForKey:JSONResultsElement]];
+      
+      lastPageOfUserSubmissions = [[document objectForKey:JSONPagesElement] intValue];
+      
+      [document release];
+      
+      [self checkForUpdates:UserSubmissions];
+    }
+    
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    
+    activeFetchThreadsForUserSubmissions--;
+    
+    [self stopAnimatingActivityIndicator];    
+  });
+} // loadUserSubmissionsForNextPage
+
+-(void) refreshTableViewDataSource {
+  [activityIndicator startAnimating];
+  
+  [userSubmissions release];
+  userSubmissions = [[NSMutableArray alloc] init];
+  
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  
+  lastLoadedPageOfUserSubmissions = 0;
+  lastPageOfUserSubmissions = 1;
+  
+  activeFetchThreadsForUserSubmissions++;
+  [self loadUserSubmissionsForNextPage];
+} // refreshTableViewDataSource
 
 
 #pragma mark -
 #pragma mark View lifecycle
 
-- (void)awakeFromNib {
-  // Get the saved authentication, if any, from the keychain.
-  GTMOAuthAuthentication *auth = [BioCatalogueClient OAuthAuthentication];
-  if (auth) {
-    userDidAuthorize = [GTMOAuthViewControllerTouch authorizeFromKeychainForName:OAuthAppServiceName authentication:auth];
-    // if the auth object contains an access token, didAuth is now true
-  }
-  
-  // retain the authentication object, which holds the auth tokens
-  //
-  // we can determine later if the auth object contains an access token
-  // by calling its -canAuthorize method
-//  [self setAuthentication:auth];
-  
-//  BOOL isSignedIn = [auth canAuthorize]; // returns NO if auth cannot authorize requests
-}
-
 - (void)viewDidLoad {
   [super viewDidLoad];
   
   [UIContentController customiseTableView:self.tableView];
-//  if (!userDidAuthorize) [self signInToBioCatalogue];
+  [self refreshTableViewDataSource];
 } // viewDidLoad
-
--(void) viewWillAppear:(BOOL)animated {
-  [super viewWillAppear:animated];
-  
-//  favouritedServices = [[BioCatalogueResourceManager currentUserFavouritedServices] retain];
-//  submittedServices = [[BioCatalogueResourceManager currentUserSubmittedServices] retain];
-
-  loginView.hidden = userDidAuthorize;
-//  if (!userDidAuthorize) [self signInToBioCatalogue];
-
-  [[self tableView] reloadData];
-} // viewWillAppear
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
@@ -125,13 +109,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 #pragma mark Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  if (userDidAuthorize) {
-    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
-    return 3;
-  } else {
-    [[self tableView] setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    return 0;
-  }
+  return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -159,11 +137,36 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
   }
   
   // Configure the cell...
-  cell.textLabel.text = [NSString stringWithFormat:@"%i", indexPath.row];
+  /*
+  if ([indexPath section] == UserSubmissions && lastLoadedPage < lastPage && [indexPath row] >= AutoLoadTrigger) {
+    // indexPath is in the last section
+    @try {
+      if (activeFetchThreads < 3) {
+        activeFetchThreads++;
+        [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+        [self loadUserSubmissionsForNextPage];
+      }
+    } @catch (NSException * e) {
+      [e log];
+    }    
+  }
+  */
+
+  switch (indexPath.section) {
+    case UserSubmissions:
+      [UIContentController populateTableViewCell:cell 
+                                      withObject:[userSubmissions objectAtIndex:indexPath.row]
+                                      givenScope:ServiceResourceScope];
+      break;
+    case UserFavourites: 
+      break;
+    case UserResponsibilities: 
+      break;
+  }
   
   return cell;
 }
@@ -173,18 +176,39 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-  
-  [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+  NSArray *itemsInSection;
+  switch (indexPath.section) {
+    case UserSubmissions: itemsInSection = userSubmissions; break;
+    case UserFavourites: itemsInSection = userFavourites; break;
+    case UserResponsibilities: itemsInSection = userResponsibilities; break;
+  }
 
-
-#pragma mark -
-#pragma mark Text Field delegate
-
--(BOOL) textFieldShouldReturn:(UITextField *)textField {
-  [textField resignFirstResponder];
-  return YES;
+  if ([[UIDevice currentDevice] isIPadDevice]) {
+    if ([iPadDetailViewController isCurrentlyBusy] && lastSelectedIndexIPad) {
+      [tableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES 
+                       scrollPosition:UITableViewScrollPositionMiddle];
+      return;
+    }
+    
+    [iPadDetailViewController startLoadingAnimation];
+    
+    dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
+    });
+    
+    [lastSelectedIndexIPad release];
+    lastSelectedIndexIPad = [indexPath retain];
+    
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+  } else {
+    [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
+    dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
+    });
+    [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+  } // if else ipad
 }
 
 
@@ -192,24 +216,14 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [loginView release];
-  [usernameField release];
-  [passwordField release];
-  [signInButton release];
   [activityIndicator release];
 }
 
-- (void)viewDidUnload {
-  [userFavourites release];
-  [userSubmissions release];
-  [userResponsibilities release];
-
-	[super viewDidUnload];
-}
-
 - (void)dealloc {
-  [userFavourites release];
+  [lastSelectedIndexIPad release];
+  
   [userSubmissions release];
+  [userFavourites release];
   [userResponsibilities release];
   
   [self releaseIBOutlets];

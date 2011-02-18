@@ -14,9 +14,6 @@
 
 static NSManagedObjectContext *managedObjectContext;
 
-static BioCatalogue *_currentBioCatalogue;
-static User *_currentUser;
-
 
 +(void) initialize {
   AppDelegate_Shared *delegate = (AppDelegate_Shared *)[UIApplication sharedApplication].delegate;
@@ -25,13 +22,17 @@ static User *_currentUser;
 
 +(void) commmitChanges {
   NSError *error = nil;
+  
   [managedObjectContext save:&error];
   if (error) [error log];
-}
+} // commmitChanges
+
++(BOOL) deleteObject:(NSManagedObject *)object {
+  [managedObjectContext deleteObject:object];
+  return [object isDeleted];
+} // deleteObject
 
 +(BioCatalogue *) currentBioCatalogue {
-  if (_currentBioCatalogue) return _currentBioCatalogue;
-  
   NSError *error = nil;
   NSEntityDescription *entity = [NSEntityDescription entityForName:@"BioCatalogue"
                                             inManagedObjectContext:managedObjectContext];
@@ -40,47 +41,32 @@ static User *_currentUser;
   [request setFetchLimit:1];
   [request setPredicate:[NSPredicate predicateWithFormat:@"hostname = %@", BioCatalogueHostname]];
 
-  _currentBioCatalogue = [[[managedObjectContext executeFetchRequest:[request autorelease] error:&error] lastObject] retain];
+  BioCatalogue *catalogue = [[managedObjectContext executeFetchRequest:[request autorelease]
+                                                                 error:&error] lastObject];
   if (error) [error log];
-  if (_currentBioCatalogue) return _currentBioCatalogue;
+  if (catalogue) return catalogue;
 
-  _currentBioCatalogue = [[NSEntityDescription insertNewObjectForEntityForName:@"BioCatalogue" 
-                                                        inManagedObjectContext:managedObjectContext] retain];
-  _currentBioCatalogue.hostname = BioCatalogueHostname;
+  catalogue = [NSEntityDescription insertNewObjectForEntityForName:@"BioCatalogue" 
+                                            inManagedObjectContext:managedObjectContext];
+
+  catalogue.hostname = BioCatalogueHostname;
   
   [self commmitChanges];
   
-  return _currentBioCatalogue;
+  return catalogue;
 } // currentBioCatalogue
 
-+(User *) currentUser {
-  if (_currentUser) return _currentUser;
++(User *) catalogueUser {
+  User *user = [[self currentBioCatalogue] user];
+  if (user) return user;
   
-  _currentUser = [[[[self currentBioCatalogue] users] anyObject] retain];
-  if (_currentUser) return _currentUser;
-  
-  _currentUser = [[NSEntityDescription insertNewObjectForEntityForName:@"User"
-                                                inManagedObjectContext:managedObjectContext] retain];
+  user = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:managedObjectContext];
+  user.catalogue = [self currentBioCatalogue];
   
   [self commmitChanges];
   
-  return _currentUser;
+  return user;
 } // currentUser
-
-+(NSArray *) currentBioCatalogueAnnouncements {
-  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
-  return [[[self currentBioCatalogue] announcements] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-} // currentBioCatalogueAnnouncements
-
-+(NSArray *) currentUserSubmittedServices {
-  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-  return [[[self currentUser] services] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-} // currentUserSubmitterServices
-
-+(NSArray *) currentUserFavouritedServices {
-  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES];
-  return [[[self currentUser] favourites] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sort]];
-} // currentUserFavouritedServices
 
 +(Announcement *) announcementWithUniqueID:(NSInteger)uniqueID {
   NSError *error = nil;
@@ -121,26 +107,20 @@ static User *_currentUser;
   
   service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" inManagedObjectContext:managedObjectContext];
   service.uniqueID = [NSNumber numberWithInt:uniqueID];
-  
+  service.catalogue = [self currentBioCatalogue];
+
   [self commmitChanges];
   
   return service;
 } // serviceWithUniqueID
 
-+(void) favouriteServiceWithProperties:(NSDictionary *)properties {
-  NSString *uniqueID = [[properties objectForKey:JSONSelfElement] lastPathComponent];  
-  Service *service = [self serviceWithUniqueID:[uniqueID intValue]];
-
-  if (!service.name) {
-    service.name = [properties objectForKey:JSONNameElement];
-    NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
-    service.about = ([description isValidJSONValue] ? description : NoDescriptionText);
++(BOOL) collection:(NSSet *)aCollection hasServiceWithUniqueID:(NSInteger)uniqueID {
+  for (id item in [aCollection allObjects]) {
+    if ([[item uniqueID] intValue] == uniqueID) return YES;
   }
-
-  [[self currentUser] addFavouritesObject:service];
   
-  [self commmitChanges];
-} // favouriteServiceWithProperties
+  return NO;
+} // collection:hasServiceWithUniqueID
 
 
 @end

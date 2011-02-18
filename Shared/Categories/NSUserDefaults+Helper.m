@@ -11,6 +11,7 @@
 
 @implementation NSUserDefaults (Helper)
 
+
 -(void) serializeLastViewedResource:(NSDictionary *)properties withScope:(NSString *)scope {
   // FIXME: this was broken as a result of using the JSONKit parsing framework instead of SBJson
   
@@ -50,5 +51,6 @@
   [mutableProperties release];
 */
 } // serializeLastViewedResource
+
 
 @end

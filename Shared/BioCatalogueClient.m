@@ -14,6 +14,8 @@
 static NSString *const OAuthConsumerKey = @"3W1Pq2RQ0wxlAHdt0TCQ";
 static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n0QDRhKc";
 
+static BOOL _userIsAuthenticated;
+
 
 #pragma mark -
 #pragma mark URLs
@@ -21,6 +23,22 @@ static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n
 +(NSURL *) baseURL {
   return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", BioCatalogueHostname]];
 } // baseURL
+
++(NSURL *) baseURLWithUsername:(NSString *)username andPassword:(NSString *)password {
+  return [NSURL URLWithString:[NSString stringWithFormat:@"http://%@:%@@%@",
+                               [username stringByAddingPercentEscapes],
+                               [password stringByAddingPercentEscapes],
+                               BioCatalogueHostname]];
+} // baseURLWithUsername:andPassword
+
++(NSURL *) whoAmIURLWithUsername:(NSString *)username andPassword:(NSString *)password {
+  NSURL *url = [self baseURLWithUsername:username andPassword:password];
+
+  url = [url URLByAppendingPathComponent:@"/users/whoami"];
+  url = [url URLByAppendingPathExtension:JSONFormat];
+  
+  return url;
+} // whoAmIURLWithUsername:andPassword
 
 +(NSURL *) announcementsFeedURL {
   NSURL *feedBase = [NSURL URLWithString:[NSString stringWithFormat:@"feed://%@", BioCatalogueHostname]];
@@ -81,13 +99,58 @@ static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n
 } // clientOAuthAuthentication
 
 +(BOOL) signInWithUsername:(NSString *)username withPassword:(NSString *)password {
-  NSLog(@"%@:%@", username, password);
-  return NO;
+  NSURLRequest *request = [NSURLRequest requestWithURL:[self whoAmIURLWithUsername:username andPassword:password]
+                                           cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                       timeoutInterval:APIRequestTimeout];
+  
+  NSError *error = nil;
+  NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+  if (error) {
+    [error log];
+    _userIsAuthenticated = NO;
+    return _userIsAuthenticated;
+  }
+
+  id userJson = [[data objectFromJSONDataWithParseOptions:JKParseOptionStrict error:&error] objectForKey:JSONUserElement];
+  if (userJson) {
+    User *user = [[BioCatalogueResourceManager catalogueUser] retain];
+    
+    NSUInteger userID = [[[userJson objectForKey:JSONSelfElement] lastPathComponent] intValue];
+    user.uniqueID = [NSNumber numberWithInt:userID];
+    
+    [BioCatalogueResourceManager commmitChanges];
+    [user release];
+    
+    // store credentials in keychain
+    error = nil;
+    [SFHFKeychainUtils storeUsername:username andPassword:password forServiceName:AppServiceName updateExisting:YES error:&error];
+    if (error) [error log];
+    [[NSUserDefaults standardUserDefaults] setValue:username forKey:LastLoggedInUserKey];
+
+    _userIsAuthenticated = YES;
+    return _userIsAuthenticated;
+  } else {
+    _userIsAuthenticated = NO;
+    return _userIsAuthenticated;
+  }
 } // signInWithUsername:withPassword
 
 +(void) signOutOfBioCatalogue {
-  [GTMOAuthViewControllerTouch removeParamsFromKeychainForName:OAuthAppServiceName];
+  NSError *error = nil;
+  NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
+  [SFHFKeychainUtils storeUsername:username andPassword:@"" forServiceName:AppServiceName updateExisting:YES error:&error];
+  [[NSUserDefaults standardUserDefaults] setValue:nil forKey:LastLoggedInUserKey];
+  if (error) [error log];
+  
+  BOOL didDelete = [BioCatalogueResourceManager deleteObject:[BioCatalogueResourceManager catalogueUser]];
+  if (didDelete) [BioCatalogueResourceManager commmitChanges];
+  
+  _userIsAuthenticated = NO;
 } // signOutOfBioCatalogue
+
++(BOOL) userIsAuthenticated {
+  return _userIsAuthenticated;
+} // userIsAuthenticated
 
 
 #pragma mark -
@@ -103,7 +166,7 @@ static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n
     NSURL *url = [self URLForPath:path withRepresentation:format];
     NSURLRequest *request = [NSURLRequest requestWithURL:url 
                                              cachePolicy:NSURLRequestReturnCacheDataElseLoad 
-                                         timeoutInterval:5];
+                                         timeoutInterval:APIRequestTimeout];
     
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) [error log];
@@ -171,6 +234,13 @@ static NSString *const OAuthConsumerSecret = @"7P9WEKsS50wdX5VDBr5xi3EDzEzHMcv1n
   
   return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i&p=[%i]", limit, pageNum, provID]];  
 } // services:page:providerID
+
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum submittingUserID:(NSUInteger)userID {
+  if (pageNum < 1) pageNum = 1;
+  if (limit <= 0) limit = ItemsPerPage;
+  
+  return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i&su=[%i]", limit, pageNum, userID]];  
+} // services:page:userID
 
 +(NSDictionary *) monitoringStatusesForServiceWithID:(NSUInteger)serviceID {
   return [self documentAtPath:[NSString stringWithFormat:@"/services/%i/monitoring", serviceID]];  

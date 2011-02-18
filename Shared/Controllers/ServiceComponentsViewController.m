@@ -138,7 +138,7 @@
                                      objectForKey:JSONResourceElement]];  
   NSURLRequest *request = [NSURLRequest requestWithURL:url
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                       timeoutInterval:5];
+                                       timeoutInterval:APIRequestTimeout];
   [(UIWebView *)iPhoneWebViewController.view loadRequest:request];
   [self.navigationController pushViewController:iPhoneWebViewController animated:YES];
   

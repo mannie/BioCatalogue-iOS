@@ -2,7 +2,7 @@
 //  Announcement.h
 //  BioMonitor
 //
-//  Created by Mannie Tagarira on 07/02/2011.
+//  Created by Mannie Tagarira on 17/02/2011.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
@@ -14,11 +14,11 @@
 {
 }
 
-@property (nonatomic, retain) NSNumber * isUnread;
 @property (nonatomic, retain) NSString * summary;
 @property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSNumber * uniqueID;
 @property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSNumber * uniqueID;
+@property (nonatomic, retain) NSNumber * isUnread;
 @property (nonatomic, retain) BioCatalogue * catalogue;
 
 @end

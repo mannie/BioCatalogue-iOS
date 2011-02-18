@@ -12,22 +12,28 @@
 #import "BioCatalogueClient.h"
 
 #import "NSString+Helper.h"
+#import "PullToRefreshViewController.h"
+
+#import "DetailViewController_iPad.h"
+#import "ServiceDetailViewController_iPhone.h"
 
 
-@interface MyStuffViewController : UITableViewController <UITextFieldDelegate> {
+@interface MyStuffViewController : PullToRefreshViewController {
+  NSMutableArray *userSubmissions;
+  NSUInteger lastPageOfUserSubmissions;
+  NSUInteger lastLoadedPageOfUserSubmissions;
+  NSUInteger activeFetchThreadsForUserSubmissions;
+  
   NSArray *userFavourites;
-  NSArray *userSubmissions;
   NSArray *userResponsibilities;
   
-  BOOL userDidAuthorize;
-  
-  IBOutlet UIView *loginView;
-  IBOutlet UITextField *usernameField;
-  IBOutlet UITextField *passwordField;
-  IBOutlet UIButton *signInButton;
+  NSIndexPath *lastSelectedIndexIPad;
+
+  // iboutlets
   IBOutlet UIActivityIndicatorView *activityIndicator;
 }
 
--(IBAction) signInToBioCatalogue;
+@property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *iPhoneDetailViewController;
+@property (nonatomic, retain) IBOutlet DetailViewController_iPad *iPadDetailViewController;
 
 @end

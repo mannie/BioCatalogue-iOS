@@ -57,11 +57,10 @@
 @property(nonatomic, retain) IBOutlet DetailViewController_iPad* iPadDetailViewController;
 
 +(void) customiseTableView:(UITableView *)tableView;
++(void) customiseTableViewCell:(UITableViewCell *)cell;
 
-+(void) populateTableViewCell:(UITableViewCell *)cell withService:(Service *)service;
 +(void) populateTableViewCell:(UITableViewCell *)cell withObject:(id)object givenScope:(NSString *)scope;
 
--(void) updateServiceUIElementsWithService:(Service *)service;
 -(void) updateServiceUIElementsWithProperties:(NSDictionary *)listingProperties 
                                  providerName:(NSString *)providerName 
                                 submitterName:(NSString *)submitterName 

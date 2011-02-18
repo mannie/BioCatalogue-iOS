@@ -19,18 +19,14 @@
 }
 
 +(void) commmitChanges;
++(BOOL) deleteObject:(NSManagedObject *)object;
 
 +(BioCatalogue *) currentBioCatalogue;
-+(User *) currentUser;
-
-+(NSArray *) currentBioCatalogueAnnouncements;
-
-+(NSArray *) currentUserSubmittedServices;
-+(NSArray *) currentUserFavouritedServices;
++(User *) catalogueUser;
 
 +(Announcement *) announcementWithUniqueID:(NSInteger)uniqueID;
 +(Service *) serviceWithUniqueID:(NSInteger)uniqueID;
 
-+(void) favouriteServiceWithProperties:(NSDictionary *)properties;
++(BOOL) collection:(NSSet *)aCollection hasServiceWithUniqueID:(NSInteger)uniqueID;
 
 @end

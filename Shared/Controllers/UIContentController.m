@@ -8,6 +8,8 @@
 
 #import "UIContentController.h"
 
+#import "DetailViewController_iPad.h"
+
 
 @implementation UIContentController
 
@@ -38,12 +40,6 @@
   [selectionView release];  
 } // customiseTableViewCell
 
-+(void) populateTableViewCell:(UITableViewCell *)cell withService:(Service *)service {
-  cell.textLabel.text = service.name;
-  cell.detailTextLabel.text = service.about;
-  cell.imageView.image = [UIImage imageWithData:service.latestMonitoringIcon];      
-} // customiseTableViewCell:withService
-
 +(void) populateTableViewCell:(UITableViewCell *)cell withObject:(id)object givenScope:(NSString *)scope {
   [self customiseTableViewCell:cell];
   
@@ -55,7 +51,14 @@
     
     NSURL *imageURL = [NSURL URLWithString:[[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] 
                                             objectForKey:JSONSmallSymbolElement]];
-    cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];    
+    cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
+    
+    if ([[NSString stringWithFormat:@"%@", [serviceProperties objectForKey:JSONArchivedAtElement]] isValidJSONValue]) { 
+      // is archived
+      cell.imageView.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
+    } else {
+      cell.imageView.backgroundColor = [UIColor clearColor];
+    }    
   } else if ([scope isEqualToString:UserResourceScope]) { // --- UserResourceScope
     NSDictionary *userProperties = (NSDictionary *)object;
     
@@ -208,7 +211,17 @@
     return YES;
   } else {
     if ([[UIDevice currentDevice] isIPadDevice]) {
-      [iPadDetailViewController showResourceInPullOutBrowser:[request mainDocumentURL]];
+      if ([[UIApplication sharedApplication] canOpenURL:[request mainDocumentURL]]) {
+        [iPadDetailViewController showResourceInPullOutBrowser:[request mainDocumentURL]];
+      } else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"URL Error"
+                                                        message:@"Unable to open this URL."
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+      }
     } else {
       [[UIApplication sharedApplication] openURL:[request mainDocumentURL]];
     }
@@ -216,7 +229,6 @@
     return NO;
   }
 }
-
 
 
 #pragma mark -
