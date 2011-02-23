@@ -44,7 +44,7 @@
   [super viewDidLoad];
 
   dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
+  [dateFormatter setDateFormat:JSONDateFormat];
   
   [UIContentController customiseTableView:[self tableView]];
 } // viewDidLoad

@@ -13,7 +13,6 @@
 @interface NSString (Helper)
 
 -(BOOL) isValidJSONValue;
--(BOOL) isValidAPIRepresentation;
 -(BOOL) isValidQuery;
 -(BOOL) isValidEmailAddress;
 

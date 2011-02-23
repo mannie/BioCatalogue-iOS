@@ -75,6 +75,7 @@
 		36904B19130DB99600B50B3E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36904B15130DB99600B50B3E /* User.m */; };
 		36904C0F130DDBC800B50B3E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36904C0E130DDBC800B50B3E /* LoginViewController.m */; };
 		36904C7C130DE80800B50B3E /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36904C7B130DE80800B50B3E /* LoginView.xib */; };
+		36904DC21314A2F400B50B3E /* BioMonitor-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36904DC11314A2F400B50B3E /* BioMonitor-Info.plist */; };
 		36C8A00D12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A00E12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A01312F774450022190F /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CEB112B6EB51005607EB /* GTMHTTPFetcher.m */; };
@@ -258,6 +259,7 @@
 		36904C0D130DDBC800B50B3E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		36904C0E130DDBC800B50B3E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		36904C7B130DE80800B50B3E /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		36904DC11314A2F400B50B3E /* BioMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BioMonitor-Info.plist"; sourceTree = "<group>"; };
 		36C8A00B12F7740A0022190F /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		36C8A00C12F7740A0022190F /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		36C8A10812F78B9C0022190F /* PullToRefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshViewController.h; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				36904DC11314A2F400B50B3E /* BioMonitor-Info.plist */,
 				362DFDEA129915C600DEC892 /* main.m */,
 				32CA4F630368D1EE00C91783 /* BioMonitor_Prefix.pch */,
 				365C68DA125BC5FC0099CE38 /* Frameworks */,
@@ -912,6 +915,7 @@
 				367C890713075CE200C9EA37 /* cellRow.png in Resources */,
 				367C890813075CE200C9EA37 /* cellRowSelected.png in Resources */,
 				36904C7C130DE80800B50B3E /* LoginView.xib in Resources */,
+				36904DC21314A2F400B50B3E /* BioMonitor-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

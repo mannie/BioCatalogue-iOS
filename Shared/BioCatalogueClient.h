@@ -19,8 +19,6 @@
 #import "JSONKit.h"
 #import "SFHFKeychainUtils.h"
 
-#import "GTMOAuthViewControllerTouch.h"
-
 
 @interface BioCatalogueClient : NSObject {
 }
@@ -32,13 +30,6 @@
 +(NSURL *) announcementsFeedURL;
 
 +(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format;
-
-+(NSURL *) OAuthRequestTokenURL;
-+(NSURL *) OAuthAccessTokenURL;
-+(NSURL *) OAuthAuthorizeURL;
-+(NSURL *) OAuthCallbackURL;
-
-+(GTMOAuthAuthentication *) OAuthAuthentication;
 
 +(BOOL) signInWithUsername:(NSString *)username withPassword:(NSString *)password;
 +(void) signOutOfBioCatalogue;
@@ -56,7 +47,9 @@
 
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum;
 +(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum providerID:(NSUInteger)provID;
-+(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum submittingUserID:(NSUInteger)uID;
++(NSDictionary *) services:(NSUInteger)limit page:(NSUInteger)pageNum submittingUserID:(NSUInteger)userID;
++(NSDictionary *) servicesForResponsibleUserID:(NSUInteger)userID;
++(NSDictionary *) servicesForFavouritingUserID:(NSUInteger)userID;
 
 +(NSDictionary *) monitoringStatusesForServiceWithID:(NSUInteger)serviceID;
 

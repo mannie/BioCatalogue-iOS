@@ -22,10 +22,6 @@
   return !isNull && !isWhiteSpace;
 } // isValidJSONValue
 
--(BOOL) isValidAPIRepresentation {
-  return [self isEqualToString:JSONFormat] || [self isEqualToString:XMLFormat];
-} // isValidAPIRepresentation
-
 -(BOOL) isValidQuery {
   NSString *deURLizedQuery = [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
   deURLizedQuery = [deURLizedQuery stringByReplacingOccurrencesOfString:@" " withString:@""];

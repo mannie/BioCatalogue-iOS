@@ -20,7 +20,28 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 #pragma mark -
 #pragma mark Data Source Helpers
 
--(void) checkForUpdates:(Section)section {
+-(void) checkForUpdatesForServiceWithProperties:(NSDictionary *)serviceProperties {
+  NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
+  Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
+  
+  if (!service.lastUpdated) { // is a new entry
+    service.lastUpdated = [NSDate date];
+  } else { // has been checked before
+    NSString *jsonDate = [[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement];
+    if (![[NSString stringWithFormat:@"%@", jsonDate] isValidJSONValue]) return;
+    
+    NSDate *liveDateOfUpdate = [dateFormatter dateFromString:jsonDate];
+    BOOL serviceHasBeenUpdated = [liveDateOfUpdate laterDate:service.lastUpdated] == liveDateOfUpdate;
+    
+    serviceHasBeenUpdated = YES; // TODO: revert to proper value
+    
+    if (!serviceHasBeenUpdated) return;
+    
+    updatedServices++;
+  }
+} // checkForUpdatesForServiceWithProperties
+
+-(void) checkForUpdates:(Section)section {  
   NSArray *services;
   switch (section) {
     case UserSubmissions: services = userSubmissions; break;
@@ -29,13 +50,23 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
     default: return;
   }
 
-  for (NSDictionary *serviceProperties in services) {
-    NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
-    Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
-    if (!service.lastUpdated) service.lastUpdated = [NSDate date];
-    NSLog(@"%@", service);
+  if (activeUpdateThreads == 0) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
   }
-}
+  activeUpdateThreads++;
+
+  for (NSDictionary *serviceProperties in services) {
+    [self checkForUpdatesForServiceWithProperties:serviceProperties];
+  }
+
+  activeUpdateThreads--;
+  if (activeUpdateThreads == 0) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  }
+
+  // TODO: push notifications
+} // checkForUpdates
 
 -(void) stopAnimatingActivityIndicator {
   if (activeFetchThreadsForUserSubmissions == 0) {
@@ -62,11 +93,9 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
       lastPageOfUserSubmissions = [[document objectForKey:JSONPagesElement] intValue];
       
       [document release];
-      
-      [self checkForUpdates:UserSubmissions];
     }
     
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [self checkForUpdates:UserSubmissions];
     
     activeFetchThreadsForUserSubmissions--;
     
@@ -74,14 +103,63 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
   });
 } // loadUserSubmissionsForNextPage
 
+-(void) loadUserFavourites {
+  dispatch_async(dispatch_queue_create("Load user favourites", NULL), ^{
+    NSUInteger currentUserID = [[[BioCatalogueResourceManager catalogueUser] uniqueID] intValue];
+
+    NSDictionary *document = [[BioCatalogueClient servicesForFavouritingUserID:currentUserID] retain];
+    if (document) {
+      [userFavourites release];
+      userFavourites = [[document objectForKey:JSONResultsElement] retain];
+
+      [document release];
+    }
+    
+    [self checkForUpdates:UserFavourites];
+    [self stopAnimatingActivityIndicator];    
+  });  
+} // loadUserFavourites
+
+-(void) loadUserResponsibilities {
+  dispatch_async(dispatch_queue_create("Load user responsibilities", NULL), ^{
+    NSUInteger currentUserID = [[[BioCatalogueResourceManager catalogueUser] uniqueID] intValue];
+    
+    NSDictionary *document = [[BioCatalogueClient servicesForResponsibleUserID:currentUserID] retain];
+    if (document) {
+      [userResponsibilities release];
+      userResponsibilities = [[document objectForKey:JSONResultsElement] retain];
+
+      [document release];
+    }
+
+    [self checkForUpdates:UserResponsibilities];
+    [self stopAnimatingActivityIndicator];    
+  });  
+} // loadUserResponsibilities
+
 -(void) refreshTableViewDataSource {
   [activityIndicator startAnimating];
   
   [userSubmissions release];
   userSubmissions = [[NSMutableArray alloc] init];
   
-  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  [userFavourites release];
+  userFavourites = [[NSArray alloc] init];
   
+  [userResponsibilities release];
+  userResponsibilities = [[NSArray alloc] init];
+
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    
+  updatedServices = 0;
+  
+  // UserFavourites
+  [self loadUserFavourites];
+  
+  // UserResponsibilities
+  [self loadUserResponsibilities];
+  
+  // UserSubmissions
   lastLoadedPageOfUserSubmissions = 0;
   lastPageOfUserSubmissions = 1;
   
@@ -96,6 +174,9 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  dateFormatter = [[NSDateFormatter alloc] init];
+  [dateFormatter setDateFormat:JSONDateFormat];
+
   [UIContentController customiseTableView:self.tableView];
   [self refreshTableViewDataSource];
 } // viewDidLoad
@@ -162,9 +243,15 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
                                       withObject:[userSubmissions objectAtIndex:indexPath.row]
                                       givenScope:ServiceResourceScope];
       break;
-    case UserFavourites: 
+    case UserFavourites:
+      [UIContentController populateTableViewCell:cell 
+                                      withObject:[userFavourites objectAtIndex:indexPath.row]
+                                      givenScope:ServiceResourceScope];      
       break;
-    case UserResponsibilities: 
+    case UserResponsibilities:
+      [UIContentController populateTableViewCell:cell 
+                                      withObject:[userResponsibilities objectAtIndex:indexPath.row]
+                                      givenScope:ServiceResourceScope];
       break;
   }
   
@@ -215,6 +302,10 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 #pragma mark -
 #pragma mark Memory management
 
+-(void) viewDidUnload {
+  [dateFormatter release];
+  [super viewDidUnload];
+}
 -(void) releaseIBOutlets {
   [activityIndicator release];
 }

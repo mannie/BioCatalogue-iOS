@@ -55,6 +55,8 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
   [self saveContext];
+  
+  // TODO: spawn a thread to check for updates at intervals
 }
 
 

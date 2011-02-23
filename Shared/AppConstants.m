@@ -63,6 +63,8 @@ NSString *const XMLFormat = @"xml";
 
 NSString *const JSONNull = @"<null>";
 
+NSString *const JSONDateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
+
 NSString *const JSONAffiliationElement = @"affiliation";
 NSString *const JSONArchivedAtElement = @"archived_at";
 NSString *const JSONCityElement = @"city";

@@ -24,11 +24,17 @@
   NSUInteger lastLoadedPageOfUserSubmissions;
   NSUInteger activeFetchThreadsForUserSubmissions;
   
+  NSUInteger activeUpdateThreads;
+  
   NSArray *userFavourites;
   NSArray *userResponsibilities;
-  
+    
   NSIndexPath *lastSelectedIndexIPad;
 
+  NSDateFormatter *dateFormatter;
+  
+  NSUInteger updatedServices;
+  
   // iboutlets
   IBOutlet UIActivityIndicatorView *activityIndicator;
 }

@@ -161,7 +161,7 @@
   userEmail.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
   
   NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
+  [dateFormatter setDateFormat:JSONDateFormat];
   NSArray *date = [[[dateFormatter dateFromString:[properties objectForKey:JSONJoinedElement]] description] 
                    componentsSeparatedByString:@" "];
     

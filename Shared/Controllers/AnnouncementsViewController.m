@@ -51,9 +51,6 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
 }
 
-- (void)feedParser:(MWFeedParser *)parser didParseFeedInfo:(MWFeedInfo *)info {
-}
-
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {
 	if (!item) return;
   
@@ -102,7 +99,7 @@
 }
 
 - (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error {
-	NSLog(@"Finished Parsing With Error: %@", error);
+  [error log];
 	[announcements removeAllObjects];
 
 	[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];

@@ -60,6 +60,8 @@ extern NSString *const XMLFormat;
 
 extern NSString *const JSONNull;
 
+extern NSString *const JSONDateFormat;
+
 extern NSString *const JSONAffiliationElement;
 extern NSString *const JSONArchivedAtElement;
 extern NSString *const JSONCityElement;

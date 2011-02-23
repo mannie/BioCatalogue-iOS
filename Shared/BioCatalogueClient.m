@@ -43,16 +43,16 @@ static BOOL _userIsAuthenticated;
 +(NSURL *) announcementsFeedURL {
   NSURL *feedBase = [NSURL URLWithString:[NSString stringWithFormat:@"feed://%@", BioCatalogueHostname]];
   return [feedBase URLByAppendingPathComponent:@"announcements.atom"];
-}
+} // announcementsFeedURL
 
 +(NSURL *) URLForPath:(NSString *)path withRepresentation:(NSString *)format {
   NSURL *url = [NSURL URLWithString:path relativeToURL:[self baseURL]];
   
   NSString *sanitizedPath = [[url path] lowercaseString];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", JSONFormat] withString:@""];
-  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", XMLFormat] withString:@""];
+  sanitizedPath = [sanitizedPath stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@".%@", [url pathExtension]] 
+                                                           withString:@""];
   
-  if ([url query] && [format isValidAPIRepresentation]) {
+  if ([url query] && format) {
     sanitizedPath = [NSString stringWithFormat:@"%@.%@?%@", sanitizedPath, format, [url query]];
   } else if ([url query]) {
     sanitizedPath = [NSString stringWithFormat:@"%@?%@", sanitizedPath, [url query]];
@@ -65,38 +65,7 @@ static BOOL _userIsAuthenticated;
 
 
 #pragma mark -
-#pragma mark OAuth Helper URLs
-
-+(NSURL *) OAuthRequestTokenURL {
-  return [NSURL URLWithString:@"/oauth/request_token" relativeToURL:[self baseURL]];
-} // OAuthRequestTokenURL
-
-+(NSURL *) OAuthAccessTokenURL {
-  return [NSURL URLWithString:@"/oauth/access_token" relativeToURL:[self baseURL]];
-} // OAuthAccessTokenURL
-
-+(NSURL *) OAuthAuthorizeURL {
-  return [NSURL URLWithString:@"/oauth/authorize" relativeToURL:[self baseURL]];
-} // OAuthAuthorizeURL
-
-+(NSURL *) OAuthCallbackURL {
-  return [self baseURL];
-} // OAuthCallbackURL
-
-
-#pragma mark -
-#pragma mark OAuthConsumer
-
-+(GTMOAuthAuthentication *) OAuthAuthentication {  
-  GTMOAuthAuthentication *auth = [[GTMOAuthAuthentication alloc] initWithSignatureMethod:kGTMOAuthSignatureMethodHMAC_SHA1
-                                                                             consumerKey:OAuthConsumerKey
-                                                                              privateKey:OAuthConsumerSecret];
-  
-  // setting the service name lets us inspect the auth object later to know what service it is for
-  auth.serviceProvider = @"BioCatalogue OAuth Service";
-  
-  return [auth autorelease];
-} // clientOAuthAuthentication
+#pragma mark Authentication
 
 +(BOOL) signInWithUsername:(NSString *)username withPassword:(NSString *)password {
   NSURLRequest *request = [NSURLRequest requestWithURL:[self whoAmIURLWithUsername:username andPassword:password]
@@ -174,10 +143,18 @@ static BOOL _userIsAuthenticated;
     id json = [data objectFromJSONDataWithParseOptions:JKParseOptionUnicodeNewlines|JKParseOptionStrict
                                                  error:&error];
     
-    if ([[json allKeys] count] != 1 || [[[json allKeys] lastObject] isEqualToString:JSONErrorsElement]) {
-      return nil;
+    if ([json isKindOfClass:[NSDictionary class]]) {      
+      if ([[json allKeys] count] == 1) {
+        return [json objectForKey:[[json allKeys] lastObject]];
+      } else if ([[[json allKeys] lastObject] isEqualToString:JSONErrorsElement]) {
+        return nil;
+      } else {
+        return json;
+      }
+    } else if ([json isKindOfClass:[NSArray class]]) {
+      return [NSDictionary dictionaryWithObject:json forKey:JSONResultsElement];
     } else {
-      return [json objectForKey:[[json allKeys] lastObject]];
+      return nil;
     }
   } @catch (NSException * e) {
     if (error) [error log];
@@ -240,7 +217,16 @@ static BOOL _userIsAuthenticated;
   if (limit <= 0) limit = ItemsPerPage;
   
   return [self documentAtPath:[NSString stringWithFormat:@"/services?per_page=%i&page=%i&su=[%i]", limit, pageNum, userID]];  
-} // services:page:userID
+} // services:page:submittingUserID
+
++(NSDictionary *) servicesForResponsibleUserID:(NSUInteger)userID {
+  return [self documentAtPath:[NSString stringWithFormat:@"/users/%i/services_responsible", userID]];  
+} // servicesForResponsibleUserID
+
++(NSDictionary *) servicesForFavouritingUserID:(NSUInteger)userID {
+  return [self documentAtPath:[NSString stringWithFormat:@"/users/%i/favourites", userID]];  
+} // servicesForFavouritingUserID
+
 
 +(NSDictionary *) monitoringStatusesForServiceWithID:(NSUInteger)serviceID {
   return [self documentAtPath:[NSString stringWithFormat:@"/services/%i/monitoring", serviceID]];  

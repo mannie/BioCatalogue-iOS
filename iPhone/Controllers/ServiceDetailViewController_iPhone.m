@@ -50,12 +50,10 @@
   [serviceListingProperties release];
   serviceListingProperties = [properties retain];  
   
-  [serviceProperties release];
   NSURL *resourceURL = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];  
   serviceProperties = [[BioCatalogueClient documentAtPath:[resourceURL path]] retain];
   
   // submitter details
-  [submitterProperties release];
   NSURL *submitterURL = [NSURL URLWithString:[properties objectForKey:JSONSubmitterElement]];
   submitterProperties = [[BioCatalogueClient documentAtPath:[submitterURL path]] retain];
   

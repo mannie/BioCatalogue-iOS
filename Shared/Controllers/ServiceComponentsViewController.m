@@ -121,7 +121,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 /*
-  TODO: implement
+  TODO: implement the ability to view component detail
  
   NSLog(@"%@", [serviceComponents objectAtIndex:indexPath.row]);
   if (serviceIsREST) {
