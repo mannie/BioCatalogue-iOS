@@ -27,6 +27,6 @@
 +(Announcement *) announcementWithUniqueID:(NSInteger)uniqueID;
 +(Service *) serviceWithUniqueID:(NSInteger)uniqueID;
 
-+(BOOL) collection:(NSSet *)aCollection hasServiceWithUniqueID:(NSInteger)uniqueID;
++(BOOL) serviceWithUniqueIDIsBeingMonitored:(NSInteger)uniqueID;
 
 @end

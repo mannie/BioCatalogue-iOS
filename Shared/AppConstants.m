@@ -15,6 +15,8 @@
 NSString *const NetworkActivityStarted = @"NetworkActivityStartedNotification";
 NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 
+NSTimeInterval const UpdateCheckInterval = 1; // in seconds TODO: insert proper value here
+
 
 #pragma mark -
 #pragma mark BioCatalogueClient
@@ -30,7 +32,7 @@ NSUInteger ItemsPerPage = 10; // NOTE: this value will be replaced at runtime
 NSUInteger AutoLoadTrigger = 5; // NOTE: this value will be replaced at runtime
 float AutoLoadTriggerIndex = 0.5;
 
-NSTimeInterval const APIRequestTimeout = 5;
+NSTimeInterval const APIRequestTimeout = 10;
 
 NSString *const UserResourceScope = @"users";
 NSString *const ServiceResourceScope = @"services";

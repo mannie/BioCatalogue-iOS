@@ -14,100 +14,25 @@
 @synthesize iPadDetailViewController, iPhoneDetailViewController;
 
 
--(void) updateApplicationBadges {
-  NSPredicate *unreadItemsPredicate = [NSPredicate predicateWithFormat:@"isUnread = YES"];
-  NSArray *unreadItems = [announcements filteredArrayUsingPredicate:unreadItemsPredicate];
-  
-  AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
-  if ([unreadItems count] > 0) {
-    appDelegate.announcementsTabBarItem.badgeValue = [NSString stringWithFormat:@"%i", [unreadItems count]];
-  } else {
-    appDelegate.announcementsTabBarItem.badgeValue = nil;
-  }
-  
-  [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[unreadItems count]];  
-} // updateApplicationBadges
 
 
 #pragma mark -
 #pragma mark PullToRefreshDataSource
 
--(void) refreshTableViewDataSource {
-  [feedParser parse];
-} // refreshTableViewDataSource
-
-
-#pragma mark -
-#pragma mark MWFeedParserDelegate
-
-- (void)feedParserDidStart:(MWFeedParser *)parser {
-	[announcements release];
-  announcements = [[NSMutableArray alloc] init];
-
+-(void) reloadTableView {
   [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
-  
+  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
+}
+
+-(void) refreshTableViewDataSource {
+  [announcements release];
+  announcements = [[NSArray alloc] init];
+
   [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
-  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
-}
+  [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
-- (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {
-	if (!item) return;
-  
-  int announcementID = [[item.link lastPathComponent] intValue];
-  Announcement *announcement = [BioCatalogueResourceManager announcementWithUniqueID:announcementID];
-  
-  if (!announcement.date) { // announcement was freshly created
-    announcement.date = item.date;
-    announcement.title = item.title;
-    announcement.summary = item.summary;
-
-    [BioCatalogueResourceManager commmitChanges];
-  }
-  
-  [announcements addObject:announcement];	
-}
-
-- (void)feedParserDidFinish:(MWFeedParser *)parser {
-  NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO];
-  [announcements sortUsingDescriptors:[NSArray arrayWithObject:sort]];
-  
-  // 60 * 60 = 3600 seconds/hour; 3600 * 24 = 86400 seconds/day
-  NSTimeInterval maxTimeIntervalBeforeUnreadItemsExpire = 86400 * DaysBeforeExpiringUnreadAnnouncements;
-  
-  NSDate *today = [NSDate date];
-  NSDate *unreadItemsExpiryDate = [today dateByAddingTimeInterval:0-maxTimeIntervalBeforeUnreadItemsExpire];
-  
-  NSPredicate *expiredItemsPredicate = [NSPredicate predicateWithBlock:^(id evaluatedObject, NSDictionary *bindings) {
-    BOOL isUnread = [[evaluatedObject isUnread] boolValue];
-    BOOL isExpired = [[[evaluatedObject date] laterDate:unreadItemsExpiryDate] isEqualToDate:unreadItemsExpiryDate];
-    if (isUnread & isExpired) return YES;
-    else return NO;
-  }];
-
-  NSArray *expiredAnnouncements = [announcements filteredArrayUsingPredicate:expiredItemsPredicate];
-  for (Announcement *announcement in expiredAnnouncements) {
-    announcement.isUnread = [NSNumber numberWithBool:NO];
-  }
-  [BioCatalogueResourceManager commmitChanges];
-  
-	[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
-  
-  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
-  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
-}
-
-- (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error {
-  [error log];
-	[announcements removeAllObjects];
-
-	[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
- 
-  [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
-  [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
-}
+  [UpdateCenter checkForAnnouncements:&announcements performingSelector:@selector(reloadTableView) onTarget:self];
+} // refreshTableViewDataSource
 
 
 #pragma mark -
@@ -115,15 +40,8 @@
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-  
-  feedParser = [[MWFeedParser alloc] initWithFeedURL:[[BioCatalogueClient announcementsFeedURL] absoluteString]];
-  feedParser.delegate = self;
-  feedParser.feedParseType = ParseTypeFull; // OPTIONS:: ParseTypeFull || ParseTypeInfoOnly || ParseTypeItemsOnly
-  feedParser.connectionType = ConnectionTypeSynchronously;
-  
-  announcements = [[NSMutableArray alloc] init];
-  
-  dispatch_async(dispatch_queue_create("Load content", NULL), ^{
+ 
+ dispatch_async(dispatch_queue_create("Load content", NULL), ^{
     [self refreshTableViewDataSource];
   });
 } // viewDidLoad
@@ -172,12 +90,15 @@
     [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
   }
 
-// [[self tableView] reloadData];
-//  [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  if ([announcement.isUnread boolValue]) {
+    announcement.isUnread = [NSNumber numberWithBool:NO];
+    [BioCatalogueResourceManager commmitChanges];
+    
+    [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForAnnouncements) withObject:nil waitUntilDone:NO];
+  }
   
+  [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];  
   [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-  
-  [self performSelectorOnMainThread:@selector(updateApplicationBadges) withObject:nil waitUntilDone:NO];
 }
 
 
@@ -191,7 +112,6 @@
 }
 
 - (void)viewDidUnload {
-  [feedParser release];
 	[super viewDidUnload];
 }
 

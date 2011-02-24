@@ -15,6 +15,8 @@
 extern NSString *const NetworkActivityStarted;
 extern NSString *const NetworkActivityStopped;
 
+extern NSTimeInterval const UpdateCheckInterval;
+
 
 #pragma mark -
 #pragma mark BioCatalogueClient

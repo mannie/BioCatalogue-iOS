@@ -174,9 +174,7 @@ static BOOL _userIsAuthenticated;
                       withScope:(NSString *)scope
              withRepresentation:(NSString *)format 
                            page:(NSUInteger)pageNum {
-  if (![format isValidAPIRepresentation] || ![query isValidQuery]) {
-    return nil;
-  }
+  if (![query isValidQuery]) return nil;
   
   if (pageNum < 1) {
     pageNum = 1;

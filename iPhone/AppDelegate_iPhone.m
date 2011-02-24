@@ -11,8 +11,6 @@
 
 @implementation AppDelegate_iPhone
 
-@synthesize tabBarController;
-
 
 +(void) initialize {
   ItemsPerPage = iPhoneItemsPerPage;
@@ -25,7 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   if ([super applicationStartConditionsMet]) {  
-    [window addSubview:tabBarController.view];
+    [window addSubview:super.tabBarController.view];
     [window makeKeyAndVisible];
     
     return YES;
@@ -88,8 +86,6 @@
 
 
 - (void)dealloc {
-  [tabBarController release];
-
 	[super dealloc];
 }
 

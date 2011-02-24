@@ -15,5 +15,6 @@
 @dynamic uniqueID;
 @dynamic lastUpdated;
 @dynamic catalogue;
+@dynamic hasUpdate;
 
 @end

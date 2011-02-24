@@ -16,7 +16,7 @@
 
 @dynamic hostname;
 @dynamic announcements;
-@dynamic servicesMonitored;
+@dynamic monitoredServices;
 @dynamic user;
 
 @end

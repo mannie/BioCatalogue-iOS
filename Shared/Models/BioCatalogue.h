@@ -18,7 +18,7 @@
 
 @property (nonatomic, retain) NSString * hostname;
 @property (nonatomic, retain) NSSet* announcements;
-@property (nonatomic, retain) NSSet* servicesMonitored;
+@property (nonatomic, retain) NSSet* monitoredServices;
 @property (nonatomic, retain) User * user;
 
 @end
@@ -30,10 +30,10 @@
 - (void)addAnnouncements:(NSSet *)value;
 - (void)removeAnnouncements:(NSSet *)value;
 
-- (void)addServicesMonitoredObject:(Service *)value;
-- (void)removeServicesMonitoredObject:(Service *)value;
-- (void)addServicesMonitored:(NSSet *)value;
-- (void)removeServicesMonitored:(NSSet *)value;
+- (void)addMonitoredServicesObject:(Service *)value;
+- (void)removeMonitoredServicesObject:(Service *)value;
+- (void)addMonitoredServices:(NSSet *)value;
+- (void)removeMonitoredServices:(NSSet *)value;
 
 @end
 

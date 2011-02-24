@@ -185,6 +185,7 @@
     
     [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   } else {
+    [iPhoneDetailViewController loadView];
     [iPhoneDetailViewController makeShowProvidersButtonVisible:NO];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
       [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];

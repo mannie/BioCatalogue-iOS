@@ -9,17 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "PullToRefreshViewController.h"
 
-#import "MWFeedParser.h"
-
 #import "BioCatalogueResourceManager.h"
 #import "AppDelegate_Shared.h"
 
 #import "DetailViewController_iPad.h"
 #import "AnnouncementDetailViewController_iPhone.h"
 
+#import "UpdateCenter.h"
+
+
 @interface AnnouncementsViewController : PullToRefreshViewController <PullToRefreshDataSource, MWFeedParserDelegate> {
-	MWFeedParser *feedParser;
-	NSMutableArray *announcements;
+	NSArray *announcements;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
 }

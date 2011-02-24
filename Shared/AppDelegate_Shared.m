@@ -11,7 +11,7 @@
 
 @implementation AppDelegate_Shared
 
-@synthesize window, announcementsTabBarItem;
+@synthesize window, announcementsTabBarItem, myStuffTabBarItem, tabBarController;
 
 
 -(id) init {
@@ -55,10 +55,8 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
   [self saveContext];
-  
-  // TODO: spawn a thread to check for updates at intervals
+  [UpdateCenter spawnUpdateCheckDaemon];
 }
-
 
 - (void)saveContext {
   
@@ -190,7 +188,10 @@
   [persistentStoreCoordinator_ release];
   
   [window release];
+  
   [announcementsTabBarItem release];
+  [myStuffTabBarItem release];
+  [tabBarController release];
   
   [super dealloc];
 }

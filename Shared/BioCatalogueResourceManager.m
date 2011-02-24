@@ -114,13 +114,17 @@ static NSManagedObjectContext *managedObjectContext;
   return service;
 } // serviceWithUniqueID
 
-+(BOOL) collection:(NSSet *)aCollection hasServiceWithUniqueID:(NSInteger)uniqueID {
++(BOOL) collection:(NSSet *)aCollection hasItemWithUniqueID:(NSInteger)uniqueID {
   for (id item in [aCollection allObjects]) {
     if ([[item uniqueID] intValue] == uniqueID) return YES;
   }
   
   return NO;
-} // collection:hasServiceWithUniqueID
+} // collection:hasItemWithUniqueID
+
++(BOOL) serviceWithUniqueIDIsBeingMonitored:(NSInteger)uniqueID {
+  return [self collection:[[self currentBioCatalogue] monitoredServices] hasItemWithUniqueID:uniqueID];
+} // serviceWithUniqueIDIsBeingMonitored
 
 
 @end

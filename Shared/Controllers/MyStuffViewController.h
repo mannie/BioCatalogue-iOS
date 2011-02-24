@@ -17,23 +17,19 @@
 #import "DetailViewController_iPad.h"
 #import "ServiceDetailViewController_iPhone.h"
 
+#import "UpdateCenter.h"
+
 
 @interface MyStuffViewController : PullToRefreshViewController {
   NSMutableArray *userSubmissions;
   NSUInteger lastPageOfUserSubmissions;
   NSUInteger lastLoadedPageOfUserSubmissions;
   NSUInteger activeFetchThreadsForUserSubmissions;
-  
-  NSUInteger activeUpdateThreads;
-  
+    
   NSArray *userFavourites;
   NSArray *userResponsibilities;
     
   NSIndexPath *lastSelectedIndexIPad;
-
-  NSDateFormatter *dateFormatter;
-  
-  NSUInteger updatedServices;
   
   // iboutlets
   IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -41,5 +37,6 @@
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *iPhoneDetailViewController;
 @property (nonatomic, retain) IBOutlet DetailViewController_iPad *iPadDetailViewController;
+
 
 @end

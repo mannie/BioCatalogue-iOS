@@ -13,10 +13,8 @@
 
 
 @interface AppDelegate_iPhone : AppDelegate_Shared {
-  UITabBarController *tabBarController;
-}
 
-@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+}
 
 @end
 

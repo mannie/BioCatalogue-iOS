@@ -34,8 +34,16 @@
       
       [document release];      
     }
-    
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+        
+    if ([[UIDevice currentDevice] isIPadDevice]) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [[self tableView] reloadData];
+        [[self tableView] selectRowAtIndexPath:lastSelectedIndexIPad animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+      });
+    } else {
+      [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    }
+
     
     activeFetchThreads--;
     if (activeFetchThreads == 0) {
@@ -153,6 +161,7 @@
 
     [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   } else {
+    [iPhoneDetailViewController loadView];
     [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
       [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];

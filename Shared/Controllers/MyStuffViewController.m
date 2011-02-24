@@ -14,59 +14,15 @@
 @synthesize iPadDetailViewController, iPhoneDetailViewController;
 
 
-typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
+typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCategory;
 
 
 #pragma mark -
 #pragma mark Data Source Helpers
 
--(void) checkForUpdatesForServiceWithProperties:(NSDictionary *)serviceProperties {
-  NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
-  Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
-  
-  if (!service.lastUpdated) { // is a new entry
-    service.lastUpdated = [NSDate date];
-  } else { // has been checked before
-    NSString *jsonDate = [[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement];
-    if (![[NSString stringWithFormat:@"%@", jsonDate] isValidJSONValue]) return;
-    
-    NSDate *liveDateOfUpdate = [dateFormatter dateFromString:jsonDate];
-    BOOL serviceHasBeenUpdated = [liveDateOfUpdate laterDate:service.lastUpdated] == liveDateOfUpdate;
-    
-    serviceHasBeenUpdated = YES; // TODO: revert to proper value
-    
-    if (!serviceHasBeenUpdated) return;
-    
-    updatedServices++;
-  }
-} // checkForUpdatesForServiceWithProperties
-
--(void) checkForUpdates:(Section)section {  
-  NSArray *services;
-  switch (section) {
-    case UserSubmissions: services = userSubmissions; break;
-    case UserFavourites: services = userFavourites; break;
-    case UserResponsibilities: services = userResponsibilities; break;
-    default: return;
-  }
-
-  if (activeUpdateThreads == 0) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
-  }
-  activeUpdateThreads++;
-
-  for (NSDictionary *serviceProperties in services) {
-    [self checkForUpdatesForServiceWithProperties:serviceProperties];
-  }
-
-  activeUpdateThreads--;
-  if (activeUpdateThreads == 0) {
-    [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-  }
-
-  // TODO: push notifications
-} // checkForUpdates
+-(void) reloadDataInMainThread {
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
 
 -(void) stopAnimatingActivityIndicator {
   if (activeFetchThreadsForUserSubmissions == 0) {
@@ -95,8 +51,9 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
       [document release];
     }
     
-    [self checkForUpdates:UserSubmissions];
-    
+    [UpdateCenter checkForServiceUpdates:userSubmissions
+                      performingSelector:@selector(reloadDataInMainThread)
+                                onTarget:self];
     activeFetchThreadsForUserSubmissions--;
     
     [self stopAnimatingActivityIndicator];    
@@ -115,7 +72,10 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
       [document release];
     }
     
-    [self checkForUpdates:UserFavourites];
+    [UpdateCenter checkForServiceUpdates:userFavourites
+                      performingSelector:@selector(reloadDataInMainThread)
+                                onTarget:self];
+    
     [self stopAnimatingActivityIndicator];    
   });  
 } // loadUserFavourites
@@ -132,7 +92,10 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
       [document release];
     }
 
-    [self checkForUpdates:UserResponsibilities];
+    [UpdateCenter checkForServiceUpdates:userResponsibilities
+                      performingSelector:@selector(reloadDataInMainThread)
+                                onTarget:self];
+    
     [self stopAnimatingActivityIndicator];    
   });  
 } // loadUserResponsibilities
@@ -148,10 +111,8 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
   
   [userResponsibilities release];
   userResponsibilities = [[NSArray alloc] init];
-
+  
   [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    
-  updatedServices = 0;
   
   // UserFavourites
   [self loadUserFavourites];
@@ -174,9 +135,6 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:JSONDateFormat];
-
   [UIContentController customiseTableView:self.tableView];
   [self refreshTableViewDataSource];
 } // viewDidLoad
@@ -296,14 +254,25 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } Section;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   } // if else ipad
-}
+  
+  int serviceID = [[[[itemsInSection objectAtIndex:indexPath.row] objectForKey:JSONResourceElement] lastPathComponent] intValue];
+  if ([BioCatalogueResourceManager serviceWithUniqueIDIsBeingMonitored:serviceID]) {
+    Service *service = [BioCatalogueResourceManager serviceWithUniqueID:serviceID];
+        
+    if ([service.hasUpdate boolValue]) {
+      service.hasUpdate = [NSNumber numberWithBool:NO];
+      [BioCatalogueResourceManager commmitChanges];
+      
+      [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
+    }
+  }
+} // tableView:didSelectRowAtIndexPath
 
 
 #pragma mark -
 #pragma mark Memory management
 
 -(void) viewDidUnload {
-  [dateFormatter release];
   [super viewDidUnload];
 }
 -(void) releaseIBOutlets {

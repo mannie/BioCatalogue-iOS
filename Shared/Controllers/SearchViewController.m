@@ -47,7 +47,14 @@
     
     [document release];
     
-    [dataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    if ([[UIDevice currentDevice] isIPadDevice] && ![lastSearchScope isEqualToString:ProviderResourceScope]) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+        [dataTableView reloadData];
+        [dataTableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+      });
+    } else {
+      [dataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    }
     
     activeFetchThreads--;
     if (activeFetchThreads == 0) {

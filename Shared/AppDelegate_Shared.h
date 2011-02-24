@@ -10,6 +10,7 @@
 #import <CoreData/CoreData.h>
 
 #import "BioCatalogueClient.h"
+#import "UpdateCenter.h"
 
 
 @interface AppDelegate_Shared : NSObject <UIApplicationDelegate> {
@@ -24,11 +25,15 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+
 @property (nonatomic, retain) IBOutlet UITabBarItem *announcementsTabBarItem;
+@property (nonatomic, retain) IBOutlet UITabBarItem *myStuffTabBarItem;
 
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
 -(void) incrementNetworkActivity:(NSNotification *)notification;
 -(void) decrementNetworkActivity:(NSNotification *)notification;

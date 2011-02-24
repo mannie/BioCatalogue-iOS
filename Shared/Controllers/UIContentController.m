@@ -58,7 +58,7 @@
       cell.imageView.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
     } else {
       cell.imageView.backgroundColor = [UIColor clearColor];
-    }    
+    }
   } else if ([scope isEqualToString:UserResourceScope]) { // --- UserResourceScope
     NSDictionary *userProperties = (NSDictionary *)object;
     

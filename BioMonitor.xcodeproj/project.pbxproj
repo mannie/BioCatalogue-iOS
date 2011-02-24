@@ -52,6 +52,8 @@
 		3644CEC612B6EBEB005607EB /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3644CEC512B6EBEB005607EB /* SystemConfiguration.framework */; };
 		3644CEEF12B6EEAA005607EB /* NSDictionary+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CEEE12B6EEAA005607EB /* NSDictionary+Helper.m */; };
 		3644D0F512B718BE005607EB /* NSError+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644D0F412B718BE005607EB /* NSError+Helper.m */; };
+		364C0B3D1315E519005467E6 /* UpdateCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 364C0B3C1315E519005467E6 /* UpdateCenter.m */; };
+		364C0B8A1315EC83005467E6 /* NSObject+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 364C0B891315EC83005467E6 /* NSObject+Helper.m */; };
 		365C6991125BCCA80099CE38 /* TestBioCatalogueClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 365C6990125BCCA80099CE38 /* TestBioCatalogueClient.m */; };
 		366462BB12ADDBFF00DEACC3 /* UIDevice+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0417912A34CDE00B9BAB2 /* UIDevice+Helper.m */; };
 		3664652E12B0505000DEACC3 /* MonitoringStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3664652812B0505000DEACC3 /* MonitoringStatusViewController.m */; };
@@ -75,7 +77,6 @@
 		36904B19130DB99600B50B3E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36904B15130DB99600B50B3E /* User.m */; };
 		36904C0F130DDBC800B50B3E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36904C0E130DDBC800B50B3E /* LoginViewController.m */; };
 		36904C7C130DE80800B50B3E /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36904C7B130DE80800B50B3E /* LoginView.xib */; };
-		36904DC21314A2F400B50B3E /* BioMonitor-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36904DC11314A2F400B50B3E /* BioMonitor-Info.plist */; };
 		36C8A00D12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A00E12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A01312F774450022190F /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CEB112B6EB51005607EB /* GTMHTTPFetcher.m */; };
@@ -221,11 +222,14 @@
 		3644CEEE12B6EEAA005607EB /* NSDictionary+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Helper.m"; sourceTree = "<group>"; };
 		3644D0F312B718BE005607EB /* NSError+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+Helper.h"; sourceTree = "<group>"; };
 		3644D0F412B718BE005607EB /* NSError+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+Helper.m"; sourceTree = "<group>"; };
+		364C0B3B1315E519005467E6 /* UpdateCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCenter.h; sourceTree = "<group>"; };
+		364C0B3C1315E519005467E6 /* UpdateCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCenter.m; sourceTree = "<group>"; };
+		364C0B881315EC83005467E6 /* NSObject+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Helper.h"; sourceTree = "<group>"; };
+		364C0B891315EC83005467E6 /* NSObject+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Helper.m"; sourceTree = "<group>"; };
 		365C6978125BCBE20099CE38 /* Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		365C6979125BCBE20099CE38 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
 		365C698F125BCCA80099CE38 /* TestBioCatalogueClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestBioCatalogueClient.h; sourceTree = "<group>"; };
 		365C6990125BCCA80099CE38 /* TestBioCatalogueClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestBioCatalogueClient.m; sourceTree = "<group>"; };
-		366464D912AF2D7000DEACC3 /* BioMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BioMonitor-Info.plist"; sourceTree = SOURCE_ROOT; };
 		3664652712B0505000DEACC3 /* MonitoringStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonitoringStatusViewController.h; sourceTree = "<group>"; };
 		3664652812B0505000DEACC3 /* MonitoringStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MonitoringStatusViewController.m; sourceTree = "<group>"; };
 		3664652B12B0505000DEACC3 /* ServiceComponentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceComponentsViewController.h; sourceTree = "<group>"; };
@@ -486,7 +490,6 @@
 			children = (
 				3664672312B07B8100DEACC3 /* XIBs */,
 				3644D0CC12B71641005607EB /* Models */,
-				366464D912AF2D7000DEACC3 /* BioMonitor-Info.plist */,
 				362DFCA21299150100DEC892 /* AppDelegate_Shared.h */,
 				362DFCA31299150100DEC892 /* AppDelegate_Shared.m */,
 				3664653112B050B000DEACC3 /* AppConstants.h */,
@@ -497,6 +500,8 @@
 				3644CB5512B6C9F5005607EB /* BioCatalogueResourceManager.m */,
 				362DFCA81299150100DEC892 /* Categories */,
 				3664651C12B04FF100DEACC3 /* Controllers */,
+				364C0B3B1315E519005467E6 /* UpdateCenter.h */,
+				364C0B3C1315E519005467E6 /* UpdateCenter.m */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -516,6 +521,8 @@
 				3644D0F412B718BE005607EB /* NSError+Helper.m */,
 				36C8A63712F8AC0D0022190F /* NSException+Helper.h */,
 				36C8A63812F8AC0D0022190F /* NSException+Helper.m */,
+				364C0B881315EC83005467E6 /* NSObject+Helper.h */,
+				364C0B891315EC83005467E6 /* NSObject+Helper.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -915,7 +922,6 @@
 				367C890713075CE200C9EA37 /* cellRow.png in Resources */,
 				367C890813075CE200C9EA37 /* cellRowSelected.png in Resources */,
 				36904C7C130DE80800B50B3E /* LoginView.xib in Resources */,
-				36904DC21314A2F400B50B3E /* BioMonitor-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1013,6 +1019,8 @@
 				36904B18130DB99600B50B3E /* Service.m in Sources */,
 				36904B19130DB99600B50B3E /* User.m in Sources */,
 				36904C0F130DDBC800B50B3E /* LoginViewController.m in Sources */,
+				364C0B3D1315E519005467E6 /* UpdateCenter.m in Sources */,
+				364C0B8A1315EC83005467E6 /* NSObject+Helper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

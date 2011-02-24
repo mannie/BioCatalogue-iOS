@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSNumber * uniqueID;
 @property (nonatomic, retain) NSDate * lastUpdated;
 @property (nonatomic, retain) BioCatalogue * catalogue;
+@property (nonatomic, retain) NSNumber * hasUpdate;
 
 @end
 
