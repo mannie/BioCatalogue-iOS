@@ -176,7 +176,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[NSBundle mainBundle] loadNibNamed:CustomCellXIB owner:self options:nil] lastObject];
   }
   
   // Configure the cell...
@@ -253,19 +253,8 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
     [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView reloadData];
   } // if else ipad
-  
-  int serviceID = [[[[itemsInSection objectAtIndex:indexPath.row] objectForKey:JSONResourceElement] lastPathComponent] intValue];
-  if ([BioCatalogueResourceManager serviceWithUniqueIDIsBeingMonitored:serviceID]) {
-    Service *service = [BioCatalogueResourceManager serviceWithUniqueID:serviceID];
-        
-    if ([service.hasUpdate boolValue]) {
-      service.hasUpdate = [NSNumber numberWithBool:NO];
-      [BioCatalogueResourceManager commmitChanges];
-      
-      [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
-    }
-  }
 } // tableView:didSelectRowAtIndexPath
 
 

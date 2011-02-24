@@ -35,15 +35,7 @@
       [document release];      
     }
         
-    if ([[UIDevice currentDevice] isIPadDevice]) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [[self tableView] reloadData];
-        [[self tableView] selectRowAtIndexPath:lastSelectedIndexIPad animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-      });
-    } else {
-      [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    }
-
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     
     activeFetchThreads--;
     if (activeFetchThreads == 0) {
@@ -111,7 +103,7 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[NSBundle mainBundle] loadNibNamed:CustomCellXIB owner:self options:nil] lastObject];
   }
   
   // Configure the cell...
@@ -132,7 +124,7 @@
   [UIContentController populateTableViewCell:cell 
                                withObject:[itemsInSection objectAtIndex:indexPath.row]
                                    givenScope:ServiceResourceScope];
-    
+  
   return cell;
 } // tableView:cellForRowAtIndexPath
 

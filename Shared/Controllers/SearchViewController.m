@@ -47,14 +47,7 @@
     
     [document release];
     
-    if ([[UIDevice currentDevice] isIPadDevice] && ![lastSearchScope isEqualToString:ProviderResourceScope]) {
-      dispatch_async(dispatch_get_main_queue(), ^{
-        [dataTableView reloadData];
-        [dataTableView selectRowAtIndexPath:lastSelectedIndexIPad animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-      });
-    } else {
-      [dataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-    }
+    [dataTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     
     activeFetchThreads--;
     if (activeFetchThreads == 0) {
@@ -144,7 +137,7 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+    cell = [[[NSBundle mainBundle] loadNibNamed:CustomCellXIB owner:self options:nil] lastObject];
   }
   
   // Configure the cell...

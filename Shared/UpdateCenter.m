@@ -29,13 +29,13 @@ static NSUInteger activeUpdateThreads;
 - (void)feedParser:(MWFeedParser *)parser didParseFeedItem:(MWFeedItem *)item {
 	if (!item) return;
 
-  int announcementID = [[item.link lastPathComponent] intValue];
+  int announcementID = [[[item link] lastPathComponent] intValue];
   Announcement *announcement = [BioCatalogueResourceManager announcementWithUniqueID:announcementID];
   
-  if (!announcement.date) { // announcement was freshly created
-    announcement.date = item.date;
-    announcement.title = item.title;
-    announcement.summary = item.summary;
+  if (![announcement date]) { // announcement was freshly created
+    [announcement setDate:[item date]];
+    [announcement setTitle:[item title]];
+    [announcement setSummary:[item summary]];
     
     [BioCatalogueResourceManager commmitChanges];
   }
@@ -62,7 +62,7 @@ static NSUInteger activeUpdateThreads;
   
   NSArray *expiredAnnouncements = [announcements filteredArrayUsingPredicate:expiredItemsPredicate];
   for (Announcement *announcement in expiredAnnouncements) {
-    announcement.isUnread = [NSNumber numberWithBool:NO];
+    [announcement setIsUnread:[NSNumber numberWithBool:NO]];
   }
   [BioCatalogueResourceManager commmitChanges];
   
@@ -87,12 +87,12 @@ static NSUInteger activeUpdateThreads;
   
   AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
   if ([unreadItems count] > 0) {
-    appDelegate.announcementsTabBarItem.badgeValue = [NSString stringWithFormat:@"%i", [unreadItems count]];
+    [[appDelegate announcementsTabBarItem] setBadgeValue:[NSString stringWithFormat:@"%i", [unreadItems count]]];
   } else {
-    appDelegate.announcementsTabBarItem.badgeValue = nil;
+    [[appDelegate announcementsTabBarItem] setBadgeValue:nil];
   }
   
-  int totalNoteWorthyItems = [appDelegate.myStuffTabBarItem.badgeValue intValue] + [unreadItems count];
+  int totalNoteWorthyItems = [[[appDelegate myStuffTabBarItem] badgeValue] intValue] + [unreadItems count];
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:totalNoteWorthyItems];  
 } // updateApplicationBadgesForAnnouncements
 
@@ -103,12 +103,12 @@ static NSUInteger activeUpdateThreads;
   
   AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
   if ([updatedServices count] > 0) {
-    appDelegate.myStuffTabBarItem.badgeValue = [NSString stringWithFormat:@"%i", [updatedServices count]];
+    [[appDelegate myStuffTabBarItem] setBadgeValue:[NSString stringWithFormat:@"%i", [updatedServices count]]];
   } else {
-    appDelegate.myStuffTabBarItem.badgeValue = nil;
+    [[appDelegate myStuffTabBarItem] setBadgeValue:nil];
   }
   
-  int totalNoteWorthyItems = [appDelegate.announcementsTabBarItem.badgeValue intValue] + [updatedServices count];
+  int totalNoteWorthyItems = [[[appDelegate announcementsTabBarItem] badgeValue] intValue] + [updatedServices count];
   [[UIApplication sharedApplication] setApplicationIconBadgeNumber:totalNoteWorthyItems];  
 } // updateApplicationBadgesForServiceUpdates
 
@@ -120,9 +120,9 @@ static NSUInteger activeUpdateThreads;
   if (currentlyFetchingAnnouncements) return;
   
   MWFeedParser *feedParser = [[MWFeedParser alloc] initWithFeedURL:[[BioCatalogueClient announcementsFeedURL] absoluteString]];
-  feedParser.delegate = [[[UpdateCenter alloc] init] autorelease];
-  feedParser.feedParseType = ParseTypeFull; // OPTIONS:: ParseTypeFull || ParseTypeInfoOnly || ParseTypeItemsOnly
-  feedParser.connectionType = ConnectionTypeSynchronously;
+  [feedParser setDelegate:[[[UpdateCenter alloc] init] autorelease]];
+  [feedParser setFeedParseType:ParseTypeFull]; // OPTIONS:: ParseTypeFull || ParseTypeInfoOnly || ParseTypeItemsOnly
+  [feedParser setConnectionType:ConnectionTypeSynchronously];
 
   currentlyFetchingAnnouncements = YES;
   [[feedParser autorelease] parse];
@@ -146,28 +146,28 @@ static NSUInteger activeUpdateThreads;
     [dateFormatter setDateFormat:JSONDateFormat];
   }
   NSDate *liveDateOfUpdate = [dateFormatter dateFromString:jsonDate];
-  BOOL serviceHasBeenUpdated = [liveDateOfUpdate laterDate:service.lastUpdated] == liveDateOfUpdate;
+  BOOL serviceHasBeenUpdated = [liveDateOfUpdate laterDate:[service lastUpdated]] == liveDateOfUpdate;
   
   serviceHasBeenUpdated = YES; // TODO: revert to proper value
   
   if (!serviceHasBeenUpdated) return;
   
-  service.hasUpdate = [NSNumber numberWithBool:YES];  
+  [service setHasUpdate:[NSNumber numberWithBool:YES]];  
 }
 
 -(void) checkForUpdatesForServiceWithProperties:(NSDictionary *)serviceProperties {
   NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
   Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
   
-  if (!service.lastUpdated) { // is a new entry
-    service.lastUpdated = [NSDate date];
+  if (![service lastUpdated]) { // is a new entry
+    [service setLastUpdated:[NSDate date]];
   } else { // has been checked before
     [self handleUpdateStatusForService:service withProperties:serviceProperties];
   }
 } // checkForUpdatesForServiceWithProperties
 
 -(void) checkForUpdatesForService:(Service *)service {
-  NSDictionary *serviceProperties = [BioCatalogueClient documentAtPath:[NSString stringWithFormat:@"/%@/%@", ServiceResourceScope, service.uniqueID]];
+  NSDictionary *serviceProperties = [BioCatalogueClient documentAtPath:[NSString stringWithFormat:@"/%@/%@", ServiceResourceScope, [service uniqueID]]];
   [self handleUpdateStatusForService:service withProperties:serviceProperties];
 } // checkForUpdatesForServiceWithProperties
 
@@ -232,17 +232,21 @@ static NSUInteger activeUpdateThreads;
         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
 
         if ([newAnnouncements count] > 0) {
-          localNotification.alertBody = @"New unread announcements.\n";
+          [localNotification setAlertBody:@"New unread announcements."];
           [self performSelectorOnMainThread:@selector(updateApplicationBadgesForAnnouncements) withObject:nil waitUntilDone:YES];
         } 
         
         if ([serviceStatusUpdates count] > 0) {
-          localNotification.alertBody = [NSString stringWithFormat:@"%@\nService status updates available.\n", localNotification.alertBody];
+          if ([newAnnouncements count] > 0) {
+            [localNotification setAlertBody:[NSString stringWithFormat:@"%@\n\nService status updates available.", localNotification.alertBody]];
+          } else {
+            [localNotification setAlertBody:@"Service status updates available."];
+          }
+          
           [self performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
         }
         
-        localNotification.alertAction = @"View";
-        localNotification.repeatInterval = NSSecondCalendarUnit;
+        [localNotification setAlertAction:@"View"];
         
         [application presentLocalNotificationNow:localNotification];
         [localNotification release];

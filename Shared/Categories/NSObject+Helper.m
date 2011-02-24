@@ -11,8 +11,8 @@
 
 @implementation NSObject (Helper)
 
--(void) printToStandardOutput {
-  NSLog(@"---%@", self);
+-(void) print {
+  NSLog(@"=> %@", self);
 }
 
 @end

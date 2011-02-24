@@ -25,12 +25,12 @@ NSString *const AppServiceName = @"iOS BioCatalogue: BioMonitor";
 
 NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 90;
 
-NSUInteger const iPadItemsPerPage = 15;
+NSUInteger const iPadItemsPerPage = 10;
 NSUInteger const iPhoneItemsPerPage = 10;
-NSUInteger ItemsPerPage = 10; // NOTE: this value will be replaced at runtime
+NSUInteger ItemsPerPage = -1; // NOTE: this value will be replaced at runtime
 
-NSUInteger AutoLoadTrigger = 5; // NOTE: this value will be replaced at runtime
-float AutoLoadTriggerIndex = 0.5;
+NSUInteger AutoLoadTrigger = -1; // NOTE: this value will be replaced at runtime
+float AutoLoadTriggerIndex = 0.7;
 
 NSTimeInterval const APIRequestTimeout = 10;
 
@@ -72,6 +72,7 @@ NSString *const JSONArchivedAtElement = @"archived_at";
 NSString *const JSONCityElement = @"city";
 NSString *const JSONCountryCodeElement = @"country_code";
 NSString *const JSONCountryElement = @"country";
+NSString *const JSONCreatedAtElement = @"created_at";
 NSString *const JSONDeploymentsElement = @"deployments";
 NSString *const JSONDescriptionElement = @"description";
 NSString *const JSONEndpointLabelElement = @"endpoint_label";
@@ -109,14 +110,18 @@ NSString *const JSONVariantsElement = @"variants";
 #pragma mark -
 #pragma mark Image Names
 
+NSString *const CustomCellXIB = @"CustomCell";
+
 NSString *const BrushedMetalBackground = @"brushed-metal.jpg";
 
 NSString *const TableCellBackground = @"cellRow.png";
 NSString *const TableCellSelectedBackground = @"cellRowSelected.png";
 
-NSString *const DescriptionIcon = @"info";
-NSString *const ProviderIcon = @"112-group.png";
-NSString *const UserIcon = @"111-user.png";
+NSString *const GreenLineImage = @"greenLine.png";
+NSString *const GreyLineImage = @"greyLine.png";
+
+NSString *const ProviderIcon = @"people-family4.png";
+NSString *const UserIcon = @"people-head.png";
 
 NSString *const AnnouncementReadIcon = @"check-mark.png";
 NSString *const AnnouncementUnreadIcon = @"exclamation-point-ps.png";

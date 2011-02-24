@@ -114,7 +114,17 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                             objectForKey:JSONLastCheckedElement]];
   monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
   
-  [self.view setNeedsDisplay];  
+  int serviceID = [[[properties objectForKey:JSONResourceElement] lastPathComponent] intValue];
+  if ([BioCatalogueResourceManager serviceWithUniqueIDIsBeingMonitored:serviceID]) {
+    Service *service = [BioCatalogueResourceManager serviceWithUniqueID:serviceID];
+    
+    if ([service.hasUpdate boolValue]) {
+      service.hasUpdate = [NSNumber numberWithBool:NO];
+      [BioCatalogueResourceManager commmitChanges];
+      
+      [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
+    }
+  }  
 } // preUpdateWithPropertiesActionsForServices
 
 -(void) postUpdateWithPropertiesActionsForServices {

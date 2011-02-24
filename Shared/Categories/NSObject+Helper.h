@@ -11,6 +11,6 @@
 
 @interface NSObject (Helper)
 
--(void) printToStandardOutput;
+-(void) print;
 
 @end

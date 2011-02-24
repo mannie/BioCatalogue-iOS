@@ -69,6 +69,7 @@ extern NSString *const JSONArchivedAtElement;
 extern NSString *const JSONCityElement;
 extern NSString *const JSONCountryCodeElement;
 extern NSString *const JSONCountryElement;
+extern NSString *const JSONCreatedAtElement;
 extern NSString *const JSONDeploymentsElement;
 extern NSString *const JSONDescriptionElement;
 extern NSString *const JSONEndpointLabelElement;
@@ -106,12 +107,16 @@ extern NSString *const JSONVariantsElement;
 #pragma mark -
 #pragma mark Image Names
 
+extern NSString *const CustomCellXIB;
+
 extern NSString *const BrushedMetalBackground;
 
 extern NSString *const TableCellBackground;
 extern NSString *const TableCellSelectedBackground;
 
-extern NSString *const DescriptionIcon;
+extern NSString *const GreenLineImage;
+extern NSString *const GreyLineImage;
+
 extern NSString *const ProviderIcon;
 extern NSString *const UserIcon;
 

@@ -77,6 +77,18 @@
 		36904B19130DB99600B50B3E /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36904B15130DB99600B50B3E /* User.m */; };
 		36904C0F130DDBC800B50B3E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36904C0E130DDBC800B50B3E /* LoginViewController.m */; };
 		36904C7C130DE80800B50B3E /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36904C7B130DE80800B50B3E /* LoginView.xib */; };
+		369F79DC131637B4001C7084 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 369F79DB131637B4001C7084 /* CustomCell.xib */; };
+		369F79E213163918001C7084 /* cross-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F79DE13163918001C7084 /* cross-sphere-50.png */; };
+		369F79E313163918001C7084 /* pling-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F79DF13163918001C7084 /* pling-sphere-50.png */; };
+		369F79E413163918001C7084 /* query-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F79E013163918001C7084 /* query-sphere-50.png */; };
+		369F79E513163918001C7084 /* tick-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F79E113163918001C7084 /* tick-sphere-50.png */; };
+		369F7A4B13164998001C7084 /* query-sphre-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A4A13164998001C7084 /* query-sphre-50.png */; };
+		369F7A581316E7CE001C7084 /* asterisk.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A571316E7CE001C7084 /* asterisk.png */; };
+		369F7A5C1316F541001C7084 /* REST.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A591316F541001C7084 /* REST.png */; };
+		369F7A5D1316F541001C7084 /* SOAP.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A5A1316F541001C7084 /* SOAP.png */; };
+		369F7A5E1316F541001C7084 /* Soaplab.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A5B1316F541001C7084 /* Soaplab.png */; };
+		369F7A811316FC43001C7084 /* greenLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A7F1316FC43001C7084 /* greenLine.png */; };
+		369F7A821316FC43001C7084 /* greyLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A801316FC43001C7084 /* greyLine.png */; };
 		36C8A00D12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A00E12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A01312F774450022190F /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CEB112B6EB51005607EB /* GTMHTTPFetcher.m */; };
@@ -264,6 +276,18 @@
 		36904C0E130DDBC800B50B3E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		36904C7B130DE80800B50B3E /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
 		36904DC11314A2F400B50B3E /* BioMonitor-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BioMonitor-Info.plist"; sourceTree = "<group>"; };
+		369F79DB131637B4001C7084 /* CustomCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
+		369F79DE13163918001C7084 /* cross-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cross-sphere-50.png"; sourceTree = "<group>"; };
+		369F79DF13163918001C7084 /* pling-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pling-sphere-50.png"; sourceTree = "<group>"; };
+		369F79E013163918001C7084 /* query-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "query-sphere-50.png"; sourceTree = "<group>"; };
+		369F79E113163918001C7084 /* tick-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tick-sphere-50.png"; sourceTree = "<group>"; };
+		369F7A4A13164998001C7084 /* query-sphre-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "query-sphre-50.png"; sourceTree = "<group>"; };
+		369F7A571316E7CE001C7084 /* asterisk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asterisk.png; sourceTree = "<group>"; };
+		369F7A591316F541001C7084 /* REST.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = REST.png; sourceTree = "<group>"; };
+		369F7A5A1316F541001C7084 /* SOAP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SOAP.png; sourceTree = "<group>"; };
+		369F7A5B1316F541001C7084 /* Soaplab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Soaplab.png; sourceTree = "<group>"; };
+		369F7A7F1316FC43001C7084 /* greenLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenLine.png; sourceTree = "<group>"; };
+		369F7A801316FC43001C7084 /* greyLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyLine.png; sourceTree = "<group>"; };
 		36C8A00B12F7740A0022190F /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		36C8A00C12F7740A0022190F /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		36C8A10812F78B9C0022190F /* PullToRefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshViewController.h; sourceTree = "<group>"; };
@@ -618,6 +642,7 @@
 				36F993111300787000B3B128 /* AnnouncementsView.xib */,
 				360B5E241302174E0003A7D2 /* MyStuffView.xib */,
 				36904C7B130DE80800B50B3E /* LoginView.xib */,
+				369F79DB131637B4001C7084 /* CustomCell.xib */,
 			);
 			path = XIBs;
 			sourceTree = "<group>";
@@ -685,6 +710,7 @@
 		36C8A4B512F7CAC90022190F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				369F7A571316E7CE001C7084 /* asterisk.png */,
 				36F9949B130094C600B3B128 /* a-21-arrow-back.png */,
 				36F9949C130094C600B3B128 /* a-22-arrow-forward1.png */,
 				36F9949E130094C600B3B128 /* arrow-circle-refresh.png */,
@@ -697,6 +723,8 @@
 				36C8A52112F7D3A60022190F /* boxed-x2.png */,
 				36C8A52812F7D46B0022190F /* creditcard2.png */,
 				36F990FA1300534700B3B128 /* check-mark.png */,
+				369F7A7F1316FC43001C7084 /* greenLine.png */,
+				369F7A801316FC43001C7084 /* greyLine.png */,
 				36F9920A13005E5100B3B128 /* information2-ps.png */,
 				36F990FB1300534700B3B128 /* exclamation-point-ps.png */,
 				36C8A52912F7D46B0022190F /* gear3.png */,
@@ -705,6 +733,9 @@
 				36C8A52A12F7D46B0022190F /* magnifying-glass-ps.png */,
 				36C8A54012F7D6930022190F /* 111-user.png */,
 				36C8A54112F7D6930022190F /* 112-group.png */,
+				369F7A591316F541001C7084 /* REST.png */,
+				369F7A5A1316F541001C7084 /* SOAP.png */,
+				369F7A5B1316F541001C7084 /* Soaplab.png */,
 				36C8A54E12F7D7F60022190F /* star4.png */,
 				36C8A54F12F7D7F60022190F /* star8-sc48.png */,
 				36C8A4B812F7CAC90022190F /* EGOTableViewPullRefresh */,
@@ -727,6 +758,11 @@
 		36C8A4BC12F7CAC90022190F /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
+				369F7A4A13164998001C7084 /* query-sphre-50.png */,
+				369F79DE13163918001C7084 /* cross-sphere-50.png */,
+				369F79DF13163918001C7084 /* pling-sphere-50.png */,
+				369F79E013163918001C7084 /* query-sphere-50.png */,
+				369F79E113163918001C7084 /* tick-sphere-50.png */,
 				36C8A4BD12F7CAC90022190F /* small-cross-sphere-50.png */,
 				36C8A4BE12F7CAC90022190F /* small-pling-sphere-50.png */,
 				36C8A4BF12F7CAC90022190F /* small-query-sphere-50.png */,
@@ -922,6 +958,18 @@
 				367C890713075CE200C9EA37 /* cellRow.png in Resources */,
 				367C890813075CE200C9EA37 /* cellRowSelected.png in Resources */,
 				36904C7C130DE80800B50B3E /* LoginView.xib in Resources */,
+				369F79DC131637B4001C7084 /* CustomCell.xib in Resources */,
+				369F79E213163918001C7084 /* cross-sphere-50.png in Resources */,
+				369F79E313163918001C7084 /* pling-sphere-50.png in Resources */,
+				369F79E413163918001C7084 /* query-sphere-50.png in Resources */,
+				369F79E513163918001C7084 /* tick-sphere-50.png in Resources */,
+				369F7A4B13164998001C7084 /* query-sphre-50.png in Resources */,
+				369F7A581316E7CE001C7084 /* asterisk.png in Resources */,
+				369F7A5C1316F541001C7084 /* REST.png in Resources */,
+				369F7A5D1316F541001C7084 /* SOAP.png in Resources */,
+				369F7A5E1316F541001C7084 /* Soaplab.png in Resources */,
+				369F7A811316FC43001C7084 /* greenLine.png in Resources */,
+				369F7A821316FC43001C7084 /* greyLine.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

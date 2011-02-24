@@ -16,6 +16,15 @@
 @synthesize iPadDetailViewController;
 
 
+typedef enum { 
+  XIBCellMainIcon = 101, 
+  XIBCellMainText,
+  XIBCellDetailText, 
+  XIBCellUpdateStatusIcon,
+  XIBCellHorizontalLineImage, 
+  XIBCellExtraDetailIcon } XIBTableViewCellTag;
+
+
 +(void) customiseTableView:(UITableView *)tableView {
   UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:BrushedMetalBackground]];
     
@@ -24,20 +33,24 @@
   
   [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 
-  [tableView setRowHeight:50];
+  [tableView setRowHeight:60];
   
   [imageView release];
 } // setBrushedMetalBackground
 
 +(void) customiseTableViewCell:(UITableViewCell *)cell {
-  UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellBackground]];
-  [backgroundView setAlpha:0.25];
-  [cell setBackgroundView:backgroundView];
-  [backgroundView release];
-  
-  UIImageView *selectionView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellSelectedBackground]];
-  [cell setSelectedBackgroundView:selectionView];
-  [selectionView release];  
+  if (![cell backgroundView]) {
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellBackground]];
+    [backgroundView setAlpha:0.3];
+    [cell setBackgroundView:backgroundView];
+    [backgroundView release];
+    
+    UIImageView *selectionView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellSelectedBackground]];
+    [cell setSelectedBackgroundView:selectionView];
+    [selectionView release];          
+
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setAlpha:0.5];
+  }
 } // customiseTableViewCell
 
 +(void) populateTableViewCell:(UITableViewCell *)cell withObject:(id)object givenScope:(NSString *)scope {
@@ -46,55 +59,84 @@
   if ([scope isEqualToString:ServiceResourceScope]) { // --- ServiceResourceScope
     NSDictionary *serviceProperties = (NSDictionary *)object;
 
-    cell.textLabel.text = [serviceProperties objectForKey:JSONNameElement];
-    cell.detailTextLabel.text = [serviceProperties serviceListingType];
+    [((UILabel *)[cell viewWithTag:XIBCellMainText]) setText:[serviceProperties objectForKey:JSONNameElement]];
     
-    NSURL *imageURL = [NSURL URLWithString:[[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] 
-                                            objectForKey:JSONSmallSymbolElement]];
-    cell.imageView.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
-    
+    NSArray *date = [[serviceProperties objectForKey:JSONCreatedAtElement] 
+                               componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]];
+    [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:[NSString stringWithFormat:@"Registered on %@", [date objectAtIndex:0]]];
+
+    NSURL *imageURL = [NSURL URLWithString:[[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSymbolElement]];
+    [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]]];
+
     if ([[NSString stringWithFormat:@"%@", [serviceProperties objectForKey:JSONArchivedAtElement]] isValidJSONValue]) { 
       // is archived
-      cell.imageView.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
+      [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];      
     } else {
-      cell.imageView.backgroundColor = [UIColor clearColor];
+      [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreenLineImage]];
+    }
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setHidden:NO];
+    [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setImage:[UIImage imageNamed:[serviceProperties serviceListingType]]];
+
+    int uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
+    if ([BioCatalogueResourceManager serviceWithUniqueIDIsBeingMonitored:uniqueID]) {
+      if ([[[BioCatalogueResourceManager serviceWithUniqueID:uniqueID] hasUpdate] boolValue]) {
+        [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:NO];
+      } else {
+        [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:YES];
+      }
+    } else {
+      [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:YES];
     }
   } else if ([scope isEqualToString:UserResourceScope]) { // --- UserResourceScope
     NSDictionary *userProperties = (NSDictionary *)object;
     
-    cell.textLabel.text = [userProperties objectForKey:JSONNameElement];
-
+    [((UILabel *)[cell viewWithTag:XIBCellMainText]) setText:[userProperties objectForKey:JSONNameElement]];
+    
     NSString *affiliation = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
-    cell.detailTextLabel.text = ([affiliation isValidJSONValue] ? affiliation : UnknownAffiliationText);  
-
-    cell.imageView.image = [UIImage imageNamed:UserIcon];
+    [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([affiliation isValidJSONValue] ? affiliation : UnknownAffiliationText)];
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:UserIcon]];
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];      
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setHidden:YES];
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:YES];    
   } else if ([scope isEqualToString:ProviderResourceScope]) { // --- ProviderResourceScope
     NSDictionary *providerProperties = (NSDictionary *)object;
+
+    [((UILabel *)[cell viewWithTag:XIBCellMainText]) setText:[providerProperties objectForKey:JSONNameElement]];
     
-    cell.textLabel.text = [providerProperties objectForKey:JSONNameElement];
+    NSString *detail = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
+    [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([detail isValidJSONValue] ? detail : NoInformationText)];
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:ProviderIcon]];
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];      
 
-//    NSString *description = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
-//    description = [NSString stringWithFormat:@"About: %@", ([description isValidJSONValue] ? description : NoInformationText)];
-//    cell.detailTextLabel.text = description;  
-
-    cell.detailTextLabel.text = nil;
-    cell.imageView.image = [UIImage imageNamed:ProviderIcon];
+    [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setHidden:YES];
+    
+    [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:YES];    
   } else if ([scope isEqualToString:AnnouncementResourceScope]) { // --- AnnouncementResourceScope
     Announcement *announcement = (Announcement *)object;
-    cell.textLabel.text = announcement.title;
     
-//    NSArray *date = [[announcement.date description] componentsSeparatedByString:@" "];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ at %@", [date objectAtIndex:0], [date objectAtIndex:1]];
-    NSRange range = NSMakeRange(90, [announcement.summary length]-90);
-    cell.detailTextLabel.text = [[announcement.summary stringByReplacingCharactersInRange:range withString:@""] stringByConvertingHTMLToPlainText];
+    [((UILabel *)[cell viewWithTag:XIBCellMainText]) setText:[announcement title]];
     
-    if ([announcement.isUnread boolValue]) {
-      cell.imageView.image = [UIImage imageNamed:AnnouncementUnreadIcon];
-      cell.imageView.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.1];
-    } else {
-      cell.imageView.image = [UIImage imageNamed:AnnouncementReadIcon];
-      cell.imageView.backgroundColor = [UIColor clearColor];
+    NSRange range = NSMakeRange(90, [[announcement summary] length]-90);
+    NSString *detail = [[[announcement summary] stringByReplacingCharactersInRange:range withString:@""] stringByConvertingHTMLToPlainText];
+    [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:detail];
+    
+    if ([[announcement isUnread] boolValue]) { // is Unread
+      [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:AnnouncementUnreadIcon]];
+      [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreenLineImage]];
+    } else { // has been read
+      [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:AnnouncementReadIcon]];
+      [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];
     }
+    [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:![[announcement isUnread] boolValue]];    
+          
+    [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setHidden:YES];    
   }
 } // customiseTableViewCell:withProperties:givenScope
 
@@ -106,68 +148,60 @@
                                  providerName:(NSString *)provider 
                                 submitterName:(NSString *)submitter 
                               showLoadingText:(BOOL)isBusy {
-  serviceDescription.delegate = self;
+  [serviceDescription setDelegate:self];
 
   if (isBusy) {
-    serviceName.text = [listingProperties objectForKey:JSONNameElement];
+    [serviceName setText:[listingProperties objectForKey:JSONNameElement]];
     
     NSString *description = [NSString stringWithFormat:@"%@", [listingProperties objectForKey:JSONDescriptionElement]];
     description = ([description isValidJSONValue] ? description : NoDescriptionText);
     [serviceDescription loadHTMLString:description baseURL:nil];
     [serviceDescription setBackgroundColor:[UIColor clearColor]];
 
-    serviceProviderName.text = DefaultLoadingText;
-    serviceSubmitterName.text = DefaultLoadingText;
+    [serviceProviderName setText:DefaultLoadingText];
+    [serviceSubmitterName setText:DefaultLoadingText];
 
     NSURL *imageURL = [NSURL URLWithString:
                        [[listingProperties objectForKey:JSONLatestMonitoringStatusElement] 
                         objectForKey:JSONSmallSymbolElement]];
-    monitoringStatusIcon.image = [UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]];
+    [monitoringStatusIcon setImage:[UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]]];
     
     // service components
     BOOL isREST = [listingProperties serviceListingIsRESTService];
     BOOL isSOAP = [listingProperties serviceListingIsSOAPService];
     
     if (isREST) {
-      serviceComponents.text = RESTComponentsText;
+      [serviceComponents setText:RESTComponentsText];
     } else if (isSOAP) {
-      serviceComponents.text = SOAPComponentsText;
+      [serviceComponents setText:SOAPComponentsText];
     } else {
-      serviceComponents.text = nil;
+      [serviceComponents setText:nil];
     }
     
-    showComponentsButton.hidden = !isREST && !isSOAP;    
+    [showComponentsButton setHidden:!isREST && !isSOAP];
   } else {
-    serviceProviderName.text = provider;
-    serviceSubmitterName.text = submitter;
+    [serviceProviderName setText:provider];
+    [serviceSubmitterName setText:submitter];
   }
 } // updateServiceUIElementsWithProperties:showLoadingText
 
 -(void) updateUserUIElementsWithProperties:(NSDictionary *)properties {
-  userName.text = [properties objectForKey:JSONNameElement];
+  [userName setText:[properties objectForKey:JSONNameElement]];
   
   NSString *detailItem = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONAffiliationElement]];
-  userAffiliation.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
+  [userAffiliation setText:([detailItem isValidJSONValue] ? detailItem : UnknownText)];
   
-  detailItem = [NSString stringWithFormat:@"%@", [[properties objectForKey:JSONLocationElement] 
-                                              objectForKey:JSONCountryElement]];
-  userCountry.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
+  detailItem = [NSString stringWithFormat:@"%@", [[properties objectForKey:JSONLocationElement] objectForKey:JSONCountryElement]];
+  [userCountry setText:([detailItem isValidJSONValue] ? detailItem : UnknownText)];
   
-  detailItem = [NSString stringWithFormat:@"%@", [[properties objectForKey:JSONLocationElement] 
-                                              objectForKey:JSONCityElement]];
-  userCity.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
+  detailItem = [NSString stringWithFormat:@"%@", [[properties objectForKey:JSONLocationElement] objectForKey:JSONCityElement]];
+  [userCity setText:([detailItem isValidJSONValue] ? detailItem : UnknownText)];
   
   detailItem = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONPublicEmailElement]];
-  userEmail.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
+  [userEmail setText:([detailItem isValidJSONValue] ? detailItem : UnknownText)];
   
-  NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:JSONDateFormat];
-  NSArray *date = [[[dateFormatter dateFromString:[properties objectForKey:JSONJoinedElement]] description] 
-                   componentsSeparatedByString:@" "];
-    
-  detailItem = [NSString stringWithFormat:@"%@ at %@", [date objectAtIndex:0], [date objectAtIndex:1]];
-  userJoinedDate.text = detailItem;
-  [dateFormatter release];
+  NSArray *date = [[properties objectForKey:JSONJoinedElement] componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]]; 
+  [userJoinedDate setText:[NSString stringWithFormat:@"%@ at %@", [date objectAtIndex:0], [date objectAtIndex:1]]];
 } // updateUserProviderUIElementsWithProperties
 
 -(void) updateProviderUIElementsWithProperties:(NSDictionary *)properties {
@@ -236,7 +270,7 @@
 
 -(void) dealloc {
   [iPadDetailViewController release];
-  
+    
   // service detail outlets  
   [serviceName release];
   [serviceDescription release];
