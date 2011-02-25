@@ -230,7 +230,7 @@ typedef enum {
   
   if ([announcement.isUnread boolValue]) {
     announcement.isUnread = [NSNumber numberWithBool:![announcement.isUnread boolValue]];
-    [BioCatalogueResourceManager commmitChanges];  
+    [BioCatalogueResourceManager commitChanges];  
   }
 } // updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID
 

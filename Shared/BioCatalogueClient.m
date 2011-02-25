@@ -87,7 +87,7 @@ static BOOL _userIsAuthenticated;
     NSUInteger userID = [[[userJson objectForKey:JSONSelfElement] lastPathComponent] intValue];
     user.uniqueID = [NSNumber numberWithInt:userID];
     
-    [BioCatalogueResourceManager commmitChanges];
+    [BioCatalogueResourceManager commitChanges];
     [user release];
     
     // store credentials in keychain
@@ -108,11 +108,11 @@ static BOOL _userIsAuthenticated;
   NSError *error = nil;
   NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
   [SFHFKeychainUtils storeUsername:username andPassword:@"" forServiceName:AppServiceName updateExisting:YES error:&error];
-  [[NSUserDefaults standardUserDefaults] setValue:nil forKey:LastLoggedInUserKey];
+
   if (error) [error log];
   
   BOOL didDelete = [BioCatalogueResourceManager deleteObject:[BioCatalogueResourceManager catalogueUser]];
-  if (didDelete) [BioCatalogueResourceManager commmitChanges];
+  if (didDelete) [BioCatalogueResourceManager commitChanges];
   
   _userIsAuthenticated = NO;
 } // signOutOfBioCatalogue

@@ -35,10 +35,10 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   if (toolbar == mainToolbar) {
     viewCurrentResourceBarButtonItem.enabled = scopeOfResourceBeingViewed != nil;
   }
-  
+    
   NSArray *items = [toolbar items];
   [toolbar performSelectorOnMainThread:@selector(setItems:) withObject:nil waitUntilDone:NO];
-  [toolbar performSelectorOnMainThread:@selector(setItems:animated:) withObject:items waitUntilDone:NO];  
+  [toolbar performSelectorOnMainThread:@selector(setItems:) withObject:items waitUntilDone:NO];  
 } // touchToolbar
 
 -(BOOL) isCurrentlyBusy {
@@ -102,7 +102,34 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 #pragma mark -
 #pragma mark Managing loading resources into the view
 
--(void) preUpdateWithPropertiesActionsForServices:(NSDictionary *)properties {
+-(void) updateMarkAsFavouriteToolbarItemForServiceWithUniqueID:(NSUInteger)uniqueID {
+  // toolbar update
+  UIImage *image;
+  if ([BioCatalogueResourceManager serviceWithUniqueIDIsFavourited:uniqueID]) {
+    image = [UIImage imageNamed:ServiceStarredIcon];
+  } else {
+    image = [UIImage imageNamed:ServiceUnstarredIcon];
+  }  
+  
+  NSMutableArray *items = [[[mainToolbar items] mutableCopy] retain];
+  int indexOfReplacement = [items count] - 1 - 2;
+
+  [items removeObjectAtIndex:indexOfReplacement];
+  [favouriteServiceBarButtonItem release];
+  
+  favouriteServiceBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image
+                                                                   style:UIBarButtonItemStylePlain
+                                                                  target:self
+                                                                  action:@selector(markUnmarkServiceAsFavourite:)];
+  [items insertObject:favouriteServiceBarButtonItem atIndex:indexOfReplacement];
+  [mainToolbar setItems:items animated:NO];
+  [items release];  
+}
+
+-(void) preUpdateWithPropertiesActionsForServices:(NSDictionary *)properties {  
+  [self updateMarkAsFavouriteToolbarItemForServiceWithUniqueID:[[[properties objectForKey:JSONResourceElement] lastPathComponent] intValue]];
+  
+  // main view update
   [uiContentController updateServiceUIElementsWithProperties:properties
                                                 providerName:nil 
                                                submitterName:nil
@@ -120,7 +147,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     
     if ([service.hasUpdate boolValue]) {
       service.hasUpdate = [NSNumber numberWithBool:NO];
-      [BioCatalogueResourceManager commmitChanges];
+      [BioCatalogueResourceManager commitChanges];
       
       [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
     }
@@ -188,7 +215,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
-  favouriteServiceBarButtonItem.enabled = YES;
+  favouriteServiceBarButtonItem.enabled = [BioCatalogueClient userIsAuthenticated];
   [self updateWithProperties:properties withScope:ServiceResourceScope];
   scopeOfResourceBeingViewed = ServiceResourceScope;
 } // updateWithPropertiesForServicesScope
@@ -222,17 +249,20 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 
 -(void) markUnmarkServiceAsFavourite:(id)sender {
   // TODO: implement
-  /*
-   service = get service with uniqueID (use serviceProperties)
-   
-   if user has service in favourites
-     remove from favourites
-   else
-     add to favourites
-   
-   commit changes
-  */
+  [self touchToolbar:mainToolbar];
+  if (![BioCatalogueClient userIsAuthenticated]) return;
   
+  NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONSelfElement] lastPathComponent] intValue];
+  Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
+  
+  if ([BioCatalogueResourceManager serviceWithUniqueIDIsFavourited:uniqueID]) {
+    [@"remove from favourites" print];
+  } else {
+    [@"add to favourites" print];
+  }
+  
+//  [BioCatalogueResourceManager commitChanges];
+  [self updateMarkAsFavouriteToolbarItemForServiceWithUniqueID:uniqueID];
 } // markUnmarkServiceAsFavourite
 
 -(void) showProviderInfo:(id)sender {

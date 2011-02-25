@@ -123,6 +123,8 @@ extern NSString *const UserIcon;
 extern NSString *const AnnouncementReadIcon;
 extern NSString *const AnnouncementUnreadIcon;
 
+extern NSString *const ServiceUnstarredIcon;
+extern NSString *const ServiceStarredIcon;
 
 #pragma mark -
 #pragma mark NSUserDefaults

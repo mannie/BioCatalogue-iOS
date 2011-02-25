@@ -35,7 +35,7 @@
     
     if ([service.hasUpdate boolValue]) {
       service.hasUpdate = [NSNumber numberWithBool:NO];
-      [BioCatalogueResourceManager commmitChanges];
+      [BioCatalogueResourceManager commitChanges];
       
       [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
     }

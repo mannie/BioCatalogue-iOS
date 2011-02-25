@@ -18,7 +18,7 @@
 @interface BioCatalogueResourceManager : NSObject {
 }
 
-+(void) commmitChanges;
++(void) commitChanges;
 +(BOOL) deleteObject:(NSManagedObject *)object;
 
 +(BioCatalogue *) currentBioCatalogue;
@@ -28,5 +28,6 @@
 +(Service *) serviceWithUniqueID:(NSInteger)uniqueID;
 
 +(BOOL) serviceWithUniqueIDIsBeingMonitored:(NSInteger)uniqueID;
++(BOOL) serviceWithUniqueIDIsFavourited:(NSInteger)uniqueID;
 
 @end

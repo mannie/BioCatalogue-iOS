@@ -46,6 +46,13 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
     if (document) {
       [userSubmissions addObjectsFromArray:[document objectForKey:JSONResultsElement]];
       
+      for (NSDictionary *serviceProperties in userSubmissions) {
+        NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
+        Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
+        [[BioCatalogueResourceManager catalogueUser] addServicesSubmittedObject:service];
+      }
+      [BioCatalogueResourceManager commitChanges];
+      
       lastPageOfUserSubmissions = [[document objectForKey:JSONPagesElement] intValue];
       
       [document release];
@@ -69,6 +76,13 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
       [userFavourites release];
       userFavourites = [[document objectForKey:JSONResultsElement] retain];
 
+      for (NSDictionary *serviceProperties in userFavourites) {
+        NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
+        Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
+        [[BioCatalogueResourceManager catalogueUser] addServicesFavouritedObject:service];
+      }
+      [BioCatalogueResourceManager commitChanges];
+            
       [document release];
     }
     
@@ -89,8 +103,15 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
       [userResponsibilities release];
       userResponsibilities = [[document objectForKey:JSONResultsElement] retain];
 
+      for (NSDictionary *serviceProperties in userResponsibilities) {
+        NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
+        Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
+        [[BioCatalogueResourceManager catalogueUser] addServicesResponsibleForObject:service];
+      }
+      
       [document release];
     }
+    [BioCatalogueResourceManager commitChanges];
 
     [UpdateCenter checkForServiceUpdates:userResponsibilities
                       performingSelector:@selector(reloadDataInMainThread)
@@ -139,6 +160,13 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
   [self refreshTableViewDataSource];
 } // viewDidLoad
 
+-(void) viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+  
+  if (![BioCatalogueClient userIsAuthenticated]) {
+    [[self navigationController] popViewControllerAnimated:YES];
+  }
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
 	return YES;
 } // shouldAutorotateToInterfaceOrientation

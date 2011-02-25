@@ -15,16 +15,41 @@
 static NSManagedObjectContext *managedObjectContext;
 
 
++(void) nukeDataStore {
+  NSEntityDescription *entity = [NSEntityDescription entityForName:@"BioCatalogue" inManagedObjectContext:managedObjectContext];
+  
+  NSFetchRequest *request = [[NSFetchRequest alloc] init];
+  [request setEntity:entity];
+  
+  NSArray *items = [managedObjectContext executeFetchRequest:[request autorelease] error:nil];
+  for (BioCatalogue *catalogue in items) {
+    [managedObjectContext deleteObject:catalogue];
+  }
+  [self commitChanges];
+  
+  [@"Data store has been nuked!!!" print];
+}
+
 +(void) initialize {
   AppDelegate_Shared *delegate = (AppDelegate_Shared *)[UIApplication sharedApplication].delegate;
   managedObjectContext = delegate.managedObjectContext;
+
+//  [self nukeDataStore];
 } // initialize
 
-+(void) commmitChanges {
-  NSError *error = nil;
++(void) commitChanges {  
+  int maxNumberOfTimesToTryObtainingLock = 10;
   
-  [managedObjectContext save:&error];
-  if (error) [error log];
+  for (int x = 0; x < maxNumberOfTimesToTryObtainingLock; x++) {
+    if ([managedObjectContext tryLock]) {
+      NSError *error = nil;
+      [managedObjectContext save:&error];
+      if (error) [error log];
+            
+      [managedObjectContext unlock];
+      break;
+    }
+  } 
 } // commmitChanges
 
 +(BOOL) deleteObject:(NSManagedObject *)object {
@@ -51,7 +76,7 @@ static NSManagedObjectContext *managedObjectContext;
 
   catalogue.hostname = BioCatalogueHostname;
   
-  [self commmitChanges];
+  [self commitChanges];
   
   return catalogue;
 } // currentBioCatalogue
@@ -63,7 +88,7 @@ static NSManagedObjectContext *managedObjectContext;
   user = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:managedObjectContext];
   user.catalogue = [self currentBioCatalogue];
   
-  [self commmitChanges];
+  [self commitChanges];
   
   return user;
 } // currentUser
@@ -86,7 +111,7 @@ static NSManagedObjectContext *managedObjectContext;
   announcement.uniqueID = [NSNumber numberWithInt:uniqueID];
   announcement.catalogue = [self currentBioCatalogue];
 
-  [self commmitChanges];
+  [self commitChanges];
   
   return announcement;
 } // announcementWithUniqueID
@@ -109,7 +134,7 @@ static NSManagedObjectContext *managedObjectContext;
   service.uniqueID = [NSNumber numberWithInt:uniqueID];
   service.catalogue = [self currentBioCatalogue];
 
-  [self commmitChanges];
+  [self commitChanges];
   
   return service;
 } // serviceWithUniqueID
@@ -125,6 +150,10 @@ static NSManagedObjectContext *managedObjectContext;
 +(BOOL) serviceWithUniqueIDIsBeingMonitored:(NSInteger)uniqueID {
   return [self collection:[[self currentBioCatalogue] monitoredServices] hasItemWithUniqueID:uniqueID];
 } // serviceWithUniqueIDIsBeingMonitored
+
++(BOOL) serviceWithUniqueIDIsFavourited:(NSInteger)uniqueID {
+  return [self collection:[[self catalogueUser] servicesFavourited] hasItemWithUniqueID:uniqueID];
+} // serviceWithUniqueIDIsFavourited
 
 
 @end

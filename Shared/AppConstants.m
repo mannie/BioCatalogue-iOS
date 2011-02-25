@@ -30,7 +30,7 @@ NSUInteger const iPhoneItemsPerPage = 10;
 NSUInteger ItemsPerPage = -1; // NOTE: this value will be replaced at runtime
 
 NSUInteger AutoLoadTrigger = -1; // NOTE: this value will be replaced at runtime
-float AutoLoadTriggerIndex = 0.7;
+float AutoLoadTriggerIndex = 0.8;
 
 NSTimeInterval const APIRequestTimeout = 10;
 
@@ -125,6 +125,9 @@ NSString *const UserIcon = @"people-head.png";
 
 NSString *const AnnouncementReadIcon = @"check-mark.png";
 NSString *const AnnouncementUnreadIcon = @"exclamation-point-ps.png";
+
+NSString *const ServiceUnstarredIcon = @"star4.png";
+NSString *const ServiceStarredIcon = @"star8-sc48.png";
 
 
 #pragma mark -

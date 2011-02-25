@@ -92,7 +92,7 @@
 
   if ([announcement.isUnread boolValue]) {
     announcement.isUnread = [NSNumber numberWithBool:NO];
-    [BioCatalogueResourceManager commmitChanges];
+    [BioCatalogueResourceManager commitChanges];
     
     [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForAnnouncements) withObject:nil waitUntilDone:NO];
   }

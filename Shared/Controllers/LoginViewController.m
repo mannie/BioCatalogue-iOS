@@ -22,6 +22,8 @@
 
   if (userDidAuthenticate) [self showProtectedResource];
   
+  usernameField.text = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
+
   usernameField.hidden = userDidAuthenticate;
   passwordField.hidden = userDidAuthenticate;
   signInButton.hidden = userDidAuthenticate;
@@ -100,8 +102,16 @@
 } // signInToBioCatalogue
 
 -(IBAction) signOutOfBioCatalogue {
+  NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
+
   [BioCatalogueClient signOutOfBioCatalogue];
+  
+  passwordField.text = nil;  
   [self updateView];
+  
+  if ([[[self navigationController] viewControllers] count] > 1) {
+    [[self navigationController] setViewControllers:[NSArray arrayWithObject:self]];
+  }  
 } // signOutOfBioCatalogue
 
 -(IBAction) showProtectedResource {

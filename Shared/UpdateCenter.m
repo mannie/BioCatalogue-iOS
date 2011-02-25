@@ -37,7 +37,7 @@ static NSUInteger activeUpdateThreads;
     [announcement setTitle:[item title]];
     [announcement setSummary:[item summary]];
     
-    [BioCatalogueResourceManager commmitChanges];
+    [BioCatalogueResourceManager commitChanges];
   }
   
   [announcements addObject:announcement];	
@@ -64,7 +64,7 @@ static NSUInteger activeUpdateThreads;
   for (Announcement *announcement in expiredAnnouncements) {
     [announcement setIsUnread:[NSNumber numberWithBool:NO]];
   }
-  [BioCatalogueResourceManager commmitChanges];
+  [BioCatalogueResourceManager commitChanges];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
 }
