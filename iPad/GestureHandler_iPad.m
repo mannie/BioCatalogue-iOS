@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "GestureHandler_iPad.h"
+#import "AppImports.h"
 
 
 @implementation GestureHandler_iPad
@@ -47,13 +47,13 @@ NSTimeInterval gestureAnimationDuration = 0.5;
 
 -(void) panViewButResetPositionAfterwards:(UIPanGestureRecognizer *)recognizer {
   BOOL portraitOrientation = [[UIDevice currentDevice] inPortraitOrientation];
-  CGPoint translation = [recognizer translationInView:recognizer.view];
+  CGPoint translation = [recognizer translationInView:[recognizer view]];
   
-  NSNumber *viewHash = [NSNumber numberWithInt:recognizer.view.hash];
-  CGPoint center = CGPointMake(recognizer.view.center.x, recognizer.view.center.y);
+  NSNumber *viewHash = [NSNumber numberWithInt:[[recognizer view] hash]];
+  CGPoint center = CGPointMake([[recognizer view] center].x, [[recognizer view] center].y);
   NSDictionary *centerAsObject = [self dictionaryForCGPoint:center];
   
-  if (recognizer.state == UIGestureRecognizerStateBegan) {
+  if ([recognizer state] == UIGestureRecognizerStateBegan) {
     BOOL initialCenterNotStoredInLandscape = [initialCenterPositionsInLandscape objectForKey:viewHash] == nil;
     if (!portraitOrientation && initialCenterNotStoredInLandscape) {
       [initialCenterPositionsInLandscape setObject:centerAsObject forKey:viewHash];
@@ -65,13 +65,12 @@ NSTimeInterval gestureAnimationDuration = 0.5;
     }
   } // if UIGestureRecognizerStateBegan
     
-  if (recognizer.state == UIGestureRecognizerStateChanged) {
-    recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x, 
-                                         recognizer.view.center.y + translation.y);
-    [recognizer setTranslation:CGPointZero inView:recognizer.view];
+  if ([recognizer state] == UIGestureRecognizerStateChanged) {
+    [[recognizer view] setCenter:CGPointMake([[recognizer view] center].x + translation.x, [[recognizer view] center].y + translation.y)];
+    [recognizer setTranslation:CGPointZero inView:[recognizer view]];
   } // if UIGestureRecognizerStateChanged
   
-  if (recognizer.state == UIGestureRecognizerStateEnded) {
+  if ([recognizer state] == UIGestureRecognizerStateEnded) {
     NSDictionary *originalCenterAsObject = (portraitOrientation ? 
                                             [initialCenterPositionsInPortrait objectForKey:viewHash] :
                                             [initialCenterPositionsInLandscape objectForKey:viewHash]);  
@@ -79,24 +78,24 @@ NSTimeInterval gestureAnimationDuration = 0.5;
     [UIView animateWithDuration:gestureAnimationDuration
                           delay:0
                         options:UIViewAnimationOptionAllowUserInteraction
-                     animations:^{ recognizer.view.center = [self pointForNSDictionary:originalCenterAsObject]; }
+                     animations:^{ [[recognizer view] setCenter:[self pointForNSDictionary:originalCenterAsObject]]; }
                      completion:nil];
   } // if UIGestureRecognizerStateEnded
 } // panViewButResetPositionAfterwards
 
 -(void) rolloutAuxiliaryDetailPanel:(UISwipeGestureRecognizer *)recognizer {
-  if (!auxiliaryDetailPanelIsExposed && webBrowser.hidden) return;
+  if (!auxiliaryDetailPanelIsExposed && [webBrowser isHidden]) return;
   
-  CGPoint center = CGPointMake(auxiliaryDetailPanel.center.x, auxiliaryDetailPanel.center.y);
+  CGPoint center = CGPointMake([auxiliaryDetailPanel center].x, [auxiliaryDetailPanel center].y);
   CGFloat horizontalShiftOfAuxiliaryDetailPanel = 450; // 480
   
-  if (recognizer.direction == UISwipeGestureRecognizerDirectionLeft && !auxiliaryDetailPanelIsExposed) {
+  if ([recognizer direction] == UISwipeGestureRecognizerDirectionLeft && !auxiliaryDetailPanelIsExposed) {
     center.x -= horizontalShiftOfAuxiliaryDetailPanel;
     auxiliaryDetailPanelIsExposed = YES;
     [self enableInteractionDisablingLayer];
   } 
   
-  if (recognizer.direction == UISwipeGestureRecognizerDirectionRight && auxiliaryDetailPanelIsExposed) {
+  if ([recognizer direction] == UISwipeGestureRecognizerDirectionRight && auxiliaryDetailPanelIsExposed) {
     center.x += horizontalShiftOfAuxiliaryDetailPanel;
     auxiliaryDetailPanelIsExposed = NO;
     [self disableInteractionDisablingLayer:nil];
@@ -105,7 +104,7 @@ NSTimeInterval gestureAnimationDuration = 0.5;
   [UIView animateWithDuration:gestureAnimationDuration
                         delay:0
                       options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
-                   animations:^{ auxiliaryDetailPanel.center = center; }
+                   animations:^{ [auxiliaryDetailPanel setCenter:center]; }
                    completion:nil];  
 } // rolloutAuxiliaryDetailPanel
 
@@ -114,9 +113,9 @@ NSTimeInterval gestureAnimationDuration = 0.5;
                         delay:0
                       options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
                    animations:^{ 
-                     interactionDisablingLayer.alpha = 0.8;
-                     webBrowser.alpha = 1;                     
-                     webBrowserToolbar.alpha = 1;
+                     [interactionDisablingLayer setAlpha:0.8];
+                     [webBrowser setAlpha:1];
+                     [webBrowserToolbar setAlpha:1];
                    }
                    completion:nil];  
 } // enableInteractionDisablingLayer
@@ -131,9 +130,9 @@ NSTimeInterval gestureAnimationDuration = 0.5;
                           delay:0
                         options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionBeginFromCurrentState
                      animations:^{ 
-                       interactionDisablingLayer.alpha = 0;
-                       webBrowser.alpha = 0;
-                       webBrowserToolbar.alpha = 0;
+                       [interactionDisablingLayer setAlpha:0];
+                       [webBrowser setAlpha:0];
+                       [webBrowserToolbar setAlpha:0];
                      }
                      completion:nil];
   }

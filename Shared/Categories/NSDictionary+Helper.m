@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "NSDictionary+Helper.h"
+#import "AppImports.h"
 
 
 @implementation NSDictionary (Helper)

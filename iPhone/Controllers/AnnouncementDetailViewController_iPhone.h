@@ -6,10 +6,6 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "UIContentController.h"
-
 
 @interface AnnouncementDetailViewController_iPhone : UIViewController {
   IBOutlet UIContentController *uiContentController;

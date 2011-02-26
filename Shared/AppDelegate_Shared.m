@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "AppDelegate_Shared.h"
+#import "AppImports.h"
 
 
 @implementation AppDelegate_Shared

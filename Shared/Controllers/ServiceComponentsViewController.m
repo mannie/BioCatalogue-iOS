@@ -6,8 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "ServiceComponentsViewController.h"
-#import "DetailViewController_iPad.h"
+#import "AppImports.h"
 
 
 @implementation ServiceComponentsViewController
@@ -20,6 +19,8 @@
 
 -(void) updateWithServiceComponentsForPath:(NSString *)path {
   if ([currentPath isEqualToString:path]) return;
+
+  currentlyFetchingComponents = YES;
   
   [currentPath release];
   currentPath = [path retain];
@@ -28,10 +29,14 @@
     [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
     
     [serviceComponentsInfo release];
-    serviceComponentsInfo = [[NSMutableDictionary alloc] init];
+    serviceComponentsInfo = [[NSDictionary dictionary] retain];
     
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [serviceComponents release];
+    serviceComponents = [[NSArray array] retain];
     
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    
+    [serviceComponentsInfo release];
     serviceComponentsInfo = [[BioCatalogueClient documentAtPath:path] retain];
               
     serviceIsREST = [[path lastPathComponent] isEqualToString:@"methods"];
@@ -42,11 +47,9 @@
     } else {
       serviceComponents = [[serviceComponentsInfo objectForKey:JSONOperationsElement] retain];
     }  
-    
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
-    NSNumber *shouldHide = [NSNumber numberWithBool:([serviceComponents count] != 0)];
-    [noComponentsLabel performSelectorOnMainThread:@selector(setHidden:) withObject:shouldHide waitUntilDone:NO];  
+    currentlyFetchingComponents = NO;
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
     [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
 });
@@ -59,8 +62,7 @@
 -(void) viewDidLoad {
   [super viewDidLoad];
 
-  [UIContentController customiseTableView:self.tableView];
-  noComponentsLabel.hidden = YES;
+  [UIContentController customiseTableView:[self tableView]];
 } // viewDidLoad
 
 -(void) viewWillAppear:(BOOL)animated {
@@ -84,7 +86,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [serviceComponents count];
+  return ([serviceComponents count] == 0 ? 1 : [serviceComponents count]);
 } // tableView:numberOfRowsInSection
 
 
@@ -99,17 +101,29 @@
                                    reuseIdentifier:CellIdentifier] autorelease];
   }
     
+  if ([serviceComponents count] == 0) {
+    [[cell textLabel] setText:nil];
+    if (currentlyFetchingComponents) {
+      [[cell detailTextLabel] setText:DefaultLoadingText];
+    } else {
+      [[cell detailTextLabel] setText:[NSString stringWithFormat:@"No %@", (serviceIsREST ? RESTComponentsText : SOAPComponentsText)]];
+    }
+    [[cell imageView] setImage:nil];
+    return cell;
+  }
+  
   // Configure the cell...
   if (serviceIsREST) {
-    cell.textLabel.text = [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONEndpointLabelElement];
-    NSString *name = [NSString stringWithFormat:@"%@", 
-                      [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONNameElement]];
-    cell.detailTextLabel.text = ([name isValidJSONValue] ? name : nil);
+    [[cell textLabel] setText:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONEndpointLabelElement]];
+    NSString *name = [NSString stringWithFormat:@"%@", [[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONNameElement]];
+    [[cell detailTextLabel] setText:([name isValidJSONValue] ? name : nil)];
   } else {
-    cell.textLabel.text = [[serviceComponents objectAtIndex:indexPath.row] objectForKey:JSONNameElement];
-    cell.detailTextLabel.text = nil;
+    [[cell textLabel] setText:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONNameElement]];
+    [[cell detailTextLabel] setText:nil];
   }
-
+  
+  [[cell imageView] setImage:[UIImage imageNamed:CogIcon]];
+  
   [UIContentController customiseTableViewCell:cell];  
   
   return cell;
@@ -134,13 +148,13 @@
   [self.navigationController pushViewController:detailViewController animated:YES];
 */
 
-  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:indexPath.row] 
+  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:[indexPath row]] 
                                      objectForKey:JSONResourceElement]];  
   NSURLRequest *request = [NSURLRequest requestWithURL:url
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                        timeoutInterval:APIRequestTimeout];
-  [(UIWebView *)iPhoneWebViewController.view loadRequest:request];
-  [self.navigationController pushViewController:iPhoneWebViewController animated:YES];
+  [(UIWebView *)[iPhoneWebViewController view] loadRequest:request];
+  [[self navigationController] pushViewController:iPhoneWebViewController animated:YES];
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
@@ -151,11 +165,11 @@
 
 -(void) releaseIBOutlets {
   [activityIndicator release];
-  [noComponentsLabel release];
   
   [detailViewController release];
   
-  [iPhoneWebViewController release];
+  [iPhoneWebViewController release];  
+  [webBrowserController release];
 } // releaseIBOutlets
 
 - (void)dealloc {

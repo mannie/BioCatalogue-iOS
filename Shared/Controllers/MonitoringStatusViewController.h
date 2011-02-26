@@ -6,24 +6,23 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "BioCatalogueClient.h"
-#import "UIContentController.h"
+@class WebViewController_iPhone;
 
 
 @interface MonitoringStatusViewController : UITableViewController {
   NSUInteger currentServiceID;
   
   NSMutableDictionary *monitoringInfo;
+  NSMutableArray *monitoringStatuses;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-    
-  NSDateFormatter *dateFormatter;
-
+  IBOutlet WebBrowserController *webBrowserController;
+  
   BOOL viewHasBeenUpdated;
 }
 
 -(void) updateWithMonitoringStatusInfoForServiceWithID:(NSUInteger)serviceID;
+
+@property (nonatomic, retain) IBOutlet WebViewController_iPhone *iPhoneWebViewController;
 
 @end

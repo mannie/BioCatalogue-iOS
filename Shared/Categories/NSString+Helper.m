@@ -6,11 +6,43 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "NSString+Helper.h"
+#import "AppImports.h"
 
 
 @implementation NSString (Helper)
 
+typedef enum {
+  CMJanuary = 1, 
+  CMFebruary,
+  CMMarch,
+  CMApril, 
+  CMMay, 
+  CMJune,
+  CMJuly,
+  CMAugust,
+  CMSeptember,
+  CMOctober,
+  CMNovember,
+  CMDecember,
+} CalendarMonth;
+
+-(NSString *) stringForCalendarMonth:(CalendarMonth)monthNumber {
+  switch (monthNumber) {
+    case CMJanuary: return @"January";
+    case CMFebruary: return @"February";
+    case CMMarch: return @"March";
+    case CMApril: return @"April";
+    case CMMay: return @"May";
+    case CMJune: return @"June";
+    case CMJuly: return @"July";
+    case CMAugust: return @"August";
+    case CMSeptember: return @"September";
+    case CMOctober: return @"October";
+    case CMNovember: return @"November";
+    case CMDecember: return @"December";
+    default: return @"Unknown month";
+  }
+}
 
 -(BOOL) isValidJSONValue {
   BOOL isNull = [self isEqual:[NSNull null]] || [self isEqualToString:JSONNull];
@@ -53,11 +85,40 @@
   return [emailTest evaluateWithObject:self];
 } // isValidEmailAddress
 
+-(BOOL) isRegistryName {
+  NSString *name = [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  
+  BOOL isFeta = [name isEqualToString:@"Feta"];
+  BOOL isEMBRACE = [name isEqualToString:@"The EMBRACE Registry"];
+  BOOL isSeekDa = [name isEqualToString:@"SeekDa"];
+  
+  return isFeta || isEMBRACE || isSeekDa;
+} // isRegistryName
+
 -(NSString *) stringByAddingPercentEscapes {
   NSString *processedString = [self stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
   processedString = [processedString stringByReplacingOccurrencesOfString:@"@" withString:@"\%40"];
   return processedString;
 } // stringByAddingPercentEscapes
+
+-(NSString *) stringByReformattingJSONDate:(BOOL)includeTime {
+  NSArray *dateComponents = [self componentsSeparatedByCharactersInSet:[NSCharacterSet letterCharacterSet]];
+  
+  NSString *time = ([dateComponents count] > 2 ? [dateComponents objectAtIndex:1] : nil);
+  
+  dateComponents = [[dateComponents objectAtIndex:0] componentsSeparatedByCharactersInSet:[NSCharacterSet punctuationCharacterSet]];
+
+  NSString *date = [NSString stringWithFormat:@"%@ %@ %@",
+                    [dateComponents lastObject], 
+                    [self stringForCalendarMonth:[[dateComponents objectAtIndex:1] intValue]], 
+                    [dateComponents objectAtIndex:0]];
+  
+  if (includeTime && time) {
+    return [NSString stringWithFormat:@"%@ at %@", date, time];
+  } else {
+    return date;
+  }
+} // stringByReformattingJSONDate
 
 
 @end

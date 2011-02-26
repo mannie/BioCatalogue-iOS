@@ -6,16 +6,15 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "AppConstants.h"
-
 
 @interface NSString (Helper)
 
 -(BOOL) isValidJSONValue;
 -(BOOL) isValidQuery;
 -(BOOL) isValidEmailAddress;
+-(BOOL) isRegistryName;
 
 -(NSString *) stringByAddingPercentEscapes;
+-(NSString *) stringByReformattingJSONDate:(BOOL)includeTime;
 
 @end

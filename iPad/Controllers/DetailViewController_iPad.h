@@ -6,20 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "GestureHandler_iPad.h"
-
-#import "NSUserDefaults+Helper.h"
-#import "NSDictionary+Helper.h"
-
-#import "MonitoringStatusViewController.h"
-#import "ServiceComponentsViewController.h"
-#import "WebBrowserController.h"
-
-#import "UIContentController.h"
-
-#import "BioCatalogueResourceManager.h"
+@class DetailViewController_iPad, GestureHandler_iPad;
 
 
 @interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate, UIActionSheetDelegate> {

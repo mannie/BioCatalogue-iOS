@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "UpdateCenter.h"
+#import "AppImports.h"
 
 
 @implementation UpdateCenter
@@ -22,7 +22,7 @@ static NSUInteger activeUpdateThreads;
 
 - (void)feedParserDidStart:(MWFeedParser *)parser {
   announcements = [[NSMutableArray alloc] init];
-  
+
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
 }
 
@@ -238,7 +238,7 @@ static NSUInteger activeUpdateThreads;
         
         if ([serviceStatusUpdates count] > 0) {
           if ([newAnnouncements count] > 0) {
-            [localNotification setAlertBody:[NSString stringWithFormat:@"%@\n\nService status updates available.", localNotification.alertBody]];
+            [localNotification setAlertBody:[NSString stringWithFormat:@"%@\n\nService status updates available.", [localNotification alertBody]]];
           } else {
             [localNotification setAlertBody:@"Service status updates available."];
           }

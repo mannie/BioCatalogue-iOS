@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "AnnouncementsViewController.h"
+#import "AppImports.h"
 
 
 @implementation AnnouncementsViewController
@@ -20,7 +20,7 @@
 #pragma mark PullToRefreshDataSource
 
 -(void) reloadTableView {
-  [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
   [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
 }
 
@@ -29,7 +29,7 @@
   announcements = [[NSArray alloc] init];
 
   [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
-  [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
   [UpdateCenter checkForAnnouncements:&announcements performingSelector:@selector(reloadTableView) onTarget:self];
 } // refreshTableViewDataSource
@@ -65,9 +65,11 @@
     cell = [[[NSBundle mainBundle] loadNibNamed:CustomCellXIB owner:self options:nil] lastObject];
   }
   
-  // Configure the cell...  
+  // Configure the cell...
+  if ([announcements count] == 0) return cell;
+  
   [UIContentController populateTableViewCell:cell
-                                  withObject:[announcements objectAtIndex:indexPath.row]
+                                  withObject:[announcements objectAtIndex:[indexPath row]]
                                   givenScope:AnnouncementResourceScope];
   
   return cell;
@@ -78,26 +80,28 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {  
-  Announcement *announcement = [announcements objectAtIndex:indexPath.row];
+  Announcement *announcement = [announcements objectAtIndex:[indexPath row]];
 
   if ([[UIDevice currentDevice] isIPadDevice]) {
     [iPadDetailViewController startLoadingAnimation];
-    [iPadDetailViewController updateWithPropertiesForAnnouncementWithID:[announcement.uniqueID intValue]];
-    [iPadDetailViewController stopLoadingAnimation];
-  } else {
-    [iPhoneDetailViewController loadView];
-    [iPhoneDetailViewController updateWithPropertiesForAnnouncementWithID:[announcement.uniqueID intValue]];
-    [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
+    [iPadDetailViewController updateWithPropertiesForAnnouncementWithID:[[announcement uniqueID] intValue]];
+  } else {    
+    if (![iPhoneDetailViewController view]) [iPhoneDetailViewController loadView];
+    dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
+      [iPhoneDetailViewController updateWithPropertiesForAnnouncementWithID:[[announcement uniqueID] intValue]];
+    });
+    
+    [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
   }
 
-  if ([announcement.isUnread boolValue]) {
-    announcement.isUnread = [NSNumber numberWithBool:NO];
+  if ([[announcement isUnread] boolValue]) {
+    [announcement setIsUnread:[NSNumber numberWithBool:NO]];
     [BioCatalogueResourceManager commitChanges];
     
     [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForAnnouncements) withObject:nil waitUntilDone:NO];
   }
   
-  [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];  
+  [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];  
   [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 }
 

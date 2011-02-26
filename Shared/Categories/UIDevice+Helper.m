@@ -6,17 +6,17 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "UIDevice+Helper.h"
+#import "AppImports.h"
 
 
 @implementation UIDevice (Helper)
 
 -(BOOL) inPortraitOrientation {
-  return self.orientation == UIDeviceOrientationPortrait;
+  return [self orientation] == UIDeviceOrientationPortrait;
 }
 
 -(BOOL) isIPadDevice {
-  return [self.model isEqualToString:@"iPad"] || [self.model isEqualToString:@"iPad Simulator"];
+  return [[self model] isEqualToString:@"iPad"] || [[self model] isEqualToString:@"iPad Simulator"];
 }
 
 @end

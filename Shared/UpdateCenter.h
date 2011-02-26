@@ -6,15 +6,6 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-#import "MWFeedParser.h"
-
-#import "AppConstants.h"
-#import "BioCatalogueResourceManager.h"
-
-#import "AppDelegate_Shared.h"
-
 
 @interface UpdateCenter : NSObject <MWFeedParserDelegate> {
   NSDateFormatter *dateFormatter;

@@ -6,8 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 
 #pragma mark -
 #pragma mark Notifications
@@ -97,6 +95,7 @@ extern NSString *const JSONSubmitterElement;
 extern NSString *const JSONSymbolElement;
 extern NSString *const JSONTechnologyTypesElement;
 extern NSString *const JSONTestTypeElement;
+extern NSString *const JSONTestScriptElement;
 extern NSString *const JSONTotalElement;
 extern NSString *const JSONURLElement;
 extern NSString *const JSONURLMonitorElement;
@@ -115,6 +114,7 @@ extern NSString *const TableCellBackground;
 extern NSString *const TableCellSelectedBackground;
 
 extern NSString *const GreenLineImage;
+extern NSString *const RedLineImage;
 extern NSString *const GreyLineImage;
 
 extern NSString *const ProviderIcon;
@@ -125,6 +125,9 @@ extern NSString *const AnnouncementUnreadIcon;
 
 extern NSString *const ServiceUnstarredIcon;
 extern NSString *const ServiceStarredIcon;
+
+extern NSString *const CogIcon;
+
 
 #pragma mark -
 #pragma mark NSUserDefaults

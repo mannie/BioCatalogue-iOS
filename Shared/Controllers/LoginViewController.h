@@ -6,13 +6,6 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-
-#import "SFHFKeychainUtils.h"
-#import "NSString+Helper.h"
-#import "BioCatalogueClient.h"
-
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate> {
   IBOutlet UITextField *usernameField;

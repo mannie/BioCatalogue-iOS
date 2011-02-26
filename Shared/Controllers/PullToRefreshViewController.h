@@ -26,10 +26,6 @@
 //
 
 
-#import "UIDevice+Helper.h"
-#import "UIContentController.h"
-
-
 @class EGORefreshTableHeaderView;
 @interface PullToRefreshViewController : UITableViewController {
 	EGORefreshTableHeaderView *refreshHeaderView;

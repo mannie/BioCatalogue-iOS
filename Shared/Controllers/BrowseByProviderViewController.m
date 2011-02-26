@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "BrowseByProviderViewController.h"
+#import "AppImports.h"
 
 
 @implementation BrowseByProviderViewController
@@ -120,7 +120,7 @@
   
   NSArray *itemsInSection = [paginatedProviders objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
   [UIContentController populateTableViewCell:cell 
-                               withObject:[itemsInSection objectAtIndex:indexPath.row]
+                               withObject:[itemsInSection objectAtIndex:[indexPath row]]
                                    givenScope:ProviderResourceScope];
   
   return cell;
@@ -133,11 +133,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSArray *itemsInSection = [paginatedProviders objectForKey:[NSNumber numberWithInt:[indexPath section]]];
   
-  [providerDetailViewController loadView];
-  [providerDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
+  if (![providerDetailViewController view]) [providerDetailViewController loadView];
+  [providerDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];
   [providerDetailViewController makeShowServicesButtonVisible:YES];
 
-  [self.navigationController pushViewController:providerDetailViewController animated:YES];
+  [[self navigationController] pushViewController:providerDetailViewController animated:YES];
   
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } //tableView:didSelectRowAtIndexPath

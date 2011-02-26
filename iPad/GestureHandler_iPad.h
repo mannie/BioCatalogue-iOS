@@ -6,10 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-#import "UIDevice+Helper.h"
-
 
 @interface GestureHandler_iPad : NSObject {  
   NSMutableDictionary *initialCenterPositionsInLandscape;

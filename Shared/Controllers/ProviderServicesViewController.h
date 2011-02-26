@@ -6,21 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "PullToRefreshViewController.h"
-
-#import "UIContentController.h"
-#import "BioCatalogueClient.h"
-
-#import "DetailViewController_iPad.h"
-
-#import "NSException+Helper.h"
-
-#import "AppDelegate_iPad.h"
-#import "DetailViewController_iPad.h"
-
-@class ServiceDetailViewController_iPhone;
-
+@class DetailViewController_iPad, ServiceDetailViewController_iPhone;
 
 @interface ProviderServicesViewController : UITableViewController {
   NSUInteger currentProviderID;
@@ -38,7 +24,8 @@
   NSIndexPath *lastSelectedIndexIPad;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-  IBOutlet UILabel *noServicesLabel;
+
+  BOOL currentlyFetchingServices;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *iPhoneDetailViewController;

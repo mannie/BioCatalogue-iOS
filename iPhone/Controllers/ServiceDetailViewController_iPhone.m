@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "ServiceDetailViewController_iPhone.h"
+#import "AppImports.h"
 
 
 @implementation ServiceDetailViewController_iPhone
@@ -24,17 +24,15 @@
                                              showLoadingText:YES];
   
   // monitoring details
-  NSString *lastChecked = [NSString stringWithFormat:@"%@", 
-                           [[properties objectForKey:JSONLatestMonitoringStatusElement] 
-                            objectForKey:JSONLastCheckedElement]];
-  monitoringStatusInformationAvailable = [lastChecked isValidJSONValue];
+  NSString *lastChecked = [[properties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLastCheckedElement];
+  monitoringStatusInformationAvailable = [[NSString stringWithFormat:@"%@", lastChecked] isValidJSONValue];
   
   int serviceID = [[[properties objectForKey:JSONResourceElement] lastPathComponent] intValue];
   if ([BioCatalogueResourceManager serviceWithUniqueIDIsBeingMonitored:serviceID]) {
     Service *service = [BioCatalogueResourceManager serviceWithUniqueID:serviceID];
     
-    if ([service.hasUpdate boolValue]) {
-      service.hasUpdate = [NSNumber numberWithBool:NO];
+    if ([[service hasUpdate] boolValue]) {
+      [service setHasUpdate:[NSNumber numberWithBool:NO]];
       [BioCatalogueResourceManager commitChanges];
       
       [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
@@ -50,13 +48,11 @@
                                                 providerName:provider
                                                submitterName:[submitterProperties objectForKey:JSONNameElement]
                                              showLoadingText:NO];
-  
-  [self.view setNeedsDisplay];  
 } // postFetchActions
 
 -(void) updateWithProperties:(NSDictionary *)properties {
-  [self performSelectorOnMainThread:@selector(preFetchActions:) withObject:properties waitUntilDone:NO];
-  
+  [self performSelectorOnMainThread:@selector(preFetchActions:) withObject:properties waitUntilDone:NO];  
+
   [serviceListingProperties release];
   serviceListingProperties = [properties retain];  
   
@@ -93,22 +89,21 @@
 #pragma mark IBActions
 
 -(void) showProviderInfo:(id)sender {
-  NSDictionary *properties = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] 
-                              objectForKey:JSONProviderElement];
+  NSDictionary *properties = [[[serviceProperties objectForKey:JSONDeploymentsElement] lastObject] objectForKey:JSONProviderElement];
   
-  [providerDetailViewController loadView];
+  if (![providerDetailViewController view]) [providerDetailViewController loadView];
   [providerDetailViewController updateWithProperties:properties];
   [providerDetailViewController makeShowServicesButtonVisible:NO];
   
-  [self.navigationController pushViewController:providerDetailViewController animated:YES];  
+  [[self navigationController] pushViewController:providerDetailViewController animated:YES];  
 } // showProviderInfo
 
 -(void) showSubmitterInfo:(id)sender {
   // submitting user
-  [userDetailViewController loadView];
+  if (![userDetailViewController view]) [userDetailViewController loadView];
   [userDetailViewController updateWithProperties:submitterProperties];
   
-  [self.navigationController pushViewController:userDetailViewController animated:YES];      
+  [[self navigationController] pushViewController:userDetailViewController animated:YES];      
 } // showSubmitterInfo
 
 -(void) showMonitoringStatusInfo:(id)sender {
@@ -119,7 +114,7 @@
       [monitoringStatusViewController updateWithMonitoringStatusInfoForServiceWithID:[serviceID intValue]];
     });
     
-    [self.navigationController pushViewController:monitoringStatusViewController animated:YES];
+    [[self navigationController] pushViewController:monitoringStatusViewController animated:YES];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
                                                     message:@"No monitoring information is available for this service." 
@@ -132,15 +127,14 @@
 } // showMonitoringStatusInfo
 
 -(void) showServiceComponents:(id)sender {
-  NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
-                                            objectForKey:JSONResourceElement]];
+  NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] objectForKey:JSONResourceElement]];
   NSString *path;
   if ([serviceListingProperties serviceListingIsRESTService]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
-    serviceComponentsViewController.title = RESTComponentsText;
+    [serviceComponentsViewController setTitle:RESTComponentsText];
   } else {
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
-    serviceComponentsViewController.title = SOAPComponentsText;
+    [serviceComponentsViewController setTitle:SOAPComponentsText];
   }
   
   if (![serviceComponentsViewController view]) [serviceComponentsViewController loadView];
@@ -148,11 +142,11 @@
     [serviceComponentsViewController updateWithServiceComponentsForPath:path];
   });
   
-  [self.navigationController pushViewController:serviceComponentsViewController animated:YES];
+  [[self navigationController] pushViewController:serviceComponentsViewController animated:YES];
 } // showServiceComponents
 
 -(void) makeShowProvidersButtonVisible:(BOOL)visible {
-  providerButton.hidden = !visible;
+  [providerButton setHidden:!visible];
 } // makeShowProvidersButtonVisible
 
 

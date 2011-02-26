@@ -26,8 +26,11 @@
 //
 
 
+#import "AppImports.h"
+
 #import "PullToRefreshViewController.h"
 #import "EGORefreshTableHeaderView.h"
+
 
 @interface PullToRefreshViewController (Private)
 
@@ -48,20 +51,20 @@
   [super viewDidLoad];
   
 	if (refreshHeaderView == nil) {
-    float height = self.tableView.bounds.size.height;
+    float height = [[self tableView] bounds].size.height;
     
     if ([[UIDevice currentDevice] isIPadDevice]) {      
       refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, 0.0f)];
-      [self.tableView setTableHeaderView:refreshHeaderView];
+      [[self tableView] setTableHeaderView:refreshHeaderView];
     } else {
       refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, height)];
-      [self.tableView addSubview:refreshHeaderView];
+      [[self tableView] addSubview:refreshHeaderView];
     }
 
     [refreshHeaderView setBackgroundColor:[UIColor clearColor]];
-    [UIContentController customiseTableView:self.tableView];
+    [UIContentController customiseTableView:[self tableView]];
     
-		self.tableView.showsVerticalScrollIndicator = YES;
+		[[self tableView] setShowsVerticalScrollIndicator:YES];
 		
     [refreshHeaderView release];
 	}
@@ -83,7 +86,9 @@
 
 - (void)reloadTableViewDataSource{
   dispatch_async(dispatch_queue_create("Search", NULL), ^{      
-    if ([self respondsToSelector:@selector(refreshTableViewDataSource)]) [self refreshTableViewDataSource];
+    if ([self respondsToSelector:@selector(refreshTableViewDataSource)]) {
+      [self performSelector:@selector(refreshTableViewDataSource)];
+    }
   });
 	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
 }
@@ -96,23 +101,23 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
 	
-	if (scrollView.isDragging) {
-		if (refreshHeaderView.state == EGOOPullRefreshPulling && scrollView.contentOffset.y > -65.0f && scrollView.contentOffset.y < 0.0f && !_reloading) {
+	if ([scrollView isDragging]) {
+		if ([refreshHeaderView state] == EGOOPullRefreshPulling && [scrollView contentOffset].y > -65.0f && [scrollView contentOffset].y < 0.0f && !_reloading) {
 			[refreshHeaderView setState:EGOOPullRefreshNormal];
-    } else if (refreshHeaderView.state == EGOOPullRefreshNormal && scrollView.contentOffset.y < -65.0f && !_reloading) {
+    } else if ([refreshHeaderView state] == EGOOPullRefreshNormal && [scrollView contentOffset].y < -65.0f && !_reloading) {
 			[refreshHeaderView setState:EGOOPullRefreshPulling];
 		}
 	}
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{  
-	if (scrollView.contentOffset.y <= - 65.0f && !_reloading) {
+	if ([scrollView contentOffset].y <= - 65.0f && !_reloading) {
     _reloading = YES;
     [self reloadTableViewDataSource];
     [refreshHeaderView setState:EGOOPullRefreshLoading];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.2];
-    self.tableView.contentInset = UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f);
+    [[self tableView] setContentInset:UIEdgeInsetsMake(60.0f, 0.0f, 0.0f, 0.0f)];
     [UIView commitAnimations];
 	}
 }
@@ -123,7 +128,7 @@
 	
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:.3];
-	[self.tableView setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
+	[[self tableView] setContentInset:UIEdgeInsetsMake(0.0f, 0.0f, 0.0f, 0.0f)];
 	[UIView commitAnimations];
 	
 	[refreshHeaderView setState:EGOOPullRefreshNormal];

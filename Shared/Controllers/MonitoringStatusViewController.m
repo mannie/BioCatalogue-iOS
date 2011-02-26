@@ -6,11 +6,12 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "MonitoringStatusViewController.h"
-#import "DetailViewController_iPad.h"
+#import "AppImports.h"
 
 
 @implementation MonitoringStatusViewController
+
+@synthesize iPhoneWebViewController;
 
 
 #pragma mark -
@@ -27,9 +28,18 @@
     [monitoringInfo release];
     monitoringInfo = [[NSMutableDictionary alloc] init];
     
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [monitoringStatuses release];
+    monitoringStatuses = [[NSMutableArray alloc] init];
+    
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
     
     monitoringInfo = [[BioCatalogueClient monitoringStatusesForServiceWithID:currentServiceID] retain];
+
+    // sort items in reverse order
+    NSArray *tests = [monitoringInfo objectForKey:JSONServiceTestsElement];
+    for (int x = [tests count]; x > 0; x--) {
+      [monitoringStatuses insertObject:[tests objectAtIndex:x-1] atIndex:[tests count]-x];
+    }
     
     [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
@@ -42,9 +52,6 @@
 
 -(void) viewDidLoad {
   [super viewDidLoad];
-
-  dateFormatter = [[NSDateFormatter alloc] init];
-  [dateFormatter setDateFormat:JSONDateFormat];
   
   [UIContentController customiseTableView:[self tableView]];
 } // viewDidLoad
@@ -70,7 +77,7 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return [[monitoringInfo objectForKey:JSONServiceTestsElement] count];
+  return [monitoringStatuses count];
 } // tableView:numberOfRowsInSection
 
 
@@ -81,20 +88,25 @@
   
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                    reuseIdentifier:CellIdentifier] autorelease];
   }
-  
+    
   // Configure the cell...
-  id status = [[[monitoringInfo objectForKey:JSONServiceTestsElement] objectAtIndex:indexPath.row] objectForKey:JSONStatusElement];
+  id test = [monitoringStatuses objectAtIndex:[indexPath row]];
+  id status = [test objectForKey:JSONStatusElement];
+  
+  NSString *testType = [[[test objectForKey:JSONTestTypeElement] allKeys] lastObject];
+  if ([testType isEqualToString:JSONTestScriptElement]) {
+    [[cell textLabel] setText:@"Test script execution"];
+  } else if ([testType isEqualToString:JSONURLMonitorElement]) {
+    [[cell textLabel] setText:@"Availability monitoring"];
+  } else {
+    [[cell textLabel] setText:@"Unknown test"];
+  }
 
-  NSArray *date = [[[dateFormatter dateFromString:[status objectForKey:JSONLastCheckedElement]] description] 
-                   componentsSeparatedByString:@" "];
-
-  cell.textLabel.text = [NSString stringWithFormat:@"%@ on %@ at %@", 
-                         [status objectForKey:JSONLabelElement], [date objectAtIndex:0], [date objectAtIndex:1]];
-  cell.imageView.image = [UIImage imageNamed:
-                          [[[NSURL URLWithString:[status objectForKey:@"small_symbol"]] absoluteString] lastPathComponent]];
+  [[cell detailTextLabel] setText:[[status objectForKey:JSONLastCheckedElement] stringByReformattingJSONDate:YES]];
+  [[cell imageView] setImage:[UIImage imageNamed:[[status objectForKey:JSONSymbolElement] lastPathComponent]]];
   
   [UIContentController customiseTableViewCell:cell];
   
@@ -106,18 +118,21 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  id status = [[monitoringInfo objectForKey:JSONServiceTestsElement] objectAtIndex:indexPath.row];
+  id status = [monitoringStatuses objectAtIndex:[indexPath row]];
   
-  NSString *message = [NSString stringWithFormat:@"A URL monitoring test was performed on the endpoint: \n\n %@", 
-                       [[[status objectForKey:JSONTestTypeElement] objectForKey:JSONURLMonitorElement] objectForKey:JSONURLElement]];
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
-                                                  message:message
-                                                 delegate:self 
-                                        cancelButtonTitle:@"OK" 
-                                        otherButtonTitles:nil];
-  [alert show];
-  [alert release];
-  
+  NSURL *url = [NSURL URLWithString:[status objectForKey:JSONResourceElement]];
+  if ([[UIDevice currentDevice] isIPadDevice]) {
+    AppDelegate_iPad *appDelegate = (AppDelegate_iPad *)[[UIApplication sharedApplication] delegate];
+    DetailViewController_iPad *iPadDetailViewController = (DetailViewController_iPad *)[[[appDelegate splitViewController] viewControllers] lastObject];
+    [iPadDetailViewController showResourceInPullOutBrowser:url];
+  } else {
+    NSURLRequest *request = [NSURLRequest requestWithURL:url
+                                             cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                         timeoutInterval:APIRequestTimeout];
+    [(UIWebView *)[iPhoneWebViewController view] loadRequest:request];
+    [[self navigationController] pushViewController:iPhoneWebViewController animated:YES];
+  }
+
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
 
@@ -127,16 +142,17 @@
 
 -(void) releaseIBOutlets {
   [activityIndicator release];
+  [webBrowserController release];
 } // releaseIBOutlets
 
 - (void)viewDidUnload {
-  [dateFormatter release];
 	[super viewDidUnload];
 } // viewDidUnload
 
 - (void)dealloc {
   [self releaseIBOutlets];
   
+  [monitoringStatuses release];
   [monitoringInfo release];
   
   [super dealloc];

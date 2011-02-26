@@ -89,6 +89,8 @@
 		369F7A5E1316F541001C7084 /* Soaplab.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A5B1316F541001C7084 /* Soaplab.png */; };
 		369F7A811316FC43001C7084 /* greenLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A7F1316FC43001C7084 /* greenLine.png */; };
 		369F7A821316FC43001C7084 /* greyLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A801316FC43001C7084 /* greyLine.png */; };
+		369F7EB11318B24F001C7084 /* cog.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7EB01318B24F001C7084 /* cog.png */; };
+		369F7F231318C13E001C7084 /* redLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7F221318C13E001C7084 /* redLine.png */; };
 		36C8A00D12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A00E12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A01312F774450022190F /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CEB112B6EB51005607EB /* GTMHTTPFetcher.m */; };
@@ -288,6 +290,9 @@
 		369F7A5B1316F541001C7084 /* Soaplab.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Soaplab.png; sourceTree = "<group>"; };
 		369F7A7F1316FC43001C7084 /* greenLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenLine.png; sourceTree = "<group>"; };
 		369F7A801316FC43001C7084 /* greyLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyLine.png; sourceTree = "<group>"; };
+		369F7D32131893C6001C7084 /* AppImports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppImports.h; sourceTree = "<group>"; };
+		369F7EB01318B24F001C7084 /* cog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog.png; sourceTree = "<group>"; };
+		369F7F221318C13E001C7084 /* redLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redLine.png; sourceTree = "<group>"; };
 		36C8A00B12F7740A0022190F /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		36C8A00C12F7740A0022190F /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		36C8A10812F78B9C0022190F /* PullToRefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshViewController.h; sourceTree = "<group>"; };
@@ -514,6 +519,7 @@
 			children = (
 				3664672312B07B8100DEACC3 /* XIBs */,
 				3644D0CC12B71641005607EB /* Models */,
+				369F7D32131893C6001C7084 /* AppImports.h */,
 				362DFCA21299150100DEC892 /* AppDelegate_Shared.h */,
 				362DFCA31299150100DEC892 /* AppDelegate_Shared.m */,
 				3664653112B050B000DEACC3 /* AppConstants.h */,
@@ -522,10 +528,10 @@
 				362DFCA51299150100DEC892 /* BioCatalogueClient.m */,
 				3644CB5412B6C9F5005607EB /* BioCatalogueResourceManager.h */,
 				3644CB5512B6C9F5005607EB /* BioCatalogueResourceManager.m */,
-				362DFCA81299150100DEC892 /* Categories */,
-				3664651C12B04FF100DEACC3 /* Controllers */,
 				364C0B3B1315E519005467E6 /* UpdateCenter.h */,
 				364C0B3C1315E519005467E6 /* UpdateCenter.m */,
+				362DFCA81299150100DEC892 /* Categories */,
+				3664651C12B04FF100DEACC3 /* Controllers */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -710,6 +716,7 @@
 		36C8A4B512F7CAC90022190F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				369F7EB01318B24F001C7084 /* cog.png */,
 				369F7A571316E7CE001C7084 /* asterisk.png */,
 				36F9949B130094C600B3B128 /* a-21-arrow-back.png */,
 				36F9949C130094C600B3B128 /* a-22-arrow-forward1.png */,
@@ -725,6 +732,7 @@
 				36F990FA1300534700B3B128 /* check-mark.png */,
 				369F7A7F1316FC43001C7084 /* greenLine.png */,
 				369F7A801316FC43001C7084 /* greyLine.png */,
+				369F7F221318C13E001C7084 /* redLine.png */,
 				36F9920A13005E5100B3B128 /* information2-ps.png */,
 				36F990FB1300534700B3B128 /* exclamation-point-ps.png */,
 				36C8A52912F7D46B0022190F /* gear3.png */,
@@ -970,6 +978,8 @@
 				369F7A5E1316F541001C7084 /* Soaplab.png in Resources */,
 				369F7A811316FC43001C7084 /* greenLine.png in Resources */,
 				369F7A821316FC43001C7084 /* greyLine.png in Resources */,
+				369F7EB11318B24F001C7084 /* cog.png in Resources */,
+				369F7F231318C13E001C7084 /* redLine.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

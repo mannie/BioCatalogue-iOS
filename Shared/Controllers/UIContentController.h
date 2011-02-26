@@ -6,19 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-#import "AppConstants.h"
-
-#import "NSString+Helper.h"
-#import "NSDictionary+Helper.h"
-#import "UIDevice+Helper.h"
-
-#import "BioCatalogueClient.h"
-
-#import "BioCatalogueResourceManager.h"
-#import "NSString+HTML.h"
-
 @class DetailViewController_iPad;
 
 
@@ -33,7 +20,8 @@
   
   IBOutlet UILabel *serviceComponents;
   IBOutlet UIButton *showComponentsButton;
-
+  IBOutlet UIButton *showSubmitterButton;
+  
   IBOutlet UIImageView *monitoringStatusIcon;
   
   // user details

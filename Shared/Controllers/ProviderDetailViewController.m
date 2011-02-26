@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "ProviderDetailViewController.h"
+#import "AppImports.h"
 
 
 @implementation ProviderDetailViewController
@@ -18,15 +18,14 @@
 #pragma mark Helpers
 
 -(void) updateWithProperties:(NSDictionary *)properties {
-  if (!self.view) [self performSelectorOnMainThread:@selector(loadView) withObject:nil waitUntilDone:YES];
+  if (![self view]) [self performSelectorOnMainThread:@selector(loadView) withObject:nil waitUntilDone:YES];
   
-  [providerProperties release];
+  if (providerProperties) [providerProperties release];
   providerProperties = [properties retain];
   
   [uiContentController updateProviderUIElementsWithProperties:properties];
   
   viewHasBeenUpdated = YES;
-  [self.view setNeedsDisplay];
 } // updateWithProperties
 
 
@@ -48,12 +47,12 @@
 #pragma mark  IBActions
 
 -(void) showServices:(id)sender {
-  [providerServicesViewController loadView];
+  if (![providerServicesViewController view]) [providerServicesViewController loadView];
 
   NSString *providerID = [[providerProperties objectForKey:JSONResourceElement] lastPathComponent];
   [providerServicesViewController updateWithServicesFromProviderWithID:[providerID intValue]];
 
-  [self.navigationController pushViewController:providerServicesViewController animated:YES];  
+  [[self navigationController] pushViewController:providerServicesViewController animated:YES];  
 } // showServices
 
 
@@ -66,9 +65,9 @@
 
 -(void) makeShowServicesButtonVisible:(BOOL)visible {
   if (visible) {
-    self.navigationItem.rightBarButtonItem = servicesButton;
+    [[self navigationItem] setRightBarButtonItem:servicesButton];
   } else {
-    self.navigationItem.rightBarButtonItem = nil;
+    [[self navigationItem] setRightBarButtonItem:nil];
   }
 } // makeShowServicesButtonVisible
 

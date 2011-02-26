@@ -6,15 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "BioCatalogueClient.h"
-#import "ServiceComponentsDetailViewController.h"
-
-#import "UIContentController.h"
-
-
-@class WebViewController_iPhone;
+@class WebViewController_iPhone, ServiceComponentsDetailViewController;
 
 
 @interface ServiceComponentsViewController : UITableViewController {
@@ -24,7 +16,8 @@
   NSArray *serviceComponents;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-  IBOutlet UILabel *noComponentsLabel;
+  
+  IBOutlet WebBrowserController *webBrowserController;
   
   BOOL serviceIsREST;
 
@@ -32,6 +25,7 @@
   WebViewController_iPhone *iPhoneWebViewController;
   
   BOOL viewHasBeenUpdated;
+  BOOL currentlyFetchingComponents;
 }
 
 -(void) updateWithServiceComponentsForPath:(NSString *)path;

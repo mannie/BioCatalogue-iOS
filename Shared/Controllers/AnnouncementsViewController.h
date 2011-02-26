@@ -6,16 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "PullToRefreshViewController.h"
-
-#import "BioCatalogueResourceManager.h"
-#import "AppDelegate_Shared.h"
-
-#import "DetailViewController_iPad.h"
-#import "AnnouncementDetailViewController_iPhone.h"
-
-#import "UpdateCenter.h"
+@class DetailViewController_iPad, AnnouncementDetailViewController_iPhone;
 
 
 @interface AnnouncementsViewController : PullToRefreshViewController <PullToRefreshDataSource, MWFeedParserDelegate> {

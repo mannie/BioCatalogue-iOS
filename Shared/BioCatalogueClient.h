@@ -6,19 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
-#import "AppConstants.h"
-
-#import "NSString+Helper.h"
-#import "NSError+Helper.h"
-#import "NSException+Helper.h"
-
-#import "BioCatalogueResourceManager.h"
-
-#import "JSONKit.h"
-#import "SFHFKeychainUtils.h"
-
 
 @interface BioCatalogueClient : NSObject {
 }

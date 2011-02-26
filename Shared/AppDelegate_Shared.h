@@ -6,12 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
-
-#import "BioCatalogueClient.h"
-#import "UpdateCenter.h"
-
 
 @interface AppDelegate_Shared : NSObject <UIApplicationDelegate> {
   UIWindow *window;

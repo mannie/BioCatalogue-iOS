@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "AppConstants.h"
+#import "AppImports.h"
 
 
 #pragma mark -
@@ -27,9 +27,9 @@ NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 90;
 
 NSUInteger const iPadItemsPerPage = 10;
 NSUInteger const iPhoneItemsPerPage = 10;
-NSUInteger ItemsPerPage = -1; // NOTE: this value will be replaced at runtime
+NSUInteger ItemsPerPage = -1; // NOTE: ItemsPerPage will be replaced at runtime
 
-NSUInteger AutoLoadTrigger = -1; // NOTE: this value will be replaced at runtime
+NSUInteger AutoLoadTrigger = -1; // NOTE: AutoLoadTrigger will be replaced at runtime using AutoLoadTriggerIndex * ItemsPerPage 
 float AutoLoadTriggerIndex = 0.8;
 
 NSTimeInterval const APIRequestTimeout = 10;
@@ -100,6 +100,7 @@ NSString *const JSONSubmitterElement = @"submitter";
 NSString *const JSONSymbolElement = @"symbol";
 NSString *const JSONTechnologyTypesElement = @"service_technology_types";
 NSString *const JSONTestTypeElement = @"test_type";
+NSString *const JSONTestScriptElement = @"test_script";
 NSString *const JSONTotalElement = @"total";
 NSString *const JSONURLElement = @"url";
 NSString *const JSONURLMonitorElement = @"url_monitor";
@@ -118,6 +119,7 @@ NSString *const TableCellBackground = @"cellRow.png";
 NSString *const TableCellSelectedBackground = @"cellRowSelected.png";
 
 NSString *const GreenLineImage = @"greenLine.png";
+NSString *const RedLineImage = @"redLine.png";
 NSString *const GreyLineImage = @"greyLine.png";
 
 NSString *const ProviderIcon = @"people-family4.png";
@@ -128,6 +130,8 @@ NSString *const AnnouncementUnreadIcon = @"exclamation-point-ps.png";
 
 NSString *const ServiceUnstarredIcon = @"star4.png";
 NSString *const ServiceStarredIcon = @"star8-sc48.png";
+
+NSString *const CogIcon = @"cog.png";
 
 
 #pragma mark -
@@ -151,7 +155,6 @@ NSString *NoInformationText = @"(no information available)";
 
 NSString *RESTComponentsText = @"REST Endpoints";
 NSString *SOAPComponentsText = @"SOAP Operations";
-
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */

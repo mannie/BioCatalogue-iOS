@@ -6,14 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "PullToRefreshViewController.h"
-#import "UIContentController.h"
-
-#import "DetailViewController_iPad.h"
-
-#import "NSException+Helper.h"
-
-#import "ServiceDetailViewController_iPhone.h"
+@class DetailViewController_iPad;
 
 
 @interface BrowseByDateViewController : PullToRefreshViewController <PullToRefreshDataSource> {

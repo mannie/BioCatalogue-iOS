@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "BrowseByDateViewController.h"
+#import "AppImports.h"
 
 
 @implementation BrowseByDateViewController
@@ -55,7 +55,7 @@
     [self refreshTableViewDataSource];
   });
   
-  [iPhoneDetailViewController loadView];
+  if (![iPhoneDetailViewController view]) [iPhoneDetailViewController loadView];
 }
 
 
@@ -122,7 +122,7 @@
   
   NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
   [UIContentController populateTableViewCell:cell 
-                               withObject:[itemsInSection objectAtIndex:indexPath.row]
+                               withObject:[itemsInSection objectAtIndex:[indexPath row]]
                                    givenScope:ServiceResourceScope];
   
   return cell;
@@ -145,7 +145,7 @@
     [iPadDetailViewController startLoadingAnimation];
     
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
+      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:[indexPath row]]];
     });
     
     [lastSelectedIndexIPad release];
@@ -153,12 +153,12 @@
 
     [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   } else {
-    [iPhoneDetailViewController loadView];
+    if (![iPhoneDetailViewController view]) [iPhoneDetailViewController loadView];
     [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
+      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];
     });
-    [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
+    [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   } // if else ipad

@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "AppDelegate_iPhone.h"
+#import "AppImports.h"
 
 
 @implementation AppDelegate_iPhone
@@ -23,7 +23,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {  
   if ([super applicationStartConditionsMet]) {  
-    [window addSubview:super.tabBarController.view];
+    [window addSubview:[[super tabBarController] view]];
     [window makeKeyAndVisible];
     
     return YES;

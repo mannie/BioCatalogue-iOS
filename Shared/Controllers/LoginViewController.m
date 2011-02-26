@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "LoginViewController.h"
+#import "AppImports.h"
 
 
 @implementation LoginViewController
@@ -22,14 +22,14 @@
 
   if (userDidAuthenticate) [self showProtectedResource];
   
-  usernameField.text = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
+  [usernameField setText:[[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey]];
 
-  usernameField.hidden = userDidAuthenticate;
-  passwordField.hidden = userDidAuthenticate;
-  signInButton.hidden = userDidAuthenticate;
-
-  signOutButton.hidden = !userDidAuthenticate;
-  showProtectedResourceButton.hidden = !userDidAuthenticate;
+  [usernameField setHidden:userDidAuthenticate];
+  [passwordField setHidden:userDidAuthenticate];
+  [signInButton setHidden:userDidAuthenticate];
+  
+  [signOutButton setHidden:!userDidAuthenticate];
+  [showProtectedResourceButton setHidden:!userDidAuthenticate];
 } // updateView
 
 -(void) setEnabledForUILoginElements:(NSNumber *)enabled {
@@ -43,14 +43,14 @@
   }
   
   [UIView animateWithDuration:0.3 animations:^{
-    usernameField.alpha = newLoginElementsAlpha;
-    passwordField.alpha = newLoginElementsAlpha;
-    signInButton.alpha = newLoginElementsAlpha;
+    [usernameField setAlpha:newLoginElementsAlpha];
+    [passwordField setAlpha:newLoginElementsAlpha];
+    [signInButton setAlpha:newLoginElementsAlpha];
   }];
   
-  usernameField.enabled = [enabled boolValue];
-  passwordField.enabled = [enabled boolValue];
-  signInButton.enabled = [enabled boolValue];  
+  [usernameField setEnabled:[enabled boolValue]];
+  [passwordField setEnabled:[enabled boolValue]];
+  [signInButton setEnabled:[enabled boolValue]];
 } // setEnabledForUILoginElements
 
 -(void) showUIAlertViewWithErrorMessage:(NSString *)message {
@@ -91,22 +91,20 @@
 #pragma mark IBActions
 
 -(IBAction) signInToBioCatalogue {
-  if (![usernameField.text isValidEmailAddress]) {
+  if (![[usernameField text] isValidEmailAddress]) {
     [self showUIAlertViewWithErrorMessage:@"Please enter a valid email address"];
-  } else if (![passwordField.text isValidJSONValue]) {
+  } else if (![[passwordField text] isValidJSONValue]) {
     [self showUIAlertViewWithErrorMessage:@"Please enter a valid password"];
   } else {    
     [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
-    [self attemptToSignInWithUsername:usernameField.text andPassword:passwordField.text updatingUILoginElements:YES];
+    [self attemptToSignInWithUsername:[usernameField text] andPassword:[passwordField text] updatingUILoginElements:YES];
   }
 } // signInToBioCatalogue
 
 -(IBAction) signOutOfBioCatalogue {
-  NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
-
   [BioCatalogueClient signOutOfBioCatalogue];
   
-  passwordField.text = nil;  
+  [passwordField setText:nil];
   [self updateView];
   
   if ([[[self navigationController] viewControllers] count] > 1) {
@@ -116,12 +114,12 @@
 
 -(IBAction) showProtectedResource {
   if ([[[self navigationController] viewControllers] count] > 1) {
-    NSMutableArray *controllers = [[self.navigationController.viewControllers mutableCopy] autorelease];
+    NSMutableArray *controllers = [[[[self navigationController] viewControllers] mutableCopy] autorelease];
     [controllers removeLastObject];
-    self.navigationController.viewControllers = controllers;
+    [[self navigationController] setViewControllers:controllers];
   }
   
-  [self.navigationController pushViewController:protectedResourceController animated: YES];      
+  [[self navigationController] pushViewController:protectedResourceController animated: YES];      
 } // showProtectedResource
 
 
@@ -135,6 +133,7 @@
   NSError *error = nil;
   NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
   if ([username isValidEmailAddress]) {
+    [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
     NSString *password = [SFHFKeychainUtils getPasswordForUsername:username
                                                     andServiceName:AppServiceName
                                                              error:&error];
@@ -143,7 +142,10 @@
     if ([password isValidJSONValue]) {
       [self attemptToSignInWithUsername:username andPassword:password updatingUILoginElements:NO];
     }    
+  } else {
+    [self setEnabledForUILoginElements:[NSNumber numberWithBool:YES]];
   }
+
 } // awakeFromNib
 
 -(void) viewWillAppear:(BOOL)animated {

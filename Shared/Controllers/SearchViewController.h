@@ -6,18 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "ServiceDetailViewController_iPhone.h"
-#import "UserDetailViewController_iPhone.h"
-#import "ProviderDetailViewController.h"
-
-#import "DetailViewController_iPad.h"
-
-#import "NSException+Helper.h"
-
-#import "PullToRefreshViewController.h"
-#import "UIContentController.h"
+@class DetailViewController_iPad, UserDetailViewController_iPhone;
 
 
 @interface SearchViewController : PullToRefreshViewController <PullToRefreshDataSource, UISearchBarDelegate> {

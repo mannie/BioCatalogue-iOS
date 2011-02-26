@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "AppDelegate_iPad.h"
+#import "AppImports.h"
 
 
 @implementation AppDelegate_iPad
@@ -25,7 +25,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {        
   if ([super applicationStartConditionsMet]) {
-    [window addSubview:splitViewController.view];
+    [window addSubview:[splitViewController view]];
     [window makeKeyAndVisible];
 
     return YES;

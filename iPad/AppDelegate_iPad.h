@@ -6,11 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-#import "AppDelegate_Shared.h"
-
-#import "AppConstants.h"
-
 
 @interface AppDelegate_iPad : AppDelegate_Shared {
   UISplitViewController *splitViewController;

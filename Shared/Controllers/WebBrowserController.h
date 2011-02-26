@@ -6,9 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "AppConstants.h"
-
 
 @interface WebBrowserController : NSObject <UIWebViewDelegate> {
   IBOutlet UIToolbar *browserToolbar;

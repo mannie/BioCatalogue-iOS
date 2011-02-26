@@ -6,12 +6,12 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "NSObject+Helper.h"
+#import "AppImports.h"
 
 
 @implementation NSObject (Helper)
 
--(void) print {
+-(void) log {
   NSLog(@"=> %@", self);
 }
 

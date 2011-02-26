@@ -6,16 +6,21 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "NSError+Helper.h"
+#import "AppImports.h"
 
 
 @implementation NSError (Helper)
 
 -(void) log {
-  NSLog(@"%@\n%@\n%@", 
-        [self localizedDescription], 
-        [self localizedFailureReason], 
-        [self localizedRecoverySuggestion]);
+  if ([self localizedDescription] && [self localizedFailureReason] && [self localizedRecoverySuggestion]) {
+    NSLog(@"NSError: %@\n%@\n%@", [self localizedDescription], [self localizedFailureReason], [self localizedRecoverySuggestion]);    
+  } else if ([self localizedDescription] && [self localizedFailureReason]) {
+    NSLog(@"NSError: %@\n%@", [self localizedDescription], [self localizedFailureReason]);    
+  } else if ([self localizedDescription]) {
+    NSLog(@"NSError: %@", [self localizedDescription]);    
+  } else {
+    [super log];
+  }
 }
 
 @end

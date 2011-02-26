@@ -6,13 +6,16 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "BioCatalogueResourceManager.h"
+#import "AppImports.h"
 
 
 @implementation BioCatalogueResourceManager
 
 
 static NSManagedObjectContext *managedObjectContext;
+
+static BioCatalogue *_currentBioCatalogue = nil;
+static User *_catalogueUser = nil;
 
 
 +(void) nukeDataStore {
@@ -27,18 +30,18 @@ static NSManagedObjectContext *managedObjectContext;
   }
   [self commitChanges];
   
-  [@"Data store has been nuked!!!" print];
+  [@"Data store has been nuked!!!" log];
 }
 
 +(void) initialize {
-  AppDelegate_Shared *delegate = (AppDelegate_Shared *)[UIApplication sharedApplication].delegate;
-  managedObjectContext = delegate.managedObjectContext;
+  AppDelegate_Shared *delegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
+  managedObjectContext = [delegate managedObjectContext];
 
 //  [self nukeDataStore];
 } // initialize
 
 +(void) commitChanges {  
-  int maxNumberOfTimesToTryObtainingLock = 10;
+  int maxNumberOfTimesToTryObtainingLock = 3;
   
   for (int x = 0; x < maxNumberOfTimesToTryObtainingLock; x++) {
     if ([managedObjectContext tryLock]) {
@@ -58,6 +61,8 @@ static NSManagedObjectContext *managedObjectContext;
 } // deleteObject
 
 +(BioCatalogue *) currentBioCatalogue {
+  if (_currentBioCatalogue) return _currentBioCatalogue;
+  
   NSError *error = nil;
   NSEntityDescription *entity = [NSEntityDescription entityForName:@"BioCatalogue"
                                             inManagedObjectContext:managedObjectContext];
@@ -66,31 +71,31 @@ static NSManagedObjectContext *managedObjectContext;
   [request setFetchLimit:1];
   [request setPredicate:[NSPredicate predicateWithFormat:@"hostname = %@", BioCatalogueHostname]];
 
-  BioCatalogue *catalogue = [[managedObjectContext executeFetchRequest:[request autorelease]
-                                                                 error:&error] lastObject];
+  _currentBioCatalogue = [[managedObjectContext executeFetchRequest:[request autorelease] error:&error] lastObject];
   if (error) [error log];
-  if (catalogue) return catalogue;
+  if (_currentBioCatalogue) return _currentBioCatalogue;
 
-  catalogue = [NSEntityDescription insertNewObjectForEntityForName:@"BioCatalogue" 
-                                            inManagedObjectContext:managedObjectContext];
-
-  catalogue.hostname = BioCatalogueHostname;
+  _currentBioCatalogue = [NSEntityDescription insertNewObjectForEntityForName:@"BioCatalogue" 
+                                                       inManagedObjectContext:managedObjectContext];
+  [_currentBioCatalogue setHostname:BioCatalogueHostname];
   
   [self commitChanges];
   
-  return catalogue;
+  return _currentBioCatalogue;
 } // currentBioCatalogue
 
 +(User *) catalogueUser {
-  User *user = [[self currentBioCatalogue] user];
-  if (user) return user;
+  if (_catalogueUser) return _catalogueUser;
+
+  _catalogueUser = [[self currentBioCatalogue] user];
+  if (_catalogueUser) return _catalogueUser;
   
-  user = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:managedObjectContext];
-  user.catalogue = [self currentBioCatalogue];
+  _catalogueUser = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:managedObjectContext];
+  [_catalogueUser setCatalogue:[self currentBioCatalogue]];
   
   [self commitChanges];
   
-  return user;
+  return _catalogueUser;
 } // currentUser
 
 +(Announcement *) announcementWithUniqueID:(NSInteger)uniqueID {
@@ -108,8 +113,8 @@ static NSManagedObjectContext *managedObjectContext;
   if (announcement) return announcement;
   
   announcement = [NSEntityDescription insertNewObjectForEntityForName:@"Announcement" inManagedObjectContext:managedObjectContext];
-  announcement.uniqueID = [NSNumber numberWithInt:uniqueID];
-  announcement.catalogue = [self currentBioCatalogue];
+  [announcement setUniqueID:[NSNumber numberWithInt:uniqueID]];
+  [announcement setCatalogue:[self currentBioCatalogue]];
 
   [self commitChanges];
   
@@ -131,8 +136,8 @@ static NSManagedObjectContext *managedObjectContext;
   if (service) return service;
   
   service = [NSEntityDescription insertNewObjectForEntityForName:@"Service" inManagedObjectContext:managedObjectContext];
-  service.uniqueID = [NSNumber numberWithInt:uniqueID];
-  service.catalogue = [self currentBioCatalogue];
+  [service setUniqueID:[NSNumber numberWithInt:uniqueID]];
+  [service setCatalogue:[self currentBioCatalogue]];
 
   [self commitChanges];
   

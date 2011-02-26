@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "UserDetailViewController_iPhone.h"
+#import "AppImports.h"
 
 
 @implementation UserDetailViewController_iPhone
@@ -18,22 +18,9 @@
   [userProperties release];
   userProperties = [properties retain];
   
-  nameLabel.text = [userProperties objectForKey:JSONNameElement];
+  [uiContentController updateUserUIElementsWithProperties:userProperties];
   
-  NSString *detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
-  affiliationLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-  
-  detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCountryElement]];
-  countryLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-  
-  detailItem = [NSString stringWithFormat:@"%@", [[userProperties objectForKey:JSONLocationElement] objectForKey:JSONCityElement]];
-  cityLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-  
-  detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
-  emailLabel.text = ([detailItem isValidJSONValue] ? detailItem : UnknownText);
-  
-  detailItem = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONJoinedElement]];
-  joinedLabel.text = [detailItem stringByReplacingCharactersInRange:NSMakeRange(10, 10) withString:@""];
+  viewHasBeenUpdated = YES;
 } // updateWithProperties
 
 
@@ -59,12 +46,7 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [nameLabel release];
-  [affiliationLabel release];
-  [countryLabel release];
-  [cityLabel release];
-  [emailLabel release];
-  [joinedLabel release];
+  [uiContentController release];
 } // releaseIBOutlets
 
 - (void)dealloc {

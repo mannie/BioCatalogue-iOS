@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "DetailViewController_iPad.h"
+#import "AppImports.h"
 
 
 @implementation DetailViewController_iPad
@@ -33,7 +33,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 
 -(void) touchToolbar:(UIToolbar *)toolbar {  
   if (toolbar == mainToolbar) {
-    viewCurrentResourceBarButtonItem.enabled = scopeOfResourceBeingViewed != nil;
+    [viewCurrentResourceBarButtonItem setEnabled:scopeOfResourceBeingViewed != nil];
   }
     
   NSArray *items = [toolbar items];
@@ -52,12 +52,12 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                              withSize:(CGSize)size {
   if (myView) {
     viewController = [[[UIViewController alloc] init] autorelease];
-    viewController.view = myView;
+    [viewController setView:myView];
   }
   
   [contextualPopoverController release];
   contextualPopoverController = [[UIPopoverController alloc] initWithContentViewController:viewController];
-  contextualPopoverController.delegate = self;
+  [contextualPopoverController setDelegate:self];
   [contextualPopoverController setPopoverContentSize:size animated:YES];
   [contextualPopoverController presentPopoverFromRect:rect
                                                inView:parentView
@@ -76,7 +76,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 } // stopLoadingAnimation
 
 -(void) setContentView:(UIView *)subView forParentView:(UIView *)parentView {  
-  defaultView.hidden = subView != defaultView;
+  [defaultView setHidden:subView != defaultView];
   
   // auxiliary panel
   if (parentView == auxiliaryDetailPanel && currentAuxiliaryPanelView != subView) {
@@ -84,8 +84,8 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     [parentView addSubview:subView];
     currentAuxiliaryPanelView = subView;
     
-    webBrowserToolbar.hidden = subView != webBrowser;
-    webBrowser.hidden = webBrowserToolbar.hidden;
+    [webBrowserToolbar setHidden:subView != webBrowser];
+    [webBrowser setHidden:subView != webBrowser];
   } 
   
   if (parentView == auxiliaryDetailPanel) [self exposeAuxiliaryDetailPanel:self];
@@ -145,8 +145,8 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   if ([BioCatalogueResourceManager serviceWithUniqueIDIsBeingMonitored:serviceID]) {
     Service *service = [BioCatalogueResourceManager serviceWithUniqueID:serviceID];
     
-    if ([service.hasUpdate boolValue]) {
-      service.hasUpdate = [NSNumber numberWithBool:NO];
+    if ([[service hasUpdate] boolValue]) {
+      [service setHasUpdate:[NSNumber numberWithBool:NO]];
       [BioCatalogueResourceManager commitChanges];
       
       [UpdateCenter performSelectorOnMainThread:@selector(updateApplicationBadgesForServiceUpdates) withObject:nil waitUntilDone:NO];
@@ -164,8 +164,6 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                                              showLoadingText:NO];
   
   [self setContentView:serviceDetailView forParentView:mainContentView];
-
-  [self.view setNeedsDisplay];  
   [self stopLoadingAnimation];
 } // postUpdateWithPropertiesActionsForServices
 
@@ -215,20 +213,20 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
-  favouriteServiceBarButtonItem.enabled = [BioCatalogueClient userIsAuthenticated];
+  [favouriteServiceBarButtonItem setEnabled:[BioCatalogueClient userIsAuthenticated]];
   [self updateWithProperties:properties withScope:ServiceResourceScope];
   scopeOfResourceBeingViewed = ServiceResourceScope;
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
-  favouriteServiceBarButtonItem.enabled = NO;
+  [favouriteServiceBarButtonItem setEnabled:NO];
   [self updateWithProperties:properties withScope:UserResourceScope];  
   [self setContentView:userDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = UserResourceScope;
 } // updateWithPropertiesForUsersScope
 
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties {
-  favouriteServiceBarButtonItem.enabled = NO;
+  [favouriteServiceBarButtonItem setEnabled:NO];
   [self updateWithProperties:properties withScope:ProviderResourceScope];  
   [self setContentView:providerDetailView forParentView:mainContentView];
   scopeOfResourceBeingViewed = ProviderResourceScope;
@@ -236,11 +234,16 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 
 -(void) updateWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID {
   lastAnnouncementID = announcementID;
-  favouriteServiceBarButtonItem.enabled = NO;
+  
+  [favouriteServiceBarButtonItem setEnabled:NO];
+  
   [self setContentView:announcementDetailView forParentView:mainContentView];
   [uiContentController updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:announcementID];
+  
   scopeOfResourceBeingViewed = AnnouncementResourceScope;
   [self touchToolbar:mainToolbar];
+
+  [self stopLoadingAnimation];
 } // updateWithPropertiesForAnnouncementWithID
 
 
@@ -256,9 +259,9 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];
   
   if ([BioCatalogueResourceManager serviceWithUniqueIDIsFavourited:uniqueID]) {
-    [@"remove from favourites" print];
+    [@"remove from favourites" log];
   } else {
-    [@"add to favourites" print];
+    [@"add to favourites" log];
   }
   
 //  [BioCatalogueResourceManager commitChanges];
@@ -277,7 +280,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                              intoView:serviceDetailView
                    withViewController:nil
                     withArrowFromRect:[sender frame] 
-                             withSize:providerIDCard.frame.size];
+                             withSize:[providerIDCard frame].size];
   
   [listingProperties release];
   listingProperties = currentListingProperties;
@@ -298,7 +301,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                              intoView:serviceDetailView
                    withViewController:nil
                     withArrowFromRect:[sender frame]
-                             withSize:userIDCard.frame.size];
+                             withSize:[userIDCard frame].size];
   
   [listingProperties release];
   listingProperties = currentListingProperties;
@@ -320,7 +323,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                                intoView:serviceDetailView
                      withViewController:monitoringStatusViewController
                       withArrowFromRect:[sender frame]
-                               withSize:CGSizeMake(400, 220)];
+                               withSize:CGSizeMake(320, 250)];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Monitoring" 
                                                     message:@"No monitoring information is available for this service." 
@@ -352,7 +355,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                              intoView:serviceDetailView
                    withViewController:navController
                     withArrowFromRect:[sender frame]
-                             withSize:CGSizeMake(500, 460)];
+                             withSize:CGSizeMake(320, 460)];
 }
 
 -(void) dismissAuxiliaryDetailPanel:(id)sender {
@@ -364,7 +367,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   [defaultPopoverController dismissPopoverAnimated:YES];
   
   UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] init];
-  recognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+  [recognizer setDirection:UISwipeGestureRecognizerDirectionLeft];
   [gestureHandler rolloutAuxiliaryDetailPanel:[recognizer autorelease]];
 } // exposeAuxiliaryDetailPanel
 
@@ -382,7 +385,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 } // showResourceInBioCatalogue
 
 -(IBAction) showCurrentPullOutBrowserContentInSafari:(id)sender {
-  [[UIApplication sharedApplication] openURL:[webBrowser.request URL]];
+  [[UIApplication sharedApplication] openURL:[[webBrowser request] URL]];
 } // showCurrentPullOutBrowserContentInSafari
 
 -(IBAction) showCurrentResourceInBioCatalogue:(id)sender {
@@ -412,7 +415,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
           withBarButtonItem:(UIBarButtonItem*)barButtonItem 
        forPopoverController: (UIPopoverController*)pc {
   
-  barButtonItem.title = @"Main Menu";
+  [barButtonItem setTitle:@"Main Menu"];
   
   NSMutableArray *items = [[mainToolbar items] mutableCopy];
   
@@ -453,7 +456,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 #pragma mark UIPopoverControllerDelegate
 
 -(void) popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
-  UIView *myView = popoverController.contentViewController.view;
+  UIView *myView = [[popoverController contentViewController] view];
   
   if (myView == userIDCard) {
     [userIDCardContainer addSubview:userIDCard];
@@ -471,7 +474,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  favouriteServiceBarButtonItem.enabled = NO;
+  [favouriteServiceBarButtonItem setEnabled:NO];
   [self touchToolbar:mainToolbar];
   
   if (!viewHasAlreadyInitialized) {
@@ -509,7 +512,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     // left swipe recognizer for auxiliaryDetailPanel
     recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:gestureHandler 
                                                            action:@selector(rolloutAuxiliaryDetailPanel:)];
-    ((UISwipeGestureRecognizer *)recognizer).direction = UISwipeGestureRecognizerDirectionLeft;
+    [((UISwipeGestureRecognizer *)recognizer) setDirection:UISwipeGestureRecognizerDirectionLeft];
     [auxiliaryDetailPanel addGestureRecognizer:recognizer];    
     [recognizer release];
     

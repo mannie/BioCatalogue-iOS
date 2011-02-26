@@ -6,18 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "UIContentController.h"
-#import "BioCatalogueClient.h"
-
-#import "NSString+Helper.h"
-#import "PullToRefreshViewController.h"
-
-#import "DetailViewController_iPad.h"
-#import "ServiceDetailViewController_iPhone.h"
-
-#import "UpdateCenter.h"
+@class DetailViewController_iPad;
 
 
 @interface MyStuffViewController : PullToRefreshViewController {

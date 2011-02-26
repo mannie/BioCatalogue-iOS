@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "MyStuffViewController.h"
+#import "AppImports.h"
 
 
 @implementation MyStuffViewController
@@ -156,7 +156,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
 - (void)viewDidLoad {
   [super viewDidLoad];
   
-  [UIContentController customiseTableView:self.tableView];
+  [UIContentController customiseTableView:[self tableView]];
   [self refreshTableViewDataSource];
 } // viewDidLoad
 
@@ -223,20 +223,20 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
   }
   */
 
-  switch (indexPath.section) {
+  switch ([indexPath section]) {
     case UserSubmissions:
       [UIContentController populateTableViewCell:cell 
-                                      withObject:[userSubmissions objectAtIndex:indexPath.row]
+                                      withObject:[userSubmissions objectAtIndex:[indexPath row]]
                                       givenScope:ServiceResourceScope];
       break;
     case UserFavourites:
       [UIContentController populateTableViewCell:cell 
-                                      withObject:[userFavourites objectAtIndex:indexPath.row]
+                                      withObject:[userFavourites objectAtIndex:[indexPath row]]
                                       givenScope:ServiceResourceScope];      
       break;
     case UserResponsibilities:
       [UIContentController populateTableViewCell:cell 
-                                      withObject:[userResponsibilities objectAtIndex:indexPath.row]
+                                      withObject:[userResponsibilities objectAtIndex:[indexPath row]]
                                       givenScope:ServiceResourceScope];
       break;
   }
@@ -250,7 +250,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   NSArray *itemsInSection;
-  switch (indexPath.section) {
+  switch ([indexPath section]) {
     case UserSubmissions: itemsInSection = userSubmissions; break;
     case UserFavourites: itemsInSection = userFavourites; break;
     case UserResponsibilities: itemsInSection = userResponsibilities; break;
@@ -266,7 +266,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
     [iPadDetailViewController startLoadingAnimation];
     
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
+      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:[indexPath row]]];
     });
     
     [lastSelectedIndexIPad release];
@@ -276,9 +276,9 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
   } else {
     [iPhoneDetailViewController makeShowProvidersButtonVisible:YES];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
+      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];
     });
-    [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
+    [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [tableView reloadData];

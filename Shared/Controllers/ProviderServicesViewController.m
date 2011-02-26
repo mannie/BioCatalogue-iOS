@@ -6,9 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "ProviderServicesViewController.h"
-
-#import "ServiceDetailViewController_iPhone.h"
+#import "AppImports.h"
 
 
 @implementation ProviderServicesViewController
@@ -19,10 +17,7 @@
 #pragma mark -
 #pragma mark Helpers
 
--(void) updateTableViewFooterView {
-  NSNumber *shouldHide = [NSNumber numberWithBool:([[paginatedServices objectForKey:[NSNumber numberWithInt:0]] count] != 0)];
-  [noServicesLabel performSelectorOnMainThread:@selector(setHidden:) withObject:shouldHide waitUntilDone:NO];
-  
+-(void) stopAnimatingActivityIndicator {
   if (activeFetchThreads == 0) {
     [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
   }
@@ -31,10 +26,11 @@
 -(void) loadItemsOnNextPage {
   if (lastLoadedPage == lastPage) {
     activeFetchThreads--;
-    [self updateTableViewFooterView];
+    [self stopAnimatingActivityIndicator
+     ];
     return;
   }
-  
+
   dispatch_async(dispatch_queue_create("Load next page", NULL), ^{
     lastLoadedPage++;
     int pageToLoad = lastLoadedPage; // use local var to reduce contention when loading in multiple threads
@@ -53,7 +49,7 @@
     
     activeFetchThreads--;
     
-    [self updateTableViewFooterView];    
+    [self stopAnimatingActivityIndicator];    
   });
 } // loadItemsOnNextPage
 
@@ -89,7 +85,7 @@
       }      
     }
   } else {
-    [iPhoneDetailViewController loadView];
+    if (![iPhoneDetailViewController view]) [iPhoneDetailViewController loadView];
   }
 } // updateWithServicesFromProviderWithID
 
@@ -99,9 +95,8 @@
 
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-
-  [UIContentController customiseTableView:self.tableView];
-  noServicesLabel.hidden = YES;
+  
+  [UIContentController customiseTableView:[self tableView]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -153,9 +148,9 @@
   }
   
   NSArray *itemsInSection = [paginatedServices objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
-  [UIContentController populateTableViewCell:cell 
-                               withObject:[itemsInSection objectAtIndex:indexPath.row]
-                                   givenScope:ServiceResourceScope];
+  [UIContentController populateTableViewCell:cell
+                                  withObject:[itemsInSection objectAtIndex:[indexPath row]]
+                                  givenScope:ServiceResourceScope];
   
   return cell;
 } // tableView:cellForRowAtIndexPath
@@ -177,7 +172,7 @@
     [iPadDetailViewController startLoadingAnimation];
     
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
+      [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:[indexPath row]]];
     });
     
     [lastSelectedIndexIPad release];
@@ -185,12 +180,12 @@
     
     [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   } else {
-    [iPhoneDetailViewController loadView];
+    if (![iPhoneDetailViewController view]) [iPhoneDetailViewController loadView];
     [iPhoneDetailViewController makeShowProvidersButtonVisible:NO];
     dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
+      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];
     });
-    [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
+    [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   } // if else ipad
@@ -205,7 +200,6 @@
   [iPadDetailViewController release];
   
   [activityIndicator release];
-  [noServicesLabel release];
 }
 
 - (void)dealloc {

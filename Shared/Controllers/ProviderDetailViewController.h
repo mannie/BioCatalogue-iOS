@@ -6,13 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "AppConstants.h"
-#import "NSString+Helper.h"
-
-#import "ProviderServicesViewController.h"
-#import "UIContentController.h"
+@class ProviderServicesViewController;
 
 
 @interface ProviderDetailViewController : UIViewController {

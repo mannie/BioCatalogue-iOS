@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "ServiceComponentsDetailViewController.h"
+#import "AppImports.h"
 
 
 @implementation ServiceComponentsDetailViewController
@@ -16,13 +16,13 @@
 #pragma mark Helpers
 
 -(void) loadRESTMethodDetailView {
-  [self loadView];
-  self.view = restMethodDetailView;
+  if (![self view]) [self loadView];
+  [self setView:restMethodDetailView];
 }
 
 -(void) loadSOAPOperationDetailView {
-  [self loadView];
-  self.view = soapOperationDetailView;  
+  if (![self view]) [self loadView];
+  [self setView:soapOperationDetailView];
 }
 
 

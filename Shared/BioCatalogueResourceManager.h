@@ -6,14 +6,6 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
-#import "AppDelegate_Shared.h"
-
-#import "BioCatalogue.h"
-#import "User.h"
-#import "Service.h"
-#import "Announcement.h"
-
 
 @interface BioCatalogueResourceManager : NSObject {
 }

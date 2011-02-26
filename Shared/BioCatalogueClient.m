@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "BioCatalogueClient.h"
+#import "AppImports.h"
 
 
 @implementation BioCatalogueClient
@@ -85,7 +85,7 @@ static BOOL _userIsAuthenticated;
     User *user = [[BioCatalogueResourceManager catalogueUser] retain];
     
     NSUInteger userID = [[[userJson objectForKey:JSONSelfElement] lastPathComponent] intValue];
-    user.uniqueID = [NSNumber numberWithInt:userID];
+    [user setUniqueID:[NSNumber numberWithInt:userID]];
     
     [BioCatalogueResourceManager commitChanges];
     [user release];
@@ -236,6 +236,27 @@ static BOOL _userIsAuthenticated;
   
   return [self documentAtPath:[NSString stringWithFormat:@"/service_providers?per_page=%i&page=%i", limit, pageNum]];
 } // providers:page
+
+
+#pragma mark -
+#pragma mark NSURLConnection delegate
+
+/*
+- (BOOL)connection:(NSURLConnection *)connection canAuthenticateAgainstProtectionSpace:(NSURLProtectionSpace *)protectionSpace {
+  return [[protectionSpace authenticationMethod] isEqualToString:NSURLAuthenticationMethodServerTrust];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {  
+  if ([[[challenge protectionSpace] authenticationMethod] isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+    if ([[[challenge protectionSpace] host] isEqualToString:BioCatalogueHostname]) {
+      [[challenge sender] useCredential:[NSURLCredential credentialForTrust:[[challenge protectionSpace] serverTrust]]
+             forAuthenticationChallenge:challenge];
+    }
+  }
+  
+  [[challenge sender] continueWithoutCredentialForAuthenticationChallenge:challenge];
+}
+*/
 
 
 @end

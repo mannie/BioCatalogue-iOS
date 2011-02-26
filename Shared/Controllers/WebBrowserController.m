@@ -6,7 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "WebBrowserController.h"
+#import "AppImports.h"
 
 
 @implementation WebBrowserController
@@ -18,7 +18,7 @@
 
   [items removeObjectAtIndex:indexToUpdate]; 
   
-  if (webView.loading) {
+  if ([webView isLoading]) {
     [items insertObject:stopButton atIndex:indexToUpdate];
   } else {
     [items insertObject:refreshButton atIndex:indexToUpdate];
@@ -27,8 +27,8 @@
   [browserToolbar setItems:items animated:YES];  
   [items release];
 
-  backButton.enabled = webView.canGoBack;
-  forwardButton.enabled = webView.canGoForward;
+  [backButton setEnabled:[webView canGoBack]];
+  [forwardButton setEnabled:[webView canGoForward]];
 } // updateNavigationButtons
 
 -(void) webViewDidStartLoad:(UIWebView *)webView {
@@ -50,8 +50,8 @@
     [self webViewDidFinishLoad:webView];
     return;
   }
-  
-  NSLog(@"didFailLoadWithError: %@", error);
+
+  [error log];
   
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[error domain]
                                                   message:[NSString stringWithFormat:@"%@", [error localizedDescription]] 

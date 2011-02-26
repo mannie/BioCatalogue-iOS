@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "AnnouncementDetailViewController_iPhone.h"
+#import "AppImports.h"
 
 
 @implementation AnnouncementDetailViewController_iPhone

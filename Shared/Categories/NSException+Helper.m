@@ -6,16 +6,22 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "NSException+Helper.h"
+#import "AppImports.h"
 
 
 @implementation NSException (Helper)
 
 -(void) log {
-  NSLog(@"%@\n%@\n%@", 
-        [self name], 
-        [self reason], 
-        [self userInfo]);
+  if ([self name]) {
+    NSLog(@"NSExpection: %@\n%@\n%@", [self name], [self reason], [self userInfo]);
+  } else if ([self name] && [self reason]) {
+    NSLog(@"NSExpection: %@\n%@", [self name], [self reason]);
+  } else if ([self name]) {
+    NSLog(@"NSExpection: %@", [self name]);
+  } else {
+    [super log];
+  }
+
 }
 
 @end

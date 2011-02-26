@@ -6,17 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-#import "BioCatalogueClient.h"
-
-#import "UserDetailViewController_iPhone.h"
-#import "ProviderDetailViewController.h"
-#import "MonitoringStatusViewController.h"
-#import "ServiceComponentsViewController.h"
-#import "UIContentController.h"
-
-#import "NSDictionary+Helper.h"
+@class UserDetailViewController_iPhone;
 
 
 @interface ServiceDetailViewController_iPhone : UIViewController {

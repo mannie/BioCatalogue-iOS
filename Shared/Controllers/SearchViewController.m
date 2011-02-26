@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "SearchViewController.h"
+#import "AppImports.h"
 
 
 @implementation SearchViewController
@@ -156,7 +156,7 @@
   
   NSArray *itemsInSection = [paginatedSearchResults objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
   [UIContentController populateTableViewCell:cell 
-                                 withObject:[itemsInSection objectAtIndex:indexPath.row]
+                                 withObject:[itemsInSection objectAtIndex:[indexPath row]]
                                      givenScope:lastSearchScope];
   
   return cell;
@@ -189,17 +189,17 @@
     
     if ([lastSearchScope isEqualToString:ServiceResourceScope]) {
       dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-        [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:indexPath.row]];
+        [iPadDetailViewController updateWithPropertiesForServicesScope:[itemsInSection objectAtIndex:[indexPath row]]];
       });
     } else if ([lastSearchScope isEqualToString:UserResourceScope]) {
-      [iPadDetailViewController updateWithPropertiesForUsersScope:[itemsInSection objectAtIndex:indexPath.row]];
+      [iPadDetailViewController updateWithPropertiesForUsersScope:[itemsInSection objectAtIndex:[indexPath row]]];
     } else {
-      [providerDetailViewController loadView];
-      [providerDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];      
+      if (![providerDetailViewController view]) [providerDetailViewController loadView];
+      [providerDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];      
       
       [providerDetailViewController makeShowServicesButtonVisible:YES];
       
-      [self.navigationController pushViewController:providerDetailViewController animated:YES];
+      [[self navigationController] pushViewController:providerDetailViewController animated:YES];
       
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
@@ -208,7 +208,7 @@
     if ([lastSearchScope isEqualToString:ServiceResourceScope]) {
       [serviceDetailViewController makeShowProvidersButtonVisible:YES];
       dispatch_async(dispatch_queue_create("Update detail view controller", NULL), ^{
-        [serviceDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];
+        [serviceDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];
       });
       iPhoneDetailViewController = serviceDetailViewController;
     } else {
@@ -218,13 +218,13 @@
         iPhoneDetailViewController = providerDetailViewController;
       }        
       
-      [iPhoneDetailViewController loadView];
-      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:indexPath.row]];      
+      if (![iPhoneDetailViewController view]) [iPhoneDetailViewController loadView];
+      [iPhoneDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];      
 
       [providerDetailViewController makeShowServicesButtonVisible:YES];
     }
     
-    [self.navigationController pushViewController:iPhoneDetailViewController animated:YES];
+    [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   } // if else ipad
 } //tableView:didSelectRowAtIndexPath
@@ -254,7 +254,7 @@
   
   dispatch_async(dispatch_queue_create("Search", NULL), ^{      
     [lastSearchQuery release];
-    lastSearchQuery = [mySearchBar.text retain];
+    lastSearchQuery = [[mySearchBar text] retain];
     lastSearchScope = currentSearchScope;
     
     [self refreshTableViewDataSource];
@@ -265,13 +265,13 @@
 
 -(void) searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
   if (selectedScope == ServiceResourceScopeIndex) {
-    searchBar.placeholder = @"Search For A Service";
+    [searchBar setPlaceholder:@"Search For A Service"];
     currentSearchScope = ServiceResourceScope;
   } else if (selectedScope == UserResourceScopeIndex) {
-    searchBar.placeholder = @"Search For A User";
+    [searchBar setPlaceholder:@"Search For A User"];
     currentSearchScope = UserResourceScope;
   } else {
-    searchBar.placeholder = @"Search For A Service Provider";
+    [searchBar setPlaceholder:@"Search For A Service Provider"];
     currentSearchScope = ProviderResourceScope;
   }
 } // searchBar:selectedScopeButtonIndexDidChange
