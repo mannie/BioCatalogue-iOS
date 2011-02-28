@@ -15,6 +15,8 @@
 NSString *const NetworkActivityStarted = @"NetworkActivityStartedNotification";
 NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 
+NSString *const ErrorOccurred = @"ErrorOccurredNotification";
+
 NSTimeInterval const UpdateCheckInterval = 1; // in seconds TODO: insert proper value here
 
 

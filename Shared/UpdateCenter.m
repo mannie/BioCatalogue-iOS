@@ -147,9 +147,7 @@ static NSUInteger activeUpdateThreads;
   }
   NSDate *liveDateOfUpdate = [dateFormatter dateFromString:jsonDate];
   BOOL serviceHasBeenUpdated = [liveDateOfUpdate laterDate:[service lastUpdated]] == liveDateOfUpdate;
-  
-  serviceHasBeenUpdated = YES; // TODO: revert to proper value
-  
+    
   if (!serviceHasBeenUpdated) return;
   
   [service setHasUpdate:[NSNumber numberWithBool:YES]];  
@@ -197,8 +195,6 @@ static NSUInteger activeUpdateThreads;
 #pragma mark Thread to check for updates in the background
 
 +(void) spawnUpdateCheckDaemon {
-  if (![BioCatalogueClient userIsAuthenticated]) return;
-  
   UIApplication *application = [UIApplication sharedApplication];
   UIBackgroundTaskIdentifier updateCheckDaemon = [application beginBackgroundTaskWithExpirationHandler: ^{
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -216,28 +212,34 @@ static NSUInteger activeUpdateThreads;
 
       NSPredicate *unreadItemsPredicate = [NSPredicate predicateWithFormat:@"isUnread = YES"];
       newAnnouncements = [newAnnouncements filteredArrayUsingPredicate:unreadItemsPredicate];
-
-      // status updates
-      NSArray *serviceStatusUpdates = [[[BioCatalogueResourceManager currentBioCatalogue] monitoredServices] allObjects];
-      UpdateCenter *updateChecker = [[UpdateCenter alloc] init];
-      for (Service *service in serviceStatusUpdates) {
-        [updateChecker checkForUpdatesForService:service];
-      }
-      [updateChecker release];
-            
-      NSPredicate *updatedServicesPredicate = [NSPredicate predicateWithFormat:@"hasUpdate = YES"];
-      serviceStatusUpdates = [serviceStatusUpdates filteredArrayUsingPredicate:updatedServicesPredicate];
       
-      if (newAnnouncements && [newAnnouncements count] > 0 || [serviceStatusUpdates count] > 0) {
+      // monitored services status updates
+      NSArray *serviceStatusUpdates = nil;
+      if ([BioCatalogueClient userIsAuthenticated]) {
+        serviceStatusUpdates = [[[BioCatalogueResourceManager currentBioCatalogue] monitoredServices] allObjects];
+        UpdateCenter *updateChecker = [[UpdateCenter alloc] init];
+        for (Service *service in serviceStatusUpdates) {
+          [updateChecker checkForUpdatesForService:service];
+        }
+        [updateChecker release];        
+
+        NSPredicate *updatedServicesPredicate = [NSPredicate predicateWithFormat:@"hasUpdate = YES"];
+        serviceStatusUpdates = [serviceStatusUpdates filteredArrayUsingPredicate:updatedServicesPredicate];
+      }
+
+      BOOL newAnnouncementsAreAvailable = newAnnouncements && [newAnnouncements count] > 0;
+      BOOL statusUpdatesAreAvailable = serviceStatusUpdates && [serviceStatusUpdates count] > 0;
+      
+      if (newAnnouncementsAreAvailable || statusUpdatesAreAvailable) {
         UILocalNotification *localNotification = [[UILocalNotification alloc] init];
 
-        if ([newAnnouncements count] > 0) {
+        if (newAnnouncementsAreAvailable) {
           [localNotification setAlertBody:@"New unread announcements."];
           [self performSelectorOnMainThread:@selector(updateApplicationBadgesForAnnouncements) withObject:nil waitUntilDone:YES];
         } 
         
-        if ([serviceStatusUpdates count] > 0) {
-          if ([newAnnouncements count] > 0) {
+        if (statusUpdatesAreAvailable) {
+          if (newAnnouncementsAreAvailable) {
             [localNotification setAlertBody:[NSString stringWithFormat:@"%@\n\nService status updates available.", [localNotification alertBody]]];
           } else {
             [localNotification setAlertBody:@"Service status updates available."];

@@ -13,6 +13,8 @@
 extern NSString *const NetworkActivityStarted;
 extern NSString *const NetworkActivityStopped;
 
+extern NSString *const ErrorOccurred;
+
 extern NSTimeInterval const UpdateCheckInterval;
 
 

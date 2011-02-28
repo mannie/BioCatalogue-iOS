@@ -18,11 +18,16 @@
   self = [super init];
   
   NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+
   [center addObserver:self selector:@selector(incrementNetworkActivity:) name:NetworkActivityStarted object:nil];
   [center addObserver:self selector:@selector(decrementNetworkActivity:) name:NetworkActivityStopped object:nil];
   
+  [center addObserver:self selector:@selector(handleError:) name:ErrorOccurred object:nil];
+  
   return self;
 } // initialize
+
+
 
 -(void) incrementNetworkActivity:(NSNotification *)notification {
   networkActivityCounter++;
@@ -34,12 +39,22 @@
   if (networkActivityCounter == 0) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 } // decrementNetworkActivity
 
--(BOOL) applicationStartConditionsMet {
-  // TODO: check for internet connection (continously)
-  // TODO: check that the API version is supported
+-(void) handleError:(NSNotification *)notification {
+  // TODO: extend this to handle errors for the whole application
   
-  return YES;
-} // checkInternetConnection
+  if (![[notification object] isKindOfClass:[NSError class]]) return;
+
+  if ([[notification object] code] != -1004) return; // -1004 == connection to server error
+  dispatch_async(dispatch_get_main_queue(), ^{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Occurred" 
+                                                    message:[[notification object] localizedDescription] 
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];    
+  });
+} // handleError
 
 
 #pragma mark -
@@ -48,6 +63,13 @@
 /**
  Save changes in the application's managed object context before the application terminates.
  */
+
+-(BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+  // TODO: perform other local notification related checks here
+  
+  return YES;
+}
+
 - (void)applicationWillTerminate:(UIApplication *)application {
   [self saveContext];
 }
@@ -55,6 +77,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
   [self saveContext];
 
+  [BioCatalogueResourceManager clearCache];
   [UIContentController clearUIImageCache];
   
   [UpdateCenter spawnUpdateCheckDaemon];

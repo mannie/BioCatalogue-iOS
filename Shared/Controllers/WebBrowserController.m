@@ -70,6 +70,8 @@
     if (contentController) [contentController release];
     contentController = [[UIContentController alloc] init];
     [contentController composeMailMessage:[request mainDocumentURL]];
+    
+    return NO;
   }
   
   return YES;

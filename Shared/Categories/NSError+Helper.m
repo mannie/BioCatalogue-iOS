@@ -12,6 +12,8 @@
 @implementation NSError (Helper)
 
 -(void) log {
+  [[NSNotificationCenter defaultCenter] postNotificationName:ErrorOccurred object:self];
+  
   if ([self localizedDescription] && [self localizedFailureReason] && [self localizedRecoverySuggestion]) {
     NSLog(@"NSError: %@\n%@\n%@", [self localizedDescription], [self localizedFailureReason], [self localizedRecoverySuggestion]);    
   } else if ([self localizedDescription] && [self localizedFailureReason]) {

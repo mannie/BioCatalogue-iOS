@@ -10,6 +10,8 @@
 @interface BioCatalogueResourceManager : NSObject {
 }
 
++(void) clearCache;
+
 +(void) commitChanges;
 +(BOOL) deleteObject:(NSManagedObject *)object;
 

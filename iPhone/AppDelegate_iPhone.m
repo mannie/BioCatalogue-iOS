@@ -22,7 +22,7 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {  
-  if ([super applicationStartConditionsMet]) {  
+  if ([super application:application didFinishLaunchingWithOptions:launchOptions]) {  
     [window addSubview:[[super tabBarController] view]];
     [window makeKeyAndVisible];
     

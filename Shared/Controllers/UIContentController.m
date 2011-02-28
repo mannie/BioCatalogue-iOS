@@ -426,11 +426,11 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   [announcementSummary loadHTMLString:[announcement summary] baseURL:nil];
   [announcementSummary setBackgroundColor:[UIColor clearColor]];
   
-  [announcementTitle setText:[announcement title]];
+  [announcementTitle performSelectorOnMainThread:@selector(setText:) withObject:[announcement title] waitUntilDone:NO];  
   
   NSArray *date = [[[announcement date] description] componentsSeparatedByString:@" "];
   NSString *dateText = [NSString stringWithFormat:@"%@ at %@", [[date objectAtIndex:0] stringByReformattingJSONDate:NO], [date objectAtIndex:1]];
-  [announcementDate setText:dateText];
+  [announcementDate performSelectorOnMainThread:@selector(setText:) withObject:dateText waitUntilDone:NO];
   
   if ([[announcement isUnread] boolValue]) {
     [announcement setIsUnread:[NSNumber numberWithBool:![[announcement isUnread] boolValue]]];

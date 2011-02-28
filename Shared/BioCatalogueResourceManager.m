@@ -31,7 +31,15 @@ static User *_catalogueUser = nil;
   [self commitChanges];
   
   [@"Data store has been nuked!!!" log];
-}
+} // nukeDataStore
+
++(void) clearCache {
+  [_currentBioCatalogue release];
+  _currentBioCatalogue = nil;
+  
+  [_catalogueUser release];
+  _catalogueUser = nil;
+} // clearCache
 
 +(void) initialize {
   AppDelegate_Shared *delegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
@@ -39,6 +47,7 @@ static User *_catalogueUser = nil;
 
 //  [self nukeDataStore];
 } // initialize
+
 
 +(void) commitChanges {  
   int maxNumberOfTimesToTryObtainingLock = 3;
@@ -69,33 +78,33 @@ static User *_catalogueUser = nil;
   NSFetchRequest *request = [[NSFetchRequest alloc] init];
   [request setEntity:entity];
   [request setFetchLimit:1];
-  [request setPredicate:[NSPredicate predicateWithFormat:@"hostname = %@", BioCatalogueHostname]];
+  [request setPredicate:[NSPredicate predicateWithFormat:@"hostname = %@", [[BioCatalogueClient baseURL] host]]];
 
   _currentBioCatalogue = [[managedObjectContext executeFetchRequest:[request autorelease] error:&error] lastObject];
   if (error) [error log];
-  if (_currentBioCatalogue) return _currentBioCatalogue;
+  if (_currentBioCatalogue) return [_currentBioCatalogue retain];
 
   _currentBioCatalogue = [NSEntityDescription insertNewObjectForEntityForName:@"BioCatalogue" 
                                                        inManagedObjectContext:managedObjectContext];
-  [_currentBioCatalogue setHostname:BioCatalogueHostname];
+  [_currentBioCatalogue setHostname:[[BioCatalogueClient baseURL] host]];
   
   [self commitChanges];
   
-  return _currentBioCatalogue;
+  return [_currentBioCatalogue retain];
 } // currentBioCatalogue
 
 +(User *) catalogueUser {
   if (_catalogueUser) return _catalogueUser;
 
   _catalogueUser = [[self currentBioCatalogue] user];
-  if (_catalogueUser) return _catalogueUser;
+  if (_catalogueUser) return [_catalogueUser retain];
   
   _catalogueUser = [NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:managedObjectContext];
   [_catalogueUser setCatalogue:[self currentBioCatalogue]];
   
   [self commitChanges];
   
-  return _catalogueUser;
+  return [_catalogueUser retain];
 } // currentUser
 
 +(Announcement *) announcementWithUniqueID:(NSInteger)uniqueID {

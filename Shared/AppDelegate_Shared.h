@@ -32,8 +32,6 @@
 -(void) incrementNetworkActivity:(NSNotification *)notification;
 -(void) decrementNetworkActivity:(NSNotification *)notification;
 
--(BOOL) applicationStartConditionsMet;
-
 - (NSString *)applicationDocumentsDirectory;
 - (void)saveContext;
 

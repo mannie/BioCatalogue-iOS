@@ -24,7 +24,7 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {        
-  if ([super applicationStartConditionsMet]) {
+  if ([super application:application didFinishLaunchingWithOptions:launchOptions]) {
     [window addSubview:[splitViewController view]];
     [window makeKeyAndVisible];
 

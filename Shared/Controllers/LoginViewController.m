@@ -67,6 +67,8 @@
                         andPassword:(NSString *)password
             updatingUILoginElements:(BOOL)updateUI {
   dispatch_async(dispatch_queue_create("Login", NULL), ^{
+    [self performSelectorOnMainThread:@selector(updateView) withObject:nil waitUntilDone:NO];
+    
     if (![BioCatalogueClient signInWithUsername:username withPassword:password]) {
       NSString *message = [NSString stringWithFormat:@"%@\n\n%@", 
                            @"Could not sign into the BioCatalogue.",
@@ -133,13 +135,14 @@
   NSError *error = nil;
   NSString *username = [[NSUserDefaults standardUserDefaults] objectForKey:LastLoggedInUserKey];
   if ([username isValidEmailAddress]) {
-    [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
     NSString *password = [SFHFKeychainUtils getPasswordForUsername:username
                                                     andServiceName:AppServiceName
                                                              error:&error];
     if (error) [error log];
     
     if ([password isValidJSONValue]) {
+      [passwordField setText:password];
+      [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
       [self attemptToSignInWithUsername:username andPassword:password updatingUILoginElements:NO];
     }    
   } else {
@@ -151,7 +154,6 @@
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
   
-  [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
   [self updateView];
 } // viewWillAppear
 
