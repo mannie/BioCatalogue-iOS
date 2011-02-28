@@ -9,7 +9,7 @@
 @class ProviderServicesViewController;
 
 
-@interface ProviderDetailViewController : UIViewController {
+@interface ProviderDetailViewController : UIViewController <UIWebViewDelegate> {
   IBOutlet UIContentController *uiContentController;
 
   IBOutlet UIBarButtonItem *servicesButton;
@@ -17,6 +17,7 @@
   NSDictionary *providerProperties;
   
   ProviderServicesViewController *providerServicesViewController;
+  DetailViewController_iPad *iPadDetailViewController;
   
   BOOL viewHasBeenUpdated;
 }

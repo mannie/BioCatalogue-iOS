@@ -7,10 +7,16 @@
  *
  */
 
+
+#pragma mark -
+#pragma mark Frameworks
+
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import <MessageUI/MessageUI.h>
 
+// * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -
 #pragma mark 3rd Party Frameworks
@@ -19,12 +25,14 @@
 #import "JSONKit.h"
 #import "SFHFKeychainUtils.h"
 
+// * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -
 #pragma mark 3rd Party Categories
 
 #import "NSString+HTML.h"
 
+// * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -
 #pragma mark Core Data Models
@@ -34,6 +42,7 @@
 #import "Service.h"
 #import "User.h"
 
+// * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -
 #pragma mark Categories
@@ -46,6 +55,7 @@
 #import "NSException+Helper.h"
 #import "NSObject+Helper.h"
 
+// * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -
 #pragma mark Shared Code
@@ -71,7 +81,6 @@
 #import "ProviderServicesViewController.h"
 
 // root tab bar view controllers
-
 #import "PullToRefreshViewController.h"
 #import "BrowseByProviderViewController.h"
 #import "BrowseByDateViewController.h"
@@ -80,6 +89,7 @@
 #import "MyStuffViewController.h"
 #import "LoginViewController.h"
 
+// * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -
 #pragma mark iPhone Specific Code
@@ -90,6 +100,7 @@
 #import "ServiceDetailViewController_iPhone.h"
 #import "UserDetailViewController_iPhone.h"
 
+// * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -
 #pragma mark iPad Specific Code

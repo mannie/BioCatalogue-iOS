@@ -22,17 +22,18 @@
   
   currentServiceID = serviceID;
   
-  dispatch_async(dispatch_queue_create("Load provider services", NULL), ^{
-    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
-    
+  dispatch_async(dispatch_get_main_queue(), ^{
     [monitoringInfo release];
     monitoringInfo = [[NSMutableDictionary alloc] init];
     
     [monitoringStatuses release];
     monitoringStatuses = [[NSMutableArray alloc] init];
     
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-    
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];    
+    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
+  });
+  
+  dispatch_async(dispatch_queue_create("Load provider services", NULL), ^{    
     monitoringInfo = [[BioCatalogueClient monitoringStatusesForServiceWithID:currentServiceID] retain];
 
     // sort items in reverse order

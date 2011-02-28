@@ -150,6 +150,8 @@
 
 -(void) viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  
+  [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
   [self updateView];
 } // viewWillAppear
 

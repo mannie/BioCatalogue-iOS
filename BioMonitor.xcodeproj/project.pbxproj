@@ -82,7 +82,6 @@
 		369F79E313163918001C7084 /* pling-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F79DF13163918001C7084 /* pling-sphere-50.png */; };
 		369F79E413163918001C7084 /* query-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F79E013163918001C7084 /* query-sphere-50.png */; };
 		369F79E513163918001C7084 /* tick-sphere-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F79E113163918001C7084 /* tick-sphere-50.png */; };
-		369F7A4B13164998001C7084 /* query-sphre-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A4A13164998001C7084 /* query-sphre-50.png */; };
 		369F7A581316E7CE001C7084 /* asterisk.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A571316E7CE001C7084 /* asterisk.png */; };
 		369F7A5C1316F541001C7084 /* REST.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A591316F541001C7084 /* REST.png */; };
 		369F7A5D1316F541001C7084 /* SOAP.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A5A1316F541001C7084 /* SOAP.png */; };
@@ -91,6 +90,7 @@
 		369F7A821316FC43001C7084 /* greyLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7A801316FC43001C7084 /* greyLine.png */; };
 		369F7EB11318B24F001C7084 /* cog.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7EB01318B24F001C7084 /* cog.png */; };
 		369F7F231318C13E001C7084 /* redLine.png in Resources */ = {isa = PBXBuildFile; fileRef = 369F7F221318C13E001C7084 /* redLine.png */; };
+		369F806C131B1217001C7084 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 369F806B131B1217001C7084 /* MessageUI.framework */; };
 		36C8A00D12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A00E12F7740A0022190F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 36C8A00C12F7740A0022190F /* JSONKit.m */; };
 		36C8A01312F774450022190F /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CEB112B6EB51005607EB /* GTMHTTPFetcher.m */; };
@@ -283,7 +283,6 @@
 		369F79DF13163918001C7084 /* pling-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pling-sphere-50.png"; sourceTree = "<group>"; };
 		369F79E013163918001C7084 /* query-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "query-sphere-50.png"; sourceTree = "<group>"; };
 		369F79E113163918001C7084 /* tick-sphere-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tick-sphere-50.png"; sourceTree = "<group>"; };
-		369F7A4A13164998001C7084 /* query-sphre-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "query-sphre-50.png"; sourceTree = "<group>"; };
 		369F7A571316E7CE001C7084 /* asterisk.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = asterisk.png; sourceTree = "<group>"; };
 		369F7A591316F541001C7084 /* REST.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = REST.png; sourceTree = "<group>"; };
 		369F7A5A1316F541001C7084 /* SOAP.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SOAP.png; sourceTree = "<group>"; };
@@ -293,6 +292,7 @@
 		369F7D32131893C6001C7084 /* AppImports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppImports.h; sourceTree = "<group>"; };
 		369F7EB01318B24F001C7084 /* cog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog.png; sourceTree = "<group>"; };
 		369F7F221318C13E001C7084 /* redLine.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redLine.png; sourceTree = "<group>"; };
+		369F806B131B1217001C7084 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		36C8A00B12F7740A0022190F /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		36C8A00C12F7740A0022190F /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		36C8A10812F78B9C0022190F /* PullToRefreshViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullToRefreshViewController.h; sourceTree = "<group>"; };
@@ -384,6 +384,7 @@
 				3644CEC612B6EBEB005607EB /* SystemConfiguration.framework in Frameworks */,
 				36C8A15012F78F220022190F /* QuartzCore.framework in Frameworks */,
 				3628D4751307300C009BD8F3 /* Security.framework in Frameworks */,
+				369F806C131B1217001C7084 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +468,7 @@
 				3644CEC512B6EBEB005607EB /* SystemConfiguration.framework */,
 				36C8A14F12F78F220022190F /* QuartzCore.framework */,
 				3628D4741307300C009BD8F3 /* Security.framework */,
+				369F806B131B1217001C7084 /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -766,7 +768,6 @@
 		36C8A4BC12F7CAC90022190F /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
-				369F7A4A13164998001C7084 /* query-sphre-50.png */,
 				369F79DE13163918001C7084 /* cross-sphere-50.png */,
 				369F79DF13163918001C7084 /* pling-sphere-50.png */,
 				369F79E013163918001C7084 /* query-sphere-50.png */,
@@ -971,7 +972,6 @@
 				369F79E313163918001C7084 /* pling-sphere-50.png in Resources */,
 				369F79E413163918001C7084 /* query-sphere-50.png in Resources */,
 				369F79E513163918001C7084 /* tick-sphere-50.png in Resources */,
-				369F7A4B13164998001C7084 /* query-sphre-50.png in Resources */,
 				369F7A581316E7CE001C7084 /* asterisk.png in Resources */,
 				369F7A5C1316F541001C7084 /* REST.png in Resources */,
 				369F7A5D1316F541001C7084 /* SOAP.png in Resources */,

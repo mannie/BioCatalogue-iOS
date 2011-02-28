@@ -26,15 +26,14 @@
   currentPath = [path retain];
   
   dispatch_async(dispatch_queue_create("Load provider services", NULL), ^{
-    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
-    
     [serviceComponentsInfo release];
     serviceComponentsInfo = [[NSDictionary dictionary] retain];
     
     [serviceComponents release];
     serviceComponents = [[NSArray array] retain];
     
-    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+    [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
     
     [serviceComponentsInfo release];
     serviceComponentsInfo = [[BioCatalogueClient documentAtPath:path] retain];
@@ -86,7 +85,13 @@
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  return ([serviceComponents count] == 0 ? 1 : [serviceComponents count]);
+  if (currentlyFetchingComponents) {
+    return 0;
+  } else if ([serviceComponents count] == 0) {
+    return 1;
+  } else {
+    return [serviceComponents count];
+  }
 } // tableView:numberOfRowsInSection
 
 
@@ -100,15 +105,15 @@
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                    reuseIdentifier:CellIdentifier] autorelease];
   }
-    
+
   if ([serviceComponents count] == 0) {
     [[cell textLabel] setText:nil];
-    if (currentlyFetchingComponents) {
-      [[cell detailTextLabel] setText:DefaultLoadingText];
-    } else {
-      [[cell detailTextLabel] setText:[NSString stringWithFormat:@"No %@", (serviceIsREST ? RESTComponentsText : SOAPComponentsText)]];
-    }
     [[cell imageView] setImage:nil];
+
+    if (!currentlyFetchingComponents) {
+      [[cell detailTextLabel] setText:[NSString stringWithFormat:@"No %@", (serviceIsREST ? RESTComponentsText : SOAPComponentsText)]];
+    } 
+  
     return cell;
   }
   
@@ -148,8 +153,7 @@
   [self.navigationController pushViewController:detailViewController animated:YES];
 */
 
-  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:[indexPath row]] 
-                                     objectForKey:JSONResourceElement]];  
+  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONResourceElement]];  
   NSURLRequest *request = [NSURLRequest requestWithURL:url
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                        timeoutInterval:APIRequestTimeout];

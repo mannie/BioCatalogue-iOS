@@ -52,9 +52,11 @@
   [self saveContext];
 }
 
-
 - (void)applicationDidEnterBackground:(UIApplication *)application {
   [self saveContext];
+
+  [UIContentController clearUIImageCache];
+  
   [UpdateCenter spawnUpdateCheckDaemon];
 }
 

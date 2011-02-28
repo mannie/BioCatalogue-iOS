@@ -15,7 +15,7 @@
 -(void) updateNavigationButtons:(UIWebView *)webView {
   NSMutableArray *items = [[browserToolbar items] mutableCopy];
   NSUInteger indexToUpdate = [items count] - 1;
-
+  
   [items removeObjectAtIndex:indexToUpdate]; 
   
   if ([webView isLoading]) {
@@ -23,10 +23,10 @@
   } else {
     [items insertObject:refreshButton atIndex:indexToUpdate];
   }
-
+  
   [browserToolbar setItems:items animated:YES];  
   [items release];
-
+  
   [backButton setEnabled:[webView canGoBack]];
   [forwardButton setEnabled:[webView canGoForward]];
 } // updateNavigationButtons
@@ -34,14 +34,14 @@
 -(void) webViewDidStartLoad:(UIWebView *)webView {
   [self updateNavigationButtons:webView];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
-
+  
   [webBrowserActivityIndicator startAnimating];
 } // webViewDidStartLoad
 
 -(void) webViewDidFinishLoad:(UIWebView *)webView {
   [self updateNavigationButtons:webView];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
-
+  
   [webBrowserActivityIndicator stopAnimating];
 } // webViewDidFinishLoad
 
@@ -50,7 +50,7 @@
     [self webViewDidFinishLoad:webView];
     return;
   }
-
+  
   [error log];
   
   UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[error domain]
@@ -60,16 +60,28 @@
                                         otherButtonTitles:nil];
   [alert show];
   [alert release];
-
+  
   [self webViewDidFinishLoad:webView];
   return;
 } // didFailLoadWithError
+
+-(BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+  if ([[[request mainDocumentURL] scheme] isEqualToString:@"mailto"]) {
+    if (contentController) [contentController release];
+    contentController = [[UIContentController alloc] init];
+    [contentController composeMailMessage:[request mainDocumentURL]];
+  }
+  
+  return YES;
+} // webView:shouldStartLoadWithRequest:navigationType
 
 
 #pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
+  [contentController release];
+  
   [refreshButton release];
   [stopButton release];
   
@@ -78,7 +90,7 @@
   
   [browserToolbar release];
   [webBrowserActivityIndicator release];
- 
+  
   [super dealloc];
 } // dealloc
 

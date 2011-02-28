@@ -372,6 +372,8 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 } // exposeAuxiliaryDetailPanel
 
 -(IBAction) showResourceInPullOutBrowser:(NSURL *)url {
+  if ([webBrowser isLoading]) [webBrowser stopLoading];
+  
   NSURLRequest *request = [NSURLRequest requestWithURL:url
                                            cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                        timeoutInterval:APIRequestTimeout];
@@ -381,7 +383,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     [contextualPopoverController dismissPopoverAnimated:YES];
   }
   
-  [self setContentView:webBrowser forParentView:auxiliaryDetailPanel];  
+  [self setContentView:webBrowser forParentView:auxiliaryDetailPanel];
 } // showResourceInBioCatalogue
 
 -(IBAction) showCurrentPullOutBrowserContentInSafari:(id)sender {
@@ -401,10 +403,27 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                                                            delegate:self
                                                   cancelButtonTitle:nil
                                              destructiveButtonTitle:nil
-                                                  otherButtonTitles:@"View In BioCatalogue", @"Open Item In Safari", nil];
+                                                  otherButtonTitles:@"View In BioCatalogue", @"Open In Safari", nil];
   [actionSheet showFromBarButtonItem:sender animated:YES];
   [actionSheet release];
 } // showActionSheetForCurrentResource
+
+-(IBAction) composeMailMessage:(id)sender {
+  NSString *publicEmail = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
+
+  if ([publicEmail isValidJSONValue]) {
+    NSURL *address = [NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", publicEmail]];
+    [uiContentController composeMailMessage:address];
+  } else {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to compose mail"
+                                                    message:@"This user does not have a public eMail address." 
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+  }
+} // composeMailMessage
 
 
 #pragma mark -

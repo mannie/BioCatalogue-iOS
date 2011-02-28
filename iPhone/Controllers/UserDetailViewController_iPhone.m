@@ -23,6 +23,23 @@
   viewHasBeenUpdated = YES;
 } // updateWithProperties
 
+-(IBAction) composeMailMessage:(id)sender {
+  NSString *publicEmail = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
+  
+  if ([publicEmail isValidJSONValue]) {
+    NSURL *address = [NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", publicEmail]];
+    [uiContentController composeMailMessage:address];
+  } else {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to compose mail"
+                                                    message:@"This user does not have a public eMail address." 
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+  }
+} // composeMailMessage
+
 
 #pragma mark -
 #pragma mark View lifecycle

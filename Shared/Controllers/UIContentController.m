@@ -13,7 +13,6 @@
 
 @synthesize iPadDetailViewController;
 
-
 typedef enum { 
   XIBCellMainIcon = 101, 
   XIBCellMainText,
@@ -22,6 +21,170 @@ typedef enum {
   XIBCellHorizontalLineImage, 
   XIBCellExtraDetailIcon } XIBTableViewCellTag;
 
+
+static UIImage *_greyLineUIImage = nil;
+static UIImage *_greenLineUIImage = nil;
+static UIImage *_redLineUIImage = nil;
+
+static UIImage *_restServiceUIImage = nil;
+static UIImage *_soapServiceUIImage = nil;
+static UIImage *_otherServiceUIImage = nil;
+
+static UIImage *_tickUIImage = nil;
+static UIImage *_plingUIImage = nil;
+static UIImage *_crossUIImage = nil;
+static UIImage *_queryUIImage = nil;
+
+static UIImage *_userIconUIImage = nil;
+static UIImage *_providerIconUIImage = nil;
+
+static UIImage *_cellBackgroudUIImage = nil;
+static UIImage *_cellSelectionBackgroudUIImage = nil;
+
+static UIImage *_announcementReadIconUIImage = nil;
+static UIImage *_announcementUnreadIconUIImage = nil;
+
+
+#pragma mark -
+#pragma mark Cached UIImages
+
++(void) clearUIImageCache {
+  [_greyLineUIImage release];
+  [_greenLineUIImage release];
+  [_redLineUIImage release];
+
+  [_restServiceUIImage release];
+  [_soapServiceUIImage release];
+  [_otherServiceUIImage release];
+
+  [_tickUIImage release];
+  [_plingUIImage release];
+  [_crossUIImage release];
+  [_queryUIImage release];
+
+  [_userIconUIImage release];
+  [_providerIconUIImage release];
+
+  [_cellBackgroudUIImage release];
+  [_cellSelectionBackgroudUIImage release];
+
+  [_announcementReadIconUIImage release];
+  [_announcementUnreadIconUIImage release];
+
+  _greyLineUIImage = nil;
+  _greenLineUIImage = nil;
+  _redLineUIImage = nil;
+  
+  _restServiceUIImage = nil;
+  _soapServiceUIImage = nil;
+  _otherServiceUIImage = nil;
+  
+  _tickUIImage = nil;
+  _plingUIImage = nil;
+  _crossUIImage = nil;
+  _queryUIImage = nil;
+  
+  _userIconUIImage = nil;
+  _providerIconUIImage = nil;
+  
+  _cellBackgroudUIImage = nil;
+  _cellSelectionBackgroudUIImage = nil;
+  
+  _announcementReadIconUIImage = nil;
+  _announcementUnreadIconUIImage = nil;
+} // clearUIImageCache
+
++(UIImage *) userIcon {
+  if (_userIconUIImage) return _userIconUIImage;
+  _userIconUIImage = [[UIImage imageNamed:UserIcon] retain];
+  return _userIconUIImage;
+} // userIcon
+
++(UIImage *) providerIcon {
+  if (_providerIconUIImage) return _providerIconUIImage;
+  _providerIconUIImage = [[UIImage imageNamed:ProviderIcon] retain];
+  return _providerIconUIImage;
+} // providerIcon
+
++(UIImage *) greyLineUIImage {
+  if (_greyLineUIImage) return _greyLineUIImage;
+  _greyLineUIImage = [[UIImage imageNamed:GreyLineImage] retain];
+  return _greyLineUIImage;
+} // greyLineUIImage
+
++(UIImage *) greenLineUIImage {
+  if (_greenLineUIImage) return _greenLineUIImage;
+  _greenLineUIImage = [[UIImage imageNamed:GreenLineImage] retain];
+  return _greenLineUIImage;
+} // greenLineUIImage
+
++(UIImage *) redLineUIImage {
+  if (_redLineUIImage) return _redLineUIImage;
+  _redLineUIImage = [[UIImage imageNamed:RedLineImage] retain];
+  return _redLineUIImage;  
+} // redLineUIImage
+
++(UIImage *) serviceListingTypeIcon:(NSDictionary *)serviceProperties {
+  if ([[serviceProperties serviceListingType] isEqualToString:RESTService]) {
+    if (_restServiceUIImage) return _restServiceUIImage;
+    _restServiceUIImage = [[UIImage imageNamed:RESTService] retain];
+    return _restServiceUIImage;  
+  } else if ([[serviceProperties serviceListingType] isEqualToString:SOAPService]) {
+    if (_soapServiceUIImage) return _soapServiceUIImage;
+    _soapServiceUIImage = [[UIImage imageNamed:SOAPService] retain];
+    return _soapServiceUIImage;  
+  } else {
+    if (_otherServiceUIImage) return _otherServiceUIImage;
+    _otherServiceUIImage = [[UIImage imageNamed:[serviceProperties serviceListingType]] retain];
+    return _otherServiceUIImage;  
+  }  
+} // serviceListingTypeUIImage
+
++(UIImage *) monitoringStatusUIImage:(NSString *)filename {
+  filename = [filename stringByReplacingOccurrencesOfString:@"small-" withString:@""];
+  
+  if ([filename hasPrefix:@"tick"]) {
+    if (_tickUIImage) return _tickUIImage;
+    _tickUIImage = [[UIImage imageNamed:filename] retain];
+    return _tickUIImage;
+  } else if ([filename hasPrefix:@"pling"]) {
+    if (_plingUIImage) return _plingUIImage;
+    _plingUIImage = [[UIImage imageNamed:filename] retain];
+    return _plingUIImage;
+  } else if ([filename hasPrefix:@"cross"]) {
+    if (_crossUIImage) return _crossUIImage;
+    _crossUIImage = [[UIImage imageNamed:filename] retain];
+    return _crossUIImage;
+  } else {
+    if (_queryUIImage) return _queryUIImage;
+    _queryUIImage = [[UIImage imageNamed:filename] retain];
+    return _queryUIImage;
+  }
+}
+
++(UIImage *) readAnnouncementIcon {
+  if (_announcementReadIconUIImage) return _announcementReadIconUIImage;
+  _announcementReadIconUIImage = [[UIImage imageNamed:AnnouncementReadIcon] retain];
+  return _announcementReadIconUIImage;
+} // readAnnouncementIcon
+
++(UIImage *) unreadAnnouncementIcon {
+  if (_announcementUnreadIconUIImage) return _announcementUnreadIconUIImage;
+  _announcementUnreadIconUIImage = [[UIImage imageNamed:AnnouncementUnreadIcon] retain];
+  return _announcementUnreadIconUIImage;
+} // unreadAnnouncementIcon
+
++(UIImage *) cellBackgroudUIImage {
+  if (_cellBackgroudUIImage) return _cellBackgroudUIImage;
+  _cellBackgroudUIImage = [[UIImage imageNamed:TableCellBackground] retain];
+  return _cellBackgroudUIImage;
+} // cellBackgroudUIImage
+
++(UIImage *) cellSelectionBackgroudUIImage {
+  if (_cellSelectionBackgroudUIImage) return _cellSelectionBackgroudUIImage;
+  _cellSelectionBackgroudUIImage = [[UIImage imageNamed:TableCellSelectedBackground] retain];
+  return _cellSelectionBackgroudUIImage;
+} // cellSelectionBackgroudUIImage
 
 
 #pragma mark -
@@ -36,22 +199,22 @@ typedef enum {
   [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:[NSString stringWithFormat:@"Registered on %@", date]];
   
   NSURL *imageURL = [NSURL URLWithString:[[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSymbolElement]];
-  [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]]];
+  [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[self monitoringStatusUIImage:[imageURL lastPathComponent]]];
   
   int uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
   BOOL serviceIsBeingMonitored = [BioCatalogueResourceManager serviceWithUniqueIDIsBeingMonitored:uniqueID];
   
   if ([[NSString stringWithFormat:@"%@", [serviceProperties objectForKey:JSONArchivedAtElement]] isValidJSONValue]) { 
     // is archived
-    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:RedLineImage]];      
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self redLineUIImage]];      
   } else if (serviceIsBeingMonitored) {
-    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreenLineImage]];
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self greenLineUIImage]];
   } else {
-    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self greyLineUIImage]];
   }
   
   [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setHidden:NO];
-  [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setImage:[UIImage imageNamed:[serviceProperties serviceListingType]]];
+  [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setImage:[self serviceListingTypeIcon:serviceProperties]];
   
   if (serviceIsBeingMonitored) {
     if ([[[BioCatalogueResourceManager serviceWithUniqueID:uniqueID] hasUpdate] boolValue]) {
@@ -72,9 +235,9 @@ typedef enum {
   NSString *affiliation = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
   [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([affiliation isValidJSONValue] ? affiliation : UnknownAffiliationText)];
   
-  [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:UserIcon]];
+  [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[self userIcon]];
   
-  [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];      
+  [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self greyLineUIImage]];      
   
   [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setHidden:YES];
   
@@ -89,9 +252,9 @@ typedef enum {
   NSString *detail = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
   [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([detail isValidJSONValue] ? detail : NoInformationText)];
   
-  [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:ProviderIcon]];
+  [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[self providerIcon]];
   
-  [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];      
+  [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self greyLineUIImage]];      
   
   [((UIImageView *)[cell viewWithTag:XIBCellExtraDetailIcon]) setHidden:YES];
   
@@ -108,11 +271,11 @@ typedef enum {
   [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:detail];
   
   if ([[announcement isUnread] boolValue]) { // is Unread
-    [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:AnnouncementUnreadIcon]];
-    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreenLineImage]];
+    [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[self unreadAnnouncementIcon]];
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self greenLineUIImage]];
   } else { // has been read
-    [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[UIImage imageNamed:AnnouncementReadIcon]];
-    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];
+    [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[self readAnnouncementIcon]];
+    [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self greyLineUIImage]];
   }
   [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:![[announcement isUnread] boolValue]];    
   
@@ -125,7 +288,7 @@ typedef enum {
   [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:nil];
   
   [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:nil];
-  [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[UIImage imageNamed:GreyLineImage]];
+  [((UIImageView *)[cell viewWithTag:XIBCellHorizontalLineImage]) setImage:[self greyLineUIImage]];
   
   [((UIImageView *)[cell viewWithTag:XIBCellUpdateStatusIcon]) setHidden:YES];
   
@@ -151,12 +314,12 @@ typedef enum {
 
 +(void) customiseTableViewCell:(UITableViewCell *)cell {
   if (![cell backgroundView]) {
-    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellBackground]];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[self cellBackgroudUIImage]];
     [backgroundView setAlpha:0.3];
     [cell setBackgroundView:backgroundView];
     [backgroundView release];
     
-    UIImageView *selectionView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:TableCellSelectedBackground]];
+    UIImageView *selectionView = [[UIImageView alloc] initWithImage:[self cellSelectionBackgroudUIImage]];
     [cell setSelectedBackgroundView:selectionView];
     [selectionView release];          
 
@@ -203,7 +366,7 @@ typedef enum {
     [serviceSubmitterName setText:DefaultLoadingText];
 
     NSURL *imageURL = [NSURL URLWithString:[[listingProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONSymbolElement]];
-    [monitoringStatusIcon setImage:[UIImage imageNamed:[[imageURL absoluteString] lastPathComponent]]];
+    [monitoringStatusIcon setImage:[UIImage imageNamed:[imageURL lastPathComponent]]];
     
     // service components
     BOOL isREST = [listingProperties serviceListingIsRESTService];
@@ -277,32 +440,105 @@ typedef enum {
 
 
 #pragma mark -
+#pragma mark Instance Helpers
+
+-(void) composeMailMessage:(NSURL *)address {
+  if (![MFMailComposeViewController canSendMail]) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                    message:@"eMail services are unavailable"
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    
+    return;
+  }
+  
+  MFMailComposeViewController *mailComposerViewController = [[MFMailComposeViewController alloc] init];
+  [mailComposerViewController setMailComposeDelegate:self];
+  
+  NSString *emailAddress = [[address absoluteString] stringByReplacingOccurrencesOfString:@"mailto:" withString:@""];
+  [mailComposerViewController setToRecipients:[NSArray arrayWithObject:emailAddress]];
+  [mailComposerViewController setMessageBody:@"\n\n\n\n\n" isHTML:NO];
+  
+  AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
+  [[appDelegate tabBarController] presentModalViewController:mailComposerViewController animated:YES];
+  
+  [mailComposerViewController becomeFirstResponder];
+  [mailComposerViewController release];
+} // composeMailMessage
+
+
+#pragma mark -
+#pragma mark MFMailComposeViewControllerDelegate
+
+-(void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
+  switch (result) {
+    case MFMailComposeResultCancelled: [@"MFMailComposeResultCancelled" log];
+      break;
+    case MFMailComposeResultSaved: [@"MFMailComposeResultSaved" log];
+      break;
+    case MFMailComposeResultSent: [@"MFMailComposeResultSent" log];
+      break;
+    case MFMailComposeResultFailed: 
+      [error log];
+      
+      UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error sending eMail" 
+                                                      message:[error localizedDescription]
+                                                     delegate:nil
+                                            cancelButtonTitle:@"OK"
+                                            otherButtonTitles:nil];
+      [alert show];
+      [alert release];
+      
+      break;
+  }
+   
+  [controller resignFirstResponder];
+
+  AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
+  [[appDelegate tabBarController] dismissModalViewControllerAnimated:YES];
+} 
+
+
+#pragma mark -
 #pragma mark UI Web View Delegate
 
 -(BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
   BOOL isMyRequest = [[[request mainDocumentURL] scheme] isEqualToString:@"about"];
-  
-  if (isMyRequest) {
-    return YES;
-  } else {
-    if ([[UIDevice currentDevice] isIPadDevice]) {
-      if ([[UIApplication sharedApplication] canOpenURL:[request mainDocumentURL]]) {
-        [iPadDetailViewController showResourceInPullOutBrowser:[request mainDocumentURL]];
-      } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"URL Error"
-                                                        message:@"Unable to open this URL."
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-      }
-    } else {
-      [[UIApplication sharedApplication] openURL:[request mainDocumentURL]];
-    }
+  if (isMyRequest) return YES;
 
-    return NO;
+  if ([[UIApplication sharedApplication] canOpenURL:[request mainDocumentURL]]) {
+    if ([[UIDevice currentDevice] isIPadDevice]) {
+      if (!iPadDetailViewController) {
+        AppDelegate_iPad *appDelegate = (AppDelegate_iPad *)[[UIApplication sharedApplication] delegate];
+        iPadDetailViewController = (DetailViewController_iPad *)[[[appDelegate splitViewController] viewControllers] lastObject];
+      }
+      
+      if ([[[request mainDocumentURL] scheme] isEqualToString:@"mailto"]) {
+        [self composeMailMessage:[request mainDocumentURL]];
+      } else {
+        [iPadDetailViewController showResourceInPullOutBrowser:[request mainDocumentURL]];
+      }
+    } else { // is not iPad
+      if ([[[request mainDocumentURL] scheme] isEqualToString:@"mailto"]) {
+        [self composeMailMessage:[request mainDocumentURL]];
+      } else {
+        [[UIApplication sharedApplication] openURL:[request mainDocumentURL]];
+      }
+    }
+  } else { // cannot open url
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"URL Error"
+                                                    message:@"Unable to open this URL."
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
   }
+  
+  return NO;
 }
 
 
@@ -311,7 +547,7 @@ typedef enum {
 
 -(void) dealloc {
   [iPadDetailViewController release];
-    
+  
   // service detail outlets  
   [serviceName release];
   [serviceDescription release];

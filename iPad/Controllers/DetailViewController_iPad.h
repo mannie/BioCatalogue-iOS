@@ -104,4 +104,6 @@
 
 -(IBAction) showActionSheetForCurrentResource:(id)sender;
 
+-(IBAction) composeMailMessage:(id)sender;
+
 @end

@@ -6,10 +6,10 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-@class DetailViewController_iPad;
+@class DetailViewController_iPad, MailComposerViewController;
 
 
-@interface UIContentController : NSObject <UIWebViewDelegate> {
+@interface UIContentController : NSObject <UIWebViewDelegate, MFMailComposeViewControllerDelegate> {
   DetailViewController_iPad* iPadDetailViewController;
   
   // the service view
@@ -44,6 +44,8 @@
 
 @property(nonatomic, retain) IBOutlet DetailViewController_iPad* iPadDetailViewController;
 
++(void) clearUIImageCache;
+
 +(void) customiseTableView:(UITableView *)tableView;
 +(void) customiseTableViewCell:(UITableViewCell *)cell;
 
@@ -56,5 +58,8 @@
 -(void) updateUserUIElementsWithProperties:(NSDictionary *)properties;
 -(void) updateProviderUIElementsWithProperties:(NSDictionary *)properties;
 -(void) updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID;
+
+-(void) composeMailMessage:(NSURL *)address;
+
 
 @end

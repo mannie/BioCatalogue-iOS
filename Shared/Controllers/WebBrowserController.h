@@ -15,6 +15,8 @@
   IBOutlet UIBarButtonItem *stopButton;
   IBOutlet UIBarButtonItem *backButton;
   IBOutlet UIBarButtonItem *forwardButton;
+  
+  UIContentController *contentController;
 }
 
 @end

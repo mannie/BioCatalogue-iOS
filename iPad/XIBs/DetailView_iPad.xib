@@ -14527,7 +14527,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
 			<object class="IBUIView" id="1068321664">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -14536,7 +14536,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">318</int>
 						<string key="NSFrame">{{10, 0}, {500, 60}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="530524"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -14568,7 +14567,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">315</int>
 						<string key="NSFrame">{{122, 504}, {378, 37}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="530524"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -14592,7 +14590,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">318</int>
 						<string key="NSFrame">{{122, 459}, {378, 37}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="530524"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -14612,7 +14609,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{12, 68}, {71, 17}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -14638,7 +14634,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{20, 469}, {63, 17}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -14657,7 +14652,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{20, 514}, {63, 17}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -14676,7 +14670,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{88, 462}, {29, 31}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -14702,7 +14695,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{88, 507}, {29, 31}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -14721,7 +14713,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{15, 568}, {68, 17}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -14740,7 +14731,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{330, 568}, {139, 17}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -14759,7 +14749,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{88, 561}, {29, 31}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -14778,7 +14767,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{121, 562}, {29, 31}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -14796,7 +14784,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{474, 561}, {29, 31}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -14815,7 +14802,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{85, 59}, {350, 1}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="855429184">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
@@ -14842,7 +14828,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{85, 450}, {350, 1}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="855429184"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -14864,7 +14849,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{85, 549}, {350, 1}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="855429184"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -14886,7 +14870,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{122, 564}, {28, 28}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
@@ -14895,7 +14878,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{85, 59}, {415, 392}}</string>
 						<reference key="NSSuperview" ref="1068321664"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="530524"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIMultipleTouchEnabled">YES</bool>
@@ -14905,8 +14887,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 				</object>
 				<string key="NSFrameSize">{520, 704}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="IBUIBackgroundColor" ref="530524"/>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
@@ -15155,7 +15135,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 									<object class="IBUILabel" id="524828548">
 										<reference key="NSNextResponder" ref="422260535"/>
 										<int key="NSvFlags">292</int>
-										<string key="NSFrame">{{63, 198}, {63, 17}}</string>
+										<string key="NSFrame">{{32, 198}, {63, 17}}</string>
 										<reference key="NSSuperview" ref="422260535"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<bool key="IBUIClipsSubviews">YES</bool>
@@ -15194,7 +15174,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 									</object>
 									<object class="IBUIButton" id="1036052933">
 										<reference key="NSNextResponder" ref="422260535"/>
-										<int key="NSvFlags">-2147483356</int>
+										<int key="NSvFlags">292</int>
 										<string key="NSFrame">{{100, 191}, {29, 31}}</string>
 										<reference key="NSSuperview" ref="422260535"/>
 										<bool key="IBUIOpaque">NO</bool>
@@ -16211,6 +16191,15 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 					<int key="connectionID">511</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">composeMailMessage:</string>
+						<reference key="source" ref="1036052933"/>
+						<reference key="destination" ref="841351856"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">514</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -16518,8 +16507,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<reference ref="1036052933"/>
 							<reference ref="1016559748"/>
 							<reference ref="656532862"/>
-							<reference ref="524828548"/>
 							<reference ref="1070660413"/>
+							<reference ref="524828548"/>
 						</object>
 						<reference key="parent" ref="953125338"/>
 						<string key="objectName">User/Submitter ID Card View</string>
@@ -17049,7 +17038,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABDDgAAxACAAA</bytes>
 					</object>
-					<string>{{498, 152}, {520, 704}}</string>
+					<string>{{9, 152}, {520, 704}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAxBWAAA</bytes>
@@ -17060,7 +17049,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABCAAAAw1UAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABCBAAAw1UAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
@@ -17354,7 +17343,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">511</int>
+			<int key="maxID">514</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -17366,6 +17355,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>composeMailMessage:</string>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
@@ -17381,6 +17371,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -17399,6 +17390,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>composeMailMessage:</string>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
@@ -17414,6 +17406,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">composeMailMessage:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 							<object class="IBActionInfo">
 								<string key="name">dismissAuxiliaryDetailPanel:</string>
 								<string key="candidateClassName">id</string>
