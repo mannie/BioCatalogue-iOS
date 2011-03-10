@@ -43,6 +43,7 @@
 		362DFDEB129915C600DEC892 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 362DFDEA129915C600DEC892 /* main.m */; };
 		3634473C125FCED1006F3295 /* ServiceDetailViewController_iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3634473A125FCED1006F3295 /* ServiceDetailViewController_iPhone.m */; };
 		3634473D125FCED1006F3295 /* ServiceDetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3634473B125FCED1006F3295 /* ServiceDetailView_iPhone.xib */; };
+		363CFD511320647400DE820F /* circle-solid.png in Resources */ = {isa = PBXBuildFile; fileRef = 363CFD501320647400DE820F /* circle-solid.png */; };
 		3644C93A12B1C65B005607EB /* WebBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644C93912B1C65B005607EB /* WebBrowserController.m */; };
 		3644CB5612B6C9F5005607EB /* BioCatalogueResourceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CB5512B6C9F5005607EB /* BioCatalogueResourceManager.m */; };
 		3644CEB812B6EB51005607EB /* GTMHTTPFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 3644CEB112B6EB51005607EB /* GTMHTTPFetcher.m */; };
@@ -219,6 +220,7 @@
 		36344739125FCED1006F3295 /* ServiceDetailViewController_iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceDetailViewController_iPhone.h; sourceTree = "<group>"; };
 		3634473A125FCED1006F3295 /* ServiceDetailViewController_iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceDetailViewController_iPhone.m; sourceTree = "<group>"; };
 		3634473B125FCED1006F3295 /* ServiceDetailView_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ServiceDetailView_iPhone.xib; sourceTree = "<group>"; };
+		363CFD501320647400DE820F /* circle-solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-solid.png"; sourceTree = "<group>"; };
 		3644C93812B1C65B005607EB /* WebBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebBrowserController.h; sourceTree = "<group>"; };
 		3644C93912B1C65B005607EB /* WebBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebBrowserController.m; sourceTree = "<group>"; };
 		3644CB5412B6C9F5005607EB /* BioCatalogueResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BioCatalogueResourceManager.h; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 		36C8A4B512F7CAC90022190F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				363CFD501320647400DE820F /* circle-solid.png */,
 				369F7EB01318B24F001C7084 /* cog.png */,
 				369F7A571316E7CE001C7084 /* asterisk.png */,
 				36F9949B130094C600B3B128 /* a-21-arrow-back.png */,
@@ -980,6 +983,7 @@
 				369F7A821316FC43001C7084 /* greyLine.png in Resources */,
 				369F7EB11318B24F001C7084 /* cog.png in Resources */,
 				369F7F231318C13E001C7084 /* redLine.png in Resources */,
+				363CFD511320647400DE820F /* circle-solid.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

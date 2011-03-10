@@ -67,6 +67,7 @@ extern NSString *const JSONDateFormat;
 extern NSString *const JSONAffiliationElement;
 extern NSString *const JSONArchivedAtElement;
 extern NSString *const JSONCityElement;
+extern NSString *const JSONContentTypeElement;
 extern NSString *const JSONCountryCodeElement;
 extern NSString *const JSONCountryElement;
 extern NSString *const JSONCreatedAtElement;
@@ -75,6 +76,7 @@ extern NSString *const JSONDescriptionElement;
 extern NSString *const JSONEndpointLabelElement;
 extern NSString *const JSONErrorsElement;
 extern NSString *const JSONFlagElement;
+extern NSString *const JSONInputsElement;
 extern NSString *const JSONJoinedElement;
 extern NSString *const JSONLabelElement;
 extern NSString *const JSONLastCheckedElement;
@@ -83,9 +85,12 @@ extern NSString *const JSONLocationElement;
 extern NSString *const JSONMethodsElement;
 extern NSString *const JSONNameElement;
 extern NSString *const JSONOperationsElement;
+extern NSString *const JSONOutputsElement;
 extern NSString *const JSONPagesElement;
+extern NSString *const JSONParametersElement;
 extern NSString *const JSONProviderElement;
 extern NSString *const JSONPublicEmailElement;
+extern NSString *const JSONRepresentationElement;
 extern NSString *const JSONResourceElement;
 extern NSString *const JSONResultsElement;
 extern NSString *const JSONSearchQueryElement;
@@ -96,8 +101,8 @@ extern NSString *const JSONStatusElement;
 extern NSString *const JSONSubmitterElement;
 extern NSString *const JSONSymbolElement;
 extern NSString *const JSONTechnologyTypesElement;
-extern NSString *const JSONTestTypeElement;
 extern NSString *const JSONTestScriptElement;
+extern NSString *const JSONTestTypeElement;
 extern NSString *const JSONTotalElement;
 extern NSString *const JSONURLElement;
 extern NSString *const JSONURLMonitorElement;
@@ -129,6 +134,7 @@ extern NSString *const ServiceUnstarredIcon;
 extern NSString *const ServiceStarredIcon;
 
 extern NSString *const CogIcon;
+extern NSString *const DotIcon;
 
 
 #pragma mark -
@@ -152,6 +158,7 @@ extern NSString *NoInformationText;
 extern NSString *RESTComponentsText;
 extern NSString *SOAPComponentsText;
 
+extern NSString *NoAlternativeNameText;
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */

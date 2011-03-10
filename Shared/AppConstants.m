@@ -17,7 +17,7 @@ NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 
 NSString *const ErrorOccurred = @"ErrorOccurredNotification";
 
-NSTimeInterval const UpdateCheckInterval = 1; // in seconds TODO: insert proper value here
+NSTimeInterval const UpdateCheckInterval = 5; // in seconds TODO: 15 * 60
 
 
 #pragma mark -
@@ -72,6 +72,7 @@ NSString *const JSONDateFormat = @"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'";
 NSString *const JSONAffiliationElement = @"affiliation";
 NSString *const JSONArchivedAtElement = @"archived_at";
 NSString *const JSONCityElement = @"city";
+NSString *const JSONContentTypeElement = @"content_type";
 NSString *const JSONCountryCodeElement = @"country_code";
 NSString *const JSONCountryElement = @"country";
 NSString *const JSONCreatedAtElement = @"created_at";
@@ -80,6 +81,7 @@ NSString *const JSONDescriptionElement = @"description";
 NSString *const JSONEndpointLabelElement = @"endpoint_label";
 NSString *const JSONErrorsElement = @"errors";
 NSString *const JSONFlagElement = @"flag";
+NSString *const JSONInputsElement = @"inputs";
 NSString *const JSONJoinedElement = @"joined";
 NSString *const JSONLabelElement = @"label";
 NSString *const JSONLastCheckedElement = @"last_checked";
@@ -88,9 +90,12 @@ NSString *const JSONLocationElement = @"location";
 NSString *const JSONMethodsElement = @"methods";
 NSString *const JSONNameElement = @"name";
 NSString *const JSONOperationsElement = @"operations";
+NSString *const JSONOutputsElement = @"outputs";
 NSString *const JSONPagesElement = @"pages";
+NSString *const JSONParametersElement = @"parameters";
 NSString *const JSONProviderElement = @"provider";
 NSString *const JSONPublicEmailElement = @"public_email";
+NSString *const JSONRepresentationElement = @"representations";
 NSString *const JSONResourceElement = @"resource";
 NSString *const JSONResultsElement = @"results";
 NSString *const JSONSearchQueryElement = @"search_query";
@@ -101,8 +106,8 @@ NSString *const JSONStatusElement = @"status";
 NSString *const JSONSubmitterElement = @"submitter";
 NSString *const JSONSymbolElement = @"symbol";
 NSString *const JSONTechnologyTypesElement = @"service_technology_types";
-NSString *const JSONTestTypeElement = @"test_type";
 NSString *const JSONTestScriptElement = @"test_script";
+NSString *const JSONTestTypeElement = @"test_type";
 NSString *const JSONTotalElement = @"total";
 NSString *const JSONURLElement = @"url";
 NSString *const JSONURLMonitorElement = @"url_monitor";
@@ -134,6 +139,7 @@ NSString *const ServiceUnstarredIcon = @"star4.png";
 NSString *const ServiceStarredIcon = @"star8-sc48.png";
 
 NSString *const CogIcon = @"cog.png";
+NSString *const DotIcon = @"circle-solid.png";
 
 
 #pragma mark -
@@ -153,10 +159,12 @@ NSString *DefaultLoadingText = @"Loading, Please Wait...";
 NSString *LoadMoreItemsText = @"Load More Items...";
 
 NSString *NoDescriptionText = @"(no description available)";
-NSString *NoInformationText = @"(no information available)";
+NSString *NoInformationText = @"(no additional information available)";
 
 NSString *RESTComponentsText = @"REST Endpoints";
 NSString *SOAPComponentsText = @"SOAP Operations";
+
+NSString *NoAlternativeNameText = @"(no alternative name)";
 
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */

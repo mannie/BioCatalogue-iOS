@@ -31,7 +31,7 @@
     [uiContentController composeMailMessage:address];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to compose mail"
-                                                    message:@"This user does not have a public eMail address." 
+                                                    message:@"This user does not have a public e-mail address." 
                                                    delegate:nil
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];

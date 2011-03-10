@@ -16,5 +16,6 @@
 @dynamic lastUpdated;
 @dynamic catalogue;
 @dynamic hasUpdate;
+@dynamic latestMonitoringStatus;
 
 @end

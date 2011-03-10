@@ -7,12 +7,29 @@
 //
 
 
-@interface ServiceComponentsDetailViewController : UIViewController {
+@interface ServiceComponentsDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+  IBOutlet UIContentController *uiContentController;
+  
   IBOutlet UIView *restMethodDetailView;
   IBOutlet UIView *soapOperationDetailView;
+
+  IBOutlet UITableView *myTableView;
+  
+  NSString *currentPath;
+
+  NSDictionary *componentProperties;
+  
+  BOOL serviceIsREST;
+  BOOL viewHasBeenUpdated;
 }
 
--(void) loadRESTMethodDetailView;
--(void) loadSOAPOperationDetailView;
+-(void) updateWithComponentAtPath:(NSString *)path;
+
+-(IBAction) showInputsAndOutputs:(id)sender;
 
 @end
+
+
+@interface RotatableEmptyTableViewController : UITableViewController
+@end
+

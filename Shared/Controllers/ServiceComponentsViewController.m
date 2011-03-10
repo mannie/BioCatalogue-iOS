@@ -11,7 +11,7 @@
 
 @implementation ServiceComponentsViewController
 
-@synthesize detailViewController, iPhoneWebViewController;
+@synthesize detailViewController;
 
 
 #pragma mark -
@@ -25,7 +25,7 @@
   [currentPath release];
   currentPath = [path retain];
   
-  dispatch_async(dispatch_queue_create("Load provider services", NULL), ^{
+  dispatch_async(dispatch_queue_create("Load components", NULL), ^{
     [serviceComponentsInfo release];
     serviceComponentsInfo = [[NSDictionary dictionary] retain];
     
@@ -48,6 +48,7 @@
     }  
 
     currentlyFetchingComponents = NO;
+    viewHasBeenUpdated = YES;
     [[self tableView] performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 
     [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
@@ -106,6 +107,8 @@
                                    reuseIdentifier:CellIdentifier] autorelease];
   }
 
+  [UIContentController customiseTableViewCell:cell];  
+
   if ([serviceComponents count] == 0) {
     [[cell textLabel] setText:nil];
     [[cell imageView] setImage:nil];
@@ -119,18 +122,23 @@
   
   // Configure the cell...
   if (serviceIsREST) {
-    [[cell textLabel] setText:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONEndpointLabelElement]];
+    NSString *endpointLabel = [[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONEndpointLabelElement];
     NSString *name = [NSString stringWithFormat:@"%@", [[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONNameElement]];
-    [[cell detailTextLabel] setText:([name isValidJSONValue] ? name : nil)];
+
+    if ([name isValidJSONValue]) {
+      [[cell textLabel] setText:name];
+      [[cell detailTextLabel] setText:endpointLabel];
+    } else {
+      [[cell textLabel] setText:endpointLabel];
+      [[cell detailTextLabel] setText:nil];
+    }
   } else {
     [[cell textLabel] setText:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONNameElement]];
     [[cell detailTextLabel] setText:nil];
   }
   
   [[cell imageView] setImage:[UIImage imageNamed:CogIcon]];
-  
-  [UIContentController customiseTableViewCell:cell];  
-  
+    
   return cell;
 } // tableView:cellForRowAtIndexPath
 
@@ -139,27 +147,13 @@
 #pragma mark Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-/*
-  TODO: implement the ability to view component detail
- 
-  NSLog(@"%@", [serviceComponents objectAtIndex:indexPath.row]);
-  if (serviceIsREST) {
-    [detailViewController loadRESTMethodDetailView];
-  } else {
-    [detailViewController loadSOAPOperationDetailView];
+  if ([serviceComponents count] != 0) {
+    NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONResourceElement]];
+    [detailViewController updateWithComponentAtPath:[url path]];
+    
+    [[self navigationController] pushViewController:detailViewController animated:YES];    
   }
 
- 
-  [self.navigationController pushViewController:detailViewController animated:YES];
-*/
-
-  NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONResourceElement]];  
-  NSURLRequest *request = [NSURLRequest requestWithURL:url
-                                           cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                       timeoutInterval:APIRequestTimeout];
-  [(UIWebView *)[iPhoneWebViewController view] loadRequest:request];
-  [[self navigationController] pushViewController:iPhoneWebViewController animated:YES];
-  
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
 
@@ -171,9 +165,6 @@
   [activityIndicator release];
   
   [detailViewController release];
-  
-  [iPhoneWebViewController release];  
-  [webBrowserController release];
 } // releaseIBOutlets
 
 - (void)dealloc {

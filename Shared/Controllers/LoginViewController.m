@@ -94,7 +94,7 @@
 
 -(IBAction) signInToBioCatalogue {
   if (![[usernameField text] isValidEmailAddress]) {
-    [self showUIAlertViewWithErrorMessage:@"Please enter a valid email address"];
+    [self showUIAlertViewWithErrorMessage:@"Please enter a valid e-mail address"];
   } else if (![[passwordField text] isValidJSONValue]) {
     [self showUIAlertViewWithErrorMessage:@"Please enter a valid password"];
   } else {    

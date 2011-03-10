@@ -16,6 +16,8 @@ static BOOL currentlyFetchingAnnouncements;
 
 static NSUInteger activeUpdateThreads;
 
+static BOOL updateCheckDaemonShoundBeActive;
+
 
 #pragma mark -
 #pragma mark MWFeedParserDelegate
@@ -147,10 +149,14 @@ static NSUInteger activeUpdateThreads;
   }
   NSDate *liveDateOfUpdate = [dateFormatter dateFromString:jsonDate];
   BOOL serviceHasBeenUpdated = [liveDateOfUpdate laterDate:[service lastUpdated]] == liveDateOfUpdate;
-    
+  
+  NSString *latestStatus = [[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLabelElement];
+  serviceHasBeenUpdated = serviceHasBeenUpdated && ![[service latestMonitoringStatus] isEqualToString:latestStatus];
+  
   if (!serviceHasBeenUpdated) return;
   
-  [service setHasUpdate:[NSNumber numberWithBool:YES]];  
+  [service setHasUpdate:[NSNumber numberWithBool:YES]];
+  [service setLatestMonitoringStatus:latestStatus];
 }
 
 -(void) checkForUpdatesForServiceWithProperties:(NSDictionary *)serviceProperties {
@@ -159,6 +165,7 @@ static NSUInteger activeUpdateThreads;
   
   if (![service lastUpdated]) { // is a new entry
     [service setLastUpdated:[NSDate date]];
+    [service setLatestMonitoringStatus:[[serviceProperties objectForKey:JSONLatestMonitoringStatusElement] objectForKey:JSONLabelElement]];
   } else { // has been checked before
     [self handleUpdateStatusForService:service withProperties:serviceProperties];
   }
@@ -195,6 +202,8 @@ static NSUInteger activeUpdateThreads;
 #pragma mark Thread to check for updates in the background
 
 +(void) spawnUpdateCheckDaemon {
+  updateCheckDaemonShoundBeActive = YES;
+  
   UIApplication *application = [UIApplication sharedApplication];
   UIBackgroundTaskIdentifier updateCheckDaemon = [application beginBackgroundTaskWithExpirationHandler: ^{
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -202,10 +211,14 @@ static NSUInteger activeUpdateThreads;
     });
   }];
   
-  dispatch_async(dispatch_get_main_queue(), ^{
-    while ([application backgroundTimeRemaining] > 1.0) {
-      [NSThread sleepForTimeInterval:UpdateCheckInterval];
-
+  dispatch_async(dispatch_queue_create("Update daemon", NULL), ^{
+    while (updateCheckDaemonShoundBeActive) {
+      // this bit of code ensures that the application does not hang when it comes back into the foreground
+      for (int i = 0; i < UpdateCheckInterval && updateCheckDaemonShoundBeActive; i++) {
+        [NSThread sleepForTimeInterval:1];
+      }
+      if (!updateCheckDaemonShoundBeActive) break;
+      
       // announcements
       NSArray *newAnnouncements = nil;
       [self checkForAnnouncements:&newAnnouncements performingSelector:NULL onTarget:nil];
@@ -260,6 +273,10 @@ static NSUInteger activeUpdateThreads;
     [application endBackgroundTask:updateCheckDaemon];
   });  
 } // spawnUpdateCheckDaemon
+
++(void) killUpdateCheckDaemon {
+  updateCheckDaemonShoundBeActive = NO;
+} // killUpdateCheckDaemon
 
 
 #pragma mark -

@@ -64,9 +64,13 @@
  Save changes in the application's managed object context before the application terminates.
  */
 
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+  [UpdateCenter killUpdateCheckDaemon];
+}
+
 -(BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // TODO: perform other local notification related checks here
-  
+
   return YES;
 }
 

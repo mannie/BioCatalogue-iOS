@@ -416,7 +416,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     [uiContentController composeMailMessage:address];
   } else {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to compose mail"
-                                                    message:@"This user does not have a public eMail address." 
+                                                    message:@"This user does not have a public e-mail address." 
                                                    delegate:nil
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
@@ -444,6 +444,8 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   [items release];
   
   defaultPopoverController = pc;
+  
+  if (contextualPopoverController) [contextualPopoverController dismissPopoverAnimated:YES];
 } // splitViewController:willHideViewController:withBarButtonItem:forPopoverController
 
 - (void)splitViewController: (UISplitViewController*)svc
@@ -456,6 +458,8 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   [items release];
   
   defaultPopoverController = nil;
+
+  if (contextualPopoverController) [contextualPopoverController dismissPopoverAnimated:YES];
 } // splitViewController:willShowViewController:invalidatingBarButtonItem
 
 

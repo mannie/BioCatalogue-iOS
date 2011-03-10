@@ -79,7 +79,7 @@
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {  
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   Announcement *announcement = [announcements objectAtIndex:[indexPath row]];
 
   if ([[UIDevice currentDevice] isIPadDevice]) {

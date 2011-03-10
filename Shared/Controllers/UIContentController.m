@@ -438,6 +438,33 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   }
 } // updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID
 
+-(void) updateRESTEndpointUIElementsWithProperties:(NSDictionary *)properties {
+  NSString *endpointLabel = [properties objectForKey:JSONEndpointLabelElement];
+  NSString *name = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONNameElement]];
+  
+  if ([name isValidJSONValue]) {
+    [endpointPrimaryName setText:name];
+    [endpointSecondaryName setText:endpointLabel];
+  } else {
+    [endpointPrimaryName setText:endpointLabel];
+    [endpointSecondaryName setText:NoAlternativeNameText];
+  }
+  
+  NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
+  description = ([description isValidJSONValue] ? description : NoDescriptionText);
+  [endpointDescription loadHTMLString:description baseURL:nil];
+  [endpointDescription setBackgroundColor:[UIColor clearColor]];
+} // updateRESTEndpointUIElementsWithProperties
+
+-(void) updateSOAPOperationUIElementsWithProperties:(NSDictionary *)properties {
+  [operationName setText:[properties objectForKey:JSONNameElement]];
+  
+  NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
+  description = ([description isValidJSONValue] ? description : NoDescriptionText);
+  [opertionDescription loadHTMLString:description baseURL:nil];
+  [opertionDescription setBackgroundColor:[UIColor clearColor]];
+} // updateSOAPOperationUIElementsWithProperties
+
 
 #pragma mark -
 #pragma mark Instance Helpers
@@ -445,7 +472,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
 -(void) composeMailMessage:(NSURL *)address {
   if (![MFMailComposeViewController canSendMail]) {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-                                                    message:@"eMail services are unavailable"
+                                                    message:@"e-mail services are unavailable"
                                                    delegate:nil
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
@@ -547,6 +574,15 @@ static UIImage *_announcementUnreadIconUIImage = nil;
 
 -(void) dealloc {
   [iPadDetailViewController release];
+  
+  // soap operation outlets
+  [operationName release];
+  [opertionDescription release];
+    
+  // rest methods/endpoints outlets
+  [endpointPrimaryName release];
+  [endpointSecondaryName release];
+  [endpointDescription release];
   
   // service detail outlets  
   [serviceName release];

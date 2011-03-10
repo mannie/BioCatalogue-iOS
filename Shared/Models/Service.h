@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSDate * lastUpdated;
 @property (nonatomic, retain) BioCatalogue * catalogue;
 @property (nonatomic, retain) NSNumber * hasUpdate;
+@property (nonatomic, retain) NSString * latestMonitoringStatus;
 
 @end
 

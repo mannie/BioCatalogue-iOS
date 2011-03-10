@@ -16,13 +16,10 @@
   NSArray *serviceComponents;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-  
-  IBOutlet WebBrowserController *webBrowserController;
-  
+    
   BOOL serviceIsREST;
 
   ServiceComponentsDetailViewController *detailViewController;
-  WebViewController_iPhone *iPhoneWebViewController;
   
   BOOL viewHasBeenUpdated;
   BOOL currentlyFetchingComponents;
@@ -31,7 +28,6 @@
 -(void) updateWithServiceComponentsForPath:(NSString *)path;
 
 @property (nonatomic, retain) IBOutlet ServiceComponentsDetailViewController *detailViewController;
-@property (nonatomic, retain) IBOutlet WebViewController_iPhone *iPhoneWebViewController;
 
 @end
 

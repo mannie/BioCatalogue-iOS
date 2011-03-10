@@ -18,5 +18,6 @@
 +(void) checkForServiceUpdates:(NSArray *)services performingSelector:(SEL)postActionsSelector onTarget:(id)target;
 
 +(void) spawnUpdateCheckDaemon;
++(void) killUpdateCheckDaemon;
 
 @end

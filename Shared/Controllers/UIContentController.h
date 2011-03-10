@@ -12,6 +12,15 @@
 @interface UIContentController : NSObject <UIWebViewDelegate, MFMailComposeViewControllerDelegate> {
   DetailViewController_iPad* iPadDetailViewController;
   
+  // soap operation
+  IBOutlet UILabel *operationName;
+  IBOutlet UIWebView *opertionDescription;
+  
+  // rest methods/endpoints
+  IBOutlet UILabel *endpointPrimaryName;
+  IBOutlet UILabel *endpointSecondaryName;
+  IBOutlet UIWebView *endpointDescription;
+  
   // the service view
   IBOutlet UILabel *serviceName;
   IBOutlet UIWebView *serviceDescription;
@@ -58,6 +67,9 @@
 -(void) updateUserUIElementsWithProperties:(NSDictionary *)properties;
 -(void) updateProviderUIElementsWithProperties:(NSDictionary *)properties;
 -(void) updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID;
+
+-(void) updateRESTEndpointUIElementsWithProperties:(NSDictionary *)properties;
+-(void) updateSOAPOperationUIElementsWithProperties:(NSDictionary *)properties;
 
 -(void) composeMailMessage:(NSURL *)address;
 
