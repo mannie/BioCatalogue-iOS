@@ -134,6 +134,7 @@
     [[self navigationController] pushViewController:iPhoneWebViewController animated:YES];
   }
 
+  [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
 

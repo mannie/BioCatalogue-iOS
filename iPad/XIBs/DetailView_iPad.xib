@@ -121,14 +121,6 @@
 								<reference key="IBUIToolbar" ref="1022318535"/>
 								<int key="IBUISystemItemIdentifier">5</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="925814687">
-								<object class="NSCustomResource" key="IBUIImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">star4.png</string>
-								</object>
-								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUIToolbar" ref="1022318535"/>
-							</object>
 							<object class="IBUIBarButtonItem" id="963281507">
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<float key="IBUIWidth">60</float>
@@ -15574,6 +15566,13 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 			</object>
+			<object class="IBUIBarButtonItem" id="925814687">
+				<object class="NSCustomResource" key="IBUIImage">
+					<string key="NSClassName">NSImage</string>
+					<string key="NSResourceName">star4.png</string>
+				</object>
+				<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -16716,7 +16715,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="1065679624"/>
-							<reference ref="925814687"/>
 							<reference ref="654573439"/>
 							<reference ref="963281507"/>
 						</object>
@@ -16726,11 +16724,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="IBObjectRecord">
 						<int key="objectID">309</int>
 						<reference key="object" ref="1065679624"/>
-						<reference key="parent" ref="1022318535"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">308</int>
-						<reference key="object" ref="925814687"/>
 						<reference key="parent" ref="1022318535"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -16829,6 +16822,12 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="objectID">509</int>
 						<reference key="object" ref="868489188"/>
 						<reference key="parent" ref="1068321664"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">308</int>
+						<reference key="object" ref="925814687"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">Bar Button Item (Mark/Unmark As Favourite)</string>
 					</object>
 				</object>
 			</object>
@@ -17834,28 +17833,49 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">ServiceComponentsDetailViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">showInputsAndOutputs:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showInputsAndOutputs:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showInputsAndOutputs:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>myTableView</string>
 							<string>restMethodDetailView</string>
 							<string>soapOperationDetailView</string>
+							<string>uiContentController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UITableView</string>
 							<string>UIView</string>
 							<string>UIView</string>
+							<string>UIContentController</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>myTableView</string>
 							<string>restMethodDetailView</string>
 							<string>soapOperationDetailView</string>
+							<string>uiContentController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">myTableView</string>
+								<string key="candidateClassName">UITableView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">restMethodDetailView</string>
 								<string key="candidateClassName">UIView</string>
@@ -17863,6 +17883,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">soapOperationDetailView</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">uiContentController</string>
+								<string key="candidateClassName">UIContentController</string>
 							</object>
 						</object>
 					</object>
@@ -17880,15 +17904,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
 							<string>detailViewController</string>
-							<string>iPhoneWebViewController</string>
-							<string>webBrowserController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIActivityIndicatorView</string>
 							<string>ServiceComponentsDetailViewController</string>
-							<string>WebViewController_iPhone</string>
-							<string>WebBrowserController</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -17897,8 +17917,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
 							<string>detailViewController</string>
-							<string>iPhoneWebViewController</string>
-							<string>webBrowserController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -17909,14 +17927,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">detailViewController</string>
 								<string key="candidateClassName">ServiceComponentsDetailViewController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">iPhoneWebViewController</string>
-								<string key="candidateClassName">WebViewController_iPhone</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">webBrowserController</string>
-								<string key="candidateClassName">WebBrowserController</string>
 							</object>
 						</object>
 					</object>
@@ -17943,8 +17953,13 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>announcementDate</string>
 							<string>announcementSummary</string>
 							<string>announcementTitle</string>
+							<string>endpointDescription</string>
+							<string>endpointPrimaryName</string>
+							<string>endpointSecondaryName</string>
 							<string>iPadDetailViewController</string>
 							<string>monitoringStatusIcon</string>
+							<string>operationName</string>
+							<string>opertionDescription</string>
 							<string>providerDescription</string>
 							<string>providerName</string>
 							<string>serviceComponents</string>
@@ -17966,8 +17981,13 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>UILabel</string>
 							<string>UIWebView</string>
 							<string>UILabel</string>
+							<string>UIWebView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
 							<string>DetailViewController_iPad</string>
 							<string>UIImageView</string>
+							<string>UILabel</string>
+							<string>UIWebView</string>
 							<string>UIWebView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -17992,8 +18012,13 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>announcementDate</string>
 							<string>announcementSummary</string>
 							<string>announcementTitle</string>
+							<string>endpointDescription</string>
+							<string>endpointPrimaryName</string>
+							<string>endpointSecondaryName</string>
 							<string>iPadDetailViewController</string>
 							<string>monitoringStatusIcon</string>
+							<string>operationName</string>
+							<string>opertionDescription</string>
 							<string>providerDescription</string>
 							<string>providerName</string>
 							<string>serviceComponents</string>
@@ -18025,12 +18050,32 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">endpointDescription</string>
+								<string key="candidateClassName">UIWebView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">endpointPrimaryName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">endpointSecondaryName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">iPadDetailViewController</string>
 								<string key="candidateClassName">DetailViewController_iPad</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">monitoringStatusIcon</string>
 								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">operationName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">opertionDescription</string>
+								<string key="candidateClassName">UIWebView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">providerDescription</string>

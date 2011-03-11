@@ -187,6 +187,7 @@
     });
     [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
     
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   } // if else ipad
 } //tableView:didSelectRowAtIndexPath

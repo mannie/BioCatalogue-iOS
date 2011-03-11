@@ -133,9 +133,12 @@ static BOOL _userIsAuthenticated;
   
   @try {
     NSURL *url = [self URLForPath:path withRepresentation:format];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url 
-                                             cachePolicy:NSURLRequestReturnCacheDataElseLoad 
-                                         timeoutInterval:APIRequestTimeout];
+    NSURLRequest *request;
+    if ([[path componentsSeparatedByString:@"?"] count] > 1) {
+      request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:APIRequestTimeout];
+    } else {
+      request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:APIRequestTimeout];
+    }
     
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) [error log];
@@ -224,7 +227,6 @@ static BOOL _userIsAuthenticated;
 +(NSDictionary *) servicesForFavouritingUserID:(NSUInteger)userID {
   return [self documentAtPath:[NSString stringWithFormat:@"/users/%i/favourites", userID]];  
 } // servicesForFavouritingUserID
-
 
 +(NSDictionary *) monitoringStatusesForServiceWithID:(NSUInteger)serviceID {
   return [self documentAtPath:[NSString stringWithFormat:@"/services/%i/monitoring", serviceID]];  

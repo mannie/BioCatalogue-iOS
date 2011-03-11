@@ -167,6 +167,12 @@ NSString *SOAPComponentsText = @"SOAP Operations";
 NSString *NoAlternativeNameText = @"(no alternative name)";
 
 
+#pragma mark -
+#pragma mark Error Codes
+
+NSString *const BioCatalogueClientErrorDomain = @"BioCatalogueClientErrorDomain";
+
+
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
 
 

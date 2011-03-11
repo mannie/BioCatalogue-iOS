@@ -38,7 +38,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     
   NSArray *items = [toolbar items];
   [toolbar performSelectorOnMainThread:@selector(setItems:) withObject:nil waitUntilDone:NO];
-  [toolbar performSelectorOnMainThread:@selector(setItems:) withObject:items waitUntilDone:NO];  
+  [toolbar performSelectorOnMainThread:@selector(setItems:animated:) withObject:items waitUntilDone:NO];  
 } // touchToolbar
 
 -(BOOL) isCurrentlyBusy {
@@ -123,11 +123,12 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                                                                   action:@selector(markUnmarkServiceAsFavourite:)];
   [items insertObject:favouriteServiceBarButtonItem atIndex:indexOfReplacement];
   [mainToolbar setItems:items animated:NO];
-  [items release];  
+  [items release];
 }
 
 -(void) preUpdateWithPropertiesActionsForServices:(NSDictionary *)properties {  
-  [self updateMarkAsFavouriteToolbarItemForServiceWithUniqueID:[[[properties objectForKey:JSONResourceElement] lastPathComponent] intValue]];
+  // TODO: uncomment next line; this was commented out for demo purposes since the favouriting was not going to be demoed
+//  [self updateMarkAsFavouriteToolbarItemForServiceWithUniqueID:[[[properties objectForKey:JSONResourceElement] lastPathComponent] intValue]];
   
   // main view update
   [uiContentController updateServiceUIElementsWithProperties:properties
@@ -213,26 +214,30 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 } // updateWithProperties:scope
 
 -(void) updateWithPropertiesForServicesScope:(NSDictionary *)properties {    
+  scopeOfResourceBeingViewed = ServiceResourceScope;
+
   [favouriteServiceBarButtonItem setEnabled:[BioCatalogueClient userIsAuthenticated]];
   [self updateWithProperties:properties withScope:ServiceResourceScope];
-  scopeOfResourceBeingViewed = ServiceResourceScope;
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
+  scopeOfResourceBeingViewed = UserResourceScope;
+  
   [favouriteServiceBarButtonItem setEnabled:NO];
   [self updateWithProperties:properties withScope:UserResourceScope];  
   [self setContentView:userDetailView forParentView:mainContentView];
-  scopeOfResourceBeingViewed = UserResourceScope;
 } // updateWithPropertiesForUsersScope
 
 -(void) updateWithPropertiesForProvidersScope:(NSDictionary *)properties {
+  scopeOfResourceBeingViewed = ProviderResourceScope;
+  
   [favouriteServiceBarButtonItem setEnabled:NO];
   [self updateWithProperties:properties withScope:ProviderResourceScope];  
   [self setContentView:providerDetailView forParentView:mainContentView];
-  scopeOfResourceBeingViewed = ProviderResourceScope;
 } // updateWithPropertiesForProvidersScope
 
 -(void) updateWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID {
+  scopeOfResourceBeingViewed = AnnouncementResourceScope;
   lastAnnouncementID = announcementID;
   
   [favouriteServiceBarButtonItem setEnabled:NO];
@@ -240,7 +245,6 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   [self setContentView:announcementDetailView forParentView:mainContentView];
   [uiContentController updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:announcementID];
   
-  scopeOfResourceBeingViewed = AnnouncementResourceScope;
   [self touchToolbar:mainToolbar];
 
   [self stopLoadingAnimation];
@@ -252,6 +256,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 
 -(void) markUnmarkServiceAsFavourite:(id)sender {
   // TODO: implement
+/*  
   [self touchToolbar:mainToolbar];
   if (![BioCatalogueClient userIsAuthenticated]) return;
   
@@ -266,6 +271,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   
 //  [BioCatalogueResourceManager commitChanges];
   [self updateMarkAsFavouriteToolbarItemForServiceWithUniqueID:uniqueID];
+*/
 } // markUnmarkServiceAsFavourite
 
 -(void) showProviderInfo:(id)sender {

@@ -66,6 +66,13 @@ static BOOL updateCheckDaemonShoundBeActive;
   for (Announcement *announcement in expiredAnnouncements) {
     [announcement setIsUnread:[NSNumber numberWithBool:NO]];
   }
+  
+  NSMutableSet *unaccessibleAnnouncements = [NSMutableSet setWithSet:[[BioCatalogueResourceManager currentBioCatalogue] announcements]];
+  [unaccessibleAnnouncements minusSet:[NSSet setWithArray:announcements]];
+  for (Announcement *announcement in [unaccessibleAnnouncements allObjects]) {
+    [BioCatalogueResourceManager deleteObject:announcement];
+  }
+  
   [BioCatalogueResourceManager commitChanges];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];

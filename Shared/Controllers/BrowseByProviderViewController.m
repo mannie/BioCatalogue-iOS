@@ -139,6 +139,7 @@
 
   [[self navigationController] pushViewController:providerDetailViewController animated:YES];
   
+  [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } //tableView:didSelectRowAtIndexPath
 

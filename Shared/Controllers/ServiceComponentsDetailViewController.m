@@ -21,13 +21,17 @@ typedef enum { Inputs, Outputs } SOAPSection;
 -(void) loadRESTMethodDetailView {
   if (![self view]) [self loadView];
   [uiContentController updateRESTEndpointUIElementsWithProperties:componentProperties];
+  
   [self setView:restMethodDetailView];
+  [self setTitle:[RESTComponentsText stringByReplacingCharactersInRange:NSMakeRange([RESTComponentsText length] - 1, 1) withString:@""]];
 } // loadRESTMethodDetailView
 
 -(void) loadSOAPOperationDetailView {
   if (![self view]) [self loadView];
   [uiContentController updateSOAPOperationUIElementsWithProperties:componentProperties];
+
   [self setView:soapOperationDetailView];
+  [self setTitle:[SOAPComponentsText stringByReplacingCharactersInRange:NSMakeRange([SOAPComponentsText length] - 1, 1) withString:@""]];
 } // loadSOAPOperationDetailView
 
 -(void) updateWithComponentAtPath:(NSString *)path {
@@ -212,12 +216,12 @@ typedef enum { Inputs, Outputs } SOAPSection;
     NSString *description = [NSString stringWithFormat:@"%@", [item objectForKey:JSONDescriptionElement]];
     description = ([description isValidJSONValue] ? description : NoInformationText);
     
-    [item log];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"More Info" message:description delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
     [alert release];
   }
   
+  [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
 

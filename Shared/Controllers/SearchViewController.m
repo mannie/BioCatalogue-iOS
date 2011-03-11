@@ -200,7 +200,8 @@
       [providerDetailViewController makeShowServicesButtonVisible:YES];
       
       [[self navigationController] pushViewController:providerDetailViewController animated:YES];
-      
+
+      [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
       [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
   } else {
@@ -225,6 +226,8 @@
     }
     
     [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
+
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
   } // if else ipad
 } //tableView:didSelectRowAtIndexPath

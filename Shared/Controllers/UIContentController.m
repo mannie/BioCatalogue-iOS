@@ -266,7 +266,8 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   
   [((UILabel *)[cell viewWithTag:XIBCellMainText]) setText:[announcement title]];
   
-  NSRange range = NSMakeRange(90, [[announcement summary] length]-90);
+  int stringLength = [[announcement summary] length];
+  NSRange range = (stringLength > 90 ? NSMakeRange(90, [[announcement summary] length]-90) : NSMakeRange(stringLength - 1, 0));
   NSString *detail = [[[announcement summary] stringByReplacingCharactersInRange:range withString:@""] stringByConvertingHTMLToPlainText];
   [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:detail];
   
@@ -360,7 +361,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
     NSString *description = [NSString stringWithFormat:@"%@", [listingProperties objectForKey:JSONDescriptionElement]];
     description = ([description isValidJSONValue] ? description : NoDescriptionText);
     [serviceDescription loadHTMLString:description baseURL:nil];
-    [serviceDescription setBackgroundColor:[UIColor clearColor]];
+    [serviceDescription performSelectorOnMainThread:@selector(setBackgroundColor:) withObject:[UIColor clearColor] waitUntilDone:NO];
 
     [serviceProviderName setText:DefaultLoadingText];
     [serviceSubmitterName setText:DefaultLoadingText];
@@ -415,7 +416,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
   description = ([description isValidJSONValue] ? description : NoInformationText);  
   [providerDescription loadHTMLString:description baseURL:nil];
-  [providerDescription setBackgroundColor:[UIColor clearColor]];
+  [providerDescription performSelectorOnMainThread:@selector(setBackgroundColor:) withObject:[UIColor clearColor] waitUntilDone:NO];
 } // updateProviderUIElementsWithProperties
 
 -(void) updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID {  
@@ -424,7 +425,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   Announcement *announcement = [BioCatalogueResourceManager announcementWithUniqueID:announcementID];
   
   [announcementSummary loadHTMLString:[announcement summary] baseURL:nil];
-  [announcementSummary setBackgroundColor:[UIColor clearColor]];
+  [announcementSummary performSelectorOnMainThread:@selector(setBackgroundColor:) withObject:[UIColor clearColor] waitUntilDone:NO];
   
   [announcementTitle performSelectorOnMainThread:@selector(setText:) withObject:[announcement title] waitUntilDone:NO];  
   
@@ -453,7 +454,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
   description = ([description isValidJSONValue] ? description : NoDescriptionText);
   [endpointDescription loadHTMLString:description baseURL:nil];
-  [endpointDescription setBackgroundColor:[UIColor clearColor]];
+  [endpointDescription performSelectorOnMainThread:@selector(setBackgroundColor:) withObject:[UIColor clearColor] waitUntilDone:NO];
 } // updateRESTEndpointUIElementsWithProperties
 
 -(void) updateSOAPOperationUIElementsWithProperties:(NSDictionary *)properties {
@@ -462,7 +463,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   NSString *description = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONDescriptionElement]];
   description = ([description isValidJSONValue] ? description : NoDescriptionText);
   [opertionDescription loadHTMLString:description baseURL:nil];
-  [opertionDescription setBackgroundColor:[UIColor clearColor]];
+  [opertionDescription performSelectorOnMainThread:@selector(setBackgroundColor:) withObject:[UIColor clearColor] waitUntilDone:NO];
 } // updateSOAPOperationUIElementsWithProperties
 
 

@@ -39,20 +39,39 @@
   if (networkActivityCounter == 0) [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
 } // decrementNetworkActivity
 
+-(void) showUIAlertViewTitle:(NSString *)title message:(NSString *)msg {
+  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                  message:msg 
+                                                 delegate:nil
+                                        cancelButtonTitle:@"OK"
+                                        otherButtonTitles:nil];
+  [alert show];
+  [alert release];  
+} // showUIAlertViewMessage
+
 -(void) handleError:(NSNotification *)notification {
   // TODO: extend this to handle errors for the whole application
   
   if (![[notification object] isKindOfClass:[NSError class]]) return;
 
-  if ([[notification object] code] != -1004) return; // -1004 == connection to server error
   dispatch_async(dispatch_get_main_queue(), ^{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error Occurred" 
-                                                    message:[[notification object] localizedDescription] 
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];    
+    switch ([[notification object] code]) {
+      case -1009: // no internet connection error
+      case -1004: // connection to server error
+        [self showUIAlertViewTitle:@"Connection Error" message:[[notification object] localizedDescription]];
+        break;
+      case InvalidEmailAddressError: 
+        [self showUIAlertViewTitle:@"Error" message:@"Please enter a valid e-mail address"];
+        break;
+      case InvalidPasswordError:
+        [self showUIAlertViewTitle:@"Error" message:@"Please enter a valid password"];
+        break;
+      case LoginError:
+        [self showUIAlertViewTitle:@"Error" message:[NSString stringWithFormat:@"%@\n\n%@",
+                                                     @"Could not sign into the BioCatalogue.", 
+                                                     @"Please check your username and password, and try again."]];
+        break;
+    }
   });
 } // handleError
 

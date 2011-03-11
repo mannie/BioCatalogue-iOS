@@ -53,16 +53,6 @@
   [signInButton setEnabled:[enabled boolValue]];
 } // setEnabledForUILoginElements
 
--(void) showUIAlertViewWithErrorMessage:(NSString *)message {
-  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                  message:message
-                                                 delegate:self
-                                        cancelButtonTitle:@"OK"
-                                        otherButtonTitles:nil];
-  [alert show];
-  [alert release];
-} // showUIAlertViewWithErrorMessage
-
 -(void) attemptToSignInWithUsername:(NSString *)username 
                         andPassword:(NSString *)password
             updatingUILoginElements:(BOOL)updateUI {
@@ -70,10 +60,7 @@
     [self performSelectorOnMainThread:@selector(updateView) withObject:nil waitUntilDone:NO];
     
     if (![BioCatalogueClient signInWithUsername:username withPassword:password]) {
-      NSString *message = [NSString stringWithFormat:@"%@\n\n%@", 
-                           @"Could not sign into the BioCatalogue.",
-                           @"Please check your username and password, and try again."];
-      [self performSelectorOnMainThread:@selector(showUIAlertViewWithErrorMessage:) withObject:message waitUntilDone:NO];
+      [[NSError errorWithDomain:BioCatalogueClientErrorDomain code:LoginError userInfo:nil] log];
     }
     
     [self performSelectorOnMainThread:@selector(updateView) withObject:nil waitUntilDone:NO];
@@ -94,9 +81,9 @@
 
 -(IBAction) signInToBioCatalogue {
   if (![[usernameField text] isValidEmailAddress]) {
-    [self showUIAlertViewWithErrorMessage:@"Please enter a valid e-mail address"];
+    [[NSError errorWithDomain:BioCatalogueClientErrorDomain code:InvalidEmailAddressError userInfo:nil] log];
   } else if (![[passwordField text] isValidJSONValue]) {
-    [self showUIAlertViewWithErrorMessage:@"Please enter a valid password"];
+    [[NSError errorWithDomain:BioCatalogueClientErrorDomain code:InvalidPasswordError userInfo:nil] log];
   } else {    
     [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
     [self attemptToSignInWithUsername:[usernameField text] andPassword:[passwordField text] updatingUILoginElements:YES];

@@ -280,6 +280,7 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
     });
     [[self navigationController] pushViewController:iPhoneDetailViewController animated:YES];
     
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [tableView reloadData];
   } // if else ipad

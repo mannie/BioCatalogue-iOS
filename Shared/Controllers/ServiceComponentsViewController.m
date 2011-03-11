@@ -43,9 +43,11 @@
     [serviceComponents release];
     if (serviceIsREST) {
       serviceComponents = [[serviceComponentsInfo objectForKey:JSONMethodsElement] retain];
+      [self performSelectorOnMainThread:@selector(setTitle:) withObject:RESTComponentsText waitUntilDone:NO];
     } else {
       serviceComponents = [[serviceComponentsInfo objectForKey:JSONOperationsElement] retain];
-    }  
+      [self performSelectorOnMainThread:@selector(setTitle:) withObject:SOAPComponentsText waitUntilDone:NO];
+    }
 
     currentlyFetchingComponents = NO;
     viewHasBeenUpdated = YES;
@@ -154,6 +156,7 @@
     [[self navigationController] pushViewController:detailViewController animated:YES];    
   }
 
+  [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
 

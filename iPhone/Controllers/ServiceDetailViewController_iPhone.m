@@ -131,12 +131,11 @@
   NSString *path;
   if ([serviceListingProperties serviceListingIsRESTService]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
-    [serviceComponentsViewController setTitle:RESTComponentsText];
   } else {
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
-    [serviceComponentsViewController setTitle:SOAPComponentsText];
   }
   
+  [serviceComponentsViewController setTitle:nil];
   if (![serviceComponentsViewController view]) [serviceComponentsViewController loadView];
   dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
     [serviceComponentsViewController updateWithServiceComponentsForPath:path];

@@ -60,9 +60,9 @@
 #pragma mark -
 #pragma mark Shared Code
 
-#import "AppDelegate_Shared.h"
-
 #import "AppConstants.h"
+
+#import "AppDelegate_Shared.h"
 
 #import "BioCatalogueClient.h"
 #import "BioCatalogueResourceManager.h"

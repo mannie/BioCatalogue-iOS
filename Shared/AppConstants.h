@@ -161,6 +161,18 @@ extern NSString *SOAPComponentsText;
 extern NSString *NoAlternativeNameText;
 
 
+#pragma mark -
+#pragma mark Error Codes
+
+extern NSString *const BioCatalogueClientErrorDomain;
+
+typedef enum {
+  LoginError = 101,
+  InvalidEmailAddressError,
+  InvalidPasswordError
+} BioCatalogueErrorCode;
+
+
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
 
 
