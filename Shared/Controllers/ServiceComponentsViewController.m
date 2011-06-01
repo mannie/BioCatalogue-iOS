@@ -182,14 +182,3 @@
 
 
 @end
-
-
-
-@implementation WebViewController_iPhone
-
--(BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-  return YES;
-} // shouldAutorotateToInterfaceOrientation
-
-@end
-

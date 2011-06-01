@@ -549,7 +549,12 @@ static UIImage *_announcementUnreadIconUIImage = nil;
       if ([[[request mainDocumentURL] scheme] isEqualToString:@"mailto"]) {
         [self composeMailMessage:[request mainDocumentURL]];
       } else {
-        [[UIApplication sharedApplication] openURL:[request mainDocumentURL]];
+        SVWebViewController *webViewController = [[SVWebViewController alloc] initWithAddress:[[request mainDocumentURL] absoluteString]];
+
+        AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
+        [[appDelegate tabBarController] presentModalViewController:webViewController animated:YES];
+        
+        [webViewController release];        
       }
     }
   } else { // cannot open url

@@ -11,8 +11,6 @@
 
 @implementation MonitoringStatusViewController
 
-@synthesize iPhoneWebViewController;
-
 
 #pragma mark -
 #pragma mark Helpers
@@ -127,11 +125,12 @@
     DetailViewController_iPad *iPadDetailViewController = (DetailViewController_iPad *)[[[appDelegate splitViewController] viewControllers] lastObject];
     [iPadDetailViewController showResourceInPullOutBrowser:url];
   } else {
-    NSURLRequest *request = [NSURLRequest requestWithURL:url
-                                             cachePolicy:NSURLRequestReturnCacheDataElseLoad
-                                         timeoutInterval:APIRequestTimeout];
-    [(UIWebView *)[iPhoneWebViewController view] loadRequest:request];
-    [[self navigationController] pushViewController:iPhoneWebViewController animated:YES];
+    SVWebViewController *webViewController = [[SVWebViewController alloc] initWithAddress:[url absoluteString]];
+    
+    AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
+    [[appDelegate tabBarController] presentModalViewController:webViewController animated:YES];
+    
+    [webViewController release];
   }
 
   [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
@@ -144,7 +143,6 @@
 
 -(void) releaseIBOutlets {
   [activityIndicator release];
-  [webBrowserController release];
 } // releaseIBOutlets
 
 - (void)viewDidUnload {

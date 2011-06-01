@@ -6,7 +6,7 @@
 //  Copyright 2010 myGrid (University of Manchester). All rights reserved.
 //
 
-@class WebViewController_iPhone, ServiceComponentsDetailViewController;
+@class SVWebViewController, ServiceComponentsDetailViewController;
 
 
 @interface ServiceComponentsViewController : UITableViewController {
@@ -31,9 +31,5 @@
 
 @end
 
-
-
-@interface WebViewController_iPhone : UIViewController
-@end
 
 

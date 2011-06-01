@@ -6,8 +6,6 @@
 //  Copyright 2010 myGrid (University of Manchester). All rights reserved.
 //
 
-@class WebViewController_iPhone;
-
 
 @interface MonitoringStatusViewController : UITableViewController {
   NSUInteger currentServiceID;
@@ -16,13 +14,10 @@
   NSMutableArray *monitoringStatuses;
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
-  IBOutlet WebBrowserController *webBrowserController;
   
   BOOL viewHasBeenUpdated;
 }
 
 -(void) updateWithMonitoringStatusInfoForServiceWithID:(NSUInteger)serviceID;
-
-@property (nonatomic, retain) IBOutlet WebViewController_iPhone *iPhoneWebViewController;
 
 @end
