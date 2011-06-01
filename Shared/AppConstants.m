@@ -23,7 +23,7 @@ NSTimeInterval const UpdateCheckInterval = 5; // in seconds TODO: 15 * 60
 #pragma mark -
 #pragma mark BioCatalogueClient
 
-NSString *const AppServiceName = @"iOS BioCatalogue: BioMonitor";
+NSString *const AppServiceName = @"BioCatalogue (iOS)";
 
 NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 90;
 
