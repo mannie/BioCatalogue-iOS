@@ -176,22 +176,22 @@ static BOOL _userIsAuthenticated;
 +(NSDictionary *) performSearch:(NSString *)query 
                       withScope:(NSString *)scope
              withRepresentation:(NSString *)format 
-                           page:(NSUInteger)pageNum {
+                           page:(NSUInteger)pageNum {  
   if (![query isValidQuery]) return nil;
   
   if (pageNum < 1) {
     pageNum = 1;
   }
-  
-  NSString *pathQuery = [NSString stringWithFormat:@"?q=%@&page=%i&per_page=%i", query, pageNum, ItemsPerPage];
+
+  NSString *queryPath = [NSString stringWithFormat:@"?q=%@&page=%i&per_page=%i", [query stringByAddingPercentEscapes], pageNum, ItemsPerPage];
   if ([scope isEqualToString:ServiceResourceScope]) {
-    return [self documentAtPath:[NSString stringWithFormat:@"/services%@", pathQuery]];
+    return [self documentAtPath:[NSString stringWithFormat:@"/services%@", queryPath]];
   } else if ([scope isEqualToString:UserResourceScope]) {
-    return [self documentAtPath:[NSString stringWithFormat:@"/users%@", pathQuery]];
+    return [self documentAtPath:[NSString stringWithFormat:@"/users%@", queryPath]];
   } else if ([scope isEqualToString:ProviderResourceScope]) {
-    return [self documentAtPath:[NSString stringWithFormat:@"/service_providers%@", pathQuery]];
+    return [self documentAtPath:[NSString stringWithFormat:@"/service_providers%@", queryPath]];
   } else {
-    return [self documentAtPath:[NSString stringWithFormat:@"/search%@", pathQuery]];
+    return [self documentAtPath:[NSString stringWithFormat:@"/search%@", queryPath]];
   }
 } // performSearch:withScope:withRepresentation
 

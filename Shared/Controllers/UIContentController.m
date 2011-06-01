@@ -403,7 +403,10 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   [userCity setText:([detailItem isValidJSONValue] ? detailItem : UnknownText)];
   
   detailItem = [NSString stringWithFormat:@"%@", [properties objectForKey:JSONPublicEmailElement]];
-  [userEmail setText:([detailItem isValidJSONValue] ? detailItem : UnknownText)];
+  BOOL showEmail = [detailItem isValidJSONValue];
+  [userEmail setText:(showEmail ? detailItem : nil)];
+  [userEmailButton setHidden:!showEmail];
+  [userEmailCaption setHidden:!showEmail];
   
   [userJoinedDate setText:[[properties objectForKey:JSONJoinedElement] stringByReformattingJSONDate:YES]];
 } // updateUserProviderUIElementsWithProperties
@@ -472,14 +475,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
 
 -(void) composeMailMessage:(NSURL *)address {
   if (![MFMailComposeViewController canSendMail]) {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-                                                    message:@"e-mail services are unavailable"
-                                                   delegate:nil
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-    
+    [[UIApplication sharedApplication] openURL:address];    
     return;
   }
   
@@ -604,6 +600,9 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   [userCity release];
   [userEmail release];
   [userJoinedDate release];  
+  
+  [userEmailButton release];
+  [userEmailCaption release];
   
   // provider detail outlets
   [providerName release];

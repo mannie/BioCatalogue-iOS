@@ -526,6 +526,22 @@
 					</object>
 					<int key="connectionID">64</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">userEmailCaption</string>
+						<reference key="source" ref="313900830"/>
+						<reference key="destination" ref="500235377"/>
+					</object>
+					<int key="connectionID">65</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">userEmailButton</string>
+						<reference key="source" ref="313900830"/>
+						<reference key="destination" ref="153522499"/>
+					</object>
+					<int key="connectionID">66</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -719,7 +735,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>UserDetailViewController_iPhone</string>
 					<string>UIResponder</string>
-					<string>{{284, 255}, {320, 480}}</string>
+					<string>{{114, 212}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAw7aAAA</bytes>
@@ -813,7 +829,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">64</int>
+			<int key="maxID">66</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1288,28 +1304,49 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ServiceComponentsDetailViewController</string>
 					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">showInputsAndOutputs:</string>
+						<string key="NS.object.0">id</string>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<string key="NS.key.0">showInputsAndOutputs:</string>
+						<object class="IBActionInfo" key="NS.object.0">
+							<string key="name">showInputsAndOutputs:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>myTableView</string>
 							<string>restMethodDetailView</string>
 							<string>soapOperationDetailView</string>
+							<string>uiContentController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UITableView</string>
 							<string>UIView</string>
 							<string>UIView</string>
+							<string>UIContentController</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>myTableView</string>
 							<string>restMethodDetailView</string>
 							<string>soapOperationDetailView</string>
+							<string>uiContentController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">myTableView</string>
+								<string key="candidateClassName">UITableView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">restMethodDetailView</string>
 								<string key="candidateClassName">UIView</string>
@@ -1317,6 +1354,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">soapOperationDetailView</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">uiContentController</string>
+								<string key="candidateClassName">UIContentController</string>
 							</object>
 						</object>
 					</object>
@@ -1334,15 +1375,11 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
 							<string>detailViewController</string>
-							<string>iPhoneWebViewController</string>
-							<string>webBrowserController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIActivityIndicatorView</string>
 							<string>ServiceComponentsDetailViewController</string>
-							<string>WebViewController_iPhone</string>
-							<string>WebBrowserController</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -1351,8 +1388,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>activityIndicator</string>
 							<string>detailViewController</string>
-							<string>iPhoneWebViewController</string>
-							<string>webBrowserController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1363,14 +1398,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">detailViewController</string>
 								<string key="candidateClassName">ServiceComponentsDetailViewController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">iPhoneWebViewController</string>
-								<string key="candidateClassName">WebViewController_iPhone</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">webBrowserController</string>
-								<string key="candidateClassName">WebBrowserController</string>
 							</object>
 						</object>
 					</object>
@@ -1389,8 +1416,13 @@
 							<string>announcementDate</string>
 							<string>announcementSummary</string>
 							<string>announcementTitle</string>
+							<string>endpointDescription</string>
+							<string>endpointPrimaryName</string>
+							<string>endpointSecondaryName</string>
 							<string>iPadDetailViewController</string>
 							<string>monitoringStatusIcon</string>
+							<string>operationName</string>
+							<string>opertionDescription</string>
 							<string>providerDescription</string>
 							<string>providerName</string>
 							<string>serviceComponents</string>
@@ -1404,6 +1436,8 @@
 							<string>userCity</string>
 							<string>userCountry</string>
 							<string>userEmail</string>
+							<string>userEmailButton</string>
+							<string>userEmailCaption</string>
 							<string>userJoinedDate</string>
 							<string>userName</string>
 						</object>
@@ -1412,8 +1446,13 @@
 							<string>UILabel</string>
 							<string>UIWebView</string>
 							<string>UILabel</string>
+							<string>UIWebView</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
 							<string>DetailViewController_iPad</string>
 							<string>UIImageView</string>
+							<string>UILabel</string>
+							<string>UIWebView</string>
 							<string>UIWebView</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -1426,6 +1465,8 @@
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UIButton</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
 							<string>UILabel</string>
@@ -1438,8 +1479,13 @@
 							<string>announcementDate</string>
 							<string>announcementSummary</string>
 							<string>announcementTitle</string>
+							<string>endpointDescription</string>
+							<string>endpointPrimaryName</string>
+							<string>endpointSecondaryName</string>
 							<string>iPadDetailViewController</string>
 							<string>monitoringStatusIcon</string>
+							<string>operationName</string>
+							<string>opertionDescription</string>
 							<string>providerDescription</string>
 							<string>providerName</string>
 							<string>serviceComponents</string>
@@ -1453,6 +1499,8 @@
 							<string>userCity</string>
 							<string>userCountry</string>
 							<string>userEmail</string>
+							<string>userEmailButton</string>
+							<string>userEmailCaption</string>
 							<string>userJoinedDate</string>
 							<string>userName</string>
 						</object>
@@ -1471,12 +1519,32 @@
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
+								<string key="name">endpointDescription</string>
+								<string key="candidateClassName">UIWebView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">endpointPrimaryName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">endpointSecondaryName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
 								<string key="name">iPadDetailViewController</string>
 								<string key="candidateClassName">DetailViewController_iPad</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">monitoringStatusIcon</string>
 								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">operationName</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">opertionDescription</string>
+								<string key="candidateClassName">UIWebView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">providerDescription</string>
@@ -1528,6 +1596,14 @@
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">userEmail</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userEmailButton</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">userEmailCaption</string>
 								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
@@ -1585,6 +1661,7 @@
 							<string>backButton</string>
 							<string>browserToolbar</string>
 							<string>forwardButton</string>
+							<string>loadedPageLabel</string>
 							<string>refreshButton</string>
 							<string>stopButton</string>
 							<string>webBrowserActivityIndicator</string>
@@ -1594,6 +1671,7 @@
 							<string>UIBarButtonItem</string>
 							<string>UIToolbar</string>
 							<string>UIBarButtonItem</string>
+							<string>UILabel</string>
 							<string>UIBarButtonItem</string>
 							<string>UIBarButtonItem</string>
 							<string>UIActivityIndicatorView</string>
@@ -1606,6 +1684,7 @@
 							<string>backButton</string>
 							<string>browserToolbar</string>
 							<string>forwardButton</string>
+							<string>loadedPageLabel</string>
 							<string>refreshButton</string>
 							<string>stopButton</string>
 							<string>webBrowserActivityIndicator</string>
@@ -1623,6 +1702,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">forwardButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">loadedPageLabel</string>
+								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">refreshButton</string>

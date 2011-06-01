@@ -41,6 +41,9 @@
   IBOutlet UILabel *userEmail;
   IBOutlet UILabel *userJoinedDate;
   
+  IBOutlet UIButton *userEmailButton;
+  IBOutlet UILabel *userEmailCaption;
+  
   // provider details
   IBOutlet UILabel *providerName;
   IBOutlet UIWebView *providerDescription;
