@@ -26,6 +26,9 @@
 #import "SFHFKeychainUtils.h"
 #import "TVOutManager.h"
 
+#import "TPKeyboardAvoidingTableView.h"
+#import "TPKeyboardAvoidingScrollView.h"
+
 // * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -

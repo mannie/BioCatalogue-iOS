@@ -21,6 +21,8 @@
 		3611BE6B1268E3770076404E /* UserDetailView_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611BE691268E3770076404E /* UserDetailView_iPhone.xib */; };
 		3611C01A126B2DEE0076404E /* ProviderDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3611C018126B2DEE0076404E /* ProviderDetailViewController.m */; };
 		3611C01B126B2DEE0076404E /* ProviderDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3611C019126B2DEE0076404E /* ProviderDetailView.xib */; };
+		361BEDAB13968B1700939B04 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 361BEDA813968B1700939B04 /* TPKeyboardAvoidingScrollView.m */; };
+		361BEDAC13968B1700939B04 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 361BEDAA13968B1700939B04 /* TPKeyboardAvoidingTableView.m */; };
 		3628D4751307300C009BD8F3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3628D4741307300C009BD8F3 /* Security.framework */; };
 		3628D5881307350B009BD8F3 /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 3628D56C1307350A009BD8F3 /* Base64Transcoder.c */; };
 		3628D5891307350B009BD8F3 /* NSMutableURLRequest+Parameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 3628D56F1307350A009BD8F3 /* NSMutableURLRequest+Parameters.m */; };
@@ -179,6 +181,10 @@
 		3611C017126B2DEE0076404E /* ProviderDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProviderDetailViewController.h; sourceTree = "<group>"; };
 		3611C018126B2DEE0076404E /* ProviderDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProviderDetailViewController.m; sourceTree = "<group>"; };
 		3611C019126B2DEE0076404E /* ProviderDetailView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProviderDetailView.xib; sourceTree = "<group>"; };
+		361BEDA713968B1700939B04 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingScrollView.h; sourceTree = "<group>"; };
+		361BEDA813968B1700939B04 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingScrollView.m; sourceTree = "<group>"; };
+		361BEDA913968B1700939B04 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPKeyboardAvoidingTableView.h; sourceTree = "<group>"; };
+		361BEDAA13968B1700939B04 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TPKeyboardAvoidingTableView.m; sourceTree = "<group>"; };
 		3628D4741307300C009BD8F3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3628D56C1307350A009BD8F3 /* Base64Transcoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Base64Transcoder.c; sourceTree = "<group>"; };
 		3628D56D1307350A009BD8F3 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
@@ -478,6 +484,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		361BEDA613968B1700939B04 /* TPKeyboardAvoiding */ = {
+			isa = PBXGroup;
+			children = (
+				361BEDA713968B1700939B04 /* TPKeyboardAvoidingScrollView.h */,
+				361BEDA813968B1700939B04 /* TPKeyboardAvoidingScrollView.m */,
+				361BEDA913968B1700939B04 /* TPKeyboardAvoidingTableView.h */,
+				361BEDAA13968B1700939B04 /* TPKeyboardAvoidingTableView.m */,
+			);
+			path = TPKeyboardAvoiding;
+			sourceTree = "<group>";
+		};
 		3628D56A1307350A009BD8F3 /* OAuthConsumer */ = {
 			isa = PBXGroup;
 			children = (
@@ -598,6 +615,7 @@
 		365C68DA125BC5FC0099CE38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				361BEDA613968B1700939B04 /* TPKeyboardAvoiding */,
 				36FA63AD134E090800B2A97A /* TVOutManager */,
 				369049F0130C41FB00B50B3E /* SFHFKeychainUtils */,
 				3628D56A1307350A009BD8F3 /* OAuthConsumer */,
@@ -1097,6 +1115,8 @@
 				364C0B3D1315E519005467E6 /* UpdateCenter.m in Sources */,
 				364C0B8A1315EC83005467E6 /* NSObject+Helper.m in Sources */,
 				36FA63B0134E090800B2A97A /* TVOutManager.m in Sources */,
+				361BEDAB13968B1700939B04 /* TPKeyboardAvoidingScrollView.m in Sources */,
+				361BEDAC13968B1700939B04 /* TPKeyboardAvoidingTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

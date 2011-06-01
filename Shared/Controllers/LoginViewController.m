@@ -153,7 +153,18 @@
 #pragma mark Text Field delegate
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField {
-  [textField resignFirstResponder];
+  [textField resignFirstResponder];  
+
+  if (textField == usernameField) {
+    [passwordField becomeFirstResponder];
+    return [[usernameField text] isValidEmailAddress];
+  }
+  
+  if (textField == passwordField) {
+    [self signInToBioCatalogue];
+    return [[passwordField text] isValidJSONValue];
+  }
+
   return YES;
 } // textFieldShouldReturn
 
