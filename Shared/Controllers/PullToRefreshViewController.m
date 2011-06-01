@@ -51,6 +51,8 @@
   [super viewDidLoad];
   
 	if (refreshHeaderView == nil) {
+    contentOffset = ([[UIDevice currentDevice] isIPadDevice] ? -110.0f : -65.0f);
+    
     float height = [[self tableView] bounds].size.height;
     
     if ([[UIDevice currentDevice] isIPadDevice]) {      
@@ -102,16 +104,16 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{	
 	
 	if ([scrollView isDragging]) {
-		if ([refreshHeaderView state] == EGOOPullRefreshPulling && [scrollView contentOffset].y > -65.0f && [scrollView contentOffset].y < 0.0f && !_reloading) {
+		if ([refreshHeaderView state] == EGOOPullRefreshPulling && [scrollView contentOffset].y > contentOffset && [scrollView contentOffset].y < 0.0f && !_reloading) {
 			[refreshHeaderView setState:EGOOPullRefreshNormal];
-    } else if ([refreshHeaderView state] == EGOOPullRefreshNormal && [scrollView contentOffset].y < -65.0f && !_reloading) {
+    } else if ([refreshHeaderView state] == EGOOPullRefreshNormal && [scrollView contentOffset].y < contentOffset && !_reloading) {
 			[refreshHeaderView setState:EGOOPullRefreshPulling];
 		}
 	}
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{  
-	if ([scrollView contentOffset].y <= - 65.0f && !_reloading) {
+	if ([scrollView contentOffset].y <= contentOffset && !_reloading) {
     _reloading = YES;
     [self reloadTableViewDataSource];
     [refreshHeaderView setState:EGOOPullRefreshLoading];

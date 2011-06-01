@@ -129,6 +129,8 @@ NSString *const GreenLineImage = @"greenLine.png";
 NSString *const RedLineImage = @"redLine.png";
 NSString *const GreyLineImage = @"greyLine.png";
 
+//NSString *const ProviderIcon = @"112-group.png";
+//NSString *const UserIcon = @"111-user.png";
 NSString *const ProviderIcon = @"people-family4.png";
 NSString *const UserIcon = @"people-head.png";
 

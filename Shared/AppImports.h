@@ -24,6 +24,7 @@
 #import "MWFeedParser.h"
 #import "JSONKit.h"
 #import "SFHFKeychainUtils.h"
+#import "TVOutManager.h"
 
 // * *** *** *** ** *** *** *** ** *** *** *** * 
 

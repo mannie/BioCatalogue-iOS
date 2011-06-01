@@ -14492,6 +14492,34 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">2</int>
 							</object>
+							<object class="IBUILabel" id="408066270">
+								<reference key="NSNextResponder" ref="395336575"/>
+								<int key="NSvFlags">290</int>
+								<string key="NSFrame">{{70, 11}, {492, 22}}</string>
+								<reference key="NSSuperview" ref="395336575"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<int key="IBUIContentMode">7</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<string key="IBUIText">Loading, Please Wait...</string>
+								<object class="NSFont" key="IBUIFont" id="257250809">
+									<string key="NSName">HelveticaNeue-Bold</string>
+									<double key="NSSize">15</double>
+									<int key="NSfFlags">16</int>
+								</object>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
+								</object>
+								<object class="NSColor" key="IBUIHighlightedColor" id="619085445">
+									<int key="NSColorSpace">3</int>
+									<bytes key="NSWhite">MQA</bytes>
+								</object>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">1</int>
+							</object>
 						</object>
 						<string key="NSFrame">{{521, 0}, {631, 748}}</string>
 						<reference key="NSSuperview" ref="798806201"/>
@@ -14544,10 +14572,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
 						</object>
-						<object class="NSColor" key="IBUIHighlightedColor" id="619085445">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-						</object>
+						<reference key="IBUIHighlightedColor" ref="619085445"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">15</float>
 						<int key="IBUINumberOfLines">3</int>
@@ -14566,11 +14591,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">Loading, Please Wait...</string>
-						<object class="NSFont" key="IBUIFont" id="257250809">
-							<string key="NSName">HelveticaNeue-Bold</string>
-							<double key="NSSize">15</double>
-							<int key="NSfFlags">16</int>
-						</object>
+						<reference key="IBUIFont" ref="257250809"/>
 						<reference key="IBUITextColor" ref="595952877"/>
 						<reference key="IBUIHighlightedColor" ref="619085445"/>
 						<int key="IBUIBaselineAdjustment">1</int>
@@ -16199,6 +16220,14 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 					<int key="connectionID">514</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">loadedPageLabel</string>
+						<reference key="source" ref="665781830"/>
+						<reference key="destination" ref="408066270"/>
+					</object>
+					<int key="connectionID">516</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -16226,11 +16255,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="685196008"/>
-							<reference ref="395336575"/>
 							<reference ref="153485534"/>
 							<reference ref="1038803412"/>
 							<reference ref="87334505"/>
 							<reference ref="1022318535"/>
+							<reference ref="395336575"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Main View</string>
@@ -16370,19 +16399,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="object" ref="392029514"/>
 						<reference key="parent" ref="1068321664"/>
 						<string key="objectName">horizontal divider</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">242</int>
-						<reference key="object" ref="395336575"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="84537788"/>
-							<reference ref="529328037"/>
-							<reference ref="104029911"/>
-							<reference ref="412528828"/>
-						</object>
-						<reference key="parent" ref="798806201"/>
-						<string key="objectName">Auxiliary Detail Panel - Index5</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">268</int>
@@ -16595,11 +16611,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="parent" ref="275269122"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">275</int>
-						<reference key="object" ref="104029911"/>
-						<reference key="parent" ref="395336575"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">390</int>
 						<reference key="object" ref="278968373"/>
 						<reference key="parent" ref="0"/>
@@ -16744,8 +16755,49 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<string key="objectName">Bar Button Item (Stop Loading Browser)</string>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">509</int>
+						<reference key="object" ref="868489188"/>
+						<reference key="parent" ref="1068321664"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">308</int>
+						<reference key="object" ref="925814687"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">Bar Button Item (Mark/Unmark As Favourite)</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">242</int>
+						<reference key="object" ref="395336575"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="84537788"/>
+							<reference ref="529328037"/>
+							<reference ref="104029911"/>
+							<reference ref="412528828"/>
+							<reference ref="408066270"/>
+						</object>
+						<reference key="parent" ref="798806201"/>
+						<string key="objectName">Auxiliary Detail Panel - Index5</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">505</int>
+						<reference key="object" ref="84537788"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="172918071"/>
+							<reference ref="511069344"/>
+						</object>
+						<reference key="parent" ref="395336575"/>
+						<string key="objectName">Primary Toolbar</string>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">497</int>
 						<reference key="object" ref="529328037"/>
+						<reference key="parent" ref="395336575"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">275</int>
+						<reference key="object" ref="104029911"/>
 						<reference key="parent" ref="395336575"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -16762,6 +16814,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 						<reference key="parent" ref="395336575"/>
 						<string key="objectName">Web Browser Toolbar</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">515</int>
+						<reference key="object" ref="408066270"/>
+						<reference key="parent" ref="395336575"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">284</int>
@@ -16781,10 +16838,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<string key="objectName">Bar Button Item (Forward)</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">489</int>
-						<reference key="object" ref="425062174"/>
+						<int key="objectID">506</int>
+						<reference key="object" ref="946482809"/>
 						<reference key="parent" ref="412528828"/>
-						<string key="objectName">Bar Button Item (Refresh)</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">501</int>
@@ -16793,20 +16849,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<string key="objectName">Bar Button Item (Open In Safari)</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">505</int>
-						<reference key="object" ref="84537788"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="172918071"/>
-							<reference ref="511069344"/>
-						</object>
-						<reference key="parent" ref="395336575"/>
-						<string key="objectName">Primary Toolbar</string>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">500</int>
-						<reference key="object" ref="511069344"/>
-						<reference key="parent" ref="84537788"/>
+						<int key="objectID">489</int>
+						<reference key="object" ref="425062174"/>
+						<reference key="parent" ref="412528828"/>
+						<string key="objectName">Bar Button Item (Refresh)</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">385</int>
@@ -16814,20 +16860,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<reference key="parent" ref="84537788"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">506</int>
-						<reference key="object" ref="946482809"/>
-						<reference key="parent" ref="412528828"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">509</int>
-						<reference key="object" ref="868489188"/>
-						<reference key="parent" ref="1068321664"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">308</int>
-						<reference key="object" ref="925814687"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">Bar Button Item (Mark/Unmark As Favourite)</string>
+						<int key="objectID">500</int>
+						<reference key="object" ref="511069344"/>
+						<reference key="parent" ref="84537788"/>
 					</object>
 				</object>
 			</object>
@@ -16977,6 +17012,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>506.IBPluginDependency</string>
 					<string>509.IBPluginDependency</string>
 					<string>509.IBViewBoundsToFrameTransform</string>
+					<string>515.IBPluginDependency</string>
+					<string>515.IBViewBoundsToFrameTransform</string>
 					<string>62.IBEditorWindowLastContentRect</string>
 					<string>62.IBPluginDependency</string>
 					<string>62.IBViewBoundsToFrameTransform</string>
@@ -17145,10 +17182,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAADBEAAAw80AAA</bytes>
 					</object>
-					<string>{{144, 106}, {704, 748}}</string>
+					<string>{{162, 89}, {631, 748}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABCkAAAxDqAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABCEAAAxDqAAA</bytes>
 					</object>
 					<string>{{543, 152}, {520, 704}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -17255,6 +17292,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABCugAAxBTAAA</bytes>
 					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABBoAAAwfAAAA</bytes>
+					</object>
 					<string>{{258, 117}, {520, 704}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
@@ -17295,7 +17336,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABC2AAAw/+AAA</bytes>
 					</object>
-					<string>{{30, 88}, {703, 768}}</string>
+					<string>{{359, 88}, {703, 768}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAxHSAAA</bytes>
@@ -17342,7 +17383,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">514</int>
+			<int key="maxID">516</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -18154,6 +18195,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>backButton</string>
 							<string>browserToolbar</string>
 							<string>forwardButton</string>
+							<string>loadedPageLabel</string>
 							<string>refreshButton</string>
 							<string>stopButton</string>
 							<string>webBrowserActivityIndicator</string>
@@ -18163,6 +18205,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>UIBarButtonItem</string>
 							<string>UIToolbar</string>
 							<string>UIBarButtonItem</string>
+							<string>UILabel</string>
 							<string>UIBarButtonItem</string>
 							<string>UIBarButtonItem</string>
 							<string>UIActivityIndicatorView</string>
@@ -18175,6 +18218,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>backButton</string>
 							<string>browserToolbar</string>
 							<string>forwardButton</string>
+							<string>loadedPageLabel</string>
 							<string>refreshButton</string>
 							<string>stopButton</string>
 							<string>webBrowserActivityIndicator</string>
@@ -18192,6 +18236,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">forwardButton</string>
 								<string key="candidateClassName">UIBarButtonItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">loadedPageLabel</string>
+								<string key="candidateClassName">UILabel</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">refreshButton</string>

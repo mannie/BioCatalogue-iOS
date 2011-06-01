@@ -75,7 +75,15 @@ typedef enum { UserFavourites, UserSubmissions, UserResponsibilities } MyStuffCa
     if (document) {
       [userFavourites release];
       userFavourites = [[document objectForKey:JSONResultsElement] retain];
-
+      
+      int count = [userFavourites count];
+      NSMutableArray *sortedArray = [NSMutableArray arrayWithCapacity:count];
+      for (int i = 0; i < count; i++) {
+        [sortedArray insertObject:[userFavourites objectAtIndex:count-1-i] atIndex:i];
+      }
+      [userFavourites autorelease];
+      userFavourites = [[NSArray arrayWithArray:sortedArray] retain];
+      
       for (NSDictionary *serviceProperties in userFavourites) {
         NSUInteger uniqueID = [[[serviceProperties objectForKey:JSONResourceElement] lastPathComponent] intValue];
         Service *service = [BioCatalogueResourceManager serviceWithUniqueID:uniqueID];

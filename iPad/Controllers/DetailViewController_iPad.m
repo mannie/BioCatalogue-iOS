@@ -409,7 +409,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
                                                            delegate:self
                                                   cancelButtonTitle:nil
                                              destructiveButtonTitle:nil
-                                                  otherButtonTitles:@"View In BioCatalogue", @"Open In Safari", nil];
+                                                  otherButtonTitles:@"View Here", @"View In Safari", nil];
   [actionSheet showFromBarButtonItem:sender animated:YES];
   [actionSheet release];
 } // showActionSheetForCurrentResource

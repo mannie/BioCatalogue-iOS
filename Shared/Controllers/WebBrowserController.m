@@ -12,7 +12,7 @@
 @implementation WebBrowserController
 
 
--(void) updateNavigationButtons:(UIWebView *)webView {
+-(void) updateNavigationButtons:(UIWebView *)webView {  
   NSMutableArray *items = [[browserToolbar items] mutableCopy];
   NSUInteger indexToUpdate = [items count] - 1;
   
@@ -32,10 +32,13 @@
 } // updateNavigationButtons
 
 -(void) webViewDidStartLoad:(UIWebView *)webView {
+  [webView setBackgroundColor:[UIColor clearColor]];
+
   [self updateNavigationButtons:webView];
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStarted object:nil];
   
   [webBrowserActivityIndicator startAnimating];
+  [loadedPageLabel setText:DefaultLoadingText];
 } // webViewDidStartLoad
 
 -(void) webViewDidFinishLoad:(UIWebView *)webView {
@@ -43,6 +46,7 @@
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
   
   [webBrowserActivityIndicator stopAnimating];
+  [loadedPageLabel setText:[[[webView request] mainDocumentURL] absoluteString]];
 } // webViewDidFinishLoad
 
 -(void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -92,6 +96,8 @@
   
   [browserToolbar release];
   [webBrowserActivityIndicator release];
+  
+  [loadedPageLabel release];
   
   [super dealloc];
 } // dealloc

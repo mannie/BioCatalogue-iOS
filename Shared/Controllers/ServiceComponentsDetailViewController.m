@@ -196,6 +196,7 @@ typedef enum { Inputs, Outputs } SOAPSection;
 #pragma mark UITableViewDelegate
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+/*
   id collection;
   if (serviceIsREST) {
     switch ([indexPath section]) {
@@ -220,6 +221,7 @@ typedef enum { Inputs, Outputs } SOAPSection;
     [alert show];
     [alert release];
   }
+*/
   
   [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
   [tableView deselectRowAtIndexPath:indexPath animated:YES];

@@ -155,6 +155,7 @@
 		36F994A0130094C600B3B128 /* a-22-arrow-forward1.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F9949C130094C600B3B128 /* a-22-arrow-forward1.png */; };
 		36F994A2130094C600B3B128 /* arrow-circle-refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F9949E130094C600B3B128 /* arrow-circle-refresh.png */; };
 		36F994AF1300963A00B3B128 /* letter-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F994AE1300963A00B3B128 /* letter-x.png */; };
+		36FA63B0134E090800B2A97A /* TVOutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36FA63AF134E090800B2A97A /* TVOutManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -372,6 +373,8 @@
 		36F9949C130094C600B3B128 /* a-22-arrow-forward1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "a-22-arrow-forward1.png"; sourceTree = "<group>"; };
 		36F9949E130094C600B3B128 /* arrow-circle-refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-circle-refresh.png"; sourceTree = "<group>"; };
 		36F994AE1300963A00B3B128 /* letter-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "letter-x.png"; sourceTree = "<group>"; };
+		36FA63AE134E090800B2A97A /* TVOutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVOutManager.h; sourceTree = "<group>"; };
+		36FA63AF134E090800B2A97A /* TVOutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVOutManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -595,6 +598,7 @@
 		365C68DA125BC5FC0099CE38 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				36FA63AD134E090800B2A97A /* TVOutManager */,
 				369049F0130C41FB00B50B3E /* SFHFKeychainUtils */,
 				3628D56A1307350A009BD8F3 /* OAuthConsumer */,
 				36F98DDD12FF9CE600B3B128 /* MWFeedParser */,
@@ -854,6 +858,15 @@
 			name = "Detail View Controllers";
 			sourceTree = "<group>";
 		};
+		36FA63AD134E090800B2A97A /* TVOutManager */ = {
+			isa = PBXGroup;
+			children = (
+				36FA63AE134E090800B2A97A /* TVOutManager.h */,
+				36FA63AF134E090800B2A97A /* TVOutManager.m */,
+			);
+			path = TVOutManager;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1083,6 +1096,7 @@
 				36904C0F130DDBC800B50B3E /* LoginViewController.m in Sources */,
 				364C0B3D1315E519005467E6 /* UpdateCenter.m in Sources */,
 				364C0B8A1315EC83005467E6 /* NSObject+Helper.m in Sources */,
+				36FA63B0134E090800B2A97A /* TVOutManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

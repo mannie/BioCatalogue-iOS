@@ -71,8 +71,8 @@
 		[statusLabel release];
 		
 		arrowImage = [[CALayer alloc] init];
-		arrowImage.frame = CGRectMake(25.0f, frame.size.height - 65.0f, 30.0f, 55.0f);
-		arrowImage.contentsGravity = kCAGravityResizeAspect;
+    arrowImage.frame = CGRectMake(25.0f, frame.size.height -65.0f, 30.0f, 55.0f);
+    arrowImage.contentsGravity = kCAGravityResizeAspect;
 		arrowImage.contents = (id)[UIImage imageNamed:@"blueArrow.png"].CGImage;
 		[[self layer] addSublayer:arrowImage];
 		[arrowImage release];

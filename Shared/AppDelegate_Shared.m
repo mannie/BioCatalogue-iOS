@@ -90,6 +90,9 @@
 -(BOOL) application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // TODO: perform other local notification related checks here
 
+  [[TVOutManager sharedInstance] startTVOut];
+  [[TVOutManager sharedInstance] setTvSafeMode:YES];
+  
   return YES;
 }
 
