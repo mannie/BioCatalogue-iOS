@@ -3,7 +3,7 @@
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 08/12/2010.
-//  Copyright 2010 myGrid (University of Manchester). All rights reserved.
+//  Copyright 2010 University of Manchester. All rights reserved.
 //
 
 @class DetailViewController_iPad, MailComposerViewController;

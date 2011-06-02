@@ -3,7 +3,7 @@
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 09/02/2011.
-//  Copyright 2011 myGrid (University of Manchester). All rights reserved.
+//  Copyright 2011 University of Manchester. All rights reserved.
 //
 
 @class DetailViewController_iPad;

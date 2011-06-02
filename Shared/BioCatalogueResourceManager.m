@@ -3,7 +3,7 @@
 //  BioMonitor
 //
 //  Created by Mannie Tagarira on 13/12/2010.
-//  Copyright 2010 myGrid (University of Manchester). All rights reserved.
+//  Copyright 2010 University of Manchester. All rights reserved.
 //
 
 #import "AppImports.h"

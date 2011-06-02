@@ -29,6 +29,8 @@
 		361BEDF51396934E00939B04 /* SVWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 361BEDF01396934E00939B04 /* SVWebViewController.m */; };
 		361BEDF61396934E00939B04 /* SVWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 361BEDF11396934E00939B04 /* SVWebViewController.xib */; };
 		361BEF66139791F100939B04 /* fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 361BEF65139791F100939B04 /* fullscreen.png */; };
+		361BF06A1397D3D000939B04 /* Licence in Resources */ = {isa = PBXBuildFile; fileRef = 361BF0691397D3D000939B04 /* Licence */; };
+		361BF0821397D56000939B04 /* ReadMe.rdoc in Resources */ = {isa = PBXBuildFile; fileRef = 361BF0811397D56000939B04 /* ReadMe.rdoc */; };
 		3628D4751307300C009BD8F3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3628D4741307300C009BD8F3 /* Security.framework */; };
 		3628D5881307350B009BD8F3 /* Base64Transcoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 3628D56C1307350A009BD8F3 /* Base64Transcoder.c */; };
 		3628D5891307350B009BD8F3 /* NSMutableURLRequest+Parameters.m in Sources */ = {isa = PBXBuildFile; fileRef = 3628D56F1307350A009BD8F3 /* NSMutableURLRequest+Parameters.m */; };
@@ -198,6 +200,8 @@
 		361BEDF01396934E00939B04 /* SVWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVWebViewController.m; sourceTree = "<group>"; };
 		361BEDF11396934E00939B04 /* SVWebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SVWebViewController.xib; sourceTree = "<group>"; };
 		361BEF65139791F100939B04 /* fullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen.png; sourceTree = "<group>"; };
+		361BF0691397D3D000939B04 /* Licence */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Licence; sourceTree = "<group>"; };
+		361BF0811397D56000939B04 /* ReadMe.rdoc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.rdoc; sourceTree = "<group>"; };
 		3628D4741307300C009BD8F3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		3628D56C1307350A009BD8F3 /* Base64Transcoder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Base64Transcoder.c; sourceTree = "<group>"; };
 		3628D56D1307350A009BD8F3 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64Transcoder.h; sourceTree = "<group>"; };
@@ -445,6 +449,8 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				361BF0691397D3D000939B04 /* Licence */,
+				361BF0811397D56000939B04 /* ReadMe.rdoc */,
 				2860E386111B897F00E27156 /* iPhone */,
 				29B97317FDCFA39411CA2CEA /* iPad */,
 				362DFCA11299150100DEC892 /* Shared */,
@@ -1048,6 +1054,8 @@
 				361BEDF41396934E00939B04 /* SVWebViewController.bundle in Resources */,
 				361BEDF61396934E00939B04 /* SVWebViewController.xib in Resources */,
 				361BEF66139791F100939B04 /* fullscreen.png in Resources */,
+				361BF06A1397D3D000939B04 /* Licence in Resources */,
+				361BF0821397D56000939B04 /* ReadMe.rdoc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
