@@ -1,0 +1,14 @@
+= BioCatalogue Mass Curator
+
+Author::   Mannie Tagarira
+Version::   0.1
+Contact::   mannie@mygrid.org.uk
+URL::       http://www.biocatalogue.org
+Licence::   BSD 3 (See Licence)
+Copyright:: (c) 2010-2011 University of Manchester, UK
+
+
+
+== Synopsis
+This is an universal iOS application which allows for interaction with the BioCatalogue Web Service registry.
+
