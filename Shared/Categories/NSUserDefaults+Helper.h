@@ -9,6 +9,8 @@
 
 @interface NSUserDefaults (Helper)
 
+-(NSDictionary *) dictionaryBySanitizingDictionary:(NSDictionary *)dictionary;
+
 -(void) serializeLastViewedResource:(NSDictionary *)properties withScope:(NSString *)scope;
 
 @end

@@ -205,8 +205,6 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     [uiContentController updateProviderUIElementsWithProperties:properties];
   }
   
-  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:scope];
-  
   [self stopLoadingAnimation];
   controllerIsCurrentlyBusy = NO;
   
@@ -218,6 +216,12 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 
   [favouriteServiceBarButtonItem setEnabled:[BioCatalogueClient userIsAuthenticated]];
   [self updateWithProperties:properties withScope:ServiceResourceScope];
+  
+  if (ignoreSerializingOnThisOccasion) {
+    ignoreSerializingOnThisOccasion = NO;
+  } else {
+    [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:ServiceResourceScope];
+  }
 } // updateWithPropertiesForServicesScope
 
 -(void) updateWithPropertiesForUsersScope:(NSDictionary *)properties {
@@ -248,6 +252,13 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   [self touchToolbar:mainToolbar];
 
   [self stopLoadingAnimation];
+  
+  if (ignoreSerializingOnThisOccasion) {
+    ignoreSerializingOnThisOccasion = NO;
+  } else {
+    NSDictionary *properties = [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:announcementID] forKey:JSONIDElement];
+    [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:properties withScope:AnnouncementResourceScope];
+  }
 } // updateWithPropertiesForAnnouncementWithID
 
 
@@ -293,8 +304,6 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   
   [providerProperties release];
   providerProperties = currentProviderProperties;
-  
-  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServiceResourceScope];
 } // showProviderInfo
 
 -(void) showSubmitterInfo:(id)sender {
@@ -314,8 +323,6 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   
   [userProperties release];
   userProperties = currentUserProperties;
-  
-  [[NSUserDefaults standardUserDefaults] serializeLastViewedResource:listingProperties withScope:ServiceResourceScope];
 }
 
 -(void) showMonitoringStatusInfo:(id)sender {
@@ -534,6 +541,7 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     NSString *scope = [[NSUserDefaults standardUserDefaults] stringForKey:LastViewedResourceScopeKey];
 
     if ([scope isEqualToString:ServiceResourceScope]) {
+      ignoreSerializingOnThisOccasion = YES;
       dispatch_async(dispatch_queue_create("Load last viewed resource", NULL), ^{
         [self updateWithPropertiesForServicesScope:properties];
       });
@@ -541,6 +549,9 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
       [self updateWithPropertiesForUsersScope:properties];
     } else if ([scope isEqualToString:ProviderResourceScope]) {
       [self updateWithPropertiesForProvidersScope:properties];
+    } else if ([scope isEqualToString:AnnouncementResourceScope]) {
+      ignoreSerializingOnThisOccasion = YES;
+      [self updateWithPropertiesForAnnouncementWithID:[[properties valueForKey:JSONIDElement] integerValue]];
     } else {
       [self setContentView:defaultView forParentView:mainContentView];
       [self stopLoadingAnimation];

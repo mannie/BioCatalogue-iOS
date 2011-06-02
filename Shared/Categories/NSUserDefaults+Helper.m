@@ -12,44 +12,64 @@
 @implementation NSUserDefaults (Helper)
 
 
--(void) serializeLastViewedResource:(NSDictionary *)properties withScope:(NSString *)scope {
-  // FIXME: this was broken as a result of using the JSONKit parsing framework instead of SBJson
+-(id) objectBySanitizingObject:(id)object {
+  if ([object isKindOfClass:[NSString class]]) {
+    return [NSString stringWithFormat:@"%@", object];
+  } else {
+    return JSONNull;
+  }
+} // objectBySanitizingObject
+
+-(NSArray *) arrayBySanitizingArray:(NSArray *)array {
+  NSMutableArray *mutableArray = [[NSMutableArray array] retain];
   
-/*
-  NSMutableDictionary *mutableProperties = [properties mutableCopy];
-  id value;
-  
-  NSMutableDictionary *mutableSubProperties;
-  NSString *subValue;
-  
-  for (NSString *key in [mutableProperties allKeys]) {
-    value = [mutableProperties objectForKey:key];
+  id currentItem;
+  for (int i = 0; i < [array count]; i++) {
+    currentItem = [array objectAtIndex:i];
     
-    if ([value isKindOfClass:[NSDictionary class]]) { // thing is a dictionary
-      mutableSubProperties = [value mutableCopy];
-      
-      for (NSString *subKey in [mutableSubProperties allKeys]) {
-        subValue = [NSString stringWithFormat:@"%@", [mutableSubProperties objectForKey:subKey]];
-        if (![subValue isValidJSONValue]) {
-          [mutableSubProperties setObject:@"" forKey:subKey];
-        }        
-      } // for each key
-      
-      [mutableProperties setObject:mutableSubProperties forKey:key];
-      [mutableSubProperties release];
-    } else { // this is not a dictionary
-      value = [NSString stringWithFormat:@"%@", [mutableProperties objectForKey:key]];
-      if (![value isValidJSONValue]) {
-        [mutableProperties setObject:@"" forKey:key];
-      }
-    } // if else dictionary
-  } // for each key
+    if ([currentItem isKindOfClass:[NSDictionary class]]) {
+      [mutableArray insertObject:[self dictionaryBySanitizingDictionary:currentItem] atIndex:i];
+    } else if ([currentItem isKindOfClass:[NSArray class]]) {
+      [mutableArray insertObject:[self arrayBySanitizingArray:currentItem] atIndex:i];
+    } else {
+      [mutableArray insertObject:[self objectBySanitizingObject:currentItem] atIndex:i];
+    }
+  }
+  
+  return [mutableArray autorelease];
+} // arrayBySanitizingArray
 
-  [self setObject:mutableProperties forKey:LastViewedResourceKey];
-  [self setObject:scope forKey:LastViewedResourceScopeKey];
+-(NSDictionary *) dictionaryBySanitizingDictionary:(NSDictionary *)dictionary {
+  NSMutableDictionary *mutableDictionary = [[NSMutableDictionary dictionary] retain];
+  
+  id currentValue;
+  for (NSString *key in [dictionary allKeys]) {
+    key = [NSString stringWithFormat:@"%@", key];
+    currentValue = [dictionary objectForKey:key];
+    
+    if ([currentValue isKindOfClass:[NSDictionary class]]) {
+      [mutableDictionary setObject:[self dictionaryBySanitizingDictionary:currentValue] forKey:key];
+    } else if ([currentValue isKindOfClass:[NSArray class]]) {
+      [mutableDictionary setObject:[self arrayBySanitizingArray:currentValue] forKey:key];
+    } else {
+      [mutableDictionary setObject:[self objectBySanitizingObject:currentValue] forKey:key];
+    }
+  }
+  
+  return [mutableDictionary autorelease];
+} // dictionaryBySanitizingDictionary
 
-  [mutableProperties release];
-*/
+-(void) serializeLastViewedResource:(NSDictionary *)properties withScope:(NSString *)scope {
+  // FIXME: this is only working for SOME services.  needs to work for ALL
+  return;
+  
+  if ([scope isEqualToString:ServiceResourceScope]) {
+    [self setObject:[self dictionaryBySanitizingDictionary:properties] forKey:LastViewedResourceKey];
+    [self setObject:scope forKey:LastViewedResourceScopeKey];
+  } else if ([scope isEqualToString:AnnouncementResourceScope]) {
+    [self setObject:properties forKey:LastViewedResourceKey];
+    [self setObject:scope forKey:LastViewedResourceScopeKey];
+  }
 } // serializeLastViewedResource
 
 

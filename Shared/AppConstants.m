@@ -114,6 +114,8 @@ NSString *const JSONURLMonitorElement = @"url_monitor";
 NSString *const JSONUserElement = @"user";
 NSString *const JSONVariantsElement = @"variants";
 
+NSString *const JSONIDElement = @"id";
+
 
 #pragma mark -
 #pragma mark Image Names

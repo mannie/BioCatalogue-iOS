@@ -10,6 +10,8 @@
 
 
 @interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate, UIActionSheetDelegate> {
+  BOOL ignoreSerializingOnThisOccasion;
+  
   NSUInteger lastAnnouncementID;
   
   UIPopoverController *defaultPopoverController;

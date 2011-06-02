@@ -109,6 +109,8 @@ extern NSString *const JSONURLMonitorElement;
 extern NSString *const JSONUserElement;
 extern NSString *const JSONVariantsElement;
 
+extern NSString *const JSONIDElement;
+
 
 #pragma mark -
 #pragma mark Image Names
