@@ -23,10 +23,14 @@
 	CGFloat titleLeftOffset;
 	
 	BOOL deviceIsTablet, stoppedLoading;
+  
+  SEL preDismissSelector;
+  id preDismissSelectorTarget;
 }
 
 @property (nonatomic, retain) NSString *urlString;
 
 - (id)initWithAddress:(NSString*)string;
+- (void) onDismissPerformSelector:(SEL)aSelector onTarget:(id)obj;
 
 @end

@@ -396,6 +396,29 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   [[UIApplication sharedApplication] openURL:[[webBrowser request] URL]];
 } // showCurrentPullOutBrowserContentInSafari
 
+-(void) onSVWebViewControllerDismissal:(UIWebView *)webView {
+  if ([[[webView request] URL] isEqual:[[webBrowser request] URL]]) return;
+  
+  if ([webBrowser isLoading]) [webBrowser stopLoading];
+  
+  NSURLRequest *request = [NSURLRequest requestWithURL:[[webView request] URL]
+                                           cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                       timeoutInterval:APIRequestTimeout];
+  [webBrowser loadRequest:request];
+  
+  [self setContentView:webBrowser forParentView:auxiliaryDetailPanel];
+}
+
+-(IBAction) showCurrentPullOutBrowserContentInFullScreen:(id)sender {
+  SVWebViewController *webViewController = [[SVWebViewController alloc] initWithAddress:[[[webBrowser request] URL] absoluteString]];
+  [webViewController onDismissPerformSelector:@selector(onSVWebViewControllerDismissal:) onTarget:self];
+  
+  AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
+  [[appDelegate tabBarController] presentModalViewController:webViewController animated:YES];
+  
+  [webViewController release];  
+} // showCurrentPullOutBrowserContentInFullScreen
+
 -(IBAction) showCurrentResourceInBioCatalogue:(id)sender {
   [self showResourceInPullOutBrowser:[self URLOfResourceBeingViewed]];
 } // showCurrentResourceInBioCatalogue

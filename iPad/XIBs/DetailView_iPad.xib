@@ -14440,6 +14440,20 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<object class="NSMutableArray" key="IBUIItems">
 									<bool key="EncodedWithXMLCoder">YES</bool>
+									<object class="IBUIBarButtonItem" id="493150001">
+										<object class="NSCustomResource" key="IBUIImage">
+											<string key="NSClassName">NSImage</string>
+											<string key="NSResourceName">fullscreen.png</string>
+										</object>
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<reference key="IBUIToolbar" ref="412528828"/>
+									</object>
+									<object class="IBUIBarButtonItem" id="498808015">
+										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+										<float key="IBUIWidth">60</float>
+										<reference key="IBUIToolbar" ref="412528828"/>
+										<int key="IBUISystemItemIdentifier">6</int>
+									</object>
 									<object class="IBUIBarButtonItem" id="476672983">
 										<object class="NSCustomResource" key="IBUIImage">
 											<string key="NSClassName">NSImage</string>
@@ -16246,6 +16260,14 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					</object>
 					<int key="connectionID">518</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">showCurrentPullOutBrowserContentInFullScreen:</string>
+						<reference key="source" ref="493150001"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">549</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -16829,6 +16851,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<reference ref="946482809"/>
 							<reference ref="476672983"/>
 							<reference ref="425062174"/>
+							<reference ref="493150001"/>
+							<reference ref="498808015"/>
 						</object>
 						<reference key="parent" ref="395336575"/>
 						<string key="objectName">Web Browser Toolbar</string>
@@ -16881,6 +16905,17 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="objectID">500</int>
 						<reference key="object" ref="511069344"/>
 						<reference key="parent" ref="84537788"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">547</int>
+						<reference key="object" ref="493150001"/>
+						<reference key="parent" ref="412528828"/>
+						<string key="objectName">Bar Button Item (Open In Safari)</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">550</int>
+						<reference key="object" ref="498808015"/>
+						<reference key="parent" ref="412528828"/>
 					</object>
 				</object>
 			</object>
@@ -17032,6 +17067,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<string>509.IBViewBoundsToFrameTransform</string>
 					<string>515.IBPluginDependency</string>
 					<string>515.IBViewBoundsToFrameTransform</string>
+					<string>547.IBPluginDependency</string>
+					<string>550.IBPluginDependency</string>
 					<string>62.IBEditorWindowLastContentRect</string>
 					<string>62.IBPluginDependency</string>
 					<string>62.IBViewBoundsToFrameTransform</string>
@@ -17314,6 +17351,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABCjAAAwfgAAA</bytes>
 					</object>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>{{258, 117}, {520, 704}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
@@ -17401,7 +17440,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">546</int>
+			<int key="maxID">550</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -17418,6 +17457,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
 							<string>showActionSheetForCurrentResource:</string>
+							<string>showCurrentPullOutBrowserContentInFullScreen:</string>
 							<string>showCurrentPullOutBrowserContentInSafari:</string>
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showCurrentResourceInSafari:</string>
@@ -17429,6 +17469,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -17453,6 +17494,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
 							<string>showActionSheetForCurrentResource:</string>
+							<string>showCurrentPullOutBrowserContentInFullScreen:</string>
 							<string>showCurrentPullOutBrowserContentInSafari:</string>
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showCurrentResourceInSafari:</string>
@@ -17482,6 +17524,10 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">showActionSheetForCurrentResource:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showCurrentPullOutBrowserContentInFullScreen:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -18289,6 +18335,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string>boxed-x2.png</string>
 				<string>brushed-metal.jpg</string>
 				<string>creditcard2.png</string>
+				<string>fullscreen.png</string>
 				<string>globe.png</string>
 				<string>letter-x.png</string>
 				<string>logo_beta_small.png</string>
@@ -18305,6 +18352,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string>{64, 64}</string>
 				<string>{1280, 960}</string>
 				<string>{512, 512}</string>
+				<string>{32, 32}</string>
 				<string>{32, 32}</string>
 				<string>{32, 32}</string>
 				<string>{183, 50}</string>

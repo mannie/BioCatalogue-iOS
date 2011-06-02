@@ -5,7 +5,8 @@
 //  Copyright 2010 Sam Vermette. All rights reserved.
 //
 
-#import "SVWebViewController.h"
+#import "AppImports.h"
+
 
 @interface SVWebViewController (private)
 
@@ -21,6 +22,11 @@
 @implementation SVWebViewController
 
 @synthesize urlString;
+
+- (void) onDismissPerformSelector:(SEL)aSelector onTarget:(id)obj {
+  preDismissSelector = aSelector;
+  preDismissSelectorTarget = obj;
+}
 
 - (void)dealloc {
 	navItem = nil;
@@ -162,10 +168,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:YES];
-	
-	NSURL *searchURL = [NSURL URLWithString:self.urlString];
-	[rWebView loadRequest:[NSURLRequest requestWithURL:searchURL]];
-
+  
+  NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]
+                                           cachePolicy:NSURLRequestReturnCacheDataElseLoad
+                                       timeoutInterval:APIRequestTimeout];
+	[rWebView loadRequest:request];
+  
 	[self setupToolbar];
 	
 	[self layoutSubviews];
@@ -267,7 +275,7 @@
 	rSeparator.enabled = NO;
 	
 	NSArray *newButtons = [NSArray arrayWithObjects:backBarButton, rSeparator, forwardBarButton, rSeparator, refreshStopBarButton, sSeparator, actionBarButton, nil];
-	[toolbar setItems:newButtons];
+	[toolbar setItems:newButtons animated:YES];
 	
 	[refreshStopBarButton release];
 	[sSeparator release];
@@ -392,8 +400,12 @@
 }
 
 
-- (void)dismissController {
-	[self dismissModalViewControllerAnimated:YES];
+- (void)dismissController {  
+  if ([preDismissSelectorTarget respondsToSelector:preDismissSelector]) {
+    [preDismissSelectorTarget performSelector:preDismissSelector withObject:rWebView];
+  }  
+  
+  [self dismissModalViewControllerAnimated:YES];
 }
 
 #pragma mark -

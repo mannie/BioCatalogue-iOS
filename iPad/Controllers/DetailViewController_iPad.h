@@ -98,6 +98,7 @@
 
 -(IBAction) showResourceInPullOutBrowser:(NSURL *)url;
 -(IBAction) showCurrentPullOutBrowserContentInSafari:(id)sender;
+-(IBAction) showCurrentPullOutBrowserContentInFullScreen:(id)sender;
 
 -(IBAction) showCurrentResourceInBioCatalogue:(id)sender;
 -(IBAction) showCurrentResourceInSafari:(id)sender;
