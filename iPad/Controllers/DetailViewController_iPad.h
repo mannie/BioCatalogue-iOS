@@ -12,6 +12,9 @@
 @interface DetailViewController_iPad : UIViewController <UIWebViewDelegate, UIPopoverControllerDelegate, UISplitViewControllerDelegate, UIActionSheetDelegate> {
   BOOL ignoreSerializingOnThisOccasion;
   
+  UIActionSheet *actionSheetForMainView;
+  UIActionSheet *actionSheetForPullOutView;
+  
   NSUInteger lastAnnouncementID;
   
   UIPopoverController *defaultPopoverController;
@@ -99,7 +102,7 @@
 -(IBAction) exposeAuxiliaryDetailPanel:(id)sender;
 
 -(IBAction) showResourceInPullOutBrowser:(NSURL *)url;
--(IBAction) showCurrentPullOutBrowserContentInSafari:(id)sender;
+-(IBAction) showActionSheetForCurrentPullOutBrowserContent:(id)sender;
 -(IBAction) showCurrentPullOutBrowserContentInFullScreen:(id)sender;
 
 -(IBAction) showCurrentResourceInBioCatalogue:(id)sender;

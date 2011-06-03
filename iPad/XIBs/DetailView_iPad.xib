@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="279"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -78,6 +77,7 @@
 						<int key="NSvFlags">272</int>
 						<string key="NSFrameSize">{520, 748}</string>
 						<reference key="NSSuperview" ref="798806201"/>
+						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="530524">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
@@ -94,6 +94,7 @@
 						<int key="NSvFlags">272</int>
 						<string key="NSFrame">{{0, 44}, {520, 704}}</string>
 						<reference key="NSSuperview" ref="798806201"/>
+						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="530524"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
@@ -102,6 +103,7 @@
 						<int key="NSvFlags">288</int>
 						<string key="NSFrame">{{241, 57}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="798806201"/>
+						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIAnimating">YES</bool>
@@ -112,6 +114,7 @@
 						<int key="NSvFlags">288</int>
 						<string key="NSFrameSize">{520, 44}</string>
 						<reference key="NSSuperview" ref="798806201"/>
+						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -146,6 +149,7 @@
 								<int key="NSvFlags">260</int>
 								<string key="NSFrame">{{0, 348}, {64, 64}}</string>
 								<reference key="NSSuperview" ref="87334505"/>
+								<reference key="NSWindow"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -156,6 +160,7 @@
 						</object>
 						<string key="NSFrameSize">{520, 748}</string>
 						<reference key="NSSuperview" ref="798806201"/>
+						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">10</int>
 							<object class="NSImage" key="NSImage">
@@ -10007,6 +10012,7 @@ AAEAAQABA</bytes>
 								<int key="NSvFlags">-2147483374</int>
 								<string key="NSFrame">{{0, 44}, {631, 660}}</string>
 								<reference key="NSSuperview" ref="395336575"/>
+								<reference key="NSWindow"/>
 								<object class="NSColor" key="IBUIBackgroundColor" id="50251410">
 									<int key="NSColorSpace">10</int>
 									<object class="NSImage" key="NSImage">
@@ -14410,6 +14416,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<int key="NSvFlags">290</int>
 								<string key="NSFrameSize">{631, 44}</string>
 								<reference key="NSSuperview" ref="395336575"/>
+								<reference key="NSWindow"/>
 								<reference key="IBUIBackgroundColor" ref="530524"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -14434,6 +14441,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{0, 704}, {631, 44}}</string>
 								<reference key="NSSuperview" ref="395336575"/>
+								<reference key="NSWindow"/>
 								<reference key="IBUIBackgroundColor" ref="530524"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -14441,12 +14449,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<object class="NSMutableArray" key="IBUIItems">
 									<bool key="EncodedWithXMLCoder">YES</bool>
 									<object class="IBUIBarButtonItem" id="476672983">
-										<object class="NSCustomResource" key="IBUIImage">
-											<string key="NSClassName">NSImage</string>
-											<string key="NSResourceName">globe.png</string>
-										</object>
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 										<reference key="IBUIToolbar" ref="412528828"/>
+										<int key="IBUISystemItemIdentifier">9</int>
 									</object>
 									<object class="IBUIBarButtonItem" id="946482809">
 										<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -14489,6 +14494,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<int key="NSvFlags">-2147483356</int>
 								<string key="NSFrame">{{20, 12}, {20, 20}}</string>
 								<reference key="NSSuperview" ref="395336575"/>
+								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">2</int>
@@ -14498,6 +14504,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{70, 11}, {492, 22}}</string>
 								<reference key="NSSuperview" ref="395336575"/>
+								<reference key="NSWindow"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -14524,12 +14531,14 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						</object>
 						<string key="NSFrame">{{521, 0}, {631, 748}}</string>
 						<reference key="NSSuperview" ref="798806201"/>
+						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="50251410"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{703, 748}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="IBUIBackgroundColor" ref="530524"/>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics">
 					<int key="IBUIStatusBarStyle">2</int>
@@ -16180,14 +16189,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<int key="connectionID">499</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showCurrentPullOutBrowserContentInSafari:</string>
-						<reference key="source" ref="476672983"/>
-						<reference key="destination" ref="841351856"/>
-					</object>
-					<int key="connectionID">502</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">webBrowser</string>
 						<reference key="source" ref="450156898"/>
@@ -16260,6 +16261,14 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">551</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">showActionSheetForCurrentPullOutBrowserContent:</string>
+						<reference key="source" ref="476672983"/>
+						<reference key="destination" ref="841351856"/>
+					</object>
+					<int key="connectionID">552</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -16774,7 +16783,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="objectID">307</int>
 						<reference key="object" ref="654573439"/>
 						<reference key="parent" ref="1022318535"/>
-						<string key="objectName">Bar Button Item (Show Resource In App)</string>
+						<string key="objectName">Bar Button Item (Show Resource Actions)</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">306</int>
@@ -16879,7 +16888,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 						<int key="objectID">501</int>
 						<reference key="object" ref="476672983"/>
 						<reference key="parent" ref="412528828"/>
-						<string key="objectName">Bar Button Item (Open In Safari)</string>
+						<string key="objectName">Bar Button Item (Show Actions)</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">489</int>
@@ -17385,7 +17394,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAABC2AAAw/+AAA</bytes>
 					</object>
-					<string>{{359, 88}, {703, 768}}</string>
+					<string>{{424, 88}, {703, 768}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform">
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAxHSAAA</bytes>
@@ -17432,7 +17441,7 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">551</int>
+			<int key="maxID">552</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -17448,9 +17457,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
+							<string>showActionSheetForCurrentPullOutBrowserContent:</string>
 							<string>showActionSheetForCurrentResource:</string>
 							<string>showCurrentPullOutBrowserContentInFullScreen:</string>
-							<string>showCurrentPullOutBrowserContentInSafari:</string>
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showCurrentResourceInSafari:</string>
 							<string>showMonitoringStatusInfo:</string>
@@ -17485,9 +17494,9 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
+							<string>showActionSheetForCurrentPullOutBrowserContent:</string>
 							<string>showActionSheetForCurrentResource:</string>
 							<string>showCurrentPullOutBrowserContentInFullScreen:</string>
-							<string>showCurrentPullOutBrowserContentInSafari:</string>
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showCurrentResourceInSafari:</string>
 							<string>showMonitoringStatusInfo:</string>
@@ -17515,15 +17524,15 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">showActionSheetForCurrentPullOutBrowserContent:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">showActionSheetForCurrentResource:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">showCurrentPullOutBrowserContentInFullScreen:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showCurrentPullOutBrowserContentInSafari:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -18336,7 +18345,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string>brushed-metal.jpg</string>
 				<string>creditcard2.png</string>
 				<string>fullscreen.png</string>
-				<string>globe.png</string>
 				<string>letter-x.png</string>
 				<string>logo_beta_small.png</string>
 				<string>people-family4.png</string>
@@ -18352,7 +18360,6 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 				<string>{64, 64}</string>
 				<string>{1280, 960}</string>
 				<string>{512, 512}</string>
-				<string>{32, 32}</string>
 				<string>{32, 32}</string>
 				<string>{32, 32}</string>
 				<string>{183, 50}</string>

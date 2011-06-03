@@ -19,4 +19,6 @@
 
 -(NSString *) printableResourceScope;
 
++(NSString *) generateInterestedInMessage:(NSString *)resource withURL:(NSURL *)url;
+
 @end

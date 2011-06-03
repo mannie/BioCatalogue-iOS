@@ -13,7 +13,8 @@
 
 @synthesize monitoringStatusViewController, serviceComponentsViewController, webBrowserController;
 
-typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } ActionSheetIndex;
+typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } MainActionSheetIndex;
+typedef enum { PullOutOpenInSafari, PullOutMailThis } PullOutActionSheetIndex;
 
 
 #pragma mark -
@@ -409,9 +410,16 @@ typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } ActionSheetIndex;
   [self setContentView:webBrowser forParentView:auxiliaryDetailPanel];
 } // showResourceInBioCatalogue
 
--(IBAction) showCurrentPullOutBrowserContentInSafari:(id)sender {
-  [[UIApplication sharedApplication] openURL:[[webBrowser request] URL]];
-} // showCurrentPullOutBrowserContentInSafari
+-(IBAction) showActionSheetForCurrentPullOutBrowserContent:(id)sender {
+  if (actionSheetForPullOutView) [actionSheetForPullOutView release];
+  
+  actionSheetForPullOutView = [[UIActionSheet alloc] initWithTitle:nil
+                                                          delegate:self
+                                                 cancelButtonTitle:nil
+                                            destructiveButtonTitle:nil
+                                                 otherButtonTitles:@"Open in Safari", @"Mail this page to...", nil];
+  [actionSheetForPullOutView showFromBarButtonItem:sender animated:YES];
+} // showActionSheetForCurrentPullOutBrowserContent
 
 -(void) onSVWebViewControllerDismissal:(UIWebView *)webView {
   if ([[[webView request] URL] isEqual:[[webBrowser request] URL]]) return;
@@ -444,18 +452,18 @@ typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } ActionSheetIndex;
   [[UIApplication sharedApplication] openURL:[self URLOfResourceBeingViewed]];
 } // showCurrentResourceInSafari
 
--(void) showActionSheetForCurrentResource:(id)sender {
+-(IBAction) showActionSheetForCurrentResource:(id)sender {
   NSString *resource = [scopeOfResourceBeingViewed printableResourceScope];
   resource = (resource ? [@" " stringByAppendingString:resource] : @"");
   NSString *mailThis = [NSString stringWithFormat:@"Mail this%@ to...", [resource lowercaseString]];
   
-  UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                           delegate:self
-                                                  cancelButtonTitle:nil
-                                             destructiveButtonTitle:nil
-                                                  otherButtonTitles:@"Open in BioCatalogue", @"Open in Safari", mailThis, nil];
-  [actionSheet showFromBarButtonItem:sender animated:YES];
-  [actionSheet release];
+  if (actionSheetForMainView) [actionSheetForMainView release];
+  actionSheetForMainView = [[UIActionSheet alloc] initWithTitle:nil
+                                                       delegate:self
+                                              cancelButtonTitle:nil
+                                         destructiveButtonTitle:nil
+                                              otherButtonTitles:@"Open in BioCatalogue", @"Open in Safari", mailThis, nil];
+  [actionSheetForMainView showFromBarButtonItem:sender animated:YES];
 } // showActionSheetForCurrentResource
 
 -(IBAction) composeMailMessageToUser:(id)sender {
@@ -518,19 +526,31 @@ typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } ActionSheetIndex;
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
   NSString *message, *subject, *resource;
   
-  switch (buttonIndex) {
-    case OpenInSafari: return [self showCurrentResourceInSafari:self];
-    case OpenInBioCatalogue: return [self showCurrentResourceInBioCatalogue:self];
-    case MailThis:
-      resource = [scopeOfResourceBeingViewed printableResourceScope];
-      resource = (resource ? [@" " stringByAppendingString:resource] : @"");
-      
-      message = [NSString stringWithFormat:@"This%@ may interest you:\n\n%@\n\n\n", [resource lowercaseString], [[self URLOfResourceBeingViewed] absoluteString]];
-
-      subject = [NSString stringWithFormat:@"BioCatalogue%@: %@", resource, [self nameOfResourceBeingViewed]];
-      [uiContentController composeMailMessage:nil subject:subject content:message];
-      return;
-    default: return;
+  if (actionSheet == actionSheetForMainView) {
+    switch (buttonIndex) {
+      case OpenInSafari: 
+        return [self showCurrentResourceInSafari:self];
+      case OpenInBioCatalogue: 
+        return [self showCurrentResourceInBioCatalogue:self];
+      case MailThis:
+        resource = [scopeOfResourceBeingViewed printableResourceScope];
+        resource = (resource ? [@" " stringByAppendingString:resource] : @"");
+        message = [NSString generateInterestedInMessage:resource withURL:[self URLOfResourceBeingViewed]];
+        
+        subject = [NSString stringWithFormat:@"BioCatalogue%@: %@", resource, [self nameOfResourceBeingViewed]];
+        [uiContentController composeMailMessage:nil subject:subject content:message];
+        return;
+    }    
+  } else if (actionSheet == actionSheetForPullOutView) {
+    switch (buttonIndex) {
+      case PullOutOpenInSafari: 
+        [[UIApplication sharedApplication] openURL:[[webBrowser request] URL]]; 
+        return;
+      case PullOutMailThis:
+        message = [NSString generateInterestedInMessage:@"page" withURL:[[webBrowser request] URL]];        
+        [uiContentController composeMailMessage:nil subject:@"BioCatalogue: Check this out..." content:message];
+        return;
+    }    
   }
 } // actionSheet:clickedButtonAtIndex
 
@@ -667,12 +687,19 @@ typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } ActionSheetIndex;
 - (void)viewDidUnload {
   [defaultPopoverController release];
   [contextualPopoverController release];
+  [actionSheetForPullOutView release];
+  
+  [actionSheetForMainView release];
+
 	[super viewDidUnload];
 } // viewDidUnload
 
 - (void)dealloc {
   [defaultPopoverController release];
   [contextualPopoverController release];
+  
+  [actionSheetForMainView release];
+  [actionSheetForPullOutView release];
   
   [self releaseIBOutlets];
   

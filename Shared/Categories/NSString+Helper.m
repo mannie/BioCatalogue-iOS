@@ -132,5 +132,10 @@ typedef enum {
   }
 } // printableBioCatalogueResourceScope
 
++(NSString *) generateInterestedInMessage:(NSString *)resource withURL:(NSURL *)url {
+  return [NSString stringWithFormat:@"This%@ may interest you:\n\n%@\n\n\n", [resource lowercaseString], [url absoluteString]];
+}
+
+
 
 @end

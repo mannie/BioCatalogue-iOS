@@ -12,7 +12,6 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="124"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -101,7 +100,6 @@
 								<string key="NSResourceName">box1.png</string>
 							</object>
 							<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-							<reference key="IBUITabBar"/>
 						</object>
 						<reference key="IBUIToolbarItems" ref="0"/>
 						<reference key="IBUIParentViewController" ref="368978690"/>
@@ -124,7 +122,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIViewController" id="470792645">
 								<object class="IBUINavigationItem" key="IBUINavigationItem" id="106929095">
-									<reference key="IBUINavigationBar"/>
 									<string key="IBUITitle">My Stuff</string>
 									<object class="IBUIBarButtonItem" key="IBUIBackBarButtonItem" id="994890983">
 										<string key="IBUITitle">Back</string>
@@ -157,7 +154,6 @@
 									<string key="NSResourceName">information2-ps.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIToolbarItems" ref="0"/>
 							<reference key="IBUIParentViewController" ref="368978690"/>
@@ -203,7 +199,6 @@
 									<string key="NSResourceName">gear3.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIParentViewController" ref="368978690"/>
 							<object class="IBUISimulatedTabBarMetrics" key="IBUISimulatedBottomBarMetrics"/>
@@ -259,7 +254,6 @@
 									<string key="NSResourceName">112-group.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIToolbarItems" ref="0"/>
 							<reference key="IBUIParentViewController" ref="368978690"/>
@@ -307,7 +301,6 @@
 									<string key="NSResourceName">magnifying-glass-ps.png</string>
 								</object>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
-								<reference key="IBUITabBar"/>
 							</object>
 							<reference key="IBUIToolbarItems" ref="0"/>
 							<reference key="IBUIParentViewController" ref="368978690"/>
@@ -5475,8 +5468,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
+							<string>showActionSheetForCurrentPullOutBrowserContent:</string>
 							<string>showActionSheetForCurrentResource:</string>
-							<string>showCurrentPullOutBrowserContentInSafari:</string>
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showCurrentResourceInSafari:</string>
 							<string>showMonitoringStatusInfo:</string>
@@ -5508,8 +5501,8 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
+							<string>showActionSheetForCurrentPullOutBrowserContent:</string>
 							<string>showActionSheetForCurrentResource:</string>
-							<string>showCurrentPullOutBrowserContentInSafari:</string>
 							<string>showCurrentResourceInBioCatalogue:</string>
 							<string>showCurrentResourceInSafari:</string>
 							<string>showMonitoringStatusInfo:</string>
@@ -5533,11 +5526,11 @@ AAgAAAAIAAIACAACAAAAAgAAAAEAAQABAAE</bytes>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">showActionSheetForCurrentResource:</string>
+								<string key="name">showActionSheetForCurrentPullOutBrowserContent:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">showCurrentPullOutBrowserContentInSafari:</string>
+								<string key="name">showActionSheetForCurrentResource:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

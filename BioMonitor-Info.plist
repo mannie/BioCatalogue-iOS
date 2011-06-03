@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string>BioCatalogue</string>
+	<string>BioCatalogue.png</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.biocatalogue</string>
 	<key>CFBundleInfoDictionaryVersion</key>
