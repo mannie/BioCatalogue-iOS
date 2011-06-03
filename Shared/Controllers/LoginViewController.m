@@ -59,7 +59,7 @@
   dispatch_async(dispatch_queue_create("Login", NULL), ^{
     [self performSelectorOnMainThread:@selector(updateView) withObject:nil waitUntilDone:NO];
     
-    if (![BioCatalogueClient signInWithUsername:username withPassword:password]) {
+    if (![BioCatalogueClient signInWithUsername:username withPassword:password] && [[UIDevice currentDevice] hasInternetConnection]) {
       [[NSError errorWithDomain:BioCatalogueClientErrorDomain code:LoginError userInfo:nil] log];
     }
     
@@ -84,10 +84,11 @@
     [[NSError errorWithDomain:BioCatalogueClientErrorDomain code:InvalidEmailAddressError userInfo:nil] log];
   } else if (![[passwordField text] isValidJSONValue]) {
     [[NSError errorWithDomain:BioCatalogueClientErrorDomain code:InvalidPasswordError userInfo:nil] log];
-  } else {    
+  } else {
     [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
     [self attemptToSignInWithUsername:[usernameField text] andPassword:[passwordField text] updatingUILoginElements:YES];
   }
+
 } // signInToBioCatalogue
 
 -(IBAction) signOutOfBioCatalogue {
@@ -129,8 +130,10 @@
     
     if ([password isValidJSONValue]) {
       [passwordField setText:password];
-      [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
-      [self attemptToSignInWithUsername:username andPassword:password updatingUILoginElements:NO];
+      if ([[UIDevice currentDevice] hasInternetConnection]) {
+        [self setEnabledForUILoginElements:[NSNumber numberWithBool:NO]];
+        [self attemptToSignInWithUsername:username andPassword:password updatingUILoginElements:NO];
+      }
     }    
   } else {
     [self setEnabledForUILoginElements:[NSNumber numberWithBool:YES]];

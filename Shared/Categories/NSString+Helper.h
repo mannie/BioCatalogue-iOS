@@ -17,4 +17,6 @@
 -(NSString *) stringByAddingPercentEscapes;
 -(NSString *) stringByReformattingJSONDate:(BOOL)includeTime;
 
+-(NSString *) printableResourceScope;
+
 @end

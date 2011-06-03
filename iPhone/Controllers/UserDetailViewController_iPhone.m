@@ -23,7 +23,7 @@
   viewHasBeenUpdated = YES;
 } // updateWithProperties
 
--(IBAction) composeMailMessage:(id)sender {
+-(IBAction) composeMailMessageToUser:(id)sender {
   NSString *publicEmail = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
   
   if ([publicEmail isValidJSONValue]) {

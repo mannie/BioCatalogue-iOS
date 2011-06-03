@@ -473,7 +473,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
 #pragma mark -
 #pragma mark Instance Helpers
 
--(void) composeMailMessage:(NSURL *)address {
+-(void) composeMailMessage:(NSURL *)address subject:(NSString *)theSubject content:(NSString *)theMessage {
   if (![MFMailComposeViewController canSendMail]) {
     [[UIApplication sharedApplication] openURL:address];    
     return;
@@ -481,16 +481,30 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   
   MFMailComposeViewController *mailComposerViewController = [[MFMailComposeViewController alloc] init];
   [mailComposerViewController setMailComposeDelegate:self];
+
+  if (address) {
+    NSString *emailAddress = [[address absoluteString] stringByReplacingOccurrencesOfString:@"mailto:" withString:@""];
+    [mailComposerViewController setToRecipients:[NSArray arrayWithObject:emailAddress]];
+  }
   
-  NSString *emailAddress = [[address absoluteString] stringByReplacingOccurrencesOfString:@"mailto:" withString:@""];
-  [mailComposerViewController setToRecipients:[NSArray arrayWithObject:emailAddress]];
-  [mailComposerViewController setMessageBody:@"\n\n\n\n\n" isHTML:NO];
+  if (theSubject) {
+    [mailComposerViewController setSubject:theSubject];
+  }
   
+  if (theMessage) {
+    [mailComposerViewController setMessageBody:theMessage isHTML:NO];
+  } else {
+    [mailComposerViewController setMessageBody:@"\n\n\n" isHTML:NO];
+  }
+
   AppDelegate_Shared *appDelegate = (AppDelegate_Shared *)[[UIApplication sharedApplication] delegate];
   [[appDelegate tabBarController] presentModalViewController:mailComposerViewController animated:YES];
-  
-  [mailComposerViewController becomeFirstResponder];
+    
   [mailComposerViewController release];
+}
+
+-(void) composeMailMessage:(NSURL *)address {
+  [self composeMailMessage:address subject:nil content:nil];
 } // composeMailMessage
 
 

@@ -121,7 +121,7 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   return [[paginatedServices objectForKey:[NSNumber numberWithInt:section]] count];
-} // tableView:titleForHeaderInSection
+} // tableView:numberOfRowsInSection
 
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

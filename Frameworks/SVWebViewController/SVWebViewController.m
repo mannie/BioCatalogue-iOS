@@ -55,6 +55,8 @@
 	
 	CGRect deviceBounds = [[UIApplication sharedApplication] keyWindow].bounds;
 	
+  [rWebView setBackgroundColor:[UIColor clearColor]];
+  
 	if(!deviceIsTablet) {
 		separatorWidth = 50;
 		buttonWidth = 18;

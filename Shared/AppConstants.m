@@ -42,6 +42,8 @@ NSString *const ProviderResourceScope = @"providers";
 
 NSString *const AnnouncementResourceScope = @"announcements";
 
+NSString *const InternetConnectionTestResourceScope = @"agents";
+
 NSString *const RESTService = @"REST";
 NSString *const SOAPService = @"SOAP";
 

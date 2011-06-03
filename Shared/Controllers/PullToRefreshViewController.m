@@ -92,7 +92,8 @@
       [self performSelector:@selector(refreshTableViewDataSource)];
     }
   });
-	[self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.0];
+  
+  [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:1.5];
 }
 
 
@@ -113,7 +114,7 @@
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{  
-	if ([scrollView contentOffset].y <= contentOffset && !_reloading) {
+	if ([scrollView contentOffset].y <= contentOffset && !_reloading && [[UIDevice currentDevice] hasInternetConnection]) {
     _reloading = YES;
     [self reloadTableViewDataSource];
     [refreshHeaderView setState:EGOOPullRefreshLoading];

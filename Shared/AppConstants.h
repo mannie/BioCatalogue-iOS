@@ -40,6 +40,8 @@ extern NSString *const ProviderResourceScope;
 
 extern NSString *const AnnouncementResourceScope;
 
+extern NSString *const InternetConnectionTestResourceScope;
+
 extern NSString *const RESTService;
 extern NSString *const SOAPService;
 
@@ -174,6 +176,10 @@ typedef enum {
   InvalidPasswordError
 } BioCatalogueErrorCode;
 
+typedef enum {
+  NoInternetConnectionError = -1009,
+  ConnectionToServerError = -1004
+} NSErrorCode;
 
 /* * *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** ** *** *** *** * */
 

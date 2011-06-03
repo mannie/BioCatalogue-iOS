@@ -33,6 +33,8 @@
 
 #import "SVWebViewController.h"
 
+#import "FlatWebView.h"
+
 // * *** *** *** ** *** *** *** ** *** *** *** * 
 
 #pragma mark -

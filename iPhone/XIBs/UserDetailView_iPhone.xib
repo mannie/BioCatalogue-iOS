@@ -37,7 +37,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUIView" id="560820470">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -46,7 +46,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{320, 367}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
@@ -59,7 +58,6 @@
 						<int key="NSvFlags">306</int>
 						<string key="NSFrameSize">{320, 50}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="238201426">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MCAwAA</bytes>
@@ -94,7 +92,6 @@
 						<int key="NSvFlags">298</int>
 						<string key="NSFrame">{{35, 49}, {250, 1}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<object class="NSColor" key="IBUIBackgroundColor" id="200279741">
 							<int key="NSColorSpace">3</int>
 							<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
@@ -121,7 +118,6 @@
 						<int key="NSvFlags">298</int>
 						<string key="NSFrame">{{20, 58}, {280, 49}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="238201426"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -145,7 +141,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{241, 106}, {59, 17}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -171,7 +166,6 @@
 						<int key="NSvFlags">298</int>
 						<string key="NSFrame">{{35, 131}, {250, 1}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="200279741"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -193,7 +187,6 @@
 						<int key="NSvFlags">302</int>
 						<string key="NSFrame">{{20, 140}, {231, 20}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="238201426"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -213,7 +206,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{250, 141}, {50, 17}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -235,7 +227,6 @@
 						<int key="NSvFlags">302</int>
 						<string key="NSFrame">{{20, 168}, {231, 20}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="238201426"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -255,7 +246,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{250, 169}, {50, 17}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -277,7 +267,6 @@
 						<int key="NSvFlags">298</int>
 						<string key="NSFrame">{{35, 194}, {250, 1}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="200279741"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -299,7 +288,6 @@
 						<int key="NSvFlags">298</int>
 						<string key="NSFrame">{{35, 231}, {250, 1}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="200279741"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -321,7 +309,6 @@
 						<int key="NSvFlags">302</int>
 						<string key="NSFrame">{{20, 203}, {231, 20}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="238201426"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -341,7 +328,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{250, 205}, {50, 17}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -363,7 +349,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{250, 241}, {52, 17}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -385,7 +370,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{274, 262}, {29, 31}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
@@ -411,7 +395,6 @@
 						<int key="NSvFlags">302</int>
 						<string key="NSFrame">{{20, 240}, {231, 20}}</string>
 						<reference key="NSSuperview" ref="560820470"/>
-						<reference key="NSWindow"/>
 						<reference key="IBUIBackgroundColor" ref="238201426"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
@@ -428,8 +411,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 367}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -518,15 +499,6 @@
 					<int key="connectionID">63</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">composeMailMessage:</string>
-						<reference key="source" ref="153522499"/>
-						<reference key="destination" ref="372490531"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">64</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">userEmailCaption</string>
 						<reference key="source" ref="313900830"/>
@@ -541,6 +513,15 @@
 						<reference key="destination" ref="153522499"/>
 					</object>
 					<int key="connectionID">66</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">composeMailMessageToUser:</string>
+						<reference key="source" ref="153522499"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">67</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -829,7 +810,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">66</int>
+			<int key="maxID">67</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -841,7 +822,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>composeMailMessage:</string>
+							<string>composeMailMessageToUser:</string>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
@@ -876,7 +857,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>composeMailMessage:</string>
+							<string>composeMailMessageToUser:</string>
 							<string>dismissAuxiliaryDetailPanel:</string>
 							<string>exposeAuxiliaryDetailPanel:</string>
 							<string>markUnmarkServiceAsFavourite:</string>
@@ -893,7 +874,7 @@
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">composeMailMessage:</string>
+								<string key="name">composeMailMessageToUser:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -1625,13 +1606,13 @@
 					<string key="className">UserDetailViewController_iPhone</string>
 					<string key="superclassName">UIViewController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">composeMailMessage:</string>
+						<string key="NS.key.0">composeMailMessageToUser:</string>
 						<string key="NS.object.0">id</string>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">composeMailMessage:</string>
+						<string key="NS.key.0">composeMailMessageToUser:</string>
 						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">composeMailMessage:</string>
+							<string key="name">composeMailMessageToUser:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>

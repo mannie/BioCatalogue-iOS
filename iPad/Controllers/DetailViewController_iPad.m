@@ -13,7 +13,7 @@
 
 @synthesize monitoringStatusViewController, serviceComponentsViewController, webBrowserController;
 
-typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
+typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } ActionSheetIndex;
 
 
 #pragma mark -
@@ -30,6 +30,16 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
   
   return [url absoluteURL];
 } // URLOfResourceBeingViewed
+
+-(NSString *) nameOfResourceBeingViewed {
+  if ([scopeOfResourceBeingViewed isEqualToString:AnnouncementResourceScope]) {
+    return [[BioCatalogueResourceManager announcementWithUniqueID:lastAnnouncementID] title];
+  } else if ([scopeOfResourceBeingViewed isEqualToString:ServiceResourceScope]) {
+    return [listingProperties objectForKey:JSONNameElement];
+  } else {
+    return [[self URLOfResourceBeingViewed] absoluteString];
+  }
+}
 
 -(void) touchToolbar:(UIToolbar *)toolbar {  
   if (toolbar == mainToolbar) {
@@ -435,16 +445,20 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 } // showCurrentResourceInSafari
 
 -(void) showActionSheetForCurrentResource:(id)sender {
+  NSString *resource = [scopeOfResourceBeingViewed printableResourceScope];
+  resource = (resource ? [@" " stringByAppendingString:resource] : @"");
+  NSString *mailThis = [NSString stringWithFormat:@"Mail this%@ to...", [resource lowercaseString]];
+  
   UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                            delegate:self
                                                   cancelButtonTitle:nil
                                              destructiveButtonTitle:nil
-                                                  otherButtonTitles:@"View Here", @"View In Safari", nil];
+                                                  otherButtonTitles:@"Open in BioCatalogue", @"Open in Safari", mailThis, nil];
   [actionSheet showFromBarButtonItem:sender animated:YES];
   [actionSheet release];
 } // showActionSheetForCurrentResource
 
--(IBAction) composeMailMessage:(id)sender {
+-(IBAction) composeMailMessageToUser:(id)sender {
   NSString *publicEmail = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONPublicEmailElement]];
 
   if ([publicEmail isValidJSONValue]) {
@@ -460,7 +474,6 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
     [alert release];
   }
 } // composeMailMessage
-
 
 #pragma mark -
 #pragma mark Split view support
@@ -503,9 +516,20 @@ typedef enum { OpenInBioCatalogue, OpenInSafari } ActionSheetIndex;
 #pragma mark UIActionSheetDelegate
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+  NSString *message, *subject, *resource;
+  
   switch (buttonIndex) {
     case OpenInSafari: return [self showCurrentResourceInSafari:self];
     case OpenInBioCatalogue: return [self showCurrentResourceInBioCatalogue:self];
+    case MailThis:
+      resource = [scopeOfResourceBeingViewed printableResourceScope];
+      resource = (resource ? [@" " stringByAppendingString:resource] : @"");
+      
+      message = [NSString stringWithFormat:@"This%@ may interest you:\n\n%@\n\n\n", [resource lowercaseString], [[self URLOfResourceBeingViewed] absoluteString]];
+
+      subject = [NSString stringWithFormat:@"BioCatalogue%@: %@", resource, [self nameOfResourceBeingViewed]];
+      [uiContentController composeMailMessage:nil subject:subject content:message];
+      return;
     default: return;
   }
 } // actionSheet:clickedButtonAtIndex

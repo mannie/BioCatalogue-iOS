@@ -1,4 +1,4 @@
-= BioCatalogue Mass Curator
+= BioCatalogue iOS
 
 Author::   Mannie Tagarira
 Version::   0.1

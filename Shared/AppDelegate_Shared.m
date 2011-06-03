@@ -56,8 +56,8 @@
 
   dispatch_async(dispatch_get_main_queue(), ^{
     switch ([[notification object] code]) {
-      case -1009: // no internet connection error
-      case -1004: // connection to server error
+      case NoInternetConnectionError:
+      case ConnectionToServerError:
         [self showUIAlertViewTitle:@"Connection Error" message:[[notification object] localizedDescription]];
         break;
       case InvalidEmailAddressError: 
@@ -83,7 +83,7 @@
  Save changes in the application's managed object context before the application terminates.
  */
 
-- (void)applicationWillEnterForeground:(UIApplication *)application {
+- (void)applicationWillEnterForeground:(UIApplication *)application {  
   [UpdateCenter killUpdateCheckDaemon];
 }
 

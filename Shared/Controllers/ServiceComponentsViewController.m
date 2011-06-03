@@ -119,9 +119,13 @@
       [[cell detailTextLabel] setText:[NSString stringWithFormat:@"No %@", (serviceIsREST ? RESTComponentsText : SOAPComponentsText)]];
     } 
   
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
     return cell;
   }
-  
+
+  [cell setSelectionStyle:UITableViewCellSelectionStyleBlue];
+
   // Configure the cell...
   if (serviceIsREST) {
     NSString *endpointLabel = [[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONEndpointLabelElement];
@@ -153,11 +157,11 @@
     NSURL *url = [NSURL URLWithString:[[serviceComponents objectAtIndex:[indexPath row]] objectForKey:JSONResourceElement]];
     [detailViewController updateWithComponentAtPath:[url path]];
     
-    [[self navigationController] pushViewController:detailViewController animated:YES];    
+    [[self navigationController] pushViewController:detailViewController animated:YES];
+    
+    [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
   }
-
-  [tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-  [tableView deselectRowAtIndexPath:indexPath animated:YES];
 } // tableView:didSelectRowAtIndexPath
 
 

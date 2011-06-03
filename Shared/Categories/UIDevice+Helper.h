@@ -12,4 +12,6 @@
 -(BOOL) inPortraitOrientation;
 -(BOOL) isIPadDevice;
 
+-(BOOL) hasInternetConnection;
+
 @end

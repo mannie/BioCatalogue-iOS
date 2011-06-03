@@ -79,7 +79,13 @@ static BOOL updateCheckDaemonShoundBeActive;
 }
 
 - (void)feedParser:(MWFeedParser *)parser didFailWithError:(NSError *)error {
-  [error log];
+  if (![[UIDevice currentDevice] hasInternetConnection]) {
+    NSDictionary *details = [NSDictionary dictionaryWithObject:@"The Internet connection appears to be offline." forKey:NSLocalizedDescriptionKey];
+    [[NSError errorWithDomain:BioCatalogueClientErrorDomain code:NoInternetConnectionError userInfo:details] log];
+  } else {
+    [error log];
+  }
+
 	[announcements removeAllObjects];
   
   [[NSNotificationCenter defaultCenter] postNotificationName:NetworkActivityStopped object:nil];
@@ -209,6 +215,8 @@ static BOOL updateCheckDaemonShoundBeActive;
 #pragma mark Thread to check for updates in the background
 
 +(void) spawnUpdateCheckDaemon {
+  if (![[UIDevice currentDevice] hasInternetConnection]) return;
+  
   updateCheckDaemonShoundBeActive = YES;
   
   UIApplication *application = [UIApplication sharedApplication];

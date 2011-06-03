@@ -120,5 +120,17 @@ typedef enum {
   }
 } // stringByReformattingJSONDate
 
+-(NSString *) printableResourceScope {
+  if ([self isEqualToString:AnnouncementResourceScope]) {
+    return @"Announcement";
+  } else if ([self isEqualToString:ServiceResourceScope]) {
+    return @"Web Service";
+  } else if ([self isEqualToString:UserResourceScope]) {
+    return @"User";
+  } else {
+    return nil;
+  }
+} // printableBioCatalogueResourceScope
+
 
 @end

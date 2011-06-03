@@ -15,7 +15,7 @@
   BOOL viewHasBeenUpdated;
 }
 
--(IBAction) composeMailMessage:(id)sender;
+-(IBAction) composeMailMessageToUser:(id)sender;
 -(void) updateWithProperties:(NSDictionary *)properties;
 
 @end

@@ -6,7 +6,7 @@
 //  Copyright 2010 University of Manchester. All rights reserved.
 //
 
-@class DetailViewController_iPad, MailComposerViewController;
+@class DetailViewController_iPad;
 
 
 @interface UIContentController : NSObject <UIWebViewDelegate, MFMailComposeViewControllerDelegate> {
@@ -14,16 +14,16 @@
   
   // soap operation
   IBOutlet UILabel *operationName;
-  IBOutlet UIWebView *opertionDescription;
+  IBOutlet FlatWebView *opertionDescription;
   
   // rest methods/endpoints
   IBOutlet UILabel *endpointPrimaryName;
   IBOutlet UILabel *endpointSecondaryName;
-  IBOutlet UIWebView *endpointDescription;
+  IBOutlet FlatWebView *endpointDescription;
   
   // the service view
   IBOutlet UILabel *serviceName;
-  IBOutlet UIWebView *serviceDescription;
+  IBOutlet FlatWebView *serviceDescription;
   IBOutlet UILabel *serviceProviderName;
   IBOutlet UILabel *serviceSubmitterName;
   
@@ -46,12 +46,12 @@
   
   // provider details
   IBOutlet UILabel *providerName;
-  IBOutlet UIWebView *providerDescription;
+  IBOutlet FlatWebView *providerDescription;
 
   // announcements
   IBOutlet UILabel *announcementTitle;
   IBOutlet UILabel *announcementDate;
-  IBOutlet UIWebView *announcementSummary;
+  IBOutlet FlatWebView *announcementSummary;
 }
 
 @property(nonatomic, retain) IBOutlet DetailViewController_iPad* iPadDetailViewController;
@@ -75,6 +75,7 @@
 -(void) updateSOAPOperationUIElementsWithProperties:(NSDictionary *)properties;
 
 -(void) composeMailMessage:(NSURL *)address;
+-(void) composeMailMessage:(NSURL *)address subject:(NSString *)theSubject content:(NSString *)theMessage;
 
 
 @end

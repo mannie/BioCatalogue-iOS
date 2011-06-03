@@ -169,6 +169,7 @@ typedef enum { Inputs, Outputs } SOAPSection;
   }
   
   [UIContentController customiseTableViewCell:cell];
+  [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
   if ([collection count] == 0) {
     [[cell detailTextLabel] setText:[NSString stringWithFormat:@"No %@", [self tableView:tableView titleForHeaderInSection:[indexPath section]]]];
