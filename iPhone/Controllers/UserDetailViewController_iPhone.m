@@ -11,6 +11,9 @@
 
 @implementation UserDetailViewController_iPhone
 
+
+typedef enum { MailThis, Cancel } ActionSheetIndex; // ordered UPWARDS on display
+
 #pragma mark -
 #pragma mark Helpers
 
@@ -40,12 +43,41 @@
   }
 } // composeMailMessage
 
+-(void) showActionSheet:(id)sender {
+  UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:@"Mail this to...", nil];
+  [actionSheet showFromBarButtonItem:sender animated:YES];
+  [actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+  if (buttonIndex == Cancel) return;
+  
+  NSString *resource = [@" " stringByAppendingString:[UserResourceScope printableResourceScope]];
+  
+  // user url is in a different location depending on action performed
+  NSURL *url = [NSURL URLWithString:[userProperties objectForKey:JSONSelfElement]]; // via service view
+  if (url == nil) url = [NSURL URLWithString:[userProperties objectForKey:JSONResourceElement]]; // via search
+  NSString *message = [NSString generateInterestedInMessage:resource withURL:url];
+  
+  NSString *subject = [NSString stringWithFormat:@"BioCatalogue%@: %@", resource, [userProperties objectForKey:JSONNameElement]];
+  [uiContentController composeMailMessage:nil subject:subject content:message];  
+}
+
 
 #pragma mark -
 #pragma mark View lifecycle
 
 -(void) viewWillAppear:(BOOL)animated {
   if (!viewHasBeenUpdated && userProperties) [self updateWithProperties:userProperties];
+
+  UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet:)];
+  [[self navigationItem] setRightBarButtonItem:item animated:YES];
+  [item release];
+
   [super viewWillAppear:animated];
 }
 

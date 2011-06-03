@@ -12,8 +12,6 @@
 @interface ProviderDetailViewController : UIViewController <UIWebViewDelegate> {
   IBOutlet UIContentController *uiContentController;
 
-  IBOutlet UIBarButtonItem *servicesButton;
-
   NSDictionary *providerProperties;
   
   ProviderServicesViewController *providerServicesViewController;
@@ -25,8 +23,6 @@
 @property(nonatomic, retain) IBOutlet ProviderServicesViewController *providerServicesViewController;
 
 -(void) updateWithProperties:(NSDictionary *)properties;
-
--(IBAction) showServices:(id)sender;
 
 -(void) makeShowServicesButtonVisible:(BOOL)visible;
 

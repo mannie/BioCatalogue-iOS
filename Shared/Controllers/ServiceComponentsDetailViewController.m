@@ -14,6 +14,8 @@
 typedef enum { InputParameters, InputRepresentations, OutputRepresentations } RESTSection;
 typedef enum { Inputs, Outputs } SOAPSection;
 
+typedef enum { MailThis, Cancel } ActionSheetIndex; // ordered UPWARDS on display
+
 
 #pragma mark -
 #pragma mark Helpers
@@ -59,6 +61,30 @@ typedef enum { Inputs, Outputs } SOAPSection;
   });
 } // updateWithComponentAtPath
 
+-(void) showActionSheet:(id)sender {
+  UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:@"Mail this to...", nil];
+  [actionSheet showFromBarButtonItem:sender animated:YES];
+  [actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+  if (buttonIndex == Cancel) return;
+  
+  NSString *resource = [@" " stringByAppendingString:[(serviceIsREST ? RESTEndpointResourceScope : SOAPOperationResourceScope) printableResourceScope]];
+  
+  NSURL *url = [NSURL URLWithString:[componentProperties objectForKey:JSONSelfElement]];
+  NSString *message = [NSString generateInterestedInMessage:resource withURL:url];
+
+  NSString *name = [NSString stringWithFormat:@"%@", [componentProperties objectForKey:JSONNameElement]];
+  NSString *subject = [NSString stringWithFormat:@"BioCatalogue%@: %@", 
+                       resource, ([name isValidJSONValue] ? name : [componentProperties objectForKey:JSONEndpointLabelElement])];
+  [uiContentController composeMailMessage:nil subject:subject content:message];  
+}
+
 
 #pragma mark -
 #pragma mark IBActions
@@ -86,6 +112,11 @@ typedef enum { Inputs, Outputs } SOAPSection;
 
 -(void) viewWillAppear:(BOOL)animated {
   if (!viewHasBeenUpdated && currentPath) [self updateWithComponentAtPath:currentPath];
+
+  UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet:)];
+  [[self navigationItem] setRightBarButtonItem:item animated:YES];
+  [item release];
+
   [super viewWillAppear:animated];
 }
 

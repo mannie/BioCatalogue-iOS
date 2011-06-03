@@ -7,7 +7,7 @@
 //
 
 
-@interface UserDetailViewController_iPhone : UIViewController {  
+@interface UserDetailViewController_iPhone : UIViewController <UIActionSheetDelegate> {  
   IBOutlet UIContentController *uiContentController;
   
   NSDictionary *userProperties;

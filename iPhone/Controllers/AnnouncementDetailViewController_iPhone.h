@@ -7,7 +7,7 @@
 //
 
 
-@interface AnnouncementDetailViewController_iPhone : UIViewController {
+@interface AnnouncementDetailViewController_iPhone : UIViewController <UIActionSheetDelegate> {
   IBOutlet UIContentController *uiContentController;
 
   BOOL viewHasBeenUpdated;

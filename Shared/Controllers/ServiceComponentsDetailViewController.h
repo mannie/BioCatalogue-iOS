@@ -7,7 +7,7 @@
 //
 
 
-@interface ServiceComponentsDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
+@interface ServiceComponentsDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate> {
   IBOutlet UIContentController *uiContentController;
   
   IBOutlet UIView *restMethodDetailView;

@@ -121,7 +121,11 @@ typedef enum {
 } // stringByReformattingJSONDate
 
 -(NSString *) printableResourceScope {
-  if ([self isEqualToString:AnnouncementResourceScope]) {
+  if ([self isEqualToString:RESTEndpointResourceScope]) {
+    return [RESTComponentsText stringByReplacingCharactersInRange:NSMakeRange([RESTComponentsText length] - 1, 1) withString:@""];
+  } else if ([self isEqualToString:SOAPOperationResourceScope]) {
+    return [SOAPComponentsText stringByReplacingCharactersInRange:NSMakeRange([SOAPComponentsText length] - 1, 1) withString:@""];
+  } else if ([self isEqualToString:AnnouncementResourceScope]) {
     return @"Announcement";
   } else if ([self isEqualToString:ServiceResourceScope]) {
     return @"Web Service";

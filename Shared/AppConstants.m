@@ -40,6 +40,9 @@ NSString *const UserResourceScope = @"users";
 NSString *const ServiceResourceScope = @"services";
 NSString *const ProviderResourceScope = @"providers";
 
+NSString *const RESTEndpointResourceScope = @"rest_methods";
+NSString *const SOAPOperationResourceScope = @"soap_operations";
+
 NSString *const AnnouncementResourceScope = @"announcements";
 
 NSString *const InternetConnectionTestResourceScope = @"agents";

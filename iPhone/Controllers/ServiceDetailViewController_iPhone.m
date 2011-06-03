@@ -14,6 +14,8 @@
 @synthesize userDetailViewController, providerDetailViewController, monitoringStatusViewController, serviceComponentsViewController;
 
 
+typedef enum { MailThis, Cancel } ActionSheetIndex; // ordered UPWARDS on display
+
 #pragma mark -
 #pragma mark Helpers
 
@@ -66,12 +68,39 @@
   [self performSelectorOnMainThread:@selector(postFetchActions) withObject:nil waitUntilDone:NO];
 } // updateWithProperties
 
+-(void) showActionSheet:(id)sender {
+  UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                             destructiveButtonTitle:nil
+                                                  otherButtonTitles:@"Mail this to...", nil];
+  [actionSheet showFromBarButtonItem:sender animated:YES];
+  [actionSheet release];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+  if (buttonIndex == Cancel) return;
+  
+  NSString *resource = [@" " stringByAppendingString:[ServiceResourceScope printableResourceScope]];
+  
+  NSURL *url = [NSURL URLWithString:[serviceListingProperties objectForKey:JSONResourceElement]];
+  NSString *message = [NSString generateInterestedInMessage:resource withURL:url];
+  
+  NSString *subject = [NSString stringWithFormat:@"BioCatalogue%@: %@", resource, [serviceListingProperties objectForKey:JSONNameElement]];
+  [uiContentController composeMailMessage:nil subject:subject content:message];  
+}
+
 
 #pragma mark -
 #pragma mark View lifecycle
 
 -(void) viewWillAppear:(BOOL)animated {
   if (!viewHasBeenUpdated && serviceListingProperties) [self updateWithProperties:serviceListingProperties];
+  
+  UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showActionSheet:)];
+  [[self navigationItem] setRightBarButtonItem:item animated:YES];
+  [item release];
+  
   [super viewWillAppear:animated];
 }
 

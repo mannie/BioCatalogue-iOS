@@ -38,6 +38,9 @@ extern NSString *const UserResourceScope;
 extern NSString *const ServiceResourceScope;
 extern NSString *const ProviderResourceScope;
 
+extern NSString *const RESTEndpointResourceScope;
+extern NSString *const SOAPOperationResourceScope;
+
 extern NSString *const AnnouncementResourceScope;
 
 extern NSString *const InternetConnectionTestResourceScope;

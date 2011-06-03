@@ -65,7 +65,12 @@
 
 -(void) makeShowServicesButtonVisible:(BOOL)visible {
   if (visible) {
-    [[self navigationItem] setRightBarButtonItem:servicesButton];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Services" 
+                                                             style:UIBarButtonItemStyleBordered
+                                                            target:self
+                                                            action:@selector(showServices:)];
+    [[self navigationItem] setRightBarButtonItem:item animated:YES];
+    [item release];
   } else {
     [[self navigationItem] setRightBarButtonItem:nil];
   }
@@ -76,7 +81,6 @@
 #pragma mark Memory management
 
 -(void) releaseIBOutlets {
-  [servicesButton release];
   [uiContentController release];
   
   [providerServicesViewController release];

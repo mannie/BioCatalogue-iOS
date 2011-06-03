@@ -9,7 +9,7 @@
 @class UserDetailViewController_iPhone;
 
 
-@interface ServiceDetailViewController_iPhone : UIViewController {
+@interface ServiceDetailViewController_iPhone : UIViewController <UIActionSheetDelegate> {
   IBOutlet UITableView *myTableView;
   IBOutlet UIContentController *uiContentController;
   IBOutlet UIButton *providerButton;

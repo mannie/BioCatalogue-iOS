@@ -13,8 +13,8 @@
 
 @synthesize monitoringStatusViewController, serviceComponentsViewController, webBrowserController;
 
-typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } MainActionSheetIndex;
-typedef enum { PullOutOpenInSafari, PullOutMailThis } PullOutActionSheetIndex;
+typedef enum { OpenInBioCatalogue, OpenInSafari, MailThis } MainActionSheetIndex; // ordered DOWNWARDS on display
+typedef enum { PullOutOpenInSafari, PullOutMailThis } PullOutActionSheetIndex; // ordered DOWNWARDS on display
 
 
 #pragma mark -
