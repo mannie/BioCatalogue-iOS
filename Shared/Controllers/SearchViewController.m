@@ -17,6 +17,7 @@
 
 -(void) loadItemsOnNextPage {
   if (lastLoadedPage == lastPage) {
+    [[emptyResultsCell detailTextLabel] performSelectorOnMainThread:@selector(setText:) withObject:nil waitUntilDone:YES];
     [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
     activeFetchThreads--;
     return;
@@ -51,6 +52,7 @@
     
     activeFetchThreads--;
     if (activeFetchThreads == 0) {
+      [[emptyResultsCell detailTextLabel] performSelectorOnMainThread:@selector(setText:) withObject:nil waitUntilDone:YES];
       [activityIndicator performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
     }
   });
@@ -63,6 +65,13 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   
+  emptyResultsCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:nil];
+  [[emptyResultsCell textLabel] setText:nil];
+  [[emptyResultsCell detailTextLabel] setText:DefaultLoadingText];
+  [[emptyResultsCell imageView] setImage:nil];
+  [emptyResultsCell setSelectionStyle:UITableViewCellSelectionStyleNone];
+  [UIContentController customiseTableViewCell:emptyResultsCell];  
+
   [UIContentController customiseTableView:dataTableView];
   
   currentSearchScope = ServiceResourceScope;
@@ -126,6 +135,10 @@
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (tableView != dataTableView) return 0;
+
+  NSArray *itemsInSection = [paginatedSearchResults objectForKey:[NSNumber numberWithInt:section]];
+  if (lastLoadedPage == 1 && [itemsInSection count] == 0 && activeFetchThreads == 0) return 1;
+  
   return [[paginatedSearchResults objectForKey:[NSNumber numberWithInt:section]] count];
 } // tableView:numberOfRowsInSection
 
@@ -146,6 +159,7 @@
     @try {
       if (activeFetchThreads < 3) {
         activeFetchThreads++;
+        [[emptyResultsCell detailTextLabel] performSelectorOnMainThread:@selector(setText:) withObject:DefaultLoadingText waitUntilDone:YES];
         [activityIndicator performSelectorOnMainThread:@selector(startAnimating) withObject:nil waitUntilDone:NO];
         [self loadItemsOnNextPage];
       }
@@ -154,10 +168,15 @@
     }    
   }
   
-  NSArray *itemsInSection = [paginatedSearchResults objectForKey:[NSNumber numberWithInt:[indexPath section]]];  
+  NSArray *itemsInSection = [paginatedSearchResults objectForKey:[NSNumber numberWithInt:[indexPath section]]];
+  if (lastLoadedPage == 1 && [itemsInSection count] == 0 && activeFetchThreads == 0) {
+    [[emptyResultsCell detailTextLabel] setText:[NSString stringWithFormat:@"No %@ found matching '%@'", lastSearchScope, lastSearchQuery]];
+    return emptyResultsCell;
+  }
+  
   [UIContentController populateTableViewCell:cell 
-                                 withObject:[itemsInSection objectAtIndex:[indexPath row]]
-                                     givenScope:lastSearchScope];
+                                  withObject:[itemsInSection objectAtIndex:[indexPath row]]
+                                  givenScope:lastSearchScope];
   
   return cell;
 } // tableView:cellForRowAtIndexPath
@@ -170,6 +189,7 @@
   if (tableView != dataTableView) return;
   
   NSArray *itemsInSection = [paginatedSearchResults objectForKey:[NSNumber numberWithInt:[indexPath section]]];
+  if (lastLoadedPage == 1 && [itemsInSection count] == 0) return;
   
   if ([[UIDevice currentDevice] isIPadDevice]) {
     if (![lastSearchScope isEqualToString:ProviderResourceScope]) {
@@ -282,6 +302,11 @@
 
 #pragma mark -
 #pragma mark Memory management
+
+-(void) viewDidUnload {
+  [emptyResultsCell release];
+  [super viewDidUnload];
+}
 
 -(void) releaseIBOutlets {
   [dataTableView release];

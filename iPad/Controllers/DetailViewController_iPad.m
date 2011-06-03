@@ -547,7 +547,7 @@ typedef enum { PullOutOpenInSafari, PullOutMailThis } PullOutActionSheetIndex; /
         [[UIApplication sharedApplication] openURL:[[webBrowser request] URL]]; 
         return;
       case PullOutMailThis:
-        message = [NSString generateInterestedInMessage:@"page" withURL:[[webBrowser request] URL]];        
+        message = [NSString generateInterestedInMessage:@" page" withURL:[[webBrowser request] URL]];        
         [uiContentController composeMailMessage:nil subject:@"BioCatalogue: Check this out..." content:message];
         return;
     }    

@@ -87,7 +87,7 @@
 #pragma mark Table view methods
 
 - (void)reloadTableViewDataSource{
-  dispatch_async(dispatch_queue_create("Search", NULL), ^{      
+  dispatch_async(dispatch_queue_create("Refresh TableView Data Source", NULL), ^{      
     if ([self respondsToSelector:@selector(refreshTableViewDataSource)]) {
       [self performSelector:@selector(refreshTableViewDataSource)];
     }

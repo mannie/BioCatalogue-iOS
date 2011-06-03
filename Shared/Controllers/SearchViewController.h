@@ -33,6 +33,8 @@
   IBOutlet UIActivityIndicatorView *activityIndicator;
   
   IBOutlet UITableView *dataTableView;
+  
+  UITableViewCell *emptyResultsCell;
 }
 
 @property (nonatomic, retain) IBOutlet ServiceDetailViewController_iPhone *serviceDetailViewController;
