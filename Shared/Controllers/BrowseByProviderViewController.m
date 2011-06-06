@@ -136,7 +136,7 @@
   
   if (![providerDetailViewController view]) [providerDetailViewController loadView];
   [providerDetailViewController updateWithProperties:[itemsInSection objectAtIndex:[indexPath row]]];
-  [providerDetailViewController makeShowServicesButtonVisible:YES];
+  [providerDetailViewController showServicesButtonIfGreater:0];
 
   [[self navigationController] pushViewController:providerDetailViewController animated:YES];
   

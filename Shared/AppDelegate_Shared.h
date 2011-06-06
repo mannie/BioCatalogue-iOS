@@ -16,6 +16,8 @@
   NSPersistentStoreCoordinator *persistentStoreCoordinator_;
   
   NSUInteger networkActivityCounter;
+  
+  NSDate *lastInternetConnectionError;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

@@ -47,7 +47,12 @@
   // provider details
   IBOutlet UILabel *providerName;
   IBOutlet FlatWebView *providerDescription;
+  IBOutlet UILabel *providerServiceCount;
 
+  NSNumber *lowerBoundForProviderServiceCount;
+  SEL showServicesSelector;
+  id showServicesTarget;  
+  
   // announcements
   IBOutlet UILabel *announcementTitle;
   IBOutlet UILabel *announcementDate;
@@ -76,6 +81,8 @@
 
 -(void) composeMailMessage:(NSURL *)address;
 -(void) composeMailMessage:(NSURL *)address subject:(NSString *)theSubject content:(NSString *)theMessage;
+
+-(void) showServicesButtonGiven:(NSNumber *)lowerBound performingSelector:(SEL)aSelector onTarget:(id)target;
 
 
 @end

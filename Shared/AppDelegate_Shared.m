@@ -57,6 +57,17 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     switch ([[notification object] code]) {
       case NoInternetConnectionError:
+        if (lastInternetConnectionError) {
+          NSTimeInterval timeIntervalSinceLastError = -[lastInternetConnectionError timeIntervalSinceNow];          
+          if (timeIntervalSinceLastError > (NSTimeInterval)3) {
+            [lastInternetConnectionError release];
+            lastInternetConnectionError = [[NSDate date] retain];
+          } else {
+            break;
+          }
+        } else {
+          lastInternetConnectionError = [[NSDate date] retain];
+        }
       case ConnectionToServerError:
         [self showUIAlertViewTitle:@"Connection Error" message:[[notification object] localizedDescription]];
         break;
@@ -233,6 +244,7 @@
 
 
 - (void)dealloc {
+  [lastInternetConnectionError release];
   
   [managedObjectContext_ release];
   [managedObjectModel_ release];

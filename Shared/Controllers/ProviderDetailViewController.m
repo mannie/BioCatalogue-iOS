@@ -23,8 +23,11 @@
   if (providerProperties) [providerProperties release];
   providerProperties = [properties retain];
   
+  [uiContentController showServicesButtonGiven:[NSNumber numberWithInteger:lowerBound]
+                            performingSelector:@selector(showServices:) 
+                                      onTarget:self];
   [uiContentController updateProviderUIElementsWithProperties:properties];
-  
+    
   viewHasBeenUpdated = YES;
 } // updateWithProperties
 
@@ -63,18 +66,9 @@
   return YES;
 } // shouldAutorotateToInterfaceOrientation
 
--(void) makeShowServicesButtonVisible:(BOOL)visible {
-  if (visible) {
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Services" 
-                                                             style:UIBarButtonItemStyleBordered
-                                                            target:self
-                                                            action:@selector(showServices:)];
-    [[self navigationItem] setRightBarButtonItem:item animated:YES];
-    [item release];
-  } else {
-    [[self navigationItem] setRightBarButtonItem:nil];
-  }
-} // makeShowServicesButtonVisible
+-(void) showServicesButtonIfGreater:(NSUInteger)value {
+  lowerBound = value;
+} // showServicesButtonIfProviderServiceCountGreaterThan
 
 
 #pragma mark -
@@ -88,6 +82,7 @@
 
 - (void)dealloc {
   [self releaseIBOutlets];
+
   [providerProperties release];
   
   [super dealloc];

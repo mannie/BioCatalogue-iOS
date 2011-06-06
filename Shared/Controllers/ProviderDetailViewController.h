@@ -18,12 +18,15 @@
   DetailViewController_iPad *iPadDetailViewController;
   
   BOOL viewHasBeenUpdated;
+  BOOL servicesDeeperInStackShouldShowProviderButton;
+  
+  NSUInteger lowerBound;
 }
 
 @property(nonatomic, retain) IBOutlet ProviderServicesViewController *providerServicesViewController;
 
 -(void) updateWithProperties:(NSDictionary *)properties;
 
--(void) makeShowServicesButtonVisible:(BOOL)visible;
+-(void) showServicesButtonIfGreater:(NSUInteger)value;
 
 @end

@@ -122,7 +122,7 @@ typedef enum { MailThis, Cancel } ActionSheetIndex; // ordered UPWARDS on displa
   
   if (![providerDetailViewController view]) [providerDetailViewController loadView];
   [providerDetailViewController updateWithProperties:properties];
-  [providerDetailViewController makeShowServicesButtonVisible:NO];
+  [providerDetailViewController showServicesButtonIfGreater:1];
   
   [[self navigationController] pushViewController:providerDetailViewController animated:YES];  
 } // showProviderInfo

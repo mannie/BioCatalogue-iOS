@@ -19,17 +19,16 @@
   return [[self model] isEqualToString:@"iPad"] || [[self model] isEqualToString:@"iPad Simulator"];
 }
 
--(BOOL) hasInternetConnection {
-  NSError *error = nil;
+-(BOOL) hasInternetConnection {  
+  SCNetworkReachabilityRef reachability = SCNetworkReachabilityCreateWithName(NULL, [[[BioCatalogueClient baseURL] host] UTF8String]);
+  SCNetworkReachabilityFlags flags;
+
+  Boolean success = SCNetworkReachabilityGetFlags(reachability, &flags);
+  Boolean _isDataSourceAvailable = success && (flags & kSCNetworkFlagsReachable) && !(flags & kSCNetworkFlagsConnectionRequired);
   
-  NSString *path = [NSString stringWithFormat:@"/%@?per_page=1", InternetConnectionTestResourceScope];
-  NSURL *url = [BioCatalogueClient URLForPath:path withRepresentation:JSONFormat];
-  NSURLRequest *request = [NSURLRequest requestWithURL:url
-                                           cachePolicy:NSURLRequestReloadRevalidatingCacheData 
-                                       timeoutInterval:APIRequestTimeout];
-  [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+  CFRelease(reachability);
   
-  return error == nil;
+  return _isDataSourceAvailable;
 }
 
 @end

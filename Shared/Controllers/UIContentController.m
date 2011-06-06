@@ -420,6 +420,45 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   description = ([description isValidJSONValue] ? description : NoInformationText);  
   [providerDescription loadHTMLString:description baseURL:nil];
   [providerDescription performSelectorOnMainThread:@selector(setBackgroundColor:) withObject:[UIColor clearColor] waitUntilDone:NO];
+
+  dispatch_async(dispatch_queue_create("Fetch number of services", NULL), ^{
+    NSURL *url = [NSURL URLWithString:[properties objectForKey:JSONResourceElement]];
+    if (url == nil) {
+      url = [NSURL URLWithString:[properties objectForKey:JSONSelfElement]]; // this should not be necessary; is here for SOME future proofing
+    }
+    
+    NSUInteger providerID = [[url lastPathComponent] integerValue];
+    NSDictionary *document = [BioCatalogueClient services:50 page:100 providerID:providerID];
+    
+    NSString *caption = nil;
+    NSUInteger numberOfServices;
+    
+    if (document) {
+      numberOfServices = [[document valueForKey:JSONTotalElement] intValue];
+      caption = [NSString stringWithFormat:@"Number of Web Services: %i", numberOfServices];
+      [providerServiceCount performSelectorOnMainThread:@selector(setText:) withObject:caption waitUntilDone:NO];
+    }
+    
+    if (!lowerBoundForProviderServiceCount) lowerBoundForProviderServiceCount = [[NSNumber numberWithInt:-1] retain];
+    
+    BOOL isValidSelector = [showServicesTarget respondsToSelector:showServicesSelector];
+    BOOL isValidTarget = [showServicesTarget respondsToSelector:@selector(navigationItem)];
+  
+    if (isValidSelector && isValidTarget) {
+      BOOL isZero = [lowerBoundForProviderServiceCount intValue] == 0 && numberOfServices > 0;
+      BOOL isAboveThreshold = [lowerBoundForProviderServiceCount intValue] > 0 && [lowerBoundForProviderServiceCount integerValue] < numberOfServices;
+      
+      if (isZero || isAboveThreshold) {
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Services" 
+                                                                 style:UIBarButtonItemStyleBordered
+                                                                target:showServicesTarget
+                                                                action:showServicesSelector];
+        [[showServicesTarget navigationItem] performSelectorOnMainThread:@selector(setRightBarButtonItem:) withObject:item waitUntilDone:NO];
+        [item release];
+      } else {
+        [[showServicesTarget navigationItem] performSelectorOnMainThread:@selector(setRightBarButtonItem:) withObject:nil waitUntilDone:NO];      }      
+    }    
+  });
 } // updateProviderUIElementsWithProperties
 
 -(void) updateAnnouncementUIElementsWithPropertiesForAnnouncementWithID:(NSUInteger)announcementID {  
@@ -507,6 +546,16 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   [self composeMailMessage:address subject:nil content:nil];
 } // composeMailMessage
 
+-(void) showServicesButtonGiven:(NSNumber *)lowerBound performingSelector:(SEL)aSelector onTarget:(id)target {
+  if (lowerBoundForProviderServiceCount) [lowerBoundForProviderServiceCount release];
+  lowerBoundForProviderServiceCount = [[NSNumber numberWithInteger:[lowerBound integerValue]] retain];
+    
+  if ([showServicesTarget retainCount] > 1) [showServicesTarget release];
+  showServicesTarget = [target retain];
+  
+  showServicesSelector = aSelector;
+} // showServicesButtonGiven
+
 
 #pragma mark -
 #pragma mark MFMailComposeViewControllerDelegate
@@ -591,6 +640,9 @@ static UIImage *_announcementUnreadIconUIImage = nil;
 -(void) dealloc {
   [iPadDetailViewController release];
   
+  [lowerBoundForProviderServiceCount release];
+  [showServicesTarget release];
+  
   // soap operation outlets
   [operationName release];
   [opertionDescription release];
@@ -626,7 +678,8 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   // provider detail outlets
   [providerName release];
   [providerDescription release];
-    
+  [providerServiceCount release];
+  
   // announcements
   [announcementTitle release];
   [announcementDate release];
