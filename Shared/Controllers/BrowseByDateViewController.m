@@ -50,7 +50,8 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-      
+  
+  [UIContentController customiseTableView:[self tableView]];
   dispatch_async(dispatch_queue_create("Load content", NULL), ^{
     [self refreshTableViewDataSource];
   });

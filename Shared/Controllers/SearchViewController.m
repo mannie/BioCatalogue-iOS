@@ -73,6 +73,7 @@
   [UIContentController customiseTableViewCell:emptyResultsCell];  
 
   [UIContentController customiseTableView:dataTableView];
+  [UIContentController customiseTableView:[self tableView]];
   
   currentSearchScope = ServiceResourceScope;
   

@@ -51,24 +51,19 @@
   [super viewDidLoad];
   
 	if (refreshHeaderView == nil) {
-    contentOffset = ([[UIDevice currentDevice] isIPadDevice] ? -110.0f : -65.0f);
+    contentOffset = ([[UIDevice currentDevice] isIPadDevice] ? -100.0f : -65.0f);
+    float height = ([[UIDevice currentDevice] isIPadDevice] ? 0.0f : [[self tableView] bounds].size.height);
     
-    float height = [[self tableView] bounds].size.height;
-    
-    if ([[UIDevice currentDevice] isIPadDevice]) {      
-      refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, 0.0f)];
+    refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, height)];
+    if ([[UIDevice currentDevice] isIPadDevice]) {  
       [[self tableView] setTableHeaderView:refreshHeaderView];
     } else {
-      refreshHeaderView = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - height, 320.0f, height)];
       [[self tableView] addSubview:refreshHeaderView];
     }
-
-    [refreshHeaderView setBackgroundColor:[UIColor clearColor]];
-    [UIContentController customiseTableView:[self tableView]];
+    [refreshHeaderView setBackgroundColor:[UIColor whiteColor]];
+    [refreshHeaderView release];
     
 		[[self tableView] setShowsVerticalScrollIndicator:YES];
-		
-    [refreshHeaderView release];
 	}
 }
 
