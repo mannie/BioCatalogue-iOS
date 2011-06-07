@@ -17,7 +17,11 @@
 } // serviceListingIsREST
 
 -(BOOL) serviceListingIsSOAPService {
-  return [[[self objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:SOAPService];
+  if ([[self objectForKey:JSONTechnologyTypesElement] count] == 1) {
+    return [[[self objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:SOAPService];
+  } else {
+    return [[[self objectForKey:JSONTechnologyTypesElement] objectAtIndex:0] isEqualToString:SOAPService];
+  }
 } // serviceListingIsSOAP
 
 -(NSString *) serviceListingType {

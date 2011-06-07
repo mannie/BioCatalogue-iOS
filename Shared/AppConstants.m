@@ -17,7 +17,7 @@ NSString *const NetworkActivityStopped = @"NetworkActivityStoppedNotification";
 
 NSString *const ErrorOccurred = @"ErrorOccurredNotification";
 
-NSTimeInterval const UpdateCheckInterval = 5; // in seconds TODO: 15 * 60
+NSTimeInterval const UpdateCheckInterval = 15 * 60;
 
 
 #pragma mark -
@@ -25,7 +25,7 @@ NSTimeInterval const UpdateCheckInterval = 5; // in seconds TODO: 15 * 60
 
 NSString *const AppServiceName = @"BioCatalogue (iOS)";
 
-NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 90;
+NSUInteger const DaysBeforeExpiringUnreadAnnouncements = 21;
 
 NSUInteger const iPadItemsPerPage = 10;
 NSUInteger const iPhoneItemsPerPage = 10;
@@ -50,9 +50,9 @@ NSString *const InternetConnectionTestResourceScope = @"agents";
 NSString *const RESTService = @"REST";
 NSString *const SOAPService = @"SOAP";
 
-NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
+//NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"test.biocatalogue.org";
-//NSString *const BioCatalogueHostname = @"www.biocatalogue.org";
+NSString *const BioCatalogueHostname = @"www.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"demo.edunify.pesc.org";
 
 
