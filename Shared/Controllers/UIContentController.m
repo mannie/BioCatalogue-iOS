@@ -233,7 +233,8 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   [((UILabel *)[cell viewWithTag:XIBCellMainText]) setText:[userProperties objectForKey:JSONNameElement]];
   
   NSString *affiliation = [NSString stringWithFormat:@"%@", [userProperties objectForKey:JSONAffiliationElement]];
-  [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([affiliation isValidJSONValue] ? affiliation : UnknownAffiliationText)];
+//  [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([affiliation isValidJSONValue] ? affiliation : UnknownAffiliationText)];
+  [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([affiliation isValidJSONValue] ? affiliation : nil)];
   
   [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[self userIcon]];
   
@@ -250,7 +251,8 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   [((UILabel *)[cell viewWithTag:XIBCellMainText]) setText:[providerProperties objectForKey:JSONNameElement]];
   
   NSString *detail = [NSString stringWithFormat:@"%@", [providerProperties objectForKey:JSONDescriptionElement]];
-  [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([detail isValidJSONValue] ? detail : NoInformationText)];
+//  [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([detail isValidJSONValue] ? detail : NoInformationText)];
+  [((UILabel *)[cell viewWithTag:XIBCellDetailText]) setText:([detail isValidJSONValue] ? detail : nil)];
   
   [((UIImageView *)[cell viewWithTag:XIBCellMainIcon]) setImage:[self providerIcon]];
   
