@@ -8,8 +8,11 @@
 	<string>BioCatalogue</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>BioCatalogue.png</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>BioCatalogue_iPhone</string>
+		<string>BioCatalogue_iPad</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>org.biocatalogue</string>
 	<key>CFBundleInfoDictionaryVersion</key>

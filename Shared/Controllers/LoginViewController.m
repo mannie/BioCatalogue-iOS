@@ -75,6 +75,11 @@
   });
 } // attemptToSignIn
 
+-(void) tapGestureHandler:(UIGestureRecognizer *)gestureRecognizer {
+  [usernameField resignFirstResponder];
+  [passwordField resignFirstResponder];
+}
+
 
 #pragma mark -
 #pragma mark IBActions
@@ -151,7 +156,14 @@
   return YES;
 } // shouldAutorotateToInterfaceOrientation
 
+-(void) viewDidLoad {
+  [super viewDidLoad];
+  
+  tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGestureHandler:)];
+  [[self view] addGestureRecognizer:tapGestureRecognizer];
+}
  
+
 #pragma mark -
 #pragma mark Text Field delegate
 
@@ -174,6 +186,11 @@
 
 #pragma mark -
 #pragma mark Memory management
+
+-(void) viewDidUnload {
+  [tapGestureRecognizer release];
+  [super viewDidUnload];
+}
 
 -(void) releaseIBOutlets {
   [usernameField release];

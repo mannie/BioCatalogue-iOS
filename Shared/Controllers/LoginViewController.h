@@ -17,6 +17,8 @@
   IBOutlet UIButton *showProtectedResourceButton;  
   
   IBOutlet UIActivityIndicatorView *activityIndicator;
+  
+  UITapGestureRecognizer *tapGestureRecognizer;
 }
 
 @property (nonatomic, retain) IBOutlet id protectedResourceController;
