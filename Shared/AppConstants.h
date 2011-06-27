@@ -47,6 +47,7 @@ extern NSString *const InternetConnectionTestResourceScope;
 
 extern NSString *const RESTService;
 extern NSString *const SOAPService;
+extern NSString *const SoaplabServer;
 
 extern NSString *const BioCatalogueHostname;
 

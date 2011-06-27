@@ -12,21 +12,33 @@
 @implementation NSDictionary (Helper)
 
 
+-(BOOL) isServiceListingOfType:(NSString *)serviceType {
+  for (NSString *technology in [self objectForKey:JSONTechnologyTypesElement]) {
+    if ([technology isEqualToString:serviceType]) {
+      return YES;
+    }
+  }
+  
+  return NO;
+} // isServiceListingOfType
+
 -(BOOL) serviceListingIsRESTService {
-  return [[[self objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:RESTService];
+  return [self isServiceListingOfType:RESTService];
 } // serviceListingIsREST
 
 -(BOOL) serviceListingIsSOAPService {
-  if ([[self objectForKey:JSONTechnologyTypesElement] count] == 1) {
-    return [[[self objectForKey:JSONTechnologyTypesElement] lastObject] isEqualToString:SOAPService];
-  } else {
-    return [[[self objectForKey:JSONTechnologyTypesElement] objectAtIndex:0] isEqualToString:SOAPService];
-  }
+  return [self isServiceListingOfType:SOAPService];
 } // serviceListingIsSOAP
+
+-(BOOL) serviceListingIsSoaploabServer {
+  return [self isServiceListingOfType:SoaplabServer];
+} // serviceListingIsSoaploabServer
 
 -(NSString *) serviceListingType {
   if ([self serviceListingIsRESTService]) {
     return RESTService;
+  } else if ([self serviceListingIsSoaploabServer]) {
+    return SoaplabServer;
   } else if ([self serviceListingIsSOAPService]) {
     return SOAPService;
   } else {

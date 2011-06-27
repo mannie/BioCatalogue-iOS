@@ -160,11 +160,15 @@ typedef enum { MailThis, Cancel } ActionSheetIndex; // ordered UPWARDS on displa
   NSString *path;
   if ([serviceListingProperties serviceListingIsRESTService]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
-  } else {
+  } else if ([serviceListingProperties serviceListingIsSOAPService]) { // this takes into account soaplab
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
+  } else {
+    path = nil;
   }
   
   [serviceComponentsViewController setTitle:nil];
+  if (path == nil) return;
+  
   if (![serviceComponentsViewController view]) [serviceComponentsViewController loadView];
   dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{
     [serviceComponentsViewController updateWithServiceComponentsForPath:path];

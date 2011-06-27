@@ -29,6 +29,7 @@ static UIImage *_redLineUIImage = nil;
 static UIImage *_restServiceUIImage = nil;
 static UIImage *_soapServiceUIImage = nil;
 static UIImage *_otherServiceUIImage = nil;
+static UIImage *_soaplabServerUIImage = nil;
 
 static UIImage *_tickUIImage = nil;
 static UIImage *_plingUIImage = nil;
@@ -55,6 +56,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
 
   [_restServiceUIImage release];
   [_soapServiceUIImage release];
+  [_soaplabServerUIImage release];
   [_otherServiceUIImage release];
 
   [_tickUIImage release];
@@ -77,6 +79,7 @@ static UIImage *_announcementUnreadIconUIImage = nil;
   
   _restServiceUIImage = nil;
   _soapServiceUIImage = nil;
+  _soaplabServerUIImage = nil;
   _otherServiceUIImage = nil;
   
   _tickUIImage = nil;
@@ -129,6 +132,10 @@ static UIImage *_announcementUnreadIconUIImage = nil;
     if (_restServiceUIImage) return _restServiceUIImage;
     _restServiceUIImage = [[UIImage imageNamed:RESTService] retain];
     return _restServiceUIImage;  
+  } else if ([[serviceProperties serviceListingType] isEqualToString:SoaplabServer]) {
+    if (_soaplabServerUIImage) return _soaplabServerUIImage;
+    _soaplabServerUIImage = [[UIImage imageNamed:SoaplabServer] retain];
+    return _soaplabServerUIImage;
   } else if ([[serviceProperties serviceListingType] isEqualToString:SOAPService]) {
     if (_soapServiceUIImage) return _soapServiceUIImage;
     _soapServiceUIImage = [[UIImage imageNamed:SOAPService] retain];
@@ -374,16 +381,17 @@ static UIImage *_announcementUnreadIconUIImage = nil;
     // service components
     BOOL isREST = [listingProperties serviceListingIsRESTService];
     BOOL isSOAP = [listingProperties serviceListingIsSOAPService];
+    BOOL isSoaplab = [listingProperties serviceListingIsSoaploabServer];
     
     if (isREST) {
       [serviceComponents setText:RESTComponentsText];
-    } else if (isSOAP) {
+    } else if (isSoaplab || isSOAP) {
       [serviceComponents setText:SOAPComponentsText];
     } else {
       [serviceComponents setText:nil];
     }
     
-    [showComponentsButton setHidden:!isREST && !isSOAP];
+    [showComponentsButton setHidden:!isREST && !isSoaplab && !isSOAP];
   } else {
     [serviceProviderName setText:provider];
     [serviceSubmitterName setText:submitter];

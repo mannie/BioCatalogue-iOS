@@ -49,6 +49,7 @@ NSString *const InternetConnectionTestResourceScope = @"agents";
 
 NSString *const RESTService = @"REST";
 NSString *const SOAPService = @"SOAP";
+NSString *const SoaplabServer = @"Soaplab";
 
 //NSString *const BioCatalogueHostname = @"sandbox.biocatalogue.org";
 //NSString *const BioCatalogueHostname = @"test.biocatalogue.org";

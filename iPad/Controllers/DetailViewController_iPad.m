@@ -360,14 +360,17 @@ typedef enum { PullOutOpenInSafari, PullOutMailThis } PullOutActionSheetIndex; /
 }
 
 -(void) showServiceComponents:(id)sender {
-  NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] 
-                                            objectForKey:JSONResourceElement]];
+  NSURL *variantURL = [NSURL URLWithString:[[[serviceProperties objectForKey:JSONVariantsElement] lastObject] objectForKey:JSONResourceElement]];
   NSString *path;
   if ([listingProperties serviceListingIsRESTService]) {
     path = [[variantURL path] stringByAppendingPathComponent:@"methods"];
-  } else {
+  } else if ([listingProperties serviceListingIsSOAPService]) { // this takes into account soaplab
     path = [[variantURL path] stringByAppendingPathComponent:@"operations"];
+  } else {
+    path = nil;
   }
+
+  if (path == nil) return;
   
   if (![serviceComponentsViewController view]) [serviceComponentsViewController loadView];
   dispatch_async(dispatch_queue_create("Fetch service components", NULL), ^{

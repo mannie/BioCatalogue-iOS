@@ -11,6 +11,8 @@
 
 -(BOOL) serviceListingIsRESTService;
 -(BOOL) serviceListingIsSOAPService;
+-(BOOL) serviceListingIsSoaploabServer;
+
 -(NSString *) serviceListingType;
 
 @end
