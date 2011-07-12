@@ -134,7 +134,14 @@ static BOOL _userIsAuthenticated;
   @try {
     NSURL *url = [self URLForPath:path withRepresentation:format];
     NSURLRequest *request;
-    if ([[path componentsSeparatedByString:@"?"] count] > 1) {
+    
+    BOOL isUserInterest = NO;
+    NSArray *components = [[path lowercaseString] componentsSeparatedByString:@"/"];
+    if ([components count] >= 3 && [[components objectAtIndex:1] isEqualToString:UserResourceScope]) {
+      isUserInterest = YES;
+    }
+    
+    if ([[path componentsSeparatedByString:@"?"] count] > 1 || isUserInterest) {
       request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadRevalidatingCacheData timeoutInterval:APIRequestTimeout];
     } else {
       request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReturnCacheDataElseLoad timeoutInterval:APIRequestTimeout];
