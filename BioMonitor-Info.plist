@@ -14,7 +14,7 @@
 		<string>BioCatalogue_iPad</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>org.biocatalogue</string>
+	<string>org.biocatalogue.ios</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

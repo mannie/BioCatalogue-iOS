@@ -292,6 +292,8 @@ typedef enum { PullOutOpenInSafari, PullOutMailThis } PullOutActionSheetIndex; /
   }
   
 //  [BioCatalogueResourceManager commitChanges];
+
+  [@"update list of favourites" log];
   [self updateMarkAsFavouriteToolbarItemForServiceWithUniqueID:uniqueID];
 */
 } // markUnmarkServiceAsFavourite
